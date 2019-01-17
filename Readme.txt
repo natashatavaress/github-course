@@ -7,3 +7,5 @@ repositório teste para ensinar como o git funciona.´
 Saiba mais
 
 Cusro de git. estudando.
+
+enviando mudanças para um repositorio remoto.

@@ -28,17 +28,14 @@ padrão, salvo pedido explícito em contrário.
 - Cartão **Filtros**: título "Filtros", divisor vertical e o indicador de filtro aplicado (funil laranja `#F57C00`). Ações de filtro ficam no corpo do cartão; pendências não ficam aqui, e sim no sino do cabeçalho. Começa recolhido.
 - Telas de trabalho: um cartão "Filtros" e, abaixo, um cartão com o título da tela, contendo a tabela e as ações.
 
-### 2.1 Página de contadores agrupados (ex.: Com Pendências, Com Anotações)
+### 2.1 Página de seleção em dois níveis: tipo → item (ex.: Com Pendências, Com Anotações)
 
 - Cartão de topo com título, subtítulo de contexto à esquerda e, à direita, o horário da última atualização mais o link de ação "Atualizar".
-- As opções aparecem como **cartões de contagem** organizados em **grupos**, um grupo por linha. À esquerda fica o rótulo do grupo, em caixa alta (11 px, peso 600, `#5E676D`), com o total do grupo logo abaixo. À direita fica a grade de cartões. Uma divisória `#E3E6E8` separa os grupos.
-- Cada cartão é um botão com, de cima para baixo: a contagem em destaque (26 px, peso 600), o rótulo curto (14 px, peso 500) e o destino ("Lista filtrada" ou "Tela de trabalho", 12 px). A contagem fica vermelha `#C62828` quando indica prazo vencido e cinza `#9AA1A6` quando é zero. O rótulo completo aparece no `title`.
-- Cartão selecionado: borda azul de 2 px `#1E78BE` e fundo `#EEF5FB` (`aria-pressed="true"`). O conteúdo da opção (tabela ou tela de trabalho) aparece logo abaixo, em cartões próprios.
-- **Responsividade:**
-  - A grade usa `repeat(auto-fill, minmax(190px, 1fr))`, então os cartões quebram de linha sozinhos e não há rolagem horizontal.
-  - Abaixo de 900 px, o rótulo do grupo sobe para cima da grade.
-  - Abaixo de 520 px, a grade fixa duas colunas com cartões mais baixos.
-- O sino do cabeçalho e o submenu levam à mesma página. Ao entrar, a opção aberta é a última usada na sessão; na primeira vez, é a primeira com contagem maior que zero.
+- **1º nível, tipos:** uma linha de botões de tipo em grade `repeat(auto-fit, minmax(180px, 1fr))`. Cada botão tem 56 px de altura, borda `#D5DADE`, raio 4 px, rótulo de 15 px (peso 500) à esquerda e pílula com o total do tipo à direita. O tipo selecionado fica com fundo azul `#1E78BE`, texto branco e pílula branca. A pílula fica vermelha `#C62828` quando o tipo contém prazo vencido.
+- **2º nível, itens:** os itens só aparecem **depois de clicar num tipo**, numa faixa cinza-clara `#F6F8F9` logo abaixo, como chips arredondados de 40 px com rótulo curto e contagem (o rótulo completo fica no `title`). O item selecionado fica com borda azul, fundo `#EEF5FB` e contagem azul. Itens com zero ficam esmaecidos.
+- **Orientação:** sem tipo selecionado, a página mostra "Selecione um tipo de pendência para ver os itens."; com tipo e sem item, mostra "Selecione uma pendência para exibir os processos.". O conteúdo do item (tabela ou tela de trabalho) aparece abaixo, em cartões próprios.
+- **Responsividade:** os tipos quebram de linha sozinhos (um por linha no celular) e os chips fluem com `flex-wrap`, sem rolagem horizontal.
+- O sino do cabeçalho e o submenu levam à mesma página. Na sessão, ela preserva o último tipo e item escolhidos. Clicar em "Com Pendências" na trilha limpa a seleção.
 
 ## 3. Tabela
 

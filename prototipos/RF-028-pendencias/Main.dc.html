@@ -138,25 +138,26 @@ textarea.input{height:auto;min-height:92px;padding:10px 12px;resize:vertical;lin
 .count.zero{background:#E6E9EB;color:#5E676D}
 .spin{animation:rot .8s linear infinite}
 @keyframes rot{to{transform:rotate(360deg)}}
-.pgroups{display:flex;flex-direction:column;gap:16px}
-.pgroup{display:grid;grid-template-columns:170px minmax(0,1fr);gap:10px 20px;align-items:start;padding-top:16px;border-top:1px solid #E3E6E8}
-.pgroup:first-child{border-top:0;padding-top:0}
-.pg-h{display:flex;flex-direction:column;gap:2px;padding-top:8px}
-.pg-l{font:600 11px 'Poppins',sans-serif;letter-spacing:.07em;text-transform:uppercase;color:#5E676D}
-.pg-t{font:400 13px 'Poppins',sans-serif;color:#5E676D}
-.pg-tiles{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:12px}
-.ptile{display:flex;flex-direction:column;align-items:flex-start;gap:2px;min-height:96px;padding:12px 14px;border:1px solid #D5DADE;border-radius:4px;background:#FFFFFF;text-align:left;cursor:pointer;font-family:'Poppins',sans-serif}
-.ptile:hover{border-color:#1E78BE;background:#F7FAFD}
-.ptile.on{border:2px solid #1E78BE;background:#EEF5FB;padding:11px 13px}
-.ptile:focus-visible{outline:2px solid #1E78BE;outline-offset:2px}
-.ptile.dim .pt-l{color:#6B7378}
-.pt-c{font:600 26px/1.15 'Poppins',sans-serif;color:#2F3437}
-.pt-c.hot{color:#C62828}
-.pt-c.zero{color:#9AA1A6}
-.pt-l{font:500 14px/1.3 'Poppins',sans-serif;color:#2F3437}
-.pt-d{font:400 12px/1.3 'Poppins',sans-serif;color:#5E676D}
-@media (max-width:900px){.pgroup{grid-template-columns:minmax(0,1fr)}.pg-h{flex-direction:row;align-items:baseline;gap:8px;padding-top:0}}
-@media (max-width:520px){.pg-tiles{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.ptile{min-height:84px;padding:10px 12px}.ptile.on{padding:9px 11px}.pt-c{font-size:22px}}
+.ptypes{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px}
+.ptype{display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:56px;padding:0 16px;border:1px solid #D5DADE;border-radius:4px;background:#FFFFFF;font:500 15px/1.3 'Poppins',sans-serif;color:#2F3437;cursor:pointer;text-align:left}
+.ptype:hover{border-color:#1E78BE;background:#F7FAFD}
+.ptype.on{background:#1E78BE;border-color:#1E78BE;color:#FFFFFF}
+.ptype:focus-visible,.pchip:focus-visible{outline:2px solid #1E78BE;outline-offset:2px}
+.ptc{min-width:28px;height:24px;padding:0 8px;border-radius:12px;background:#E6E9EB;color:#2F3437;font:600 13px/24px 'Poppins',sans-serif;text-align:center;flex-shrink:0}
+.ptc.hot{background:#C62828;color:#FFFFFF}
+.ptc.zero{background:#EEF0F2;color:#6B7378}
+.ptype.on .ptc{background:#FFFFFF;color:#155A90}
+.pitems-box{margin-top:12px;padding:14px 16px;background:#F6F8F9;border-radius:4px;display:flex;flex-direction:column;gap:8px}
+.pitems{display:flex;flex-wrap:wrap;gap:8px}
+.pchip{display:inline-flex;align-items:center;gap:10px;min-height:40px;padding:0 6px 0 16px;border:1px solid #D5DADE;border-radius:20px;background:#FFFFFF;font:400 14px 'Poppins',sans-serif;color:#2F3437;cursor:pointer}
+.pchip:hover{border-color:#1E78BE}
+.pchip.on{border-color:#1E78BE;background:#EEF5FB;color:#155A90;font-weight:500}
+.pchip.dim{color:#6B7378}
+.pic{min-width:28px;height:28px;padding:0 8px;border-radius:14px;background:#E6E9EB;color:#2F3437;font:600 12px/28px 'Poppins',sans-serif;text-align:center}
+.pic.hot{background:#C62828;color:#FFFFFF}
+.pic.zero{background:#EEF0F2;color:#6B7378}
+.pchip.on .pic{background:#1E78BE;color:#FFFFFF}
+.phint{margin:0;font:400 14px 'Poppins',sans-serif;color:#5E676D}
 .toast{position:fixed;left:24px;bottom:24px;z-index:80;max-width:520px;padding:14px 18px;border-radius:4px;color:#FFFFFF;font:400 14px/1.5 'Poppins',sans-serif;box-shadow:0 12px 32px rgba(10,25,40,.28)}
 .t-success{background:#0E6B4B}
 .t-info{background:#155A90}
@@ -240,24 +241,29 @@ textarea.input{height:auto;min-height:92px;padding:10px 12px;resize:vertical;lin
 </div>
 <div class="card-b" style="gap: 12px">
 <sc-if value="{{hasErr}}" hint-placeholder-val="{{false}}"><div class="alert a-error" role="alert">{{err}}</div></sc-if>
-<div class="pgroups">
-<sc-for list="{{pGroups}}" as="g" hint-placeholder-count="4">
-<div class="pgroup" role="group" aria-labelledby="{{g.id}}">
-<div class="pg-h"><span class="pg-l" id="{{g.id}}">{{g.label}}</span><span class="pg-t">{{g.totalText}}</span></div>
-<div class="pg-tiles">
-<sc-for list="{{g.tabs}}" as="t" hint-placeholder-count="3">
-<button type="button" class="{{t.cls}}" aria-pressed="{{t.selStr}}" title="{{t.full}}" onClick="{{t.open}}">
-<sc-if value="{{t.loading}}" hint-placeholder-val="{{false}}"><span class="skel" style="width: 36px; height: 28px; border-radius: 4px"></span></sc-if>
-<sc-if value="{{t.ready}}" hint-placeholder-val="{{true}}"><span class="{{t.countCls}}">{{t.countText}}</span></sc-if>
-<span class="pt-l">{{t.label}}</span>
-<span class="pt-d">{{t.dest}}</span>
+<div class="ptypes" role="group" aria-label="Tipos de pendência">
+<sc-for list="{{pTypes}}" as="g" hint-placeholder-count="4">
+<button type="button" class="{{g.cls}}" aria-pressed="{{g.selStr}}" aria-controls="pend-itens" onClick="{{g.open}}">
+<span>{{g.label}}</span>
+<sc-if value="{{g.loading}}" hint-placeholder-val="{{false}}"><span class="skel" style="width: 28px; height: 24px; border-radius: 12px"></span></sc-if>
+<sc-if value="{{g.ready}}" hint-placeholder-val="{{true}}"><span class="{{g.countCls}}">{{g.countText}}</span></sc-if>
 </button>
 </sc-for>
 </div>
-</div>
+<div id="pend-itens" aria-live="polite">
+<sc-if value="{{hasGroup}}" hint-placeholder-val="{{false}}">
+<div class="pitems-box">
+<div class="pitems" role="group" aria-label="{{groupLabel}}">
+<sc-for list="{{pItemsG}}" as="t" hint-placeholder-count="3">
+<button type="button" class="{{t.cls}}" aria-pressed="{{t.selStr}}" title="{{t.full}}" onClick="{{t.open}}"><span>{{t.label}}</span><span class="{{t.countCls}}">{{t.countText}}</span></button>
 </sc-for>
 </div>
-<span style="font-size: 12px; color: #5E676D">"Revisado" tem contagem própria e não entra no total do sino. Contagens restritas ao setor e revalidadas a cada 5 minutos ou após cada ação.</span>
+<sc-if value="{{showRevNote}}" hint-placeholder-val="{{false}}"><p class="phint" style="font-size: 12px">"Revisado" tem contagem própria e não entra no total do sino.</p></sc-if>
+</div>
+</sc-if>
+<sc-if value="{{noGroup}}" hint-placeholder-val="{{true}}"><p class="phint">Selecione um tipo de pendência para ver os itens.</p></sc-if>
+<sc-if value="{{groupNoItem}}" hint-placeholder-val="{{false}}"><p class="phint" style="margin-top: 12px">Selecione uma pendência para exibir os processos.</p></sc-if>
+</div>
 </div>
 </section>
 </sc-if>
@@ -922,7 +928,7 @@ class Component extends DCLogic {
     const pk = this.pkOf(p);
     return {
       pk: pk, data: this.buildData(p.cenario || 'Padrão', pk),
-      view: 'lista', pendTab: null, panelOpen: false, filter: null, search: '', page: 1, per: 10, sel: {},
+      view: 'lista', pendTab: null, pendGroup: null, panelOpen: false, filter: null, search: '', page: 1, per: 10, sel: {},
       sideOpen: true, pautaOpen: false, distOpen: false,
       collapsed: { fil: true },
       snapshot: null, lastUpdate: null, loading: true, err: null, listLoading: false, autUpd: new Date(),
@@ -1100,10 +1106,19 @@ class Component extends DCLogic {
   }
   openP(id) {
     const def = this.pdefs().find(p => p.id === id);
-    this.setState({ view: 'pendencias', pendTab: id, page: 1, panelOpen: false });
+    const g = this.pgroups().find(x => x.ids.indexOf(id) >= 0);
+    this.setState({ view: 'pendencias', pendGroup: g.id, pendTab: id, page: 1, panelOpen: false });
     if (def.kind === 'filtro') this.loadList();
   }
-  goPend() { this.openP(this.state.pendTab || this.defaultTab()); }
+  openGroup(gid) {
+    if (this.state.pendGroup === gid) return;
+    this.setState({ pendGroup: gid, pendTab: null, page: 1 });
+  }
+  goPend() {
+    const t = this.state.pendTab;
+    this.setState({ view: 'pendencias', page: 1 });
+    if (t && this.pdefs().find(p => p.id === t).kind === 'filtro') this.loadList();
+  }
   goLista(doRefresh) {
     this.setState({ view: 'lista', dialog: null });
     if (doRefresh) this.refresh();
@@ -1332,7 +1347,7 @@ class Component extends DCLogic {
     const procCrumb = { t: 'Processos', link: true, last: false, go: () => this.goLista(true) };
     const crumbs = !inPend
       ? [procCrumb, { t: 'Listagem de processos', link: false, last: true }]
-      : [procCrumb, { t: 'Com Pendências', link: true, last: false, go: () => this.goPend() }, { t: tabDef ? tabDef.label : '', link: false, last: true }];
+      : (tabDef ? [procCrumb, { t: 'Com Pendências', link: true, last: false, go: () => this.setState({ pendGroup: null, pendTab: null }) }, { t: tabDef.label, link: false, last: true }] : [procCrumb, { t: 'Com Pendências', link: false, last: true }]);
 
     /* Painel */
     const mkItem = p => {
@@ -1371,23 +1386,29 @@ class Component extends DCLogic {
     const fail = !!(this.props && this.props.simularFalha);
     const listError = !!ef && fail && !s.listLoading;
     const filterDef = ef ? tabDef : null;
-    const pGroups = this.pgroups().map(g => {
+    const cnt = id => (snap ? snap[id] : null);
+    const pTypes = this.pgroups().map(g => {
       const ids = g.ids.filter(id => id !== 'P10' || isChefe);
       const gt = snap ? ids.filter(id => id !== 'P12').reduce((n, id) => n + (snap[id] || 0), 0) : null;
+      const on = s.pendGroup === g.id;
+      const hot = ids.indexOf('P11') >= 0 && cnt('P11') > 0;
       return {
-      id: g.id, label: g.label, totalText: gt == null ? '' : this.plural(gt, 'pendência', 'pendências'),
-      tabs: ids.map(id => {
-        const c = snap ? snap[id] : null, on = s.pendTab === id;
-        return {
-          label: this.shortLabel(id), full: this.pdefs().find(p => p.id === id).label,
-          countText: c == null ? '–' : String(c), loading: s.loading && !snap, ready: !(s.loading && !snap),
-          cls: 'ptile' + (on ? ' on' : '') + (c === 0 ? ' dim' : ''), selStr: on ? 'true' : 'false',
-          countCls: 'pt-c' + (c === 0 || c == null ? ' zero' : (id === 'P11' ? ' hot' : '')),
-          dest: this.pdefs().find(p => p.id === id).kind === 'filtro' ? 'Lista filtrada' : 'Tela de trabalho',
-          open: () => this.openP(id)
-        };
-      })
-    }; });
+        label: g.label, selStr: on ? 'true' : 'false', cls: 'ptype' + (on ? ' on' : ''),
+        countText: gt == null ? '–' : String(gt), countCls: 'ptc' + (gt === 0 ? ' zero' : (hot ? ' hot' : '')),
+        loading: s.loading && !snap, ready: !(s.loading && !snap),
+        open: () => this.openGroup(g.id)
+      };
+    });
+    const grp = this.pgroups().find(g => g.id === s.pendGroup) || null;
+    const pItemsG = grp ? grp.ids.filter(id => id !== 'P10' || isChefe).map(id => {
+      const c = cnt(id), on = s.pendTab === id;
+      return {
+        label: this.shortLabel(id), full: this.pdefs().find(p => p.id === id).label,
+        cls: 'pchip' + (on ? ' on' : '') + (c === 0 ? ' dim' : ''), selStr: on ? 'true' : 'false',
+        countText: c == null ? '–' : String(c), countCls: 'pic' + (c === 0 || c == null ? ' zero' : (id === 'P11' ? ' hot' : '')),
+        open: () => this.openP(id)
+      };
+    }) : [];
     const selCount = Object.keys(s.sel).filter(k => s.sel[k]).length;
     const from = tops.length ? (page - 1) * per + 1 : 0, to = Math.min(page * per, tops.length);
 
@@ -1520,7 +1541,7 @@ class Component extends DCLogic {
     return {
       userNome: u.nome, userPerfil: u.perfil, userSetor: u.setor, userIni: u.ini,
       isChefe: isChefe, notChefe: !isChefe, isGab: isGab, notGab: !isGab,
-      isLista: s.view === 'lista', isPend: inPend, showProc: s.view === 'lista' || !!ef, procTitle: ef ? tabDef.label : 'Processos', pGroups: pGroups, goPend: () => this.goPend(), bellAria: 'Pendências: ' + (snap ? total : 'carregando'), pendSub: 'Setor: ' + u.setor + (snap ? ' · ' + total + ' pendência(s) no total do sino' : ''),
+      isLista: s.view === 'lista', isPend: inPend, showProc: s.view === 'lista' || !!ef, procTitle: ef ? tabDef.label : 'Processos', pTypes: pTypes, pItemsG: pItemsG, hasGroup: !!grp, noGroup: !grp, groupNoItem: !!grp && !s.pendTab, groupLabel: grp ? grp.label : '', showRevNote: !!grp && grp.id === 'pg-rev', goPend: () => this.goPend(), bellAria: 'Pendências: ' + (snap ? total : 'carregando'), pendSub: 'Setor: ' + u.setor + (snap ? ' · ' + total + ' pendência(s) no total do sino' : ''),
       isAut: inPend && s.pendTab === 'P01', isAce: inPend && s.pendTab === 'P08', isJun: inPend && s.pendTab === 'P09', isPrz: inPend && s.pendTab === 'P10', isAvo: inPend && s.pendTab === 'P11',
       goLista: () => this.goLista(false), goListaRefresh: () => this.goLista(true),
 

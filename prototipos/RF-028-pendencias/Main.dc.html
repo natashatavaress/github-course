@@ -439,9 +439,9 @@ textarea.input{height:auto;min-height:92px;padding:10px 12px;resize:vertical;lin
 <div class="{{autMsg.cls}}" role="alert"><span style="font-weight: 500">{{autMsg.text}}</span><sc-for list="{{autMsg.items}}" as="m" hint-placeholder-count="0"><span>• {{m.t}}</span></sc-for></div>
 </sc-if>
 <div>
-<div style="overflow: auto; max-height: 600px" class="tbl">
+<div style="overflow-x: auto" class="tbl">
 <div role="table" aria-label="Solicitações de autuação" style="min-width: 1670px">
-<div role="row" class="tr th g-aut" style="position: sticky; top: 0; z-index: 1">
+<div role="row" class="tr th g-aut">
 <span role="columnheader" class="nf"><input type="checkbox" class="cb" aria-label="Selecionar todas as solicitações da fila" checked="{{autAllChecked}}" onChange="{{autToggleAll}}"></span>
 <span role="columnheader">Origem</span>
 <span role="columnheader">Data</span>

@@ -1,0 +1,1400 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<title>eTCE Web — Pendências</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#EEF2F7}
+a{color:#0F366D}a:hover{color:#0B2A55}
+*{box-sizing:border-box}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:40px;padding:0 16px;border-radius:8px;border:1px solid #0F366D;background:#0F366D;color:#FFFFFF;font:600 14px/1.1 'Figtree',system-ui,sans-serif;cursor:pointer;white-space:nowrap}
+.btn:hover{background:#0B2A55;border-color:#0B2A55}
+.btn:disabled{opacity:.45;cursor:not-allowed}
+.btn-o{background:#FFFFFF;color:#0F366D;border-color:#B9C6D8}
+.btn-o:hover{background:#EEF3FA;border-color:#8FA4C2}
+.btn-t{background:transparent;color:#0F366D;border-color:transparent;padding:0 10px}
+.btn-t:hover{background:#E4EBF5;border-color:transparent}
+.btn-d{background:#B42318;border-color:#B42318}
+.btn-d:hover{background:#912018;border-color:#912018}
+.btn-s{min-height:34px;padding:0 12px;font-size:13px}
+.icon-btn{width:40px;height:40px;border-radius:20px;border:0;background:transparent;color:#0F366D;display:inline-flex;align-items:center;justify-content:center;cursor:pointer}
+.icon-btn:hover{background:#E4EBF5}
+.btn:focus-visible,.icon-btn:focus-visible,.pitem:focus-visible,.chip-x:focus-visible,.input:focus,.cb:focus-visible{outline:2px solid #2F6FD0;outline-offset:2px}
+.badge{position:absolute;top:-9px;right:-9px;min-width:22px;height:22px;padding:0 6px;border-radius:11px;background:#C62828;color:#FFFFFF;font:700 12px/22px 'Figtree',sans-serif;text-align:center;box-shadow:0 0 0 2px #FFFFFF}
+.chip{display:inline-flex;align-items:center;gap:6px;height:24px;padding:0 10px;border-radius:12px;font:600 12px/1 'Figtree',sans-serif;white-space:nowrap}
+.c-neutral{background:#E7EBF1;color:#3A4558}
+.c-primary{background:#DCE6F5;color:#0F366D}
+.c-success{background:#DDF1E3;color:#1E6B34}
+.c-warn{background:#FCEBD3;color:#7A4105}
+.c-error{background:#FBE1DE;color:#A3271C}
+.c-info{background:#E1EDFB;color:#1D4F91}
+.chip-x{width:24px;height:24px;border-radius:12px;border:0;background:transparent;color:#0F366D;display:inline-flex;align-items:center;justify-content:center;cursor:pointer}
+.chip-x:hover{background:#C3D3EC}
+.card{background:#FFFFFF;border:1px solid #DDE3EC;border-radius:12px}
+.tr{display:grid;align-items:center;column-gap:12px;padding:10px 16px;border-bottom:1px solid #E8ECF2;font-size:14px;line-height:1.35}
+.th{background:#F5F7FA;font-size:12px;font-weight:700;color:#4A5568;text-transform:uppercase;letter-spacing:.04em;padding-top:12px;padding-bottom:12px}
+.tr.child{background:#F8FAFC}
+.tr.sel{background:#EAF1FB}
+.tr.done{background:#F2FAF4}
+.g-lista{grid-template-columns:40px 170px 1.6fr 1.4fr 1.3fr 96px 130px}
+.g-aut{grid-template-columns:40px 48px 76px 88px 1.3fr 1.6fr 110px 1.4fr 150px 40px 120px}
+.g-ace{grid-template-columns:170px 1.5fr 1.3fr 130px 96px 160px 210px}
+.g-jun{grid-template-columns:160px 1.4fr 96px 1fr 1fr 120px 84px 170px 40px 150px}
+.g-prz{grid-template-columns:40px 160px 104px 120px 96px 76px 80px 80px 104px 96px 116px}
+.g-avo{grid-template-columns:40px 160px 1.3fr 1.2fr 1fr 1.3fr 64px 200px}
+.g-doc{grid-template-columns:40px 1fr 110px}
+.g-pr2{grid-template-columns:1fr 80px 1.2fr}
+.num{font-variant-numeric:tabular-nums;font-weight:600;color:#0F366D}
+.muted{color:#4F5A6B}
+.field{display:flex;flex-direction:column;gap:6px;font-size:13px;font-weight:600;color:#3A4558}
+.input{height:40px;border:1px solid #B9C6D8;border-radius:8px;padding:0 12px;font:400 14px 'Figtree',system-ui,sans-serif;color:#1B2433;background:#FFFFFF;width:100%}
+.input:disabled{background:#F1F3F7;color:#5B6577}
+textarea.input{height:auto;min-height:88px;padding:10px 12px;resize:vertical;line-height:1.45}
+.check{display:inline-flex;align-items:center;gap:8px;font-size:14px;font-weight:500;color:#1B2433;min-height:36px;cursor:pointer}
+.cb{width:18px;height:18px;accent-color:#0F366D;cursor:pointer;margin:0}
+.cb:disabled{cursor:not-allowed;opacity:.4}
+.alert{display:flex;flex-direction:column;gap:6px;padding:12px 16px;border-radius:8px;font-size:14px;line-height:1.45}
+.a-error{background:#FDECEA;color:#7A1F16;border:1px solid #F3C1BB}
+.a-warn{background:#FFF4E2;color:#6B3A06;border:1px solid #F2D2A0}
+.a-info{background:#EAF2FC;color:#173F73;border:1px solid #BCD3F0}
+.a-success{background:#E8F5EC;color:#1A5A2C;border:1px solid #B9DFC4}
+.skel{display:inline-block;height:12px;border-radius:6px;background:linear-gradient(90deg,#E3E8F0 0%,#F1F4F8 50%,#E3E8F0 100%);background-size:200% 100%;animation:sk 1.2s ease-in-out infinite}
+@keyframes sk{0%{background-position:100% 0}100%{background-position:-100% 0}}
+.pitem{display:flex;align-items:center;gap:12px;width:100%;min-height:44px;padding:8px 16px;border:0;background:transparent;text-align:left;font:500 14px/1.3 'Figtree',system-ui,sans-serif;color:#1B2433;cursor:pointer}
+.pitem:hover{background:#F1F5FB}
+.pitem.dim{color:#5E6878}
+.dest{font-size:11px;font-weight:600;color:#5B6577;white-space:nowrap}
+.count{min-width:30px;height:24px;padding:0 8px;border-radius:12px;background:#0F366D;color:#FFFFFF;font:700 12px/24px 'Figtree',sans-serif;text-align:center}
+.count.zero{background:#E7EBF1;color:#4F5A6B}
+.spin{animation:rot .8s linear infinite}
+@keyframes rot{to{transform:rotate(360deg)}}
+.crumb{font-size:13px;color:#4F5A6B;display:flex;gap:6px;align-items:center;flex-wrap:wrap}
+.h1{margin:0;font-size:26px;font-weight:700;color:#0F366D;line-height:1.2}
+.toast{position:fixed;left:24px;bottom:24px;z-index:80;max-width:520px;padding:14px 18px;border-radius:10px;color:#FFFFFF;font:500 14px/1.45 'Figtree',sans-serif;box-shadow:0 12px 32px rgba(10,25,50,.28)}
+.t-success{background:#1E5B32}
+.t-info{background:#0F366D}
+.t-error{background:#8E1F17}
+</style>
+</helmet>
+<div style="min-height: 100vh; display: flex; flex-direction: column; background: #EEF2F7; color: #1B2433; font-family: 'Figtree', system-ui, sans-serif">
+
+<header style="background: #0F366D; color: #FFFFFF">
+<div style="max-width: 1360px; margin: 0 auto; padding: 12px 32px; display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap">
+<div style="display: flex; align-items: center; gap: 12px; flex-wrap: wrap">
+<div aria-hidden="true" style="width: 38px; height: 38px; border-radius: 8px; background: #FFFFFF; color: #0F366D; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 13px">TCE</div>
+<div style="display: flex; flex-direction: column; gap: 2px">
+<span style="font-weight: 700; font-size: 18px">eTCE Web</span>
+<span style="font-size: 12px; color: #C9D6EA">Tribunal de Contas do Estado de Goiás</span>
+</div>
+<span class="chip" style="background: #F2B84B; color: #3B2A05; margin-left: 8px">Protótipo · dados simulados</span>
+</div>
+<div style="display: flex; align-items: center; gap: 12px">
+<div style="display: flex; flex-direction: column; align-items: flex-end; gap: 2px">
+<span style="font-weight: 600; font-size: 14px">{{userNome}} · {{userPerfil}}</span>
+<span style="font-size: 12px; color: #C9D6EA">{{userSetor}}</span>
+</div>
+<div aria-hidden="true" style="width: 38px; height: 38px; border-radius: 19px; background: #2A5597; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 13px">{{userIni}}</div>
+</div>
+</div>
+</header>
+
+<main style="flex-grow: 1; width: 100%; max-width: 1360px; margin: 0 auto; padding: 24px 32px 64px; display: flex; flex-direction: column; gap: 16px">
+
+<!-- ============ TELA 01 + 02 · Listagem de processos com Painel de Pendências ============ -->
+<sc-if value="{{isLista}}" hint-placeholder-val="{{true}}">
+<section style="display: flex; flex-direction: column; gap: 16px">
+<div style="display: flex; flex-direction: column; gap: 4px">
+<span class="crumb">eTCE Web <span aria-hidden="true">›</span> Processos</span>
+<h1 class="h1">Processos do setor</h1>
+</div>
+
+<div class="card" style="padding: 12px 16px; display: flex; align-items: center; gap: 12px; flex-wrap: wrap">
+<label style="display: flex; align-items: center; gap: 8px; flex-grow: 1; max-width: 420px">
+<span style="position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0)">Pesquisar processo</span>
+<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#4F5A6B" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-3.5-3.5"></path></svg>
+<input class="input" type="search" placeholder="Pesquisar pelo número do processo" value="{{search}}" onChange="{{setSearch}}">
+</label>
+<div style="flex-grow: 1"></div>
+<div style="position: relative">
+<button type="button" class="btn btn-o" style="position: relative" aria-haspopup="dialog" aria-expanded="{{panelOpenStr}}" onClick="{{togglePanel}}">
+<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="{{bellColor}}" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"></path><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"></path></svg>
+<span>Pendências</span>
+<sc-if value="{{showBadge}}" hint-placeholder-val="{{true}}"><span class="badge" aria-label="{{badgeAria}}">{{badgeText}}</span></sc-if>
+</button>
+<sc-if value="{{panelOpen}}" hint-placeholder-val="{{false}}">
+<button type="button" aria-label="Fechar painel de pendências" onClick="{{closePanel}}" style="position: fixed; inset: 0; background: transparent; border: 0; z-index: 20; cursor: default"></button>
+<div role="dialog" aria-label="Painel de pendências" class="card" style="position: absolute; right: 0; top: 52px; width: 452px; max-width: calc(100vw - 32px); z-index: 30; box-shadow: 0 18px 44px rgba(15,54,109,.20); overflow: hidden">
+<div style="display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 14px 12px 14px 16px; border-bottom: 1px solid #E3E8EF">
+<div style="display: flex; flex-direction: column; gap: 2px">
+<span style="font-weight: 700; font-size: 16px; color: #0F366D">Pendências do setor</span>
+<span style="font-size: 12px; color: #4F5A6B">{{lastUpdateText}}</span>
+</div>
+<button type="button" class="icon-btn" aria-label="Atualizar pendências" onClick="{{refreshNow}}">
+<svg class="{{refreshCls}}" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a9 9 0 1 1-2.64-6.36"></path><path d="M21 3v6h-6"></path></svg>
+</button>
+</div>
+<sc-if value="{{hasErr}}" hint-placeholder-val="{{false}}"><div class="alert a-error" role="alert" style="margin: 12px 16px 4px">{{err}}</div></sc-if>
+<div style="padding: 6px 0">
+<sc-for list="{{pItems}}" as="it" hint-placeholder-count="11">
+<button type="button" class="{{it.cls}}" onClick="{{it.open}}">
+<span style="flex-grow: 1">{{it.label}}</span>
+<span class="dest">{{it.dest}}</span>
+<sc-if value="{{it.loading}}" hint-placeholder-val="{{false}}"><span class="skel" style="width: 30px; height: 22px; border-radius: 11px"></span></sc-if>
+<sc-if value="{{it.ready}}" hint-placeholder-val="{{true}}"><span class="{{it.countCls}}">{{it.countText}}</span></sc-if>
+</button>
+</sc-for>
+</div>
+<div style="border-top: 1px solid #E3E8EF; padding: 6px 0">
+<span style="display: block; padding: 6px 16px 2px; font-size: 11px; font-weight: 700; color: #4F5A6B; text-transform: uppercase; letter-spacing: .05em">Fora do total do badge</span>
+<sc-for list="{{pExtra}}" as="it" hint-placeholder-count="1">
+<button type="button" class="{{it.cls}}" onClick="{{it.open}}">
+<span style="flex-grow: 1">{{it.label}}</span>
+<span class="dest">{{it.dest}}</span>
+<sc-if value="{{it.loading}}" hint-placeholder-val="{{false}}"><span class="skel" style="width: 30px; height: 22px; border-radius: 11px"></span></sc-if>
+<sc-if value="{{it.ready}}" hint-placeholder-val="{{true}}"><span class="{{it.countCls}}">{{it.countText}}</span></sc-if>
+</button>
+</sc-for>
+</div>
+<div style="padding: 10px 16px; background: #F5F7FA; border-top: 1px solid #E3E8EF; font-size: 12px; color: #4F5A6B; display: flex; justify-content: space-between; gap: 12px">
+<span>Total no badge: <strong>{{totalText}}</strong></span>
+<span>Revalidação automática a cada 5 min</span>
+</div>
+</div>
+</sc-if>
+</div>
+</div>
+
+<div class="card" style="overflow: hidden">
+<div style="display: flex; align-items: center; gap: 12px; flex-wrap: wrap; padding: 14px 16px; border-bottom: 1px solid #E3E8EF">
+<span style="font-weight: 700; font-size: 16px">{{listTitle}}</span>
+<sc-if value="{{hasFilter}}" hint-placeholder-val="{{false}}">
+<span class="chip c-primary" style="height: 30px; padding-right: 4px; border-radius: 15px">Pendência: {{filterLabel}}<button type="button" class="chip-x" aria-label="Remover filtro da pendência" onClick="{{clearFilter}}"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"></path></svg></button></span>
+</sc-if>
+<div style="flex-grow: 1"></div>
+<span style="font-size: 13px; color: #4F5A6B">{{selText}}</span>
+</div>
+<div style="overflow-x: auto">
+<div role="table" aria-label="Processos" style="min-width: 1080px">
+<div role="row" class="tr th g-lista">
+<span role="columnheader"><span style="position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0)">Seleção</span></span>
+<span role="columnheader">Processo</span>
+<span role="columnheader">Assunto</span>
+<span role="columnheader">Interessado</span>
+<span role="columnheader">Último evento</span>
+<span role="columnheader">Data</span>
+<span role="columnheader">Responsável</span>
+</div>
+<sc-if value="{{listLoading}}" hint-placeholder-val="{{false}}">
+<sc-for list="{{skelRows}}" as="k" hint-placeholder-count="6">
+<div class="tr g-lista"><span class="skel" style="width: 18px"></span><span class="skel" style="width: 140px"></span><span class="skel" style="width: 80%"></span><span class="skel" style="width: 70%"></span><span class="skel" style="width: 60%"></span><span class="skel" style="width: 70px"></span><span class="skel" style="width: 90px"></span></div>
+</sc-for>
+</sc-if>
+<sc-if value="{{listError}}" hint-placeholder-val="{{false}}">
+<div role="alert" style="padding: 48px 24px; display: flex; flex-direction: column; align-items: center; gap: 12px; text-align: center">
+<svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#B42318" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><path d="M12 7v6M12 16.5v.5"></path></svg>
+<span style="font-weight: 700; font-size: 16px">Não foi possível carregar a lista</span>
+<span class="muted" style="max-width: 560px">Ocorreu um erro ao tentar carregar os processos. Mensagem: o serviço de processos não respondeu (HTTP 504).</span>
+<button type="button" class="btn btn-o" onClick="{{clearFilter}}">Limpar filtro</button>
+</div>
+</sc-if>
+<sc-if value="{{listEmpty}}" hint-placeholder-val="{{false}}">
+<div style="padding: 48px 24px; display: flex; flex-direction: column; align-items: center; gap: 12px; text-align: center">
+<svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#5B6577" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7h16M4 12h10M4 17h6"></path></svg>
+<span style="font-weight: 600">{{emptyText}}</span>
+<sc-if value="{{hasFilter}}" hint-placeholder-val="{{true}}"><button type="button" class="btn btn-o" onClick="{{clearFilter}}">Limpar filtro</button></sc-if>
+</div>
+</sc-if>
+<sc-if value="{{listOk}}" hint-placeholder-val="{{true}}">
+<sc-for list="{{rows}}" as="r" hint-placeholder-count="8">
+<div role="row" class="tr g-lista {{r.cls}}">
+<span role="cell"><input type="checkbox" class="cb" aria-label="Selecionar processo {{r.numero}}" checked="{{r.checked}}" onChange="{{r.toggle}}"></span>
+<span role="cell" style="display: flex; align-items: center; gap: 6px"><sc-if value="{{r.isChild}}" hint-placeholder-val="{{false}}"><span aria-hidden="true" style="color: #5B6577">↳</span></sc-if><span class="num">{{r.numero}}</span></span>
+<span role="cell" style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap">{{r.assunto}}<sc-if value="{{r.isChild}}" hint-placeholder-val="{{false}}"><span class="chip c-neutral">Apensado</span></sc-if></span>
+<span role="cell" class="muted">{{r.interessado}}</span>
+<span role="cell"><span class="{{r.evCls}}">{{r.evento}}</span></span>
+<span role="cell" class="muted">{{r.data}}</span>
+<span role="cell">{{r.resp}}</span>
+</div>
+</sc-for>
+</sc-if>
+</div>
+</div>
+<div style="display: flex; align-items: center; justify-content: flex-end; gap: 12px; padding: 12px 16px; flex-wrap: wrap">
+<span style="font-size: 13px; color: #4F5A6B">{{pageText}}</span>
+<button type="button" class="btn btn-o btn-s" disabled="{{prevDis}}" onClick="{{prevPage}}">Anterior</button>
+<button type="button" class="btn btn-o btn-s" disabled="{{nextDis}}" onClick="{{nextPage}}">Próxima</button>
+</div>
+</div>
+</section>
+</sc-if>
+
+<!-- ============ TELA 03 · Solicitações de Autuação Pendentes ============ -->
+<sc-if value="{{isAut}}" hint-placeholder-val="{{false}}">
+<section style="display: flex; flex-direction: column; gap: 16px">
+<div style="display: flex; align-items: flex-end; justify-content: space-between; gap: 16px; flex-wrap: wrap">
+<div style="display: flex; flex-direction: column; gap: 6px">
+<span class="crumb"><button type="button" class="btn btn-t btn-s" onClick="{{goLista}}">← Processos</button><span aria-hidden="true">›</span> Pendências</span>
+<h1 class="h1">Solicitações de Autuação Pendentes</h1>
+</div>
+<div style="display: flex; align-items: center; gap: 12px">
+<span style="font-size: 13px; color: #4F5A6B">Fila revalidada a cada 60 s · última às {{autUpdText}}</span>
+<button type="button" class="btn btn-o" onClick="{{autAtualizar}}">Atualizar</button>
+</div>
+</div>
+<div class="card" style="padding: 12px 16px; display: flex; align-items: center; gap: 4px 20px; flex-wrap: wrap">
+<span style="font-size: 13px; font-weight: 700; color: #3A4558">Mostrar solicitações:</span>
+<label class="check"><input type="checkbox" class="cb" checked="{{aut.fE}}" onChange="{{autTgl.fE}}">Enviadas</label>
+<sc-if value="{{isChefe}}" hint-placeholder-val="{{true}}"><label class="check"><input type="checkbox" class="cb" checked="{{aut.fA}}" onChange="{{autTgl.fA}}">Sem assinatura</label></sc-if>
+<label class="check"><input type="checkbox" class="cb" checked="{{aut.fS}}" onChange="{{autTgl.fS}}">Assinadas (não enviadas)</label>
+<label class="check"><input type="checkbox" class="cb" checked="{{aut.fC}}" onChange="{{autTgl.fC}}">Concluídas</label>
+<label class="check"><input type="checkbox" class="cb" checked="{{aut.fR}}" onChange="{{autTgl.fR}}">Rejeitadas</label>
+<div style="flex-grow: 1"></div>
+<button type="button" class="btn btn-t btn-s" onClick="{{autLimpar}}">Limpar filtros</button>
+</div>
+<div class="card" style="padding: 12px 16px; display: flex; align-items: center; gap: 12px; flex-wrap: wrap">
+<div role="radiogroup" aria-label="Marcar ou desmarcar" style="display: flex; align-items: center; gap: 4px 16px; flex-wrap: wrap">
+<label class="check"><input type="radio" class="cb" name="modo" checked="{{autModoEnvio}}" onChange="{{autModoE}}">Todas para envio</label>
+<label class="check"><input type="radio" class="cb" name="modo" disabled="{{notChefe}}" checked="{{autModoAss}}" onChange="{{autModoA}}">Todas para assinatura</label>
+<button type="button" class="btn btn-o btn-s" onClick="{{autMarcarTodas}}">Marcar</button>
+<button type="button" class="btn btn-t btn-s" onClick="{{autDesmarcar}}">Desmarcar</button>
+</div>
+<div style="flex-grow: 1"></div>
+<button type="button" class="btn btn-o" onClick="{{autNova}}">Nova Solicitação</button>
+<button type="button" class="btn btn-o" onClick="{{autEnviarCentral}}">Enviar para a Central de Assinatura</button>
+<button type="button" class="btn btn-o" onClick="{{autEnviarSel}}">Enviar Solicitações Selecionadas</button>
+<button type="button" class="btn" onClick="{{autProsseguir}}">Prosseguir com Autuação</button>
+</div>
+<sc-if value="{{autHasMsg}}" hint-placeholder-val="{{false}}">
+<div class="{{autMsg.cls}}" role="alert"><span style="font-weight: 600">{{autMsg.text}}</span><sc-for list="{{autMsg.items}}" as="m" hint-placeholder-count="0"><span>• {{m.t}}</span></sc-for></div>
+</sc-if>
+<div class="card" style="overflow: hidden">
+<div style="overflow: auto; max-height: 560px">
+<div role="table" aria-label="Solicitações de autuação" style="min-width: 1240px">
+<div role="row" class="tr th g-aut" style="position: sticky; top: 0; z-index: 1">
+<span role="columnheader" title="Selecionar para prosseguir">Sel.</span>
+<span role="columnheader" title="Marcar para envio ou assinatura">Marc.</span>
+<span role="columnheader">Origem</span>
+<span role="columnheader">Data</span>
+<span role="columnheader">Solicitante</span>
+<span role="columnheader">Título / resumo</span>
+<span role="columnheader">Situação</span>
+<span role="columnheader">Status</span>
+<span role="columnheader">Processo</span>
+<span role="columnheader">Arq.</span>
+<span role="columnheader">Sorteado</span>
+</div>
+<sc-if value="{{autEmpty}}" hint-placeholder-val="{{false}}"><div style="padding: 40px 24px; text-align: center; font-weight: 600">Nenhuma solicitação de autuação encontrada.</div></sc-if>
+<sc-for list="{{autRows}}" as="a" hint-placeholder-count="6">
+<div role="row" class="tr g-aut {{a.cls}}">
+<span role="cell"><input type="checkbox" class="cb" aria-label="Selecionar solicitação {{a.titulo}}" checked="{{a.selected}}" onChange="{{a.toggleSel}}"></span>
+<span role="cell"><input type="checkbox" class="cb" aria-label="Marcar solicitação {{a.titulo}}" disabled="{{a.markDisabled}}" checked="{{a.marked}}" onChange="{{a.toggleMark}}"></span>
+<span role="cell" style="font-weight: 600">{{a.origem}}</span>
+<span role="cell" class="muted">{{a.data}}</span>
+<span role="cell" style="display: flex; flex-direction: column; gap: 2px"><span>{{a.setorSol}}</span><span class="muted" style="font-size: 12px">{{a.usuario}}</span></span>
+<span role="cell">{{a.titulo}}</span>
+<span role="cell"><span class="{{a.sitCls}}">{{a.sitText}}</span></span>
+<span role="cell" style="display: flex; flex-wrap: wrap; gap: 4px"><sc-for list="{{a.flags}}" as="f" hint-placeholder-count="1"><span class="{{f.cls}}">{{f.t}}</span></sc-for><sc-if value="{{a.noFlags}}" hint-placeholder-val="{{false}}"><span class="muted">—</span></sc-if></span>
+<span role="cell" class="num">{{a.processo}}</span>
+<span role="cell">{{a.qtdArq}}</span>
+<span role="cell" class="muted">{{a.sorteado}}</span>
+</div>
+</sc-for>
+</div>
+</div>
+<div style="padding: 10px 16px; font-size: 13px; color: #4F5A6B; border-top: 1px solid #E3E8EF">{{autCountText}}</div>
+</div>
+</section>
+</sc-if>
+
+<!-- ============ TELA 05 · Aguardando Aceite de Processos ============ -->
+<sc-if value="{{isAce}}" hint-placeholder-val="{{false}}">
+<section style="display: flex; flex-direction: column; gap: 16px">
+<div style="display: flex; flex-direction: column; gap: 6px">
+<span class="crumb"><button type="button" class="btn btn-t btn-s" onClick="{{goLista}}">← Processos</button><span aria-hidden="true">›</span> Pendências <span aria-hidden="true">›</span> Aguardando Aceite de Processos</span>
+<h1 class="h1">Aceite eletrônico</h1>
+<span class="muted" style="font-size: 14px">Processos devolvidos ao setor que aguardam ciência. As regras de aceite e devolução seguem o RF-013.</span>
+</div>
+<sc-if value="{{aceHasMsg}}" hint-placeholder-val="{{false}}">
+<div class="{{aceMsg.cls}}" role="alert"><span style="font-weight: 600">{{aceMsg.text}}</span><sc-for list="{{aceMsg.items}}" as="m" hint-placeholder-count="0"><span>• {{m.t}}</span></sc-for></div>
+</sc-if>
+<div class="card" style="overflow: hidden">
+<div style="overflow-x: auto">
+<div role="table" aria-label="Processos aguardando aceite" style="min-width: 1100px">
+<div role="row" class="tr th g-ace">
+<span role="columnheader">Processo</span><span role="columnheader">Assunto</span><span role="columnheader">Setor de origem</span><span role="columnheader">Liberado por</span><span role="columnheader">Data</span><span role="columnheader">Situação</span><span role="columnheader">Ações</span>
+</div>
+<sc-if value="{{aceEmpty}}" hint-placeholder-val="{{false}}"><div style="padding: 40px 24px; text-align: center; font-weight: 600">Não existe processos pendente de aceite. Outro usuário já deve ter recebido.</div></sc-if>
+<sc-for list="{{aceRows}}" as="c" hint-placeholder-count="4">
+<div role="row" class="tr g-ace {{c.cls}}">
+<span role="cell" style="display: flex; align-items: center; gap: 6px"><sc-if value="{{c.isChild}}" hint-placeholder-val="{{false}}"><span aria-hidden="true" style="color: #5B6577">↳</span></sc-if><span class="num">{{c.numero}}</span></span>
+<span role="cell">{{c.assunto}}</span>
+<span role="cell" class="muted">{{c.origem}}</span>
+<span role="cell">{{c.liberador}}</span>
+<span role="cell" class="muted">{{c.data}}</span>
+<span role="cell"><span class="{{c.sitCls}}">{{c.sitText}}</span></span>
+<span role="cell" style="display: flex; gap: 8px">
+<button type="button" class="btn btn-s" disabled="{{c.isChild}}" onClick="{{c.ciente}}">Ciente</button>
+<button type="button" class="btn btn-o btn-s" disabled="{{c.isChild}}" onClick="{{c.devolver}}">{{c.devLabel}}</button>
+</span>
+</div>
+</sc-for>
+</div>
+</div>
+</div>
+</section>
+</sc-if>
+
+<!-- ============ TELA 06 · Juntada de Documentos ============ -->
+<sc-if value="{{isJun}}" hint-placeholder-val="{{false}}">
+<section style="display: flex; flex-direction: column; gap: 16px">
+<div style="display: flex; flex-direction: column; gap: 6px">
+<span class="crumb"><button type="button" class="btn btn-t btn-s" onClick="{{goLista}}">← Processos</button><span aria-hidden="true">›</span> Pendências</span>
+<h1 class="h1">Juntada de Documentos — solicitações</h1>
+</div>
+<div class="card" style="padding: 16px; display: flex; flex-direction: column; gap: 12px">
+<div style="display: flex; align-items: center; gap: 4px 20px; flex-wrap: wrap">
+<span style="font-size: 13px; font-weight: 700; color: #3A4558">Situação:</span>
+<sc-for list="{{junFilters}}" as="f" hint-placeholder-count="6"><label class="check"><input type="checkbox" class="cb" checked="{{f.checked}}" onChange="{{f.toggle}}">{{f.label}}</label></sc-for>
+</div>
+<div style="display: flex; align-items: flex-end; gap: 12px; flex-wrap: wrap">
+<label class="field" style="width: 280px">Número do processo<input class="input" inputmode="numeric" placeholder="Ex.: 202600047000560" value="{{jun.proc}}" onChange="{{junSetProc}}"></label>
+<button type="button" class="btn btn-o" onClick="{{junBuscar}}">Filtrar</button>
+<button type="button" class="btn btn-t" onClick="{{junLimpar}}">Limpar</button>
+<div style="flex-grow: 1"></div>
+<div role="radiogroup" aria-label="Responsabilidade" style="display: flex; gap: 4px 16px; flex-wrap: wrap">
+<label class="check"><input type="radio" class="cb" name="resp" checked="{{junRespR}}" onChange="{{junSetR}}">{{junRespLabel}}</label>
+<label class="check"><input type="radio" class="cb" name="resp" checked="{{junRespS}}" onChange="{{junSetS}}">Sou solicitante</label>
+<label class="check"><input type="radio" class="cb" name="resp" checked="{{junRespT}}" onChange="{{junSetT}}">Juntadas criadas no setor</label>
+</div>
+</div>
+</div>
+<sc-if value="{{junHasMsg}}" hint-placeholder-val="{{false}}"><div class="{{junMsg.cls}}" role="alert"><span style="font-weight: 600">{{junMsg.text}}</span></div></sc-if>
+<div class="card" style="overflow: hidden">
+<div style="overflow-x: auto">
+<div role="table" aria-label="Solicitações de juntada" style="min-width: 1260px">
+<div role="row" class="tr th g-jun">
+<span role="columnheader">Processo</span><span role="columnheader">Título / resumo</span><span role="columnheader">Data</span><span role="columnheader">Relator</span><span role="columnheader">Setor solicitante</span><span role="columnheader">Solicitante</span><span role="columnheader">Aprovação</span><span role="columnheader">Situação</span><span role="columnheader">Arq.</span><span role="columnheader">Ação</span>
+</div>
+<sc-if value="{{junEmpty}}" hint-placeholder-val="{{false}}"><div style="padding: 40px 24px; text-align: center; font-weight: 600">Nenhuma solicitação de juntada encontrada.</div></sc-if>
+<sc-for list="{{junRows}}" as="j" hint-placeholder-count="4">
+<div role="row" class="tr g-jun">
+<span role="cell" class="num">{{j.processo}}</span>
+<span role="cell">{{j.titulo}}</span>
+<span role="cell" class="muted">{{j.data}}</span>
+<span role="cell">{{j.relator}}</span>
+<span role="cell" class="muted">{{j.setorSol}}</span>
+<span role="cell">{{j.usuario}}</span>
+<span role="cell">{{j.aprov}}</span>
+<span role="cell"><span class="{{j.sitCls}}">{{j.sitText}}</span></span>
+<span role="cell">{{j.qtd}}</span>
+<span role="cell"><button type="button" class="{{j.btnCls}}" onClick="{{j.act}}">{{j.actLabel}}</button></span>
+</div>
+</sc-for>
+</div>
+</div>
+</div>
+</section>
+</sc-if>
+
+<!-- ============ TELA 08 · Autorizar Prorrogação/Suspensão ============ -->
+<sc-if value="{{isPrz}}" hint-placeholder-val="{{false}}">
+<section style="display: flex; flex-direction: column; gap: 16px">
+<div style="display: flex; flex-direction: column; gap: 6px">
+<span class="crumb"><button type="button" class="btn btn-t btn-s" onClick="{{goLista}}">← Processos</button><span aria-hidden="true">›</span> Pendências</span>
+<h1 class="h1">Autorizar Prorrogação/Suspensão</h1>
+</div>
+<sc-if value="{{przDenied}}" hint-placeholder-val="{{false}}">
+<div class="alert a-error" role="alert"><span style="font-weight: 600">Acesso não permitido.</span><span>Esta tela é restrita ao chefe de setor (claim de chefia).</span></div>
+</sc-if>
+<sc-if value="{{przAllowed}}" hint-placeholder-val="{{true}}">
+<div class="card" style="padding: 16px; display: flex; align-items: flex-end; gap: 12px; flex-wrap: wrap">
+<label class="field" style="width: 260px">Processo<input class="input" inputmode="numeric" placeholder="Número do processo" value="{{prz.fProc}}" onChange="{{przSetProc}}"></label>
+<label class="field" style="width: 220px">Analista
+<select class="input" value="{{prz.fAn}}" onChange="{{przSetAn}}">
+<option value="">Todos</option>
+<option value="Rafael Nunes">Rafael Nunes</option>
+<option value="Joana Lima">Joana Lima</option>
+</select>
+</label>
+<button type="button" class="btn btn-t" onClick="{{przLimpar}}">Limpar</button>
+<div style="flex-grow: 1"></div>
+<button type="button" class="btn btn-o" disabled="{{przAltDis}}" onClick="{{przAlterar}}">Alterar Prorrogação/Suspensão concedida</button>
+<button type="button" class="btn btn-o" onClick="{{przNegar}}">Negar Autorização</button>
+<button type="button" class="btn" onClick="{{przAutorizar}}">Autorizar</button>
+</div>
+<sc-if value="{{przHasMsg}}" hint-placeholder-val="{{false}}"><div class="{{przMsg.cls}}" role="alert"><span style="font-weight: 600">{{przMsg.text}}</span></div></sc-if>
+<div class="card" style="overflow: hidden">
+<div style="overflow-x: auto">
+<div role="table" aria-label="Solicitações aguardando autorização" style="min-width: 1260px">
+<div role="row" class="tr th g-prz">
+<span role="columnheader"><span style="position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0)">Seleção</span></span>
+<span role="columnheader">Processo</span><span role="columnheader">Tipo</span><span role="columnheader">Analista</span><span role="columnheader">Início análise</span><span role="columnheader">Dias úteis</span><span role="columnheader">Prorrog.</span><span role="columnheader">Suspens.</span><span role="columnheader">Data final</span><span role="columnheader">Aguardando</span><span role="columnheader">Final ajustada</span>
+</div>
+<sc-if value="{{przEmpty}}" hint-placeholder-val="{{false}}"><div style="padding: 40px 24px; text-align: center; font-weight: 600">Nenhum processo aguardando autorização.</div></sc-if>
+<sc-for list="{{przRows}}" as="z" hint-placeholder-count="3">
+<div role="row" class="tr g-prz {{z.cls}}">
+<span role="cell"><input type="checkbox" class="cb" aria-label="Selecionar processo {{z.numero}}" checked="{{z.checked}}" onChange="{{z.toggle}}"></span>
+<span role="cell" class="num">{{z.numero}}</span>
+<span role="cell"><span class="{{z.tipoCls}}">{{z.tipo}}</span></span>
+<span role="cell">{{z.analista}}</span>
+<span role="cell" class="muted">{{z.inicio}}</span>
+<span role="cell">{{z.diasUteis}}</span>
+<span role="cell">{{z.prorr}}</span>
+<span role="cell">{{z.susp}}</span>
+<span role="cell" class="muted">{{z.dataFinal}}</span>
+<span role="cell">{{z.aguardando}}</span>
+<span role="cell" style="font-weight: 700">{{z.ajustada}}</span>
+</div>
+</sc-for>
+</div>
+</div>
+</div>
+<div style="display: flex; justify-content: flex-end"><button type="button" class="btn btn-o" onClick="{{goListaRefresh}}">Fechar</button></div>
+</sc-if>
+</section>
+</sc-if>
+
+<!-- ============ TELA 10 · Avocação de Processo ============ -->
+<sc-if value="{{isAvo}}" hint-placeholder-val="{{false}}">
+<section style="display: flex; flex-direction: column; gap: 16px">
+<div style="display: flex; flex-direction: column; gap: 6px">
+<span class="crumb"><button type="button" class="btn btn-t btn-s" onClick="{{goListaRefresh}}">← Processos</button><span aria-hidden="true">›</span> Pendências <span aria-hidden="true">›</span> Processos a serem Avocados</span>
+<h1 class="h1">{{avoTitle}}</h1>
+</div>
+<div class="card" style="padding: 16px; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px 16px; align-items: end">
+<label class="field">Processo<input class="input" inputmode="numeric" placeholder="Número do processo eletrônico" value="{{avo.proc}}" onChange="{{avoSetProc}}"></label>
+<label class="field">Origem
+<select class="input" value="{{avo.origem}}" onChange="{{avoSetOrigem}}">
+<option value="">Todas</option>
+<option value="Secretaria de Estado da Saúde">Secretaria de Estado da Saúde</option>
+<option value="Instituto de Previdência Estadual">Instituto de Previdência Estadual</option>
+<option value="Secretaria de Estado da Educação">Secretaria de Estado da Educação</option>
+<option value="Câmara Municipal">Câmara Municipal</option>
+<option value="Polícia Militar">Polícia Militar</option>
+</select>
+</label>
+<label class="field">Assunto
+<select class="input" value="{{avo.assunto}}" onChange="{{avoSetAssunto}}">
+<option value="">Todos</option>
+<option value="Tomada de contas especial">Tomada de contas especial</option>
+<option value="Aposentadoria — registro">Aposentadoria — registro</option>
+<option value="Admissão — concurso público">Admissão — concurso público</option>
+<option value="Prestação de contas anual">Prestação de contas anual</option>
+<option value="Pensão civil">Pensão civil</option>
+<option value="Licitação — representação">Licitação — representação</option>
+<option value="Aposentadoria voluntária">Aposentadoria voluntária</option>
+<option value="Admissão — processo seletivo">Admissão — processo seletivo</option>
+<option value="Pensão por morte">Pensão por morte</option>
+<option value="Reforma de militar">Reforma de militar</option>
+</select>
+</label>
+<label class="field">Relator
+<select class="input" value="{{avo.relator}}" disabled="{{notGab}}" onChange="{{avoSetRelator}}">
+<option value="">Todos</option>
+<option value="Auditor A">Auditor A</option>
+<option value="Procurador B">Procurador B</option>
+<option value="Conselheiro Substituto C">Conselheiro Substituto C</option>
+</select>
+</label>
+<sc-if value="{{isGab}}" hint-placeholder-val="{{true}}">
+<label class="field">Setor atual
+<select class="input" value="{{avo.setor}}" onChange="{{avoSetSetor}}">
+<option value="">Todos os gabinetes</option>
+<option value="Gabinete de Auditor A">Gabinete de Auditor A</option>
+<option value="Gabinete de Procurador B">Gabinete de Procurador B</option>
+<option value="Gabinete de Conselheiro Substituto C">Gabinete de Conselheiro Substituto C</option>
+</select>
+</label>
+</sc-if>
+<sc-if value="{{notGab}}" hint-placeholder-val="{{false}}">
+<label class="field">Setor atual<input class="input" disabled="{{true}}" value="{{userSetor}}"></label>
+</sc-if>
+<div style="display: flex; flex-direction: column; gap: 0">
+<label class="check"><input type="checkbox" class="cb" checked="{{avo.venc}}" onChange="{{avoTglVenc}}">Processos vencidos</label>
+<label class="check"><input type="checkbox" class="cb" checked="{{avo.menos10}}" onChange="{{avoTglMenos}}">Vencem em menos de 10 dias</label>
+</div>
+<div style="display: flex; gap: 8px; grid-column: span 2; justify-content: flex-end">
+<button type="button" class="btn btn-t" onClick="{{avoLimpar}}">Limpar</button>
+<button type="button" class="btn btn-o" onClick="{{avoFiltrar}}">Filtrar</button>
+</div>
+</div>
+<sc-if value="{{avoHasMsg}}" hint-placeholder-val="{{false}}"><div class="{{avoMsg.cls}}" role="alert"><span style="font-weight: 600">{{avoMsg.text}}</span></div></sc-if>
+<sc-if value="{{avoHasFalhas}}" hint-placeholder-val="{{false}}">
+<div class="alert a-error" role="alert"><span style="font-weight: 700">Processos não avocado</span><sc-for list="{{avoFalhas}}" as="f" hint-placeholder-count="1"><span>• {{f.numero}} — {{f.motivo}}</span></sc-for></div>
+</sc-if>
+<div class="card" style="overflow: hidden">
+<div style="overflow-x: auto">
+<div role="table" aria-label="Processos" style="min-width: 1180px">
+<div role="row" class="tr th g-avo">
+<span role="columnheader"><span style="position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0)">Seleção</span></span>
+<span role="columnheader">Processo</span><span role="columnheader">Assunto</span><span role="columnheader">Origem</span><span role="columnheader">Relator</span><span role="columnheader">Setor atual</span><span role="columnheader">Dias</span><span role="columnheader">Situação de prazo</span>
+</div>
+<sc-if value="{{avoEmpty}}" hint-placeholder-val="{{false}}"><div style="padding: 40px 24px; text-align: center; font-weight: 600">Nenhum processo encontrado para os filtros informados.</div></sc-if>
+<sc-for list="{{avoRows}}" as="v" hint-placeholder-count="5">
+<div role="row" class="tr g-avo {{v.cls}}">
+<span role="cell"><input type="checkbox" class="cb" aria-label="Selecionar processo {{v.numero}}" checked="{{v.checked}}" onChange="{{v.toggle}}"></span>
+<span role="cell" style="display: flex; flex-direction: column; gap: 2px"><span class="num">{{v.numero}}</span><sc-if value="{{v.assinado}}" hint-placeholder-val="{{false}}"><span style="font-size: 12px; color: #7A4105; font-weight: 600">Enviado para assinatura</span></sc-if></span>
+<span role="cell">{{v.assunto}}</span>
+<span role="cell" class="muted">{{v.origem}}</span>
+<span role="cell">{{v.relator}}</span>
+<span role="cell" class="muted">{{v.setor}}</span>
+<span role="cell">{{v.dias}}</span>
+<span role="cell"><span class="{{v.prazoCls}}">{{v.prazo}}</span></span>
+</div>
+</sc-for>
+</div>
+</div>
+</div>
+<div style="display: flex; justify-content: flex-end; gap: 12px; flex-wrap: wrap">
+<button type="button" class="btn btn-o" onClick="{{goListaRefresh}}">Fechar</button>
+<sc-if value="{{canRedistribuir}}" hint-placeholder-val="{{false}}"><button type="button" class="btn btn-o" onClick="{{avoRedistribuir}}">Redistribuir Selecionados</button></sc-if>
+<sc-if value="{{canAvocar}}" hint-placeholder-val="{{true}}"><button type="button" class="btn" onClick="{{avoAvocar}}">Avocar Selecionados</button></sc-if>
+</div>
+</section>
+</sc-if>
+
+</main>
+
+<!-- ============ Diálogos ============ -->
+<sc-if value="{{hasDlg}}" hint-placeholder-val="{{false}}">
+<div style="position: fixed; inset: 0; background: rgba(12,22,40,.5); z-index: 60; display: flex; align-items: flex-start; justify-content: center; padding: 56px 16px; overflow: auto">
+<div role="dialog" aria-modal="true" aria-label="{{dlgTitle}}" class="card" style="width: 100%; max-width: 680px; box-shadow: 0 24px 60px rgba(10,25,50,.35); display: flex; flex-direction: column">
+<div style="display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 16px 20px; border-bottom: 1px solid #E3E8EF">
+<span style="font-size: 18px; font-weight: 700; color: #0F366D">{{dlgTitle}}</span>
+<button type="button" class="icon-btn" aria-label="Fechar" onClick="{{closeDlg}}"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"></path></svg></button>
+</div>
+<div style="padding: 20px; display: flex; flex-direction: column; gap: 16px">
+
+<sc-if value="{{dlgHasErrs}}" hint-placeholder-val="{{false}}">
+<div class="alert a-error" role="alert"><sc-for list="{{dlgErrs}}" as="e" hint-placeholder-count="1"><span>• {{e.t}}</span></sc-for></div>
+</sc-if>
+
+<!-- Tela 04 · Autuação -->
+<sc-if value="{{dlgAutuar}}" hint-placeholder-val="{{false}}">
+<div class="alert a-info"><span>As solicitações abaixo ficam bloqueadas para você até a conclusão ou o cancelamento da autuação.</span><sc-for list="{{dlgAutItems}}" as="i" hint-placeholder-count="1"><span style="font-weight: 600">• {{i.t}}</span></sc-for></div>
+<label class="field">Número do processo<input class="input" inputmode="numeric" value="{{dlg.numero}}" onChange="{{dlgSetNumero}}"></label>
+<div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px">
+<label class="field">Assunto<input class="input" disabled="{{true}}" value="Conforme regras de autuação (RF-025)"></label>
+<label class="field">Relator<input class="input" disabled="{{true}}" value="Definido por sorteio (RF-025)"></label>
+</div>
+<label class="check"><input type="checkbox" class="cb" role="switch" checked="{{dlg.sigilo}}" onChange="{{dlgTglSigilo}}">Habilitar sigilo</label>
+<sc-if value="{{dlg.confirmShort}}" hint-placeholder-val="{{false}}"><div class="alert a-warn" role="alert"><span style="font-weight: 600">O número do processo tem menos de 15 caracteres.</span><span>Confirme para gravar mesmo assim.</span></div></sc-if>
+</sc-if>
+
+<!-- Devolver -->
+<sc-if value="{{dlgDevolver}}" hint-placeholder-val="{{false}}">
+<span>Processo <strong class="num">{{dlg.numero}}</strong> será devolvido ao setor de origem.</span>
+<label class="field">Justificativa (obrigatória)<textarea class="input" value="{{dlg.just}}" onChange="{{dlgSetJust}}"></textarea></label>
+</sc-if>
+
+<!-- Já devolvido -->
+<sc-if value="{{dlgDevolvido}}" hint-placeholder-val="{{false}}">
+<div class="alert a-warn"><span style="font-weight: 600">Processo já devolvido: você deve efetuar novo trâmite.</span><span>Somente visualização.</span></div>
+<label class="field">Motivo da recusa<textarea class="input" disabled="{{true}}" value="{{dlg.motivo}}"></textarea></label>
+</sc-if>
+
+<!-- Tela 07 · Decisão de juntada / consulta -->
+<sc-if value="{{dlgJun}}" hint-placeholder-val="{{false}}">
+<span>Nº do Processo: <strong class="num">{{dlg.processo}}</strong></span>
+<sc-if value="{{dlg.readOnly}}" hint-placeholder-val="{{false}}"><div class="alert a-info"><span>Somente visualização.</span></div></sc-if>
+<div class="card" style="overflow: hidden">
+<div role="row" class="tr th g-doc"><span role="columnheader"><span style="position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0)">Juntar</span></span><span role="columnheader">Documento a juntar</span><span role="columnheader">Fonte</span></div>
+<sc-for list="{{dlgDocs}}" as="o" hint-placeholder-count="3">
+<div role="row" class="tr g-doc"><span role="cell"><input type="checkbox" class="cb" aria-label="Juntar {{o.nome}}" disabled="{{o.disabled}}" checked="{{o.checked}}" onChange="{{o.toggle}}"></span><span role="cell">{{o.nome}}</span><span role="cell"><span class="chip c-neutral">{{o.fonte}}</span></span></div>
+</sc-for>
+</div>
+<sc-if value="{{dlgShowDecision}}" hint-placeholder-val="{{true}}">
+<label class="field">Descrição / Justificativa<textarea class="input" disabled="{{dlg.readOnly}}" value="{{dlg.desc}}" onChange="{{dlgSetDesc}}"></textarea></label>
+<div role="radiogroup" aria-label="Decisão" style="display: flex; gap: 4px 24px; flex-wrap: wrap">
+<label class="check"><input type="radio" class="cb" name="dec" disabled="{{dlg.readOnly}}" checked="{{dlgDecSim}}" onChange="{{dlgSetSim}}">Autorizo a juntada de documentos</label>
+<label class="check"><input type="radio" class="cb" name="dec" disabled="{{dlg.readOnly}}" checked="{{dlgDecNao}}" onChange="{{dlgSetNao}}">Não autorizo a juntada de documentos</label>
+</div>
+<sc-if value="{{dlgDecNao}}" hint-placeholder-val="{{false}}">
+<label class="field">Justificativa / Motivo (obrigatório)<textarea class="input" disabled="{{dlg.readOnly}}" value="{{dlg.just}}" onChange="{{dlgSetJust}}"></textarea><span style="font-weight: 400; color: #4F5A6B; align-self: flex-end">{{dlgJustCount}}/1000</span></label>
+</sc-if>
+<sc-if value="{{dlg.saved}}" hint-placeholder-val="{{false}}"><div class="alert a-success" role="status"><span style="font-weight: 600">Decisão salva.</span><span>{{dlgSentText}}</span></div></sc-if>
+</sc-if>
+</sc-if>
+
+<!-- Confirmação de autorização de prazo -->
+<sc-if value="{{dlgConfPrz}}" hint-placeholder-val="{{false}}">
+<span style="font-size: 15px">{{dlg.texto}}</span>
+</sc-if>
+
+<!-- Tela 09 · Prorrogar / Suspender -->
+<sc-if value="{{dlgAlt}}" hint-placeholder-val="{{false}}">
+<span>Processo <strong class="num">{{dlg.numero}}</strong></span>
+<div role="radiogroup" aria-label="Tipo" style="display: flex; gap: 4px 24px">
+<label class="check"><input type="radio" class="cb" name="tipo" checked="{{dlgTipoP}}" onChange="{{dlgSetTipoP}}">Prorrogação</label>
+<label class="check"><input type="radio" class="cb" name="tipo" checked="{{dlgTipoS}}" onChange="{{dlgSetTipoS}}">Suspensão</label>
+</div>
+<div style="display: grid; grid-template-columns: 2fr 1fr; gap: 12px">
+<label class="field">Motivo
+<select class="input" value="{{dlg.motivo}}" onChange="{{dlgSetMotivo}}">
+<option value="">Selecione</option>
+<option value="Complexidade da matéria">Complexidade da matéria</option>
+<option value="Diligência externa pendente">Diligência externa pendente</option>
+<option value="Volume de documentos">Volume de documentos</option>
+<option value="Afastamento do analista">Afastamento do analista</option>
+</select>
+</label>
+<label class="field">Dias úteis<input class="input" type="number" min="1" value="{{dlg.dias}}" onChange="{{dlgSetDias}}"></label>
+</div>
+<label class="field">Justificativa<textarea class="input" value="{{dlg.just}}" onChange="{{dlgSetJust}}"></textarea><span style="font-weight: 400; color: #4F5A6B; align-self: flex-end">{{dlgJustCount}}/1000</span></label>
+<div class="card" style="overflow: hidden">
+<div role="row" class="tr th g-pr2"><span role="columnheader">Lançamento</span><span role="columnheader">Dias</span><span role="columnheader">Situação</span></div>
+<sc-for list="{{dlgItens}}" as="i" hint-placeholder-count="1"><div role="row" class="tr g-pr2"><span role="cell">{{i.tipo}}</span><span role="cell">{{i.dias}}</span><span role="cell"><span class="chip c-warn">{{i.sit}}</span></span></div></sc-for>
+</div>
+<sc-if value="{{dlg.confirm}}" hint-placeholder-val="{{false}}"><div class="alert a-warn" role="alert"><span style="font-weight: 600">Confirma o lançamento? A data final ajustada será recalculada em dias úteis.</span></div></sc-if>
+</sc-if>
+
+<!-- Avocação: processos separados -->
+<sc-if value="{{dlgAvoConf}}" hint-placeholder-val="{{false}}">
+<div class="alert a-warn"><span style="font-weight: 600">Processos assinados ou enviados para assinatura foram separados da seleção:</span><sc-for list="{{dlgSep}}" as="i" hint-placeholder-count="1"><span>• {{i.t}}</span></sc-for></div>
+<span>{{dlgAvoText}}</span>
+</sc-if>
+
+<!-- Redistribuir -->
+<sc-if value="{{dlgRedist}}" hint-placeholder-val="{{false}}">
+<span>{{dlgRedistText}}</span>
+<label class="field">Redistribuir para
+<select class="input" value="{{dlg.dest}}" onChange="{{dlgSetDest}}">
+<option value="">Selecione o analista</option>
+<option value="Rafael Nunes">Rafael Nunes</option>
+<option value="Joana Lima">Joana Lima</option>
+<option value="Otávio Campos">Otávio Campos</option>
+</select>
+</label>
+</sc-if>
+
+</div>
+<div style="display: flex; justify-content: flex-end; gap: 12px; padding: 14px 20px; border-top: 1px solid #E3E8EF; flex-wrap: wrap">
+<button type="button" class="btn btn-o" onClick="{{closeDlg}}">{{dlgCancelLabel}}</button>
+<sc-if value="{{dlgShowSec}}" hint-placeholder-val="{{false}}"><button type="button" class="btn btn-o" disabled="{{dlgSecDis}}" onClick="{{dlgSec}}">{{dlgSecLabel}}</button></sc-if>
+<sc-if value="{{dlgShowPri}}" hint-placeholder-val="{{true}}"><button type="button" class="{{dlgPriCls}}" onClick="{{dlgPri}}">{{dlgPriLabel}}</button></sc-if>
+</div>
+</div>
+</div>
+</sc-if>
+
+<sc-if value="{{hasToast}}" hint-placeholder-val="{{false}}"><div class="{{toastCls}}" role="status">{{toastMsg}}</div></sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"perfil":{"editor":"enum","options":["Chefe de setor","Analista de setor","Gabinete de conselheiro"],"default":"Chefe de setor","section":"Simulação"},"cenario":{"editor":"enum","options":["Padrão","Sem pendências","Volume alto (99+)"],"default":"Padrão","section":"Simulação"},"simularFalha":{"editor":"boolean","default":false,"section":"Simulação"},"$preview":{"width":1440,"height":1000}}'>
+class Component extends DCLogic {
+  constructor(...args) {
+    super(...args);
+    this.state = this.makeState(this.props || {});
+  }
+  componentDidMount() {
+    this.refresh();
+    this._iv = setInterval(() => this.refresh(), 300000);
+    this._iv2 = setInterval(() => { if (this.state.view === 'autuacao') this.setState({ autUpd: new Date() }); }, 60000);
+  }
+  componentWillUnmount() {
+    clearInterval(this._iv); clearInterval(this._iv2);
+    clearTimeout(this._t); clearTimeout(this._tt); clearTimeout(this._tl);
+  }
+  componentDidUpdate(prev) {
+    const p = this.props || {};
+    if (prev && (prev.perfil !== p.perfil || prev.cenario !== p.cenario)) {
+      this.setState(this.makeState(p), () => this.refresh());
+    }
+  }
+
+  /* ---------- perfil e dados simulados ---------- */
+  pkOf(p) {
+    const v = (p && p.perfil) || 'Chefe de setor';
+    if (v.indexOf('Analista') === 0) return 'analista';
+    if (v.indexOf('Gabinete') === 0) return 'gabinete';
+    return 'chefe';
+  }
+  user(pk) {
+    const setor = 'Serviço de Análise de Atos de Pessoal';
+    const all = {
+      chefe: { nome: 'Marina Costa', ini: 'MC', perfil: 'Chefe de setor', setor: setor, claims: { chefia: true, distribuir: true } },
+      analista: { nome: 'Rafael Nunes', ini: 'RN', perfil: 'Analista de setor', setor: setor, claims: {} },
+      gabinete: { nome: 'Helena Prado', ini: 'HP', perfil: 'Gabinete de conselheiro', setor: 'Gabinete do Conselheiro Relator', claims: { avocar: true, autorizarJuntada: true } }
+    };
+    return all[pk];
+  }
+  pdefs() {
+    return [
+      { id: 'P01', label: 'Solicitações de Autuação Pendentes', kind: 'tela', screen: 'autuacao' },
+      { id: 'P02', label: 'Processos Aguardando Assinatura', kind: 'filtro' },
+      { id: 'P03', label: 'Processos Pendentes de Envio (Assinados)', kind: 'filtro' },
+      { id: 'P04', label: 'Assinados por Mim', kind: 'filtro' },
+      { id: 'P05', label: 'Assinados por Outros', kind: 'filtro' },
+      { id: 'P06', label: 'Enviados para Revisão Oficial', kind: 'filtro' },
+      { id: 'P07', label: 'Enviado para Assinatura (REVISADO)', kind: 'filtro' },
+      { id: 'P08', label: 'Aguardando Aceite de Processos', kind: 'tela', screen: 'aceite' },
+      { id: 'P09', label: 'Solicitações pendentes de Juntada', kind: 'tela', screen: 'juntada' },
+      { id: 'P10', label: 'Prorrogação/Suspensão aguardando autorização', kind: 'tela', screen: 'prazo', chefia: true },
+      { id: 'P11', label: 'Processos a serem Avocados', kind: 'tela', screen: 'avocacao' },
+      { id: 'P12', label: 'Revisado', kind: 'filtro' }
+    ];
+  }
+  makeState(p) {
+    const pk = this.pkOf(p);
+    return {
+      pk: pk, data: this.buildData(p.cenario || 'Padrão', pk),
+      view: 'lista', panelOpen: false, filter: null, search: '', page: 1, sel: {},
+      snapshot: null, lastUpdate: null, loading: true, err: null, listLoading: false, autUpd: new Date(),
+      aut: { rowSel: {}, marks: {}, fE: true, fA: pk === 'chefe', fS: false, fC: false, fR: false, modo: 'envio', msg: null },
+      ace: { msg: null },
+      jun: { f: { E: true, N: pk !== 'gabinete', A: false, R: false, S: pk === 'gabinete', X: false }, proc: '', procApplied: '', resp: 'resp', msg: null },
+      prz: { sel: {}, fProc: '', fAn: '', msg: null },
+      avo: { sel: {}, proc: '', procApplied: '', origem: '', assunto: '', relator: '', setor: '', venc: false, menos10: false, falhas: null, msg: null },
+      dialog: null, toast: null
+    };
+  }
+  buildData(cen, pk) {
+    const P = (id, numero, assunto, interessado, evento, data, resp, tags, apensos, parent) =>
+      ({ id: id, numero: numero, assunto: assunto, interessado: interessado, evento: evento, data: data, resp: resp, tags: tags || [], apensos: apensos || [], parent: parent || null });
+    const IPE = 'Instituto de Previdência Estadual';
+    const procs = [
+      P('p1', '202500047001842', 'Aposentadoria voluntária — registro', IPE, 'Aguardando assinatura', '29/09/2026', 'Rafael Nunes', ['P02'], ['p1a']),
+      P('p1a', '202500047001843', 'Pensão por morte — registro', IPE, 'Apensado', '29/09/2026', 'Rafael Nunes', [], [], 'p1'),
+      P('p2', '202500047001907', 'Admissão de pessoal — concurso público', 'Secretaria de Estado da Educação', 'Em análise', '28/09/2026', 'Marina Costa'),
+      P('p3', '202600047000118', 'Aposentadoria por invalidez — registro', IPE, 'Aguardando assinatura', '30/09/2026', 'Joana Lima', ['P02']),
+      P('p4', '202600047000156', 'Reforma de militar — registro', 'Polícia Militar', 'Assinado — pendente de envio', '27/09/2026', 'Rafael Nunes', ['P03']),
+      P('p5', '202600047000203', 'Pensão especial — registro', IPE, 'Aguardando assinatura', '30/09/2026', 'Rafael Nunes', ['P02']),
+      P('p6', '202600047000241', 'Admissão — processo seletivo simplificado', 'Secretaria de Estado da Saúde', 'Assinado — pendente de envio', '26/09/2026', 'Joana Lima', ['P03']),
+      P('p7', '202600047000288', 'Revisão de proventos', IPE, 'Assinado', '25/09/2026', 'Marina Costa', ['P04']),
+      P('p8', '202600047000302', 'Aposentadoria especial — professor', 'Secretaria de Estado da Educação', 'Assinado (por mim e por terceiro)', '24/09/2026', 'Rafael Nunes', ['P04']),
+      P('p9', '202600047000317', 'Transferência para a reserva', 'Corpo de Bombeiros Militar', 'Assinado por terceiro', '24/09/2026', 'Joana Lima', ['P05']),
+      P('p10', '202600047000355', 'Admissão — contratação temporária', 'Universidade Estadual', 'Enviado para revisão oficial', '23/09/2026', 'Rafael Nunes', ['P06'], ['p10a']),
+      P('p10a', '202600047000356', 'Admissão — termo aditivo', 'Universidade Estadual', 'Apensado', '23/09/2026', 'Rafael Nunes', [], [], 'p10'),
+      P('p11', '202600047000390', 'Aposentadoria compulsória', IPE, 'Enviado para assinatura (revisado)', '22/09/2026', 'Joana Lima', ['P07']),
+      P('p12', '202600047000412', 'Pensão civil', IPE, 'Revisado', '21/09/2026', 'Rafael Nunes', ['P12']),
+      P('p13', '202600047000437', 'Retificação de aposentadoria', IPE, 'Revisado', '20/09/2026', 'Marina Costa', ['P12']),
+      P('p14', '202600047000459', 'Admissão — concurso público', 'Secretaria de Estado da Saúde', 'Recebido no setor', '19/09/2026', 'Joana Lima', [], ['p14a']),
+      P('p14a', '202600047000460', 'Admissão — recurso administrativo', 'Secretaria de Estado da Saúde', 'Apensado', '19/09/2026', 'Joana Lima', [], [], 'p14'),
+      P('p15', '202600047000480', 'Aposentadoria voluntária', IPE, 'Em análise', '18/09/2026', 'Rafael Nunes'),
+      P('p16', '202600047000502', 'Pensão por morte', IPE, 'Em análise', '17/09/2026', 'Marina Costa')
+    ];
+    const A = (id, origem, data, setorSol, usuario, titulo, sit, extra) =>
+      Object.assign({ id: id, origem: origem, data: data, setorSol: setorSol, usuario: usuario, titulo: titulo, sit: sit, processo: '', arquivos: ['peticao.pdf'], sorteado: '', bloq: '', sort: '', pauta: false, central: false }, extra || {});
+    const aut = [
+      A('a1', 'SEI', '25/09/2026', 'Protocolo Geral', 'Joana Lima', 'Representação — admissões sem concurso público', 'E', { arquivos: ['representacao.pdf', 'anexo1.pdf', 'anexo2.pdf', 'oficio.pdf'] }),
+      A('a2', 'TCE-HUB', '26/09/2026', 'Secretaria de Estado da Saúde', 'Carlos Viana', 'Registro de admissões — processo seletivo 2026', 'E', { bloq: 'Lucas Andrade', arquivos: ['lista.pdf', 'edital.pdf'] }),
+      A('a3', 'TCE-HUB', '26/09/2026', IPE, 'Bruna Alves', 'Aposentadorias — lote de setembro', 'E', { sort: 'Paula Mendes', sorteado: 'Paula Mendes' }),
+      A('a4', 'SEI', '27/09/2026', 'Polícia Militar', 'Diego Souza', 'Reformas — lote 14/2026', 'S'),
+      A('a5', 'Atos de Pessoal', '28/09/2026', 'Corpo de Bombeiros Militar', 'Elisa Rocha', 'Transferências para a reserva', 'S', { pauta: true }),
+      A('a6', 'LRF', '29/09/2026', 'Câmara Municipal', 'Fábio Teixeira', 'Relatório de gestão fiscal — 2º quadrimestre', 'A', { arquivos: ['relatorio.pdf', 'demonstrativo.xlsx'] }),
+      A('a7', 'Atos de Pessoal', '30/09/2026', 'Secretaria de Estado da Educação', 'Gabriela Pires', 'Admissões — professores temporários', 'A', { arquivos: ['oficio.pdf', 'lista.docx', 'anexo.pdf'] }),
+      A('a8', 'SEI', '20/09/2026', 'Protocolo Geral', 'Joana Lima', 'Denúncia — pagamento de gratificações', 'C', { processo: '202600047000318' }),
+      A('a9', 'TCE-HUB', '18/09/2026', IPE, 'Bruna Alves', 'Pensão — documentação incompleta', 'R')
+    ];
+    const ace = [
+      { id: 'c1', numero: '202600047000521', assunto: 'Admissão — concurso público', origem: 'Serviço de Fiscalização de Pessoal', liberador: 'Ana Ribeiro', data: '30/09/2026', sit: 'aguardando', docs: [], apensos: ['c1a'], parent: null },
+      { id: 'c1a', numero: '202600047000522', assunto: 'Admissão — recurso administrativo', origem: 'Serviço de Fiscalização de Pessoal', liberador: 'Ana Ribeiro', data: '30/09/2026', sit: 'apensado', docs: [], apensos: [], parent: 'c1' },
+      { id: 'c2', numero: '202600047000534', assunto: 'Aposentadoria voluntária', origem: 'Gabinete do Conselheiro Relator', liberador: 'Tiago Moreira', data: '29/09/2026', sit: 'devolvido', motivo: 'Documentação incompleta: ausência do parecer técnico conclusivo.', docs: [], apensos: [], parent: null },
+      { id: 'c3', numero: '202600047000547', assunto: 'Pensão por morte', origem: 'Secretaria de Recursos', liberador: 'Luana Freitas', data: '28/09/2026', sit: 'aguardando', docs: ['Despacho nº 312/2026 juntado no andamento atual.', 'Anexo "memoria_calculo.xlsx" no andamento atual do apensado 202600047000548.'], apensos: [], parent: null }
+    ];
+    const docs = [{ id: 'd1', nome: 'Defesa prévia.pdf', fonte: 'Externo' }, { id: 'd2', nome: 'Procuração.pdf', fonte: 'TCE Docs' }, { id: 'd3', nome: 'Certidão de tempo de contribuição.pdf', fonte: 'TCE-Hub' }];
+    const J = (id, processo, titulo, data, setorSol, usuario, sit, rel, extra) =>
+      Object.assign({ id: id, processo: processo, titulo: titulo, data: data, relator: 'Conselheiro Relator I', setorSol: setorSol, usuario: usuario, aprov: 'Sim', sit: sit, rel: rel, docs: docs, decisao: null }, extra || {});
+    const jun = [
+      J('j1', '202600047000560', 'Juntada de defesa — aposentadoria', '26/09/2026', 'Protocolo Geral', 'Joana Lima', 'E', 'resp'),
+      J('j2', '202600047000573', 'Juntada de certidões complementares', '27/09/2026', 'Serviço de Análise de Atos de Pessoal', 'Rafael Nunes', 'N', 'solic'),
+      J('j3', '202600047000586', 'Juntada de memorial', '27/09/2026', 'Protocolo Geral', 'Carlos Viana', 'S', 'resp'),
+      J('j4', '202600047000599', 'Juntada de procuração', '24/09/2026', 'Protocolo Geral', 'Elisa Rocha', 'A', 'resp', { decisao: { dec: 'sim', desc: 'Documentos pertinentes ao mérito.', just: '', docs: { d1: true, d2: true, d3: false } } }),
+      J('j5', '202600047000602', 'Juntada de documentos fora do prazo', '22/09/2026', 'Protocolo Geral', 'Diego Souza', 'R', 'resp', { decisao: { dec: 'nao', desc: 'Pedido de juntada de memorial.', just: 'Memorial apresentado após o prazo regimental.', docs: { d1: true, d2: false, d3: false } } }),
+      J('j6', '202600047000615', 'Juntada de contrarrazões', '30/09/2026', 'Protocolo Geral', 'Bruna Alves', 'E', 'resp', { aprov: 'Não' })
+    ];
+    const prz = [
+      { id: 'z1', numero: '202600047000611', analista: 'Rafael Nunes', inicio: '01/09/2026', diasUteis: 30, tipo: 'P', prorr: 10, susp: 0, aguardando: 3 },
+      { id: 'z2', numero: '202600047000624', analista: 'Joana Lima', inicio: '08/09/2026', diasUteis: 30, tipo: 'S', prorr: 0, susp: 15, aguardando: 2 },
+      { id: 'z3', numero: '202600047000637', analista: 'Rafael Nunes', inicio: '15/09/2026', diasUteis: 20, tipo: 'P', prorr: 5, susp: 0, aguardando: 1 }
+    ];
+    const V = (id, numero, assunto, origem, relator, setor, dias, extra) =>
+      Object.assign({ id: id, numero: numero, assunto: assunto, origem: origem, relator: relator, setor: setor, dias: dias, assinado: false, falha: false }, extra || {});
+    const own = this.user(pk).setor;
+    const avo = pk === 'gabinete' ? [
+      V('v1', '202500047002210', 'Tomada de contas especial', 'Secretaria de Estado da Saúde', 'Auditor A', 'Gabinete de Auditor A', 42),
+      V('v2', '202500047002245', 'Aposentadoria — registro', IPE, 'Procurador B', 'Gabinete de Procurador B', 35, { assinado: true }),
+      V('v3', '202600047000102', 'Admissão — concurso público', 'Secretaria de Estado da Educação', 'Conselheiro Substituto C', 'Gabinete de Conselheiro Substituto C', 27),
+      V('v4', '202600047000145', 'Prestação de contas anual', 'Câmara Municipal', 'Auditor A', 'Gabinete de Auditor A', 22),
+      V('v5', '202600047000199', 'Pensão civil', IPE, 'Procurador B', 'Gabinete de Procurador B', 12),
+      V('v6', '202600047000214', 'Licitação — representação', 'Secretaria de Estado da Saúde', 'Conselheiro Substituto C', 'Gabinete de Conselheiro Substituto C', 5),
+      V('v7', '202500047002301', 'Tomada de contas especial', 'Câmara Municipal', 'Auditor A', 'Gabinete de Auditor A', 31, { falha: true })
+    ] : [
+      V('w1', '202600047000250', 'Aposentadoria voluntária', IPE, '—', own, 33),
+      V('w2', '202600047000263', 'Admissão — processo seletivo', 'Secretaria de Estado da Saúde', '—', own, 24),
+      V('w3', '202600047000277', 'Pensão por morte', IPE, '—', own, 10),
+      V('w4', '202600047000290', 'Reforma de militar', 'Polícia Militar', '—', own, 3)
+    ];
+    if (cen === 'Sem pendências') {
+      procs.forEach(p => { p.tags = []; });
+      return { procs: procs, aut: aut.filter(a => a.sit === 'C' || a.sit === 'R'), ace: [], jun: jun.filter(j => j.sit === 'A' || j.sit === 'R'), prz: [], avo: avo.filter(v => v.dias < 20) };
+    }
+    if (cen === 'Volume alto (99+)') {
+      for (let i = 0; i < 130; i++) {
+        aut.push(A('ax' + i, i % 3 ? 'TCE-HUB' : 'SEI', '30/09/2026', 'Fundo de Previdência Municipal', 'Integração TCE-HUB', 'Aposentadoria — lote automático nº ' + (i + 1), 'E'));
+      }
+    }
+    return { procs: procs, aut: aut, ace: ace, jun: jun, prz: prz, avo: avo };
+  }
+
+  /* ---------- utilitários ---------- */
+  today() { return new Date(2026, 9, 1); }
+  fmt(dt) { return String(dt.getDate()).padStart(2, '0') + '/' + String(dt.getMonth() + 1).padStart(2, '0') + '/' + dt.getFullYear(); }
+  addBD(s, n) {
+    const parts = s.split('/').map(Number);
+    const dt = new Date(parts[2], parts[1] - 1, parts[0]);
+    let k = 0;
+    while (k < n) { dt.setDate(dt.getDate() + 1); const w = dt.getDay(); if (w !== 0 && w !== 6) k++; }
+    return this.fmt(dt);
+  }
+  hhmmss(d) { return d ? d.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit', second: '2-digit' }) : ''; }
+  msg(tone, text, items) { return { cls: 'alert a-' + tone, text: text, items: (items || []).map(t => ({ t: t })) }; }
+  upd(key, patch, cb) { this.setState(st => ({ [key]: Object.assign({}, st[key], patch) }), cb); }
+  setDlg(patch) { this.setState(st => ({ dialog: Object.assign({}, st.dialog, patch) })); }
+  mut(fn, cb) {
+    this.setState(st => { const d = JSON.parse(JSON.stringify(st.data)); fn(d); return { data: d }; }, cb);
+  }
+  toast(text, tone) {
+    this.setState({ toast: { text: text, tone: tone || 'success' } });
+    clearTimeout(this._tt);
+    this._tt = setTimeout(() => this.setState({ toast: null }), 4500);
+  }
+  digits(s) { return String(s || '').replace(/\D/g, ''); }
+
+  /* ---------- contagens (RN01–RN09) ---------- */
+  compute(st) {
+    const d = st.data, chefe = st.pk === 'chefe';
+    const tag = t => d.procs.filter(p => !p.parent && p.tags.indexOf(t) >= 0).length;
+    const junSits = st.pk === 'gabinete' ? ['E', 'S'] : ['E', 'N'];
+    return {
+      P01: d.aut.filter(a => a.sit === 'E' || a.sit === 'S' || (a.sit === 'A' && chefe)).length,
+      P02: tag('P02'), P03: tag('P03'), P04: tag('P04'), P05: tag('P05'), P06: tag('P06'), P07: tag('P07'),
+      P08: d.ace.filter(c => !c.parent).length,
+      P09: d.jun.filter(j => junSits.indexOf(j.sit) >= 0).length,
+      P10: chefe ? d.prz.length : 0,
+      P11: d.avo.filter(v => v.dias >= 20).length,
+      P12: tag('P12')
+    };
+  }
+  refresh() {
+    clearTimeout(this._t);
+    this.setState({ loading: true });
+    this._t = setTimeout(() => {
+      if (this.props && this.props.simularFalha) {
+        this.setState({ loading: false, err: 'Não foi possível consultar as pendências. Motivo: o serviço de contagem não respondeu (HTTP 504). Exibindo os últimos valores conhecidos.' });
+      } else {
+        this.setState(st => ({ loading: false, err: null, snapshot: this.compute(st), lastUpdate: new Date() }));
+      }
+    }, 700);
+  }
+
+  /* ---------- navegação ---------- */
+  openP(id) {
+    const def = this.pdefs().find(p => p.id === id);
+    if (def.kind === 'filtro') {
+      this.setState({ panelOpen: false, view: 'lista', filter: id, page: 1, listLoading: true });
+      clearTimeout(this._tl);
+      this._tl = setTimeout(() => this.setState({ listLoading: false }), 600);
+    } else {
+      this.setState({ panelOpen: false, view: def.screen });
+    }
+  }
+  goLista(doRefresh) {
+    this.setState({ view: 'lista', dialog: null });
+    if (doRefresh) this.refresh();
+  }
+
+  /* ---------- Tela 03 · autuação ---------- */
+  autProsseguir() {
+    const s = this.state, A = s.aut;
+    const sel = s.data.aut.filter(a => A.rowSel[a.id]);
+    if (!sel.length) return this.upd('aut', { msg: this.msg('warn', 'Selecione ao menos uma solicitação para prosseguir.') });
+    if (sel.some(a => a.sit !== 'E')) return this.upd('aut', { msg: this.msg('error', 'Você só pode prosseguir com solicitações já enviadas e não concluídas') });
+    const b = sel.find(a => a.bloq);
+    if (b) return this.upd('aut', { msg: this.msg('error', 'Solicitação bloqueada pelo usuário ' + b.bloq + '. A autuação não foi aberta.', [b.titulo]) });
+    const so = sel.find(a => a.sort);
+    if (so) return this.upd('aut', { msg: this.msg('error', 'Solicitação sorteada para o usuário ' + so.sort + '. Somente esse usuário pode autuá-la.', [so.titulo]) });
+    this.upd('aut', { msg: null });
+    this.setState({ dialog: { kind: 'autuar', ids: sel.map(a => a.id), numero: '202600047000' + String(640 + Math.floor(Math.random() * 300)), sigilo: false, confirmShort: false, errs: [] } });
+  }
+  autSalvar() {
+    const dl = this.state.dialog;
+    const n = this.digits(dl.numero);
+    if (!n) return this.setDlg({ errs: ['Informe o número do processo.'] });
+    if (n.length < 15 && !dl.confirmShort) return this.setDlg({ confirmShort: true, errs: [] });
+    this.mut(d => { d.aut.forEach(a => { if (dl.ids.indexOf(a.id) >= 0) { a.sit = 'C'; a.processo = n; } }); }, () => this.refresh());
+    this.upd('aut', { rowSel: {}, msg: null });
+    this.setState({ dialog: null });
+    this.toast('Autuação gravada no processo ' + n + '. Solicitações liberadas e pendências revalidadas.');
+  }
+  autEnviarSel() {
+    const s = this.state, A = s.aut;
+    const marked = s.data.aut.filter(a => A.marks[a.id]);
+    if (!marked.length) return this.upd('aut', { msg: this.msg('warn', 'Nenhuma solicitação marcada para envio.') });
+    const ok = marked.filter(a => a.sit === 'S'), fail = marked.filter(a => a.sit !== 'S');
+    this.mut(d => { d.aut.forEach(a => { if (ok.some(o => o.id === a.id)) a.sit = 'E'; }); }, () => this.refresh());
+    this.upd('aut', { marks: {}, msg: this.msg(ok.length ? 'success' : 'warn', ok.length + ' de ' + marked.length + ' solicitação(ões) enviada(s) ao Setor 41 (SERV-PROTOCOLO).', fail.map(a => a.titulo + ': sem assinatura — envie antes à Central de Assinatura.')) });
+  }
+  autEnviarCentral() {
+    const s = this.state, A = s.aut;
+    const marked = s.data.aut.filter(a => A.marks[a.id] && a.sit === 'A');
+    if (!marked.length) return this.upd('aut', { msg: this.msg('warn', 'Marque solicitações sem assinatura (modo "Todas para assinatura") para enviar à Central.') });
+    if (this.props && this.props.simularFalha) return this.upd('aut', { msg: this.msg('error', 'Central de Assinatura indisponível (TCE Docs). O envio não ocorreu; a pendência permanece sem alteração.') });
+    const naoPdf = [];
+    marked.forEach(a => a.arquivos.forEach(f => { if (!/\.pdf$/i.test(f)) naoPdf.push(a.titulo + ': ' + f); }));
+    this.mut(d => { d.aut.forEach(a => { if (marked.some(m => m.id === a.id)) a.central = true; }); });
+    this.upd('aut', { marks: {}, msg: this.msg('info', marked.length + ' solicitação(ões) enviada(s) à Central de Assinatura. ' + (naoPdf.length ? 'Anexos não enviados (formato diferente de PDF):' : 'Todos os anexos estavam em PDF.'), naoPdf) });
+  }
+  autMarcarTodas() {
+    const s = this.state, A = s.aut, chefe = s.pk === 'chefe';
+    const sit = A.modo === 'assinatura' ? 'A' : 'S';
+    const marks = {};
+    this.visibleAut().forEach(a => { if (a.sit === sit && !a.central && (sit === 'S' || chefe)) marks[a.id] = true; });
+    this.upd('aut', { marks: marks, msg: null });
+  }
+  visibleAut() {
+    const s = this.state, A = s.aut, chefe = s.pk === 'chefe';
+    return s.data.aut.filter(a => (a.sit === 'E' && A.fE) || (a.sit === 'A' && A.fA && chefe) || (a.sit === 'S' && A.fS) || (a.sit === 'C' && A.fC) || (a.sit === 'R' && A.fR));
+  }
+
+  /* ---------- Tela 05 · aceite ---------- */
+  aceCiente(id) {
+    const c = this.state.data.ace.find(x => x.id === id);
+    this.mut(d => { d.ace = d.ace.filter(x => x.id !== id && c.apensos.indexOf(x.id) < 0); }, () => this.refresh());
+    this.upd('ace', { msg: null });
+    this.toast('Ciência registrada no processo ' + c.numero + (c.apensos.length ? ' e em seus apensados.' : '.'));
+  }
+  aceDevolver(id) {
+    const c = this.state.data.ace.find(x => x.id === id);
+    if (c.sit === 'devolvido') return this.setState({ dialog: { kind: 'devolvido', numero: c.numero, motivo: c.motivo, errs: [] } });
+    if (c.docs.length) return this.upd('ace', { msg: this.msg('error', 'A devolução do processo ' + c.numero + ' foi recusada:', c.docs) });
+    this.upd('ace', { msg: null });
+    this.setState({ dialog: { kind: 'devolver', id: id, numero: c.numero, just: '', errs: [] } });
+  }
+  aceConfirmDevolver() {
+    const dl = this.state.dialog;
+    if (!dl.just.trim()) return this.setDlg({ errs: ['A justificativa da devolução é obrigatória.'] });
+    this.mut(d => { d.ace = d.ace.filter(x => x.id !== dl.id && x.parent !== dl.id); }, () => this.refresh());
+    this.setState({ dialog: null });
+    this.toast('Processo ' + dl.numero + ' devolvido ao setor de origem.');
+  }
+
+  /* ---------- Tela 06/07 · juntada ---------- */
+  junOpen(id, mode) {
+    const j = this.state.data.jun.find(x => x.id === id);
+    const dec = j.decisao || { dec: null, desc: '', just: '', docs: {} };
+    this.setState({ dialog: { kind: 'juntada', id: id, mode: mode, processo: j.processo, readOnly: mode !== 'decidir', docs: Object.assign({}, dec.docs), desc: dec.desc, dec: dec.dec, just: dec.just, saved: false, sent: false, errs: [] } });
+  }
+  junSalvar() {
+    const dl = this.state.dialog, errs = [];
+    if (!Object.keys(dl.docs).some(k => dl.docs[k])) errs.push('Selecione ao menos um documento para juntar.');
+    if (!dl.desc.trim()) errs.push('Informe a descrição/justificativa da juntada.');
+    if (!dl.dec) errs.push('Escolha uma das ações ao lado: autorizar ou não autorizar a juntada.');
+    if (dl.dec === 'nao' && !dl.just.trim()) errs.push('Ao não autorizar, a justificativa/motivo é obrigatória.');
+    if (errs.length) return this.setDlg({ errs: errs });
+    this.mut(d => { const j = d.jun.find(x => x.id === dl.id); j.sit = dl.dec === 'sim' ? 'A' : 'R'; j.decisao = { dec: dl.dec, desc: dl.desc, just: dl.just, docs: dl.docs }; }, () => this.refresh());
+    this.setDlg({ saved: true, errs: [] });
+    this.toast('Decisão salva');
+  }
+  junEnviarAss() {
+    if (this.props && this.props.simularFalha) return this.setDlg({ errs: ['Central de Assinatura indisponível (Lacuna). O termo não foi enviado.'] });
+    this.setDlg({ sent: !this.state.dialog.sent, errs: [] });
+    this.toast(this.state.dialog.sent ? 'Envio do Termo de Deferimento cancelado.' : 'Termo de Deferimento de Juntada enviado à Central de Assinatura.', 'info');
+  }
+
+  /* ---------- Tela 08/09 · prazo ---------- */
+  przSelIds() {
+    const s = this.state;
+    return this.visiblePrz().filter(z => s.prz.sel[z.id]).map(z => z.id);
+  }
+  visiblePrz() {
+    const s = this.state, Z = s.prz;
+    let zv = s.data.prz;
+    const q = this.digits(Z.fProc);
+    if (q) zv = zv.filter(z => z.numero.indexOf(q) >= 0);
+    if (Z.fAn) zv = zv.filter(z => z.analista === Z.fAn);
+    return zv;
+  }
+  przDecidir(acao) {
+    const ids = this.przSelIds();
+    if (!ids.length) return this.upd('prz', { msg: this.msg('error', 'Nenhum processo foi selecionado, corrija e tente novamente') });
+    this.upd('prz', { msg: null });
+    this.setState({ dialog: { kind: 'confPrz', acao: acao, ids: ids, texto: 'Confirma a ' + (acao === 'A' ? 'AUTORIZAÇÃO' : 'NEGAÇÃO') + ' de Prorrogação/Suspensão de ' + ids.length + ' processo(s)?', errs: [] } });
+  }
+  przConfirmar() {
+    const dl = this.state.dialog;
+    this.mut(d => { d.prz = d.prz.filter(z => dl.ids.indexOf(z.id) < 0); }, () => this.refresh());
+    this.upd('prz', { sel: {} });
+    this.setState({ dialog: null });
+    this.toast((dl.acao === 'A' ? 'Autorização' : 'Negação') + ' registrada para ' + dl.ids.length + ' processo(s). Pendências revalidadas.');
+  }
+  przAlterar() {
+    const ids = this.przSelIds();
+    if (ids.length !== 1) return this.upd('prz', { msg: this.msg('error', 'Selecione exatamente um processo para alterar a concessão.') });
+    const z = this.state.data.prz.find(x => x.id === ids[0]);
+    if (!(z.prorr >= 1 || z.susp >= 1)) return this.upd('prz', { msg: this.msg('error', 'Não existe item a ser Alterado, ou foi negado.') });
+    this.setState({ dialog: { kind: 'alterar', id: z.id, numero: z.numero, tipo: z.tipo, motivo: '', dias: String(z.tipo === 'P' ? z.prorr : z.susp), just: '', confirm: false, errs: [] } });
+  }
+  przSalvarAlt() {
+    const dl = this.state.dialog, errs = [];
+    const dias = parseInt(dl.dias, 10);
+    if (!dl.motivo) errs.push('Informe o motivo.');
+    if (!(dias > 0)) errs.push('Informe a quantidade de dias úteis (inteiro maior que zero).');
+    if (!dl.just.trim()) errs.push('Informe a justificativa.');
+    if (errs.length) return this.setDlg({ errs: errs, confirm: false });
+    if (!dl.confirm) return this.setDlg({ confirm: true, errs: [] });
+    let nova = '';
+    this.mut(d => {
+      const z = d.prz.find(x => x.id === dl.id);
+      z.tipo = dl.tipo;
+      if (dl.tipo === 'P') { z.prorr = dias; z.susp = 0; } else { z.susp = dias; z.prorr = 0; }
+      nova = this.addBD(z.inicio, z.diasUteis + z.prorr + z.susp);
+    }, () => { this.refresh(); this.toast('Lançamento gravado. Nova data final ajustada: ' + nova + '.'); });
+    this.setState({ dialog: null });
+  }
+
+  /* ---------- Tela 10 · avocação ---------- */
+  visibleAvo() {
+    const s = this.state, V = s.avo;
+    let vv = s.data.avo;
+    if (V.procApplied) vv = vv.filter(v => v.numero.indexOf(V.procApplied) >= 0);
+    if (V.origem) vv = vv.filter(v => v.origem === V.origem);
+    if (V.assunto) vv = vv.filter(v => v.assunto === V.assunto);
+    if (V.relator) vv = vv.filter(v => v.relator === V.relator);
+    if (V.setor) vv = vv.filter(v => v.setor === V.setor);
+    if (V.venc || V.menos10) vv = vv.filter(v => (V.venc && v.dias > 30) || (V.menos10 && v.dias >= 20 && v.dias <= 30));
+    return vv;
+  }
+  avoFiltrar() {
+    const q = this.digits(this.state.avo.proc);
+    if (q && ['199900012000045', '200500003001122'].indexOf(q) >= 0) return this.upd('avo', { msg: this.msg('error', 'Somente processos eletrônicos pode ser adicionado.') });
+    this.upd('avo', { procApplied: q, msg: null });
+  }
+  avoAvocar() {
+    const s = this.state, own = this.user(s.pk).setor;
+    let sel = this.visibleAvo().filter(v => s.avo.sel[v.id] && v.setor !== own);
+    if (!sel.length) return this.upd('avo', { msg: this.msg('error', 'Nenhum processo foi selecionado, corrija e tente novamente.') });
+    const sep = sel.filter(v => v.assinado);
+    const rest = sel.filter(v => !v.assinado).map(v => v.id);
+    if (sep.length) return this.setState({ dialog: { kind: 'avoConf', ids: rest, sep: sep.map(v => v.numero), errs: [] } });
+    this.doAvocar(rest);
+  }
+  doAvocar(ids) {
+    const s = this.state;
+    const items = s.data.avo.filter(v => ids.indexOf(v.id) >= 0);
+    const falhas = items.filter(v => v.falha).map(v => ({ numero: v.numero, motivo: 'falha ao gravar o anexo do termo de avocação no TCE Docs; a transação foi revertida.' }));
+    const ok = items.filter(v => !v.falha);
+    this.setState({ dialog: null });
+    if (!ok.length && !falhas.length) return;
+    this.mut(d => { d.avo = d.avo.filter(v => !ok.some(o => o.id === v.id)); }, () => this.refresh());
+    this.upd('avo', { sel: {}, msg: null, falhas: falhas.length ? falhas : null });
+    if (ok.length) this.toast(ok.length + ' processo(s) avocado(s). Termo de avocação gerado e andamento registrado.');
+  }
+  avoRedistribuir() {
+    const s = this.state;
+    const ids = this.visibleAvo().filter(v => s.avo.sel[v.id]).map(v => v.id);
+    if (!ids.length) return this.upd('avo', { msg: this.msg('error', 'Nenhum processo foi selecionado, corrija e tente novamente.') });
+    this.setState({ dialog: { kind: 'redist', ids: ids, dest: '', errs: [] } });
+  }
+  avoConfirmRedist() {
+    const dl = this.state.dialog;
+    if (!dl.dest) return this.setDlg({ errs: ['Selecione o analista de destino.'] });
+    this.upd('avo', { sel: {} });
+    this.setState({ dialog: null });
+    this.toast(dl.ids.length + ' processo(s) redistribuído(s) para ' + dl.dest + '.');
+  }
+
+  /* ---------- render ---------- */
+  renderVals() {
+    const s = this.state, d = s.data, pk = s.pk, u = this.user(pk);
+    const isChefe = pk === 'chefe', isGab = pk === 'gabinete';
+    const snap = s.snapshot;
+    const defs = this.pdefs().filter(p => !p.chefia || isChefe);
+
+    /* Painel */
+    const mkItem = p => {
+      const c = snap ? snap[p.id] : null;
+      return {
+        label: p.label, countText: c == null ? '–' : String(c),
+        loading: s.loading, ready: !s.loading,
+        cls: 'pitem' + (c === 0 ? ' dim' : ''), countCls: 'count' + (c ? '' : ' zero'),
+        dest: p.kind === 'filtro' ? 'Filtra a lista' : 'Abre tela',
+        open: () => this.openP(p.id)
+      };
+    };
+    let total = 0;
+    if (snap) ['P01', 'P02', 'P03', 'P04', 'P05', 'P06', 'P07', 'P08', 'P09', 'P10', 'P11'].forEach(k => { if (k !== 'P10' || isChefe) total += snap[k] || 0; });
+    const badgeText = total > 99 ? '99+' : String(total);
+
+    /* Lista (RF-010 com filtro de pendência) */
+    const byId = {};
+    d.procs.forEach(p => { byId[p.id] = p; });
+    let tops = d.procs.filter(p => !p.parent);
+    if (s.filter) tops = tops.filter(p => p.tags.indexOf(s.filter) >= 0);
+    const q = this.digits(s.search);
+    if (q) tops = tops.filter(p => p.numero.indexOf(q) >= 0 || p.apensos.some(id => byId[id].numero.indexOf(q) >= 0));
+    const per = 6, pages = Math.max(1, Math.ceil(tops.length / per)), page = Math.min(s.page, pages);
+    const evTone = e => /Aguardando/.test(e) ? 'chip c-warn' : /Assinado/.test(e) ? 'chip c-success' : /Revis|revis/.test(e) ? 'chip c-info' : 'chip c-neutral';
+    const mkRow = (p, child) => ({
+      numero: p.numero, assunto: p.assunto, interessado: p.interessado, evento: p.evento, evCls: evTone(p.evento), data: p.data, resp: p.resp,
+      isChild: child, checked: !!s.sel[p.id], cls: (child ? 'child' : '') + (s.sel[p.id] ? ' sel' : ''),
+      toggle: () => this.setState(st => ({ sel: Object.assign({}, st.sel, { [p.id]: !st.sel[p.id] }) }))
+    });
+    const rows = [];
+    tops.slice((page - 1) * per, page * per).forEach(p => { rows.push(mkRow(p, false)); p.apensos.forEach(id => { if (byId[id]) rows.push(mkRow(byId[id], true)); }); });
+    const fail = !!(this.props && this.props.simularFalha);
+    const listError = !!s.filter && fail && !s.listLoading;
+    const filterDef = s.filter ? this.pdefs().find(p => p.id === s.filter) : null;
+    const selCount = Object.keys(s.sel).filter(k => s.sel[k]).length;
+
+    /* Autuação */
+    const A = s.aut;
+    const sitA = { A: ['Sem assinatura', 'c-warn'], S: ['Assinada', 'c-info'], E: ['Enviada', 'c-primary'], C: ['Concluída', 'c-success'], R: ['Rejeitada', 'c-error'], X: ['Cancelada', 'c-neutral'] };
+    const visA = this.visibleAut();
+    const autRows = visA.map(a => {
+      const flags = [];
+      if (a.bloq) flags.push({ t: 'Bloqueada por ' + a.bloq, cls: 'chip c-warn' });
+      if (a.sort) flags.push({ t: 'Sorteada para ' + a.sort, cls: 'chip c-info' });
+      if (a.pauta) flags.push({ t: 'Em pauta', cls: 'chip c-neutral' });
+      if (a.central) flags.push({ t: 'Na Central de Assinatura', cls: 'chip c-info' });
+      if (A.marks[a.id]) flags.push({ t: 'Marcada', cls: 'chip c-primary' });
+      const markable = !a.central && (a.sit === 'S' || (a.sit === 'A' && isChefe));
+      return {
+        origem: a.origem, data: a.data, setorSol: a.setorSol, usuario: a.usuario, titulo: a.titulo,
+        sitText: sitA[a.sit][0], sitCls: 'chip ' + sitA[a.sit][1], flags: flags, noFlags: flags.length === 0,
+        processo: a.processo || '—', qtdArq: String(a.arquivos.length), sorteado: a.sorteado || '—',
+        selected: !!A.rowSel[a.id], marked: !!A.marks[a.id], markDisabled: !markable,
+        cls: A.rowSel[a.id] ? 'sel' : (a.sit === 'C' ? 'done' : ''),
+        toggleSel: () => this.upd('aut', { rowSel: Object.assign({}, this.state.aut.rowSel, { [a.id]: !this.state.aut.rowSel[a.id] }) }),
+        toggleMark: () => this.upd('aut', { marks: Object.assign({}, this.state.aut.marks, { [a.id]: !this.state.aut.marks[a.id] }) })
+      };
+    });
+    const autTgl = {};
+    ['fE', 'fA', 'fS', 'fC', 'fR'].forEach(k => { autTgl[k] = () => this.upd('aut', { [k]: !this.state.aut[k] }); });
+
+    /* Aceite */
+    const aceRows = [];
+    d.ace.filter(c => !c.parent).forEach(c => {
+      const mk = (x, child) => ({
+        numero: x.numero, assunto: x.assunto, origem: x.origem, liberador: x.liberador, data: x.data, isChild: child,
+        cls: child ? 'child' : '',
+        sitText: child ? 'Apensado' : (x.sit === 'devolvido' ? 'Devolvido' : 'Aguardando ciência'),
+        sitCls: 'chip ' + (child ? 'c-neutral' : (x.sit === 'devolvido' ? 'c-error' : 'c-warn')),
+        devLabel: x.sit === 'devolvido' ? 'Ver devolução' : 'Devolver',
+        ciente: () => this.aceCiente(x.id), devolver: () => this.aceDevolver(x.id)
+      });
+      aceRows.push(mk(c, false));
+      c.apensos.forEach(id => { const ch = d.ace.find(y => y.id === id); if (ch) aceRows.push(mk(ch, true)); });
+    });
+
+    /* Juntada */
+    const Jf = s.jun;
+    const sitJ = { E: ['Enviada', 'c-primary'], N: ['Pendente', 'c-warn'], A: ['Autorizada', 'c-success'], R: ['Rejeitada', 'c-error'], S: ['Aguardando Assinatura', 'c-info'], X: ['Cancelada', 'c-neutral'] };
+    const junFilters = [['E', 'Enviadas'], ['N', 'Não enviadas'], ['A', 'Autorizadas'], ['R', 'Rejeitadas'], ['S', 'Aguardando Assinatura'], ['X', 'Canceladas']].map(x => ({
+      label: x[1], checked: !!Jf.f[x[0]], toggle: () => this.upd('jun', { f: Object.assign({}, this.state.jun.f, { [x[0]]: !this.state.jun.f[x[0]] }) })
+    }));
+    let jv = d.jun.filter(j => Jf.f[j.sit]);
+    if (Jf.resp === 'resp') jv = jv.filter(j => j.rel === 'resp');
+    if (Jf.resp === 'solic') jv = jv.filter(j => j.rel === 'solic');
+    if (Jf.procApplied) jv = jv.filter(j => j.processo.indexOf(Jf.procApplied) >= 0);
+    const junRows = jv.map(j => {
+      const decide = isGab && (j.sit === 'E' || j.sit === 'S') && j.rel !== 'solic';
+      const ver = j.sit === 'A' || j.sit === 'R';
+      return {
+        processo: j.processo, titulo: j.titulo, data: j.data, relator: j.relator, setorSol: j.setorSol, usuario: j.usuario, aprov: j.aprov,
+        sitText: sitJ[j.sit][0], sitCls: 'chip ' + sitJ[j.sit][1], qtd: String(j.docs.length),
+        actLabel: decide ? 'Decidir juntada' : (ver ? 'Ver decisão' : 'Consultar'),
+        btnCls: decide ? 'btn btn-s' : 'btn btn-o btn-s',
+        act: () => this.junOpen(j.id, decide ? 'decidir' : (ver ? 'ver' : 'consultar'))
+      };
+    });
+
+    /* Prazo */
+    const Z = s.prz;
+    const przRows = this.visiblePrz().map(z => ({
+      numero: z.numero, analista: z.analista, inicio: z.inicio, diasUteis: String(z.diasUteis),
+      tipo: z.tipo === 'P' ? 'Prorrogação' : 'Suspensão', tipoCls: 'chip ' + (z.tipo === 'P' ? 'c-primary' : 'c-info'),
+      prorr: String(z.prorr), susp: String(z.susp), dataFinal: this.addBD(z.inicio, z.diasUteis),
+      aguardando: z.aguardando + (z.aguardando === 1 ? ' dia' : ' dias'), ajustada: this.addBD(z.inicio, z.diasUteis + z.prorr + z.susp),
+      checked: !!Z.sel[z.id], cls: Z.sel[z.id] ? 'sel' : '',
+      toggle: () => this.upd('prz', { sel: Object.assign({}, this.state.prz.sel, { [z.id]: !this.state.prz.sel[z.id] }) })
+    }));
+    const przSelN = this.przSelIds().length;
+
+    /* Avocação */
+    const Vv = s.avo, today = this.today();
+    const avoRows = this.visibleAvo().map(v => {
+      let prazo, tone;
+      if (v.dias > 30) { const dt = new Date(today); dt.setDate(dt.getDate() - (v.dias - 30)); prazo = 'VENCIDO EM ' + this.fmt(dt); tone = 'c-error'; }
+      else if (v.dias >= 20) { prazo = 'VENCE EM ' + (30 - v.dias) + ' DIAS'; tone = 'c-warn'; }
+      else { prazo = 'CONTANDO PRAZO'; tone = 'c-neutral'; }
+      return {
+        numero: v.numero, assunto: v.assunto, origem: v.origem, relator: v.relator, setor: v.setor, dias: String(v.dias), assinado: v.assinado,
+        prazo: prazo, prazoCls: 'chip ' + tone, checked: !!Vv.sel[v.id], cls: Vv.sel[v.id] ? 'sel' : '',
+        toggle: () => this.upd('avo', { sel: Object.assign({}, this.state.avo.sel, { [v.id]: !this.state.avo.sel[v.id] }) })
+      };
+    });
+
+    /* Diálogos */
+    const dl = s.dialog || {};
+    const k = dl.kind || '';
+    const titles = {
+      autuar: 'Autuação de Processo Eletrônico', devolver: 'Devolver processo', devolvido: 'Processo já devolvido',
+      juntada: dl.mode === 'decidir' ? 'Decisão de Juntada' : (dl.mode === 'ver' ? 'Decisão de Juntada — consulta' : 'Cadastro de documentos — consulta'),
+      confPrz: 'Confirmar decisão', alterar: dl.tipo === 'S' ? 'SUSPENSÃO DE PRAZO' : 'PRORROGAÇÃO DE PRAZO',
+      avoConf: 'Avocar processos', redist: 'Redistribuir processos'
+    };
+    let pri = null, priLabel = '', priCls = 'btn', sec = null, secLabel = '', secDis = false, cancelLabel = 'Cancelar';
+    if (k === 'autuar') { pri = () => this.autSalvar(); priLabel = dl.confirmShort ? 'Confirmar e gravar' : 'Gravar autuação'; }
+    if (k === 'devolver') { pri = () => this.aceConfirmDevolver(); priLabel = 'Devolver'; priCls = 'btn btn-d'; }
+    if (k === 'devolvido') { cancelLabel = 'Fechar'; }
+    if (k === 'juntada') {
+      cancelLabel = 'Fechar';
+      if (dl.mode === 'decidir') {
+        if (!dl.saved) { pri = () => this.junSalvar(); priLabel = 'Salvar Decisão de Juntada'; }
+        sec = () => this.junEnviarAss(); secLabel = dl.sent ? 'Cancelar envio' : 'Enviar Decisão para Assinatura'; secDis = !dl.saved;
+      }
+    }
+    if (k === 'confPrz') { pri = () => this.przConfirmar(); priLabel = dl.acao === 'A' ? 'Confirmar autorização' : 'Confirmar negação'; priCls = dl.acao === 'A' ? 'btn' : 'btn btn-d'; }
+    if (k === 'alterar') { pri = () => this.przSalvarAlt(); priLabel = dl.confirm ? 'Confirmar e salvar' : 'Salvar'; cancelLabel = 'Fechar'; }
+    if (k === 'avoConf') { pri = () => this.doAvocar(dl.ids); priLabel = 'Avocar os demais'; }
+    if (k === 'redist') { pri = () => this.avoConfirmRedist(); priLabel = 'Redistribuir'; }
+    const jdocs = k === 'juntada' ? (d.jun.find(x => x.id === dl.id) || { docs: [] }).docs : [];
+    const zAlt = k === 'alterar' ? d.prz.find(x => x.id === dl.id) : null;
+    const dlgItens = [];
+    if (zAlt) {
+      if (zAlt.prorr) dlgItens.push({ tipo: 'Prorrogação', dias: String(zAlt.prorr), sit: 'Aguardando autorização' });
+      if (zAlt.susp) dlgItens.push({ tipo: 'Suspensão', dias: String(zAlt.susp), sit: 'Aguardando autorização' });
+    }
+
+    return {
+      userNome: u.nome, userPerfil: u.perfil, userSetor: u.setor, userIni: u.ini,
+      isChefe: isChefe, notChefe: !isChefe, isGab: isGab, notGab: !isGab,
+      isLista: s.view === 'lista', isAut: s.view === 'autuacao', isAce: s.view === 'aceite', isJun: s.view === 'juntada', isPrz: s.view === 'prazo', isAvo: s.view === 'avocacao',
+      goLista: () => this.goLista(false), goListaRefresh: () => this.goLista(true),
+
+      /* painel */
+      search: s.search, setSearch: e => this.setState({ search: e.target.value, page: 1 }),
+      panelOpen: s.panelOpen, panelOpenStr: s.panelOpen ? 'true' : 'false',
+      togglePanel: () => this.setState({ panelOpen: !this.state.panelOpen }), closePanel: () => this.setState({ panelOpen: false }),
+      bellColor: total > 0 ? '#C62828' : '#0F366D',
+      showBadge: total > 0, badgeText: badgeText, badgeAria: total + ' pendências',
+      lastUpdateText: s.lastUpdate ? 'Última atualização às ' + this.hhmmss(s.lastUpdate) : 'Consultando as pendências…',
+      refreshNow: () => this.refresh(), refreshCls: s.loading ? 'spin' : '',
+      hasErr: !!s.err, err: s.err || '',
+      pItems: defs.filter(p => p.id !== 'P12').map(mkItem), pExtra: defs.filter(p => p.id === 'P12').map(mkItem),
+      totalText: snap ? String(total) : '–',
+
+      /* lista */
+      listTitle: s.filter ? 'Processos filtrados' : 'Processos em andamento',
+      hasFilter: !!s.filter, filterLabel: filterDef ? filterDef.label : '',
+      clearFilter: () => this.setState({ filter: null, page: 1, listLoading: false }),
+      selText: selCount ? selCount + ' processo(s) marcado(s)' : '',
+      skelRows: [1, 2, 3, 4, 5, 6].map(n => ({ n: n })),
+      listLoading: s.listLoading, listError: listError,
+      listEmpty: !listError && !s.listLoading && tops.length === 0,
+      listOk: !listError && !s.listLoading && tops.length > 0,
+      emptyText: s.filter ? 'Nenhum processo encontrado para a pendência selecionada.' : 'Nenhum processo encontrado.',
+      rows: rows,
+      pageText: 'Página ' + page + ' de ' + pages + ' · ' + tops.length + ' processo(s)',
+      prevDis: page <= 1, nextDis: page >= pages,
+      prevPage: () => this.setState({ page: Math.max(1, page - 1) }), nextPage: () => this.setState({ page: Math.min(pages, page + 1) }),
+
+      /* autuação */
+      aut: A, autTgl: autTgl, autRows: autRows, autEmpty: autRows.length === 0,
+      autCountText: autRows.length + ' solicitação(ões) carregada(s)',
+      autUpdText: this.hhmmss(s.autUpd),
+      autHasMsg: !!A.msg, autMsg: A.msg || { cls: '', text: '', items: [] },
+      autModoEnvio: A.modo === 'envio', autModoAss: A.modo === 'assinatura',
+      autModoE: () => this.upd('aut', { modo: 'envio' }), autModoA: () => this.upd('aut', { modo: 'assinatura' }),
+      autMarcarTodas: () => this.autMarcarTodas(), autDesmarcar: () => this.upd('aut', { marks: {} }),
+      autLimpar: () => this.upd('aut', { fE: true, fA: isChefe, fS: false, fC: false, fR: false, msg: null }),
+      autAtualizar: () => { this.setState({ autUpd: new Date() }); this.refresh(); },
+      autNova: () => this.toast('O cadastro de nova solicitação pertence ao RF-025 e não faz parte deste protótipo.', 'info'),
+      autProsseguir: () => this.autProsseguir(), autEnviarSel: () => this.autEnviarSel(), autEnviarCentral: () => this.autEnviarCentral(),
+
+      /* aceite */
+      aceRows: aceRows, aceEmpty: aceRows.length === 0, aceHasMsg: !!s.ace.msg, aceMsg: s.ace.msg || { cls: '', text: '', items: [] },
+
+      /* juntada */
+      jun: Jf, junFilters: junFilters, junRows: junRows, junEmpty: junRows.length === 0,
+      junRespLabel: isGab ? 'De responsabilidade do Relator' : 'Sou responsável',
+      junRespR: Jf.resp === 'resp', junRespS: Jf.resp === 'solic', junRespT: Jf.resp === 'setor',
+      junSetR: () => this.upd('jun', { resp: 'resp' }), junSetS: () => this.upd('jun', { resp: 'solic' }), junSetT: () => this.upd('jun', { resp: 'setor' }),
+      junSetProc: e => this.upd('jun', { proc: e.target.value }),
+      junBuscar: () => {
+        const qq = this.digits(this.state.jun.proc);
+        if (!qq) return this.upd('jun', { procApplied: '', msg: null });
+        const exists = this.state.data.jun.some(j => j.processo === qq) || this.state.data.procs.some(p => p.numero === qq);
+        if (!exists) return this.upd('jun', { msg: this.msg('error', 'Número de processo inválido ou inexistente.') });
+        this.upd('jun', { procApplied: qq, msg: null });
+      },
+      junLimpar: () => this.upd('jun', { proc: '', procApplied: '', msg: null }),
+      junHasMsg: !!Jf.msg, junMsg: Jf.msg || { cls: '', text: '' },
+
+      /* prazo */
+      prz: Z, przRows: przRows, przEmpty: przRows.length === 0, przDenied: !isChefe, przAllowed: isChefe,
+      przSetProc: e => this.upd('prz', { fProc: e.target.value }), przSetAn: e => this.upd('prz', { fAn: e.target.value }),
+      przLimpar: () => this.upd('prz', { fProc: '', fAn: '', msg: null }),
+      przAutorizar: () => this.przDecidir('A'), przNegar: () => this.przDecidir('N'),
+      przAltDis: przSelN !== 1, przAlterar: () => this.przAlterar(),
+      przHasMsg: !!Z.msg, przMsg: Z.msg || { cls: '', text: '' },
+
+      /* avocação */
+      avo: Vv, avoRows: avoRows, avoEmpty: avoRows.length === 0,
+      avoTitle: isGab ? 'Avocar Processo' : 'Prazos a vencer/vencidos',
+      avoSetProc: e => this.upd('avo', { proc: e.target.value }),
+      avoSetOrigem: e => this.upd('avo', { origem: e.target.value }), avoSetAssunto: e => this.upd('avo', { assunto: e.target.value }),
+      avoSetRelator: e => this.upd('avo', { relator: e.target.value }), avoSetSetor: e => this.upd('avo', { setor: e.target.value }),
+      avoTglVenc: () => this.upd('avo', { venc: !this.state.avo.venc }), avoTglMenos: () => this.upd('avo', { menos10: !this.state.avo.menos10 }),
+      avoLimpar: () => this.upd('avo', { proc: '', procApplied: '', origem: '', assunto: '', relator: '', setor: '', venc: false, menos10: false, msg: null, falhas: null }),
+      avoFiltrar: () => this.avoFiltrar(),
+      avoHasMsg: !!Vv.msg, avoMsg: Vv.msg || { cls: '', text: '' },
+      avoHasFalhas: !!Vv.falhas, avoFalhas: Vv.falhas || [],
+      canAvocar: isGab && !!u.claims.avocar, canRedistribuir: !isGab && !!u.claims.distribuir,
+      avoAvocar: () => this.avoAvocar(), avoRedistribuir: () => this.avoRedistribuir(),
+
+      /* diálogos */
+      hasDlg: !!s.dialog, dlg: dl, dlgTitle: titles[k] || '',
+      closeDlg: () => this.setState({ dialog: null }),
+      dlgHasErrs: !!(dl.errs && dl.errs.length), dlgErrs: (dl.errs || []).map(t => ({ t: t })),
+      dlgAutuar: k === 'autuar', dlgDevolver: k === 'devolver', dlgDevolvido: k === 'devolvido', dlgJun: k === 'juntada',
+      dlgConfPrz: k === 'confPrz', dlgAlt: k === 'alterar', dlgAvoConf: k === 'avoConf', dlgRedist: k === 'redist',
+      dlgAutItems: k === 'autuar' ? d.aut.filter(a => dl.ids.indexOf(a.id) >= 0).map(a => ({ t: a.titulo + ' (' + a.origem + ')' })) : [],
+      dlgSetNumero: e => this.setDlg({ numero: e.target.value, confirmShort: false }),
+      dlgTglSigilo: () => this.setDlg({ sigilo: !this.state.dialog.sigilo }),
+      dlgSetJust: e => this.setDlg({ just: e.target.value.slice(0, 1000) }),
+      dlgJustCount: String((dl.just || '').length),
+      dlgDocs: jdocs.map(o => ({ nome: o.nome, fonte: o.fonte, checked: !!(dl.docs && dl.docs[o.id]), disabled: !!dl.readOnly || !!dl.saved,
+        toggle: () => this.setDlg({ docs: Object.assign({}, this.state.dialog.docs, { [o.id]: !this.state.dialog.docs[o.id] }) }) })),
+      dlgShowDecision: k === 'juntada' && dl.mode !== 'consultar',
+      dlgSetDesc: e => this.setDlg({ desc: e.target.value }),
+      dlgDecSim: dl.dec === 'sim', dlgDecNao: dl.dec === 'nao',
+      dlgSetSim: () => this.setDlg({ dec: 'sim' }), dlgSetNao: () => this.setDlg({ dec: 'nao' }),
+      dlgSentText: dl.sent ? 'Termo de Deferimento aguardando assinatura na Central de Assinatura.' : 'Envie o termo para assinatura para concluir.',
+      dlgTipoP: dl.tipo === 'P', dlgTipoS: dl.tipo === 'S',
+      dlgSetTipoP: () => this.setDlg({ tipo: 'P', confirm: false }), dlgSetTipoS: () => this.setDlg({ tipo: 'S', confirm: false }),
+      dlgSetMotivo: e => this.setDlg({ motivo: e.target.value, confirm: false }), dlgSetDias: e => this.setDlg({ dias: e.target.value, confirm: false }),
+      dlgItens: dlgItens,
+      dlgSep: (dl.sep || []).map(t => ({ t: t })),
+      dlgAvoText: dl.ids ? (dl.ids.length ? 'Deseja avocar os demais ' + dl.ids.length + ' processo(s)?' : 'Não restaram processos para avocar.') : '',
+      dlgRedistText: dl.ids ? dl.ids.length + ' processo(s) selecionado(s).' : '',
+      dlgSetDest: e => this.setDlg({ dest: e.target.value }),
+      dlgShowPri: !!pri, dlgPri: pri || (() => {}), dlgPriLabel: priLabel, dlgPriCls: priCls,
+      dlgShowSec: !!sec, dlgSec: sec || (() => {}), dlgSecLabel: secLabel, dlgSecDis: secDis,
+      dlgCancelLabel: cancelLabel,
+
+      hasToast: !!s.toast, toastMsg: s.toast ? s.toast.text : '', toastCls: 'toast t-' + (s.toast ? s.toast.tone : 'success')
+    };
+  }
+}
+</script>
+</body>
+</html>

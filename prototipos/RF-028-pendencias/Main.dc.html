@@ -138,20 +138,25 @@ textarea.input{height:auto;min-height:92px;padding:10px 12px;resize:vertical;lin
 .count.zero{background:#E6E9EB;color:#5E676D}
 .spin{animation:rot .8s linear infinite}
 @keyframes rot{to{transform:rotate(360deg)}}
-.pgroups{display:flex;flex-wrap:wrap;gap:16px 0}
-.pgroup{display:flex;flex-direction:column;gap:6px;padding-right:20px;margin-right:20px;border-right:1px solid #DDE1E4}
-.pgroup:last-child{border-right:0;margin-right:0;padding-right:0}
-.pg-l{font:600 11px 'Poppins',sans-serif;letter-spacing:.07em;text-transform:uppercase;color:#5E676D;padding-left:16px}
-.pg-tabs{display:flex;flex-wrap:wrap;border-bottom:1px solid #DDE1E4}
-.ptab{display:inline-flex;align-items:center;gap:8px;min-height:46px;padding:0 16px;border:0;border-bottom:3px solid transparent;margin-bottom:-1px;background:transparent;font:400 15px 'Poppins',sans-serif;color:#5A6268;cursor:pointer;white-space:nowrap}
-.ptab:hover{background:#F2F5F7}
-.ptab.dim{color:#6B7378}
-.ptab.on{color:#2F3437;font-weight:600;border-bottom-color:#1E78BE}
-.ptab:focus-visible{outline:2px solid #1E78BE;outline-offset:-2px}
-.pc{min-width:24px;height:22px;padding:0 7px;border-radius:11px;background:#E6E9EB;color:#3D4448;font:600 12px/22px 'Poppins',sans-serif;text-align:center}
-.pc.zero{background:#EEF0F2;color:#6B7378}
-.pc.on{background:#1E78BE;color:#FFFFFF}
-.pc.hot{background:#C62828;color:#FFFFFF}
+.pgroups{display:flex;flex-direction:column;gap:16px}
+.pgroup{display:grid;grid-template-columns:170px minmax(0,1fr);gap:10px 20px;align-items:start;padding-top:16px;border-top:1px solid #E3E6E8}
+.pgroup:first-child{border-top:0;padding-top:0}
+.pg-h{display:flex;flex-direction:column;gap:2px;padding-top:8px}
+.pg-l{font:600 11px 'Poppins',sans-serif;letter-spacing:.07em;text-transform:uppercase;color:#5E676D}
+.pg-t{font:400 13px 'Poppins',sans-serif;color:#5E676D}
+.pg-tiles{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:12px}
+.ptile{display:flex;flex-direction:column;align-items:flex-start;gap:2px;min-height:96px;padding:12px 14px;border:1px solid #D5DADE;border-radius:4px;background:#FFFFFF;text-align:left;cursor:pointer;font-family:'Poppins',sans-serif}
+.ptile:hover{border-color:#1E78BE;background:#F7FAFD}
+.ptile.on{border:2px solid #1E78BE;background:#EEF5FB;padding:11px 13px}
+.ptile:focus-visible{outline:2px solid #1E78BE;outline-offset:2px}
+.ptile.dim .pt-l{color:#6B7378}
+.pt-c{font:600 26px/1.15 'Poppins',sans-serif;color:#2F3437}
+.pt-c.hot{color:#C62828}
+.pt-c.zero{color:#9AA1A6}
+.pt-l{font:500 14px/1.3 'Poppins',sans-serif;color:#2F3437}
+.pt-d{font:400 12px/1.3 'Poppins',sans-serif;color:#5E676D}
+@media (max-width:900px){.pgroup{grid-template-columns:minmax(0,1fr)}.pg-h{flex-direction:row;align-items:baseline;gap:8px;padding-top:0}}
+@media (max-width:520px){.pg-tiles{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.ptile{min-height:84px;padding:10px 12px}.ptile.on{padding:9px 11px}.pt-c{font-size:22px}}
 .toast{position:fixed;left:24px;bottom:24px;z-index:80;max-width:520px;padding:14px 18px;border-radius:4px;color:#FFFFFF;font:400 14px/1.5 'Poppins',sans-serif;box-shadow:0 12px 32px rgba(10,25,40,.28)}
 .t-success{background:#0E6B4B}
 .t-info{background:#155A90}
@@ -237,14 +242,15 @@ textarea.input{height:auto;min-height:92px;padding:10px 12px;resize:vertical;lin
 <sc-if value="{{hasErr}}" hint-placeholder-val="{{false}}"><div class="alert a-error" role="alert">{{err}}</div></sc-if>
 <div class="pgroups">
 <sc-for list="{{pGroups}}" as="g" hint-placeholder-count="4">
-<div class="pgroup">
-<span class="pg-l" id="{{g.id}}">{{g.label}}</span>
-<div class="pg-tabs" role="tablist" aria-labelledby="{{g.id}}">
+<div class="pgroup" role="group" aria-labelledby="{{g.id}}">
+<div class="pg-h"><span class="pg-l" id="{{g.id}}">{{g.label}}</span><span class="pg-t">{{g.totalText}}</span></div>
+<div class="pg-tiles">
 <sc-for list="{{g.tabs}}" as="t" hint-placeholder-count="3">
-<button type="button" role="tab" aria-selected="{{t.selStr}}" class="{{t.cls}}" title="{{t.full}}" onClick="{{t.open}}">
-<span>{{t.label}}</span>
-<sc-if value="{{t.loading}}" hint-placeholder-val="{{false}}"><span class="skel" style="width: 26px; height: 22px; border-radius: 11px"></span></sc-if>
+<button type="button" class="{{t.cls}}" aria-pressed="{{t.selStr}}" title="{{t.full}}" onClick="{{t.open}}">
+<sc-if value="{{t.loading}}" hint-placeholder-val="{{false}}"><span class="skel" style="width: 36px; height: 28px; border-radius: 4px"></span></sc-if>
 <sc-if value="{{t.ready}}" hint-placeholder-val="{{true}}"><span class="{{t.countCls}}">{{t.countText}}</span></sc-if>
+<span class="pt-l">{{t.label}}</span>
+<span class="pt-d">{{t.dest}}</span>
 </button>
 </sc-for>
 </div>
@@ -1365,19 +1371,23 @@ class Component extends DCLogic {
     const fail = !!(this.props && this.props.simularFalha);
     const listError = !!ef && fail && !s.listLoading;
     const filterDef = ef ? tabDef : null;
-    const pGroups = this.pgroups().map(g => ({
-      id: g.id, label: g.label,
-      tabs: g.ids.filter(id => id !== 'P10' || isChefe).map(id => {
+    const pGroups = this.pgroups().map(g => {
+      const ids = g.ids.filter(id => id !== 'P10' || isChefe);
+      const gt = snap ? ids.filter(id => id !== 'P12').reduce((n, id) => n + (snap[id] || 0), 0) : null;
+      return {
+      id: g.id, label: g.label, totalText: gt == null ? '' : this.plural(gt, 'pendência', 'pendências'),
+      tabs: ids.map(id => {
         const c = snap ? snap[id] : null, on = s.pendTab === id;
         return {
           label: this.shortLabel(id), full: this.pdefs().find(p => p.id === id).label,
           countText: c == null ? '–' : String(c), loading: s.loading && !snap, ready: !(s.loading && !snap),
-          cls: 'ptab' + (on ? ' on' : '') + (c === 0 ? ' dim' : ''), selStr: on ? 'true' : 'false',
-          countCls: 'pc' + (c === 0 || c == null ? ' zero' : (on ? ' on' : (id === 'P11' ? ' hot' : ''))),
+          cls: 'ptile' + (on ? ' on' : '') + (c === 0 ? ' dim' : ''), selStr: on ? 'true' : 'false',
+          countCls: 'pt-c' + (c === 0 || c == null ? ' zero' : (id === 'P11' ? ' hot' : '')),
+          dest: this.pdefs().find(p => p.id === id).kind === 'filtro' ? 'Lista filtrada' : 'Tela de trabalho',
           open: () => this.openP(id)
         };
       })
-    }));
+    }; });
     const selCount = Object.keys(s.sel).filter(k => s.sel[k]).length;
     const from = tops.length ? (page - 1) * per + 1 : 0, to = Math.min(page * per, tops.length);
 

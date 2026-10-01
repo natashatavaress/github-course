@@ -28,13 +28,17 @@ padrão, salvo pedido explícito em contrário.
 - Cartão **Filtros**: título "Filtros", divisor vertical e o indicador de filtro aplicado (funil laranja `#F57C00`). Ações de filtro ficam no corpo do cartão; pendências não ficam aqui, e sim no sino do cabeçalho. Começa recolhido.
 - Telas de trabalho: um cartão "Filtros" e, abaixo, um cartão com o título da tela, contendo a tabela e as ações.
 
-### 2.1 Página com abas agrupadas (ex.: Com Pendências, Com Anotações)
+### 2.1 Página de contadores agrupados (ex.: Com Pendências, Com Anotações)
 
 - Cartão de topo com título, subtítulo de contexto à esquerda e, à direita, o horário da última atualização mais o link de ação "Atualizar".
-- Abas organizadas em **grupos**, cada um com rótulo em caixa alta (11 px, peso 600, `#5E676D`). Os grupos ficam lado a lado, separados por divisória vertical `#DDE1E4`.
-- Cada aba traz o rótulo curto e uma pílula de contagem: cinza `#E6E9EB`, azul `#1E78BE` na aba ativa, vermelha `#C62828` quando indica prazo vencido, esmaecida quando é zero. O rótulo completo aparece no `title`.
-- Aba ativa: texto peso 600 e sublinhado azul de 3 px. O conteúdo da aba (tabela ou tela de trabalho) aparece logo abaixo, em cartões próprios.
-- O sino do cabeçalho e o submenu levam à mesma página. Ao entrar, a aba aberta é a última usada na sessão; na primeira vez, é a primeira aba com contagem maior que zero.
+- As opções aparecem como **cartões de contagem** organizados em **grupos**, um grupo por linha. À esquerda fica o rótulo do grupo, em caixa alta (11 px, peso 600, `#5E676D`), com o total do grupo logo abaixo. À direita fica a grade de cartões. Uma divisória `#E3E6E8` separa os grupos.
+- Cada cartão é um botão com, de cima para baixo: a contagem em destaque (26 px, peso 600), o rótulo curto (14 px, peso 500) e o destino ("Lista filtrada" ou "Tela de trabalho", 12 px). A contagem fica vermelha `#C62828` quando indica prazo vencido e cinza `#9AA1A6` quando é zero. O rótulo completo aparece no `title`.
+- Cartão selecionado: borda azul de 2 px `#1E78BE` e fundo `#EEF5FB` (`aria-pressed="true"`). O conteúdo da opção (tabela ou tela de trabalho) aparece logo abaixo, em cartões próprios.
+- **Responsividade:**
+  - A grade usa `repeat(auto-fill, minmax(190px, 1fr))`, então os cartões quebram de linha sozinhos e não há rolagem horizontal.
+  - Abaixo de 900 px, o rótulo do grupo sobe para cima da grade.
+  - Abaixo de 520 px, a grade fixa duas colunas com cartões mais baixos.
+- O sino do cabeçalho e o submenu levam à mesma página. Ao entrar, a opção aberta é a última usada na sessão; na primeira vez, é a primeira com contagem maior que zero.
 
 ## 3. Tabela
 

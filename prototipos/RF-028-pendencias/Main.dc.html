@@ -27,7 +27,11 @@ a{color:#1E78BE}a:hover{color:#155A90}
 .side.mini .lbl,.side.mini .sub,.side.mini .caret{display:none}
 .nav{display:flex;align-items:center;gap:14px;width:100%;min-height:48px;padding:0 18px;border:0;background:transparent;font:400 14px 'Poppins',sans-serif;color:#5A6268;text-align:left;cursor:pointer}
 .nav:hover{background:#F2F5F7}
-.nav.on{color:#1E78BE;font-weight:500;background:#EEF5FB}
+.nav.on{color:#2F3437;font-weight:500;background:#E8F1FA}
+.nav.sub2{padding-left:38px;margin:0 8px;width:calc(100% - 16px);border-radius:4px;padding-right:12px;line-height:1.3}
+.side.mini .nav.sub2{padding-left:10px}
+.nbadge{margin-left:auto;min-width:22px;height:22px;padding:0 6px;border-radius:11px;background:#C62828;color:#FFFFFF;font:600 12px/22px 'Poppins',sans-serif;text-align:center;flex-shrink:0}
+.side.mini .nbadge{display:none}
 .nav.sub{padding-left:38px}
 .nav svg{flex-shrink:0}
 .caret{margin-left:auto}
@@ -164,7 +168,7 @@ textarea.input{height:auto;min-height:92px;padding:10px 12px;resize:vertical;lin
 <span style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis"><strong style="font-weight: 600">Usuário:</strong> {{userNome}}</span>
 <span style="display: flex; align-items: center; gap: 8px; min-width: 0"><span style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis"><strong style="font-weight: 600">Órgão/Setor:</strong> {{userSetor}}</span><svg width="12" height="12" viewBox="0 0 24 24" fill="#3D4448" aria-hidden="true" style="flex-shrink: 0"><path d="M4 8h16l-8 9z"></path></svg></span>
 </div>
-<div aria-hidden="true" style="width: 50px; height: 50px; border-radius: 25px; background: #DCEBF7; color: #155A90; display: flex; align-items: center; justify-content: center; font-weight: 600; font-size: 16px; flex-shrink: 0" title="{{userPerfil}}">{{userIni}}</div>
+<div aria-hidden="true" style="width: 50px; height: 50px; border-radius: 25px; background: #E3E6E8; color: #2F3437; display: flex; align-items: center; justify-content: center; font-weight: 600; font-size: 16px; flex-shrink: 0" title="{{userPerfil}}">{{userIni}}</div>
 </header>
 
 <div style="display: flex; flex-grow: 1; min-height: 0">
@@ -172,7 +176,9 @@ textarea.input{height:auto;min-height:92px;padding:10px 12px;resize:vertical;lin
 <!-- ================= MENU LATERAL ================= -->
 <nav class="{{sideCls}}" aria-label="Menu principal">
 <button type="button" class="nav" onClick="{{navOutro}}" title="Dashboard"><svg width="20" height="20" viewBox="0 0 24 24" fill="#1E78BE" aria-hidden="true"><rect x="3" y="14" width="4" height="7"></rect><rect x="9.5" y="10" width="4" height="11"></rect><rect x="16" y="4" width="4" height="17"></rect></svg><span class="lbl">Dashboard</span></button>
-<button type="button" class="nav on" aria-current="page" onClick="{{goListaRefresh}}" title="Listagem de processos"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#13855E" stroke-width="2" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="1"></rect><path d="M3 9h18M3 14h18M9 9v11M15 9v11"></path></svg><span class="lbl">Listagem de processos</span></button>
+<button type="button" class="{{navListaCls}}" aria-current="{{navListaCur}}" onClick="{{goListaRefresh}}" title="Listagem de processos"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#13855E" stroke-width="2" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="1"></rect><path d="M3 9h18M3 14h18M9 9v11M15 9v11"></path></svg><span class="lbl">Listagem de processos</span></button>
+<button type="button" class="nav sub2" onClick="{{navAnotacoes}}" title="Com Anotações"><svg width="20" height="20" viewBox="0 0 24 24" fill="#F2A33A" aria-hidden="true"><path d="M4 4h16v12H8l-4 4z"></path><path d="M8 8h8M8 11.5h6" stroke="#FFFFFF" stroke-width="1.6"></path></svg><span class="lbl">Com Anotações</span><span class="nbadge">17</span></button>
+<button type="button" class="{{navPendCls}}" aria-current="{{navPendCur}}" onClick="{{navPendencias}}" title="Com Pendências"><svg width="20" height="20" viewBox="0 0 24 24" fill="#F2A33A" aria-hidden="true"><path d="M12 22a2.5 2.5 0 0 0 2.45-2h-4.9A2.5 2.5 0 0 0 12 22zm7-6V11a7 7 0 0 0-5.5-6.84V3.5a1.5 1.5 0 0 0-3 0v.66A7 7 0 0 0 5 11v5l-2 2v1h18v-1z"></path></svg><span class="lbl">Com Pendências</span><sc-if value="{{showBadge}}" hint-placeholder-val="{{true}}"><span class="nbadge" aria-label="{{badgeAria}}">{{badgeText}}</span></sc-if></button>
 <button type="button" class="nav" aria-expanded="{{pautaOpenStr}}" onClick="{{togglePauta}}" title="Pauta"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#8E44AD" stroke-width="2" aria-hidden="true"><path d="M6 3h9l4 4v14H6z"></path><path d="M9 11h7M9 15h7M9 19h4"></path></svg><span class="lbl">Pauta</span><svg class="caret" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#5A6268" stroke-width="2" aria-hidden="true"><path d="{{pautaChev}}"></path></svg></button>
 <sc-if value="{{pautaOpen}}" hint-placeholder-val="{{true}}">
 <button type="button" class="nav sub" onClick="{{navOutro}}" title="Configurar Tipo/Voto"><svg width="20" height="20" viewBox="0 0 24 24" fill="#8E44AD" aria-hidden="true"><path d="M19.4 13a7.5 7.5 0 0 0 0-2l2.1-1.6-2-3.4-2.5 1a7.4 7.4 0 0 0-1.7-1L15 3.3h-4l-.4 2.7a7.4 7.4 0 0 0-1.7 1l-2.5-1-2 3.4L6.6 11a7.5 7.5 0 0 0 0 2l-2.1 1.6 2 3.4 2.5-1a7.4 7.4 0 0 0 1.7 1l.3 2.7h4l.4-2.7a7.4 7.4 0 0 0 1.7-1l2.5 1 2-3.4zM13 15.5a3.5 3.5 0 1 1 0-7 3.5 3.5 0 0 1 0 7z" transform="translate(-1 0)"></path></svg><span class="lbl">Configurar Tipo/Voto</span></button>
@@ -915,7 +921,7 @@ class Component extends DCLogic {
     return {
       pk: pk, data: this.buildData(p.cenario || 'Padrão', pk),
       view: 'lista', panelOpen: false, filter: null, search: '', page: 1, per: 10, sel: {},
-      sideOpen: true, pautaOpen: true, distOpen: true,
+      sideOpen: true, pautaOpen: false, distOpen: false,
       collapsed: { fil: true },
       snapshot: null, lastUpdate: null, loading: true, err: null, listLoading: false, autUpd: new Date(),
       aut: { rowSel: {}, marks: {}, fE: true, fA: pk === 'chefe', fS: false, fC: false, fR: false, modo: 'envio', msg: null },
@@ -1304,9 +1310,13 @@ class Component extends DCLogic {
       co[k] = open; coStr[k] = open ? 'true' : 'false'; chev[k] = open ? 'chev' : 'chev down';
       ct[k] = () => this.toggleCard(k);
     });
-    const crumbs = s.view === 'lista'
-      ? [{ t: 'Processos', link: true, last: false, go: () => this.goLista(true) }, { t: 'Listagem de processos', link: false, last: true }]
-      : [{ t: 'Processos', link: true, last: false, go: () => this.goLista(true) }, { t: 'Pendências', link: true, last: false, go: () => this.setState({ view: 'lista', panelOpen: true }) }, { t: this.screenTitle(s.view), link: false, last: true }];
+    const inPend = s.view !== 'lista' || !!s.filter || s.panelOpen;
+    const procCrumb = { t: 'Processos', link: true, last: false, go: () => this.setState({ view: 'lista', filter: null, panelOpen: false, page: 1 }) };
+    const crumbs = !inPend
+      ? [procCrumb, { t: 'Listagem de processos', link: false, last: true }]
+      : (s.view === 'lista'
+        ? [procCrumb, { t: 'Com Pendências', link: false, last: true }]
+        : [procCrumb, { t: 'Com Pendências', link: true, last: false, go: () => this.setState({ view: 'lista', panelOpen: true }) }, { t: this.screenTitle(s.view), link: false, last: true }]);
 
     /* Painel */
     const mkItem = p => {
@@ -1483,11 +1493,15 @@ class Component extends DCLogic {
       /* casca */
       sideCls: s.sideOpen ? 'side' : 'side mini', sideOpenStr: s.sideOpen ? 'true' : 'false',
       toggleSide: () => this.setState({ sideOpen: !this.state.sideOpen }),
-      pautaOpen: s.pautaOpen, pautaOpenStr: s.pautaOpen ? 'true' : 'false', pautaChev: s.pautaOpen ? 'm6 9 6 6 6-6' : 'm9 6 6 6-6 6',
+      pautaOpen: s.pautaOpen, pautaOpenStr: s.pautaOpen ? 'true' : 'false', pautaChev: s.pautaOpen ? 'm6 15 6-6 6 6' : 'm6 9 6 6 6-6',
       togglePauta: () => this.setState({ pautaOpen: !this.state.pautaOpen }),
-      distOpen: s.distOpen, distOpenStr: s.distOpen ? 'true' : 'false', distChev: s.distOpen ? 'm6 9 6 6 6-6' : 'm9 6 6 6-6 6',
+      distOpen: s.distOpen, distOpenStr: s.distOpen ? 'true' : 'false', distChev: s.distOpen ? 'm6 15 6-6 6 6' : 'm6 9 6 6 6-6',
       toggleDist: () => this.setState({ distOpen: !this.state.distOpen }),
       navOutro: outOfScope,
+      navListaCls: inPend ? 'nav' : 'nav on', navListaCur: inPend ? 'false' : 'page',
+      navPendCls: inPend ? 'nav sub2 on' : 'nav sub2', navPendCur: inPend ? 'page' : 'false',
+      navPendencias: () => this.setState({ view: 'lista', panelOpen: true, collapsed: Object.assign({}, this.state.collapsed) }),
+      navAnotacoes: () => this.toast('"Com Anotações" pertence ao RF-027 e não faz parte deste protótipo.', 'info'),
       bellHeader: () => this.toast('Notificações gerais do sistema — fora do escopo do RF-028. As pendências ficam no botão "Pendências" da listagem.', 'info'),
       crumbs: crumbs, co: co, coStr: coStr, chev: chev, ct: ct,
 

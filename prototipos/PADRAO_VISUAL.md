@@ -3,8 +3,9 @@
 Fonte de verdade de layout para **todo protótipo** deste projeto. Todo protótipo novo segue este
 padrão, salvo pedido explícito em contrário.
 
-- **Referências visuais:** [`_referencias/layout-listagem-processos.png`](_referencias/layout-listagem-processos.png)
-  e [`_referencias/layout-gerenciar-assinatura.png`](_referencias/layout-gerenciar-assinatura.png).
+- **Referências visuais:** [`_referencias/layout-listagem-processos.png`](_referencias/layout-listagem-processos.png),
+  [`_referencias/layout-gerenciar-assinatura.png`](_referencias/layout-gerenciar-assinatura.png) e
+  [`_referencias/layout-menu-com-anotacoes.png`](_referencias/layout-menu-com-anotacoes.png) (menu lateral).
 - **Implementação de referência:** [`RF-028-pendencias/Main.dc.html`](RF-028-pendencias/Main.dc.html).
   O bloco `<helmet><style>` desse arquivo é a folha de estilos canônica. Copie-o inteiro para o
   protótipo novo, junto com a casca (cabeçalho, menu lateral e trilha), e ajuste apenas o conteúdo
@@ -15,7 +16,7 @@ padrão, salvo pedido explícito em contrário.
 | Região | Regra |
 |---|---|
 | Cabeçalho | Branco, 82 px de altura, borda inferior `#DDE1E4`. Da esquerda para a direita: botão hambúrguer (quadrado cinza `#DADDE0`, 40 px, recolhe o menu), marca "TRIBUNAL DE CONTAS / DO ESTADO DE GOIÁS", campo "Buscar processo..." (500 px, 50 px de altura, lupa à direita), espaço livre, sino de notificações, bloco **Usuário:** / **Órgão/Setor:** (rótulo em negrito, valor truncado com reticências, seta ▾) e avatar circular de 50 px. |
-| Menu lateral | Branco, 250 px expandido ou 58 px recolhido (só ícones). Itens de 48 px com ícone colorido + rótulo cinza `#5A6268` 14 px. Grupos com submenu têm chevron à direita e subitens recuados. Cores dos ícones: Dashboard azul `#1E78BE`, Listagem de processos verde `#13855E`, Pauta e subitens roxo `#8E44AD`, Distribuir processos e subitens vermelho `#E74C3C`. |
+| Menu lateral | Branco, 250 px expandido ou 58 px recolhido (só ícones). Itens de 48 px com ícone colorido + rótulo cinza `#5A6268` 14 px. Ordem: **Dashboard**; **Listagem de processos**, com os subitens fixos **Com Anotações** (RF-027) e **Com Pendências** (RF-028), recuados, com ícone laranja `#F2A33A` e badge vermelho de contagem à direita; **Pauta** e **Distribuir processos**, grupos que começam recolhidos, com chevron ⌄ à direita. Item ativo: fundo `#E8F1FA`, raio 4 px, rótulo em peso 500 (pode quebrar em duas linhas). Cores dos ícones: Dashboard azul `#1E78BE`, Listagem verde `#13855E`, Pauta roxo `#8E44AD`, Distribuir vermelho `#E74C3C`. Avatar do cabeçalho: círculo cinza `#E3E6E8` com as iniciais. |
 | Trilha (breadcrumb) | Faixa branca de 50 px sob o cabeçalho. Ícone de casa e itens separados por `›`, 16 px, cor `#3D4448`. O último item não é clicável. |
 | Área de conteúdo | Fundo `#ECEFF1`, padding de 24 px, cartões empilhados com 12 px de espaço entre si. |
 

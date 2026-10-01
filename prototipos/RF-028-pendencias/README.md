@@ -36,7 +36,7 @@ pendências, volume 99+) e simulação de falha.
 
 1. Fonte Poppins no lugar de Product Sans (indisponível na web).
 2. Telas de trabalho como páginas internas, preservando o estado ao voltar (RN23).
-3. Autuação: coluna "Sel." (prosseguir) separada de "Marc." (envio/assinatura) — RN27 × RN29.
+3. Autuação: uma única coluna de seleção serve a todos os botões ("Prosseguir com Autuação", "Enviar Solicitações Selecionadas" e "Enviar para a Central de Assinatura"); cada botão valida a situação das solicitações selecionadas (RN27, RN29) e informa as que não se aplicam. O radio "Todas p/ Envio · Todas p/ Assinatura" preenche essa mesma seleção (RN28).
 4. Marcação: escolher "Todas p/ Envio" ou "Todas p/ Assinatura" já aplica a marcação, sem botão extra; nenhuma opção vem marcada (o PRD não levantou o padrão). Todos marcam Assinadas; só o chefe marca Sem assinatura.
 5. P01 conta Enviadas + Assinadas + Sem assinatura (esta só para o chefe, RN21).
 6. P09 conta apenas a fila inicial do perfil (E+N; E+S no gabinete), e não todas as situações da RN42.

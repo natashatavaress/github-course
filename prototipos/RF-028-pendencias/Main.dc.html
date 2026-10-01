@@ -90,7 +90,7 @@ a{color:#1E78BE}a:hover{color:#155A90}
 .strip-gray{box-shadow:inset 6px 0 0 #8E979C}
 .strip-red{box-shadow:inset 6px 0 0 #C62828}
 .g-lista{grid-template-columns:56px 260px 1.4fr 1.3fr 1.2fr 116px 150px}
-.g-aut{grid-template-columns:56px 56px 130px 116px 1.3fr 1.6fr 140px 1.4fr 180px 64px 140px 190px}
+.g-aut{grid-template-columns:56px 130px 116px 1.3fr 1.6fr 140px 1.4fr 180px 64px 140px 190px}
 .g-ace{grid-template-columns:56px 170px 220px 200px 150px 170px 180px 150px 1.3fr 140px 1.3fr 130px 1.2fr}
 .g-jun{grid-template-columns:210px 1.4fr 116px 1fr 1fr 140px 116px 200px 64px 180px}
 .g-prz{grid-template-columns:56px 210px 140px 140px 120px 104px 100px 100px 124px 124px 140px 120px}
@@ -440,10 +440,9 @@ textarea.input{height:auto;min-height:92px;padding:10px 12px;resize:vertical;lin
 </sc-if>
 <div>
 <div style="overflow: auto; max-height: 600px" class="tbl">
-<div role="table" aria-label="Solicitações de autuação" style="min-width: 1720px">
+<div role="table" aria-label="Solicitações de autuação" style="min-width: 1670px">
 <div role="row" class="tr th g-aut" style="position: sticky; top: 0; z-index: 1">
-<span role="columnheader" class="nf" title="Selecionar para prosseguir">Sel.</span>
-<span role="columnheader" class="nf" title="Marcar para envio ou assinatura">Marc.</span>
+<span role="columnheader" class="nf"><input type="checkbox" class="cb" aria-label="Selecionar todas as solicitações da fila" checked="{{autAllChecked}}" onChange="{{autToggleAll}}"></span>
 <span role="columnheader">Origem</span>
 <span role="columnheader">Data</span>
 <span role="columnheader">Solicitante</span>
@@ -458,8 +457,7 @@ textarea.input{height:auto;min-height:92px;padding:10px 12px;resize:vertical;lin
 <sc-if value="{{autEmpty}}" hint-placeholder-val="{{false}}"><div style="padding: 40px 24px; text-align: center; font-weight: 500">Nenhuma solicitação de autuação encontrada.</div></sc-if>
 <sc-for list="{{autRows}}" as="a" hint-placeholder-count="6">
 <div role="row" class="tr g-aut {{a.cls}}">
-<span role="cell"><input type="checkbox" class="cb" aria-label="Selecionar solicitação {{a.titulo}}" checked="{{a.selected}}" onChange="{{a.toggleSel}}"></span>
-<span role="cell"><input type="checkbox" class="cb" aria-label="Marcar solicitação {{a.titulo}}" disabled="{{a.markDisabled}}" checked="{{a.marked}}" onChange="{{a.toggleMark}}"></span>
+<span role="cell"><input type="checkbox" class="cb" aria-label="Selecionar solicitação {{a.titulo}}" checked="{{a.marked}}" onChange="{{a.toggleMark}}"></span>
 <span role="cell" class="{{a.stripCls}}">{{a.origem}}</span>
 <span role="cell">{{a.data}}</span>
 <span role="cell" style="flex-direction: column; align-items: flex-start; justify-content: center; gap: 2px"><span>{{a.setorSol}}</span><span class="muted" style="font-size: 12px">{{a.usuario}}</span></span>
@@ -976,7 +974,7 @@ class Component extends DCLogic {
       sideOpen: true, pautaOpen: false, distOpen: false,
       collapsed: { fil: true },
       snapshot: null, lastUpdate: null, loading: true, err: null, listLoading: false, autUpd: new Date(),
-      aut: { rowSel: {}, marks: {}, fE: false, fA: pk === 'chefe', fS: true, fC: false, fR: true, modo: null, fila: 'destino', origemSetor: '', sei: false, msg: null },
+      aut: { marks: {}, fE: false, fA: pk === 'chefe', fS: true, fC: false, fR: true, modo: null, fila: 'destino', origemSetor: '', sei: false, msg: null },
       ace: { msg: null, sel: {}, done: false },
       jun: { f: { E: true, N: pk !== 'gabinete', A: false, R: false, S: pk === 'gabinete', X: false }, proc: '', procApplied: '', resp: pk === 'protocolo' ? 'setor' : 'resp', msg: null },
       prz: { sel: {}, fProc: '', fAn: '', msg: null },
@@ -1179,7 +1177,7 @@ class Component extends DCLogic {
   /* ---------- Tela 03 · autuação ---------- */
   autProsseguir() {
     const s = this.state, A = s.aut;
-    const sel = s.data.aut.filter(a => A.rowSel[a.id]);
+    const sel = s.data.aut.filter(a => A.marks[a.id]);
     if (!sel.length) return this.upd('aut', { msg: this.msg('warn', 'Selecione ao menos uma solicitação para prosseguir.') });
     const ja = sel.find(a => a.sit === 'C');
     if (ja) return this.upd('aut', { msg: this.msg('error', 'Solicitação já Autuada no processo ' + ja.processo + '. A autuação não foi aberta.', [ja.titulo]) });
@@ -1197,7 +1195,7 @@ class Component extends DCLogic {
     if (!n) return this.setDlg({ errs: ['Informe o número do processo.'] });
     if (n.length < 15 && !dl.confirmShort) return this.setDlg({ confirmShort: true, errs: [] });
     this.mut(d => { d.aut.forEach(a => { if (dl.ids.indexOf(a.id) >= 0) { a.sit = 'C'; a.processo = n; } }); }, () => this.refresh());
-    this.upd('aut', { rowSel: {}, msg: null });
+    this.upd('aut', { marks: {}, modo: null, msg: null });
     this.setState({ dialog: null });
     this.toast('Autuação gravada no processo ' + n + '. Solicitações liberadas e pendências revalidadas.');
   }
@@ -1207,12 +1205,15 @@ class Component extends DCLogic {
     if (!marked.length) return this.upd('aut', { msg: this.msg('warn', 'Nenhuma solicitação marcada para envio.') });
     const ok = marked.filter(a => a.sit === 'S'), fail = marked.filter(a => a.sit !== 'S');
     this.mut(d => { d.aut.forEach(a => { if (ok.some(o => o.id === a.id)) a.sit = 'E'; }); }, () => this.refresh());
-    this.upd('aut', { marks: {}, msg: this.msg(ok.length ? 'success' : 'warn', ok.length + ' de ' + marked.length + ' solicitação(ões) enviada(s) ao Setor 41 (SERV-PROTOCOLO).', fail.map(a => a.titulo + ': sem assinatura — envie antes à Central de Assinatura.')) });
+    this.upd('aut', { marks: {}, msg: this.msg(ok.length ? 'success' : 'warn', ok.length + ' de ' + marked.length + ' solicitação(ões) enviada(s) ao Setor 41 (SERV-PROTOCOLO).', fail.map(a => a.titulo + (a.sit === 'A' ? ': sem assinatura — envie antes à Central de Assinatura.' : ': situação "' + ({ E: 'Enviada', C: 'Concluída', R: 'Rejeitada', X: 'Cancelada' }[a.sit] || a.sit) + '" — não enviada.'))) });
+    this.upd('aut', { modo: null });
   }
   autEnviarCentral() {
     const s = this.state, A = s.aut;
-    const marked = s.data.aut.filter(a => A.marks[a.id] && a.sit === 'A');
-    if (!marked.length) return this.upd('aut', { msg: this.msg('warn', 'Marque solicitações sem assinatura (modo "Todas para assinatura") para enviar à Central.') });
+    const all = s.data.aut.filter(a => A.marks[a.id]);
+    const marked = all.filter(a => a.sit === 'A' && !a.central && s.pk === 'chefe');
+    if (!all.length) return this.upd('aut', { msg: this.msg('warn', 'Nenhuma solicitação selecionada.') });
+    if (!marked.length) return this.upd('aut', { msg: this.msg('warn', 'Somente solicitações sem assinatura podem ser enviadas à Central de Assinatura, pelo chefe de setor.') });
     if (this.props && this.props.simularFalha) return this.upd('aut', { msg: this.msg('error', 'Central de Assinatura indisponível (TCE Docs). O envio não ocorreu; a pendência permanece sem alteração.') });
     const naoPdf = [];
     marked.forEach(a => a.arquivos.forEach(f => { if (!/\.pdf$/i.test(f)) naoPdf.push(a.titulo + ': ' + f); }));
@@ -1544,8 +1545,6 @@ class Component extends DCLogic {
       if (a.sort) flags.push({ t: 'Sorteada para ' + a.sort, cls: 'chip c-info' });
       if (a.pauta) flags.push({ t: 'Em pauta', cls: 'chip c-neutral' });
       if (a.central) flags.push({ t: 'Na Central de Assinatura', cls: 'chip c-info' });
-      if (A.marks[a.id]) flags.push({ t: 'Marcada', cls: 'chip c-primary' });
-      const markable = !a.central && (a.sit === 'S' || (a.sit === 'A' && isChefe));
       const hot = !!a.bloq || a.sit === 'R';
       return {
         origem: a.origem, data: a.data, setorSol: a.setorSol, usuario: a.usuario, titulo: a.titulo,
@@ -1553,13 +1552,15 @@ class Component extends DCLogic {
         processo: a.processo || '—', qtdArq: String(a.arquivos.length), sorteado: a.sorteado || '—',
         actLabel: ['SEI', 'Atos de Pessoal', 'LRF', 'Tomada de Contas'].indexOf(a.origem) >= 0 ? 'Visualizar arquivos' : 'Abrir solicitação',
         act: ['SEI', 'Atos de Pessoal', 'LRF', 'Tomada de Contas'].indexOf(a.origem) >= 0 ? () => this.setState({ dialog: { kind: 'arquivos', id: a.id, rejecting: false, motivo: '', errs: [] } }) : () => this.setState({ dialog: { kind: 'solicitacao', id: a.id, titulo: a.titulo, errs: [] } }),
-        selected: !!A.rowSel[a.id], marked: !!A.marks[a.id], markDisabled: !markable,
-        cls: A.rowSel[a.id] ? 'sel' : (hot ? 'hot' : (a.sit === 'C' ? 'done' : '')),
+        marked: !!A.marks[a.id],
+        cls: A.marks[a.id] ? 'sel' : (hot ? 'hot' : (a.sit === 'C' ? 'done' : '')),
         stripCls: hot ? 'strip-red' : 'strip-gray',
-        toggleSel: () => this.upd('aut', { rowSel: Object.assign({}, this.state.aut.rowSel, { [a.id]: !this.state.aut.rowSel[a.id] }) }),
-        toggleMark: () => this.upd('aut', { marks: Object.assign({}, this.state.aut.marks, { [a.id]: !this.state.aut.marks[a.id] }) })
+        toggleMark: () => this.upd('aut', { modo: null, marks: Object.assign({}, this.state.aut.marks, { [a.id]: !this.state.aut.marks[a.id] }) })
       };
     });
+    const autVisIds = this.visibleAut().map(a => a.id);
+    const autSelN = autVisIds.filter(id => A.marks[id]).length;
+    const autAll = autVisIds.length > 0 && autSelN === autVisIds.length;
     const autTgl = {};
     ['fE', 'fA', 'fS', 'fC', 'fR'].forEach(k => { autTgl[k] = () => this.upd('aut', { [k]: !this.state.aut[k] }); });
 
@@ -1738,7 +1739,8 @@ class Component extends DCLogic {
 
       /* autuação */
       aut: A, autTgl: autTgl, autRows: autRows, autEmpty: autRows.length === 0,
-      autCountText: 'Quantidade: ' + autRows.length,
+      autCountText: 'Quantidade: ' + autRows.length + (autSelN ? ' · ' + this.plural(autSelN, 'selecionada', 'selecionadas') : ''),
+      autAllChecked: autAll, autToggleAll: () => { const m = {}; if (!autAll) this.visibleAut().forEach(a => { m[a.id] = true; }); this.upd('aut', { marks: m, modo: null }); },
       autUpdText: this.hhmmss(s.autUpd),
       autHasMsg: !!A.msg, autMsg: A.msg || { cls: '', text: '', items: [] },
       autModoEnvio: A.modo === 'envio', autModoAss: A.modo === 'assinatura',

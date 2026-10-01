@@ -47,7 +47,7 @@ padrão, salvo pedido explícito em contrário.
 - Linha em alerta: fundo rosado `#FDECEC`. Linha selecionada: `#EEF5FB`. Linha apensada: `#F6F8F9` com `↳`.
 - Valores das células em **CAIXA ALTA**. Botões, chips e números de processo ficam fora dessa regra.
 - Acima da tabela: barra de ações com botões quadrados cinza (`#8F969B`, 40 px, ícone branco; desabilitado `#B5BABE`) e, à direita, o link verde "Exportar para excel".
-- Rodapé da tabela (sem botão "Configurar tabela"): botão azul "Início da tabela" (ícone de casa), "Linhas por página" com seletor, setas ‹ › e o intervalo "1-10 de N". Tabelas de trabalho sem paginação mostram só a contagem no rodapé.
+- Rodapé da tabela: botão azul "Início da tabela" (ícone de casa), "Linhas por página" com seletor, setas ‹ › e o intervalo "1-10 de N". Somente a **tabela de listagem de processos** (RF-010) tem também o botão verde "Configurar tabela" (engrenagem), entre "Início da tabela" e "Linhas por página"; as demais tabelas não o exibem. Tabelas de trabalho sem paginação mostram só a contagem no rodapé.
 
 ## 4. Botões e ações
 
@@ -56,7 +56,7 @@ padrão, salvo pedido explícito em contrário.
 | Primário | Ação principal | Fundo `#1E78BE`, texto branco, 40 px, raio 4 px, peso 500 |
 | Contorno | Ação secundária ou cancelar | Fundo branco, borda e texto `#1E78BE` |
 | Desabilitado | — | Fundo `#C2C7CB`, texto branco |
-| Sucesso | Ações de confirmação positiva, quando houver | Fundo `#13855E` |
+| Sucesso | "Configurar tabela" (só na listagem de processos) | Fundo `#13855E` |
 | Perigo | Devolver, negar, excluir | Fundo `#C62828` |
 | Link de ação | Ações auxiliares no alto do cartão (ex.: "Central de assinatura", "Remover assinatura") | Texto 14 px peso 500 com ícone; azul `#1E78BE` ou vermelho `#C62828` |
 
@@ -81,7 +81,7 @@ padrão, salvo pedido explícito em contrário.
 | Superfície | `#FFFFFF` | Cabeçalho, menu, trilha, cartões |
 | Linha de tabela | `#A7AEB3` | Bordas da grade e dos campos |
 | Primária | `#1E78BE` (hover `#155A90`) | Botões, links, foco |
-| Sucesso | `#13855E` | Excel, situação positiva |
+| Sucesso | `#13855E` | Excel, configurar tabela, situação positiva |
 | Erro/alerta | `#C62828`, fundo `#FDECEC` | Faixa, linha em alerta, badge |
 | Atenção | `#F57C00` | Funil de filtro aplicado |
 

@@ -90,12 +90,12 @@ a{color:#1E78BE}a:hover{color:#155A90}
 .strip-gray{box-shadow:inset 6px 0 0 #8E979C}
 .strip-red{box-shadow:inset 6px 0 0 #C62828}
 .g-lista{grid-template-columns:56px 260px 1.4fr 1.3fr 1.2fr 116px 150px}
-.g-aut{grid-template-columns:56px 56px 110px 116px 1.3fr 1.6fr 140px 1.4fr 180px 64px 140px}
-.g-ace{grid-template-columns:210px 1.4fr 1.3fr 150px 116px 180px 240px}
+.g-aut{grid-template-columns:56px 56px 130px 116px 1.3fr 1.6fr 140px 1.4fr 180px 64px 140px 190px}
+.g-ace{grid-template-columns:56px 170px 220px 200px 150px 170px 180px 150px 1.3fr 140px 1.3fr 130px 1.2fr}
 .g-jun{grid-template-columns:210px 1.4fr 116px 1fr 1fr 140px 116px 200px 64px 180px}
-.g-prz{grid-template-columns:56px 210px 140px 140px 120px 104px 100px 100px 124px 124px 140px}
-.g-avo{grid-template-columns:56px 220px 1.3fr 1.2fr 1fr 1.3fr 80px 220px}
-.g-doc{grid-template-columns:56px 1fr 140px}
+.g-prz{grid-template-columns:56px 210px 140px 140px 120px 104px 100px 100px 124px 124px 140px 120px}
+.g-avo{grid-template-columns:56px 210px 210px 120px 120px 1.2fr 1.2fr 130px 1.3fr 140px 190px 110px}
+.g-doc{grid-template-columns:48px 1fr 110px 76px}
 .g-pr2{grid-template-columns:1fr 80px 1.3fr 120px}
 .g-arq{grid-template-columns:1fr 110px 140px}
 .tfoot{display:flex;align-items:center;gap:16px;flex-wrap:wrap;padding:14px 16px;border:1px solid #A7AEB3;border-top:0;font:400 15px 'Poppins',sans-serif;color:#3D4448}
@@ -159,6 +159,11 @@ textarea.input{height:auto;min-height:92px;padding:10px 12px;resize:vertical;lin
 .pic.zero{background:#EEF0F2;color:#6B7378}
 .pchip.on .pic{background:#1E78BE;color:#FFFFFF}
 .phint{margin:0;font:400 14px 'Poppins',sans-serif;color:#5E676D}
+.viewer{border:1px solid #A7AEB3;border-radius:4px;background:#ECEFF1;display:flex;flex-direction:column;min-height:440px}
+.viewer-h{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:10px 12px;background:#FFFFFF;border-bottom:1px solid #DDE1E4;font:500 13px 'Poppins',sans-serif;color:#3D4448;border-radius:4px 4px 0 0}
+.viewer-page{margin:16px;background:#FFFFFF;flex-grow:1;box-shadow:0 1px 3px rgba(0,0,0,.15);padding:28px 24px;display:flex;flex-direction:column;gap:10px}
+.vl{height:8px;background:#E3E6E8;border-radius:4px}
+.ro{margin:0;padding:10px 12px;background:#F6F8F9;border-radius:4px;color:#3D4448;font:400 14px/1.5 'Poppins',sans-serif}
 .toast{position:fixed;left:24px;bottom:24px;z-index:80;max-width:520px;padding:14px 18px;border-radius:4px;color:#FFFFFF;font:400 14px/1.5 'Poppins',sans-serif;box-shadow:0 12px 32px rgba(10,25,40,.28)}
 .t-success{background:#0E6B4B}
 .t-info{background:#155A90}
@@ -259,7 +264,7 @@ textarea.input{height:auto;min-height:92px;padding:10px 12px;resize:vertical;lin
 <button type="button" class="{{t.cls}}" aria-pressed="{{t.selStr}}" title="{{t.full}}" onClick="{{t.open}}"><span>{{t.label}}</span><span class="{{t.countCls}}">{{t.countText}}</span></button>
 </sc-for>
 </div>
-<sc-if value="{{showRevNote}}" hint-placeholder-val="{{false}}"><p class="phint" style="font-size: 12px">"Revisado" tem contagem própria e não entra no total do sino.</p></sc-if>
+
 </div>
 </sc-if>
 <sc-if value="{{noGroup}}" hint-placeholder-val="{{true}}"><p class="phint">Selecione um tipo de pendência para ver os itens.</p></sc-if>
@@ -391,12 +396,24 @@ textarea.input{height:auto;min-height:92px;padding:10px 12px;resize:vertical;lin
 <div class="card-b" style="flex-direction: row; flex-wrap: wrap; align-items: center; gap: 4px 24px">
 <span class="card-s">Mostrar solicitações:</span>
 <label class="check"><input type="checkbox" class="cb" checked="{{aut.fE}}" onChange="{{autTgl.fE}}">Enviadas</label>
-<sc-if value="{{isChefe}}" hint-placeholder-val="{{true}}"><label class="check"><input type="checkbox" class="cb" checked="{{aut.fA}}" onChange="{{autTgl.fA}}">Sem assinatura</label></sc-if>
+<label class="check"><input type="checkbox" class="cb" checked="{{aut.fA}}" onChange="{{autTgl.fA}}">Sem assinatura</label>
 <label class="check"><input type="checkbox" class="cb" checked="{{aut.fS}}" onChange="{{autTgl.fS}}">Assinadas (não enviadas)</label>
 <label class="check"><input type="checkbox" class="cb" checked="{{aut.fC}}" onChange="{{autTgl.fC}}">Concluídas</label>
 <label class="check"><input type="checkbox" class="cb" checked="{{aut.fR}}" onChange="{{autTgl.fR}}">Rejeitadas</label>
 <div style="flex-grow: 1"></div>
 <button type="button" class="btn btn-o" onClick="{{autLimpar}}">Limpar filtros</button>
+<sc-if value="{{isProtocolo}}" hint-placeholder-val="{{false}}">
+<fieldset style="flex-basis: 100%; margin: 8px 0 0; padding: 12px 16px 16px; border: 1px solid #D5DADE; border-radius: 4px; display: flex; flex-wrap: wrap; align-items: flex-end; gap: 8px 24px">
+<legend style="padding: 0 6px; font: 600 13px 'Poppins',sans-serif; color: #3D4448">Filtros Exclusivos do Protocolo</legend>
+<div role="radiogroup" aria-label="Fila" style="display: flex; gap: 4px 20px; flex-wrap: wrap">
+<label class="check"><input type="radio" class="cb" name="filaProt" checked="{{autFilaDestino}}" onChange="{{autSetDestino}}">Fila de destino (recebidas pelo Protocolo)</label>
+<label class="check"><input type="radio" class="cb" name="filaProt" checked="{{autFilaOrigem}}" onChange="{{autSetOrigem}}">Fila de origem</label>
+</div>
+<label class="field" style="width: 300px">Origem (setor)<input class="input" list="dl-setor-sol" placeholder="Pesquisar setor" disabled="{{aut.sei}}" value="{{aut.origemSetor}}" onChange="{{autSetOrigemSetor}}"></label>
+<datalist id="dl-setor-sol"><option value="Protocolo Geral"></option><option value="Secretaria de Estado da Saúde"></option><option value="Instituto de Previdência Estadual"></option><option value="Polícia Militar"></option><option value="Corpo de Bombeiros Militar"></option><option value="Câmara Municipal"></option><option value="Secretaria de Estado da Educação"></option></datalist>
+<label class="check"><input type="checkbox" class="cb" checked="{{aut.sei}}" onChange="{{autTglSei}}">Integrador SEI</label>
+</fieldset>
+</sc-if>
 </div>
 </sc-if>
 </section>
@@ -410,9 +427,9 @@ textarea.input{height:auto;min-height:92px;padding:10px 12px;resize:vertical;lin
 <div class="card-b">
 <div style="display: flex; align-items: center; gap: 8px 16px; flex-wrap: wrap">
 <div role="radiogroup" aria-label="Marcar ou desmarcar" style="display: flex; align-items: center; gap: 4px 16px; flex-wrap: wrap">
-<label class="check"><input type="radio" class="cb" name="modo" checked="{{autModoEnvio}}" onChange="{{autModoE}}">Todas para envio</label>
-<label class="check"><input type="radio" class="cb" name="modo" disabled="{{notChefe}}" checked="{{autModoAss}}" onChange="{{autModoA}}">Todas para assinatura</label>
-<button type="button" class="btn btn-o btn-s" onClick="{{autMarcarTodas}}">Marcar</button>
+<span class="card-s" style="font-size: 14px">Marcar/Desmarcar:</span>
+<label class="check"><input type="radio" class="cb" name="modo" checked="{{autModoEnvio}}" onChange="{{autModoE}}">Todas p/ Envio</label>
+<label class="check"><input type="radio" class="cb" name="modo" disabled="{{notChefe}}" checked="{{autModoAss}}" onChange="{{autModoA}}">Todas p/ Assinatura</label>
 <button type="button" class="btn btn-t btn-s" onClick="{{autDesmarcar}}">Desmarcar</button>
 </div>
 <div style="flex-grow: 1"></div>
@@ -423,7 +440,7 @@ textarea.input{height:auto;min-height:92px;padding:10px 12px;resize:vertical;lin
 </sc-if>
 <div>
 <div style="overflow: auto; max-height: 600px" class="tbl">
-<div role="table" aria-label="Solicitações de autuação" style="min-width: 1520px">
+<div role="table" aria-label="Solicitações de autuação" style="min-width: 1720px">
 <div role="row" class="tr th g-aut" style="position: sticky; top: 0; z-index: 1">
 <span role="columnheader" class="nf" title="Selecionar para prosseguir">Sel.</span>
 <span role="columnheader" class="nf" title="Marcar para envio ou assinatura">Marc.</span>
@@ -436,6 +453,7 @@ textarea.input{height:auto;min-height:92px;padding:10px 12px;resize:vertical;lin
 <span role="columnheader">Processo</span>
 <span role="columnheader" class="nf">Arq.</span>
 <span role="columnheader">Sorteado</span>
+<span role="columnheader" class="nf">Ação</span>
 </div>
 <sc-if value="{{autEmpty}}" hint-placeholder-val="{{false}}"><div style="padding: 40px 24px; text-align: center; font-weight: 500">Nenhuma solicitação de autuação encontrada.</div></sc-if>
 <sc-for list="{{autRows}}" as="a" hint-placeholder-count="6">
@@ -449,8 +467,9 @@ textarea.input{height:auto;min-height:92px;padding:10px 12px;resize:vertical;lin
 <span role="cell"><span class="{{a.sitCls}}">{{a.sitText}}</span></span>
 <span role="cell" style="flex-wrap: wrap; gap: 4px"><sc-for list="{{a.flags}}" as="f" hint-placeholder-count="1"><span class="{{f.cls}}">{{f.t}}</span></sc-for><sc-if value="{{a.noFlags}}" hint-placeholder-val="{{false}}"><span class="muted">—</span></sc-if></span>
 <span role="cell"><span class="num">{{a.processo}}</span></span>
-<span role="cell"><button type="button" class="lnk" style="min-height: 32px; padding: 0 4px" aria-label="Ver os {{a.qtdArq}} arquivos da solicitação {{a.titulo}}" title="Visualizar arquivos da solicitação" onClick="{{a.verArq}}"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M8 12V7a4 4 0 0 1 8 0v10a6 6 0 0 1-12 0V9"></path></svg>{{a.qtdArq}}</button></span>
+<span role="cell">{{a.qtdArq}}</span>
 <span role="cell">{{a.sorteado}}</span>
+<span role="cell"><button type="button" class="btn btn-o btn-s" onClick="{{a.act}}">{{a.actLabel}}</button></span>
 </div>
 </sc-for>
 </div>
@@ -468,41 +487,54 @@ textarea.input{height:auto;min-height:92px;padding:10px 12px;resize:vertical;lin
 
 <!-- ================= TELA 05 · Aguardando Aceite de Processos ================= -->
 <sc-if value="{{isAce}}" hint-placeholder-val="{{false}}">
-<section class="card" aria-label="Aceite eletrônico">
+<section class="card" aria-label="Aceite eletrônico — Recebimento de Processos">
 <div class="card-h">
 <div style="display: flex; flex-direction: column; gap: 6px">
-<h2 class="card-t">Aceite eletrônico</h2>
-<p class="card-s" style="font-weight: 400">Processos devolvidos ao setor que aguardam ciência. As regras de aceite e devolução seguem o RF-013.</p>
+<h2 class="card-t">Aceite eletrônico — Recebimento de Processos</h2>
+<p class="card-s" style="font-weight: 400">Processos liberados ao setor e ainda sem aceite, inclusive os devolvidos. Marcar um processo marca também os seus apensados. As regras de aceite e devolução seguem o RF-013.</p>
 </div>
 </div>
 <div class="card-b">
 <sc-if value="{{aceHasMsg}}" hint-placeholder-val="{{false}}">
 <div class="{{aceMsg.cls}}" role="alert"><span style="font-weight: 500">{{aceMsg.text}}</span><sc-for list="{{aceMsg.items}}" as="m" hint-placeholder-count="0"><span>• {{m.t}}</span></sc-for></div>
 </sc-if>
+<sc-if value="{{aceBlocked}}" hint-placeholder-val="{{false}}"><div class="alert a-warn"><span style="font-weight: 500">"Aceitar TODOS" indisponível.</span><span>{{aceBlockedText}}</span></div></sc-if>
 <div>
 <div style="overflow-x: auto" class="tbl">
-<div role="table" aria-label="Processos aguardando aceite" style="min-width: 1300px">
+<div role="table" aria-label="Processos aguardando aceite" style="min-width: 2120px">
 <div role="row" class="tr th g-ace">
-<span role="columnheader">Processos</span><span role="columnheader">Assunto</span><span role="columnheader">Setor de origem</span><span role="columnheader">Liberado por</span><span role="columnheader">Data</span><span role="columnheader">Situação</span><span role="columnheader" class="nf">Ações</span>
+<span role="columnheader" class="nf"><input type="checkbox" class="cb" aria-label="Marcar todos os processos" checked="{{aceAllChecked}}" onChange="{{aceToggleAll}}"></span>
+<span role="columnheader">Situação</span><span role="columnheader" class="nf">Ações</span><span role="columnheader">Processos</span><span role="columnheader">Remetente</span><span role="columnheader">Conselheiro(a)</span><span role="columnheader">Conselheiro(a) substituto(a)</span><span role="columnheader">Procurador(a)</span><span role="columnheader">Assunto</span><span role="columnheader">Responsável</span><span role="columnheader">Interessado</span><span role="columnheader" class="nf">Período no TCE</span><span role="columnheader">Origem</span>
 </div>
 <sc-if value="{{aceEmpty}}" hint-placeholder-val="{{false}}"><div style="padding: 40px 24px; text-align: center; font-weight: 500">Não existe processos pendente de aceite. Outro usuário já deve ter recebido.</div></sc-if>
 <sc-for list="{{aceRows}}" as="c" hint-placeholder-count="4">
 <div role="row" class="tr g-ace {{c.cls}}">
-<span role="cell" class="{{c.stripCls}}"><sc-if value="{{c.isChild}}" hint-placeholder-val="{{false}}"><span aria-hidden="true" style="color: #6B7378">↳</span></sc-if><span class="num">{{c.numero}}</span></span>
-<span role="cell">{{c.assunto}}</span>
-<span role="cell">{{c.origem}}</span>
-<span role="cell">{{c.liberador}}</span>
-<span role="cell">{{c.data}}</span>
+<span role="cell"><input type="checkbox" class="cb" aria-label="Marcar processo {{c.numero}}" disabled="{{c.isChild}}" checked="{{c.checked}}" onChange="{{c.toggle}}"></span>
 <span role="cell"><span class="{{c.sitCls}}">{{c.sitText}}</span></span>
 <span role="cell">
 <button type="button" class="btn btn-s" disabled="{{c.isChild}}" onClick="{{c.ciente}}">Ciente</button>
 <button type="button" class="btn btn-o btn-s" disabled="{{c.isChild}}" onClick="{{c.devolver}}">{{c.devLabel}}</button>
 </span>
+<span role="cell" class="{{c.stripCls}}"><sc-if value="{{c.isChild}}" hint-placeholder-val="{{false}}"><span aria-hidden="true" style="color: #6B7378">↳</span></sc-if><span class="num">{{c.numero}}</span></span>
+<span role="cell">{{c.remetente}}</span>
+<span role="cell">{{c.conselheiro}}</span>
+<span role="cell">{{c.consSubst}}</span>
+<span role="cell">{{c.procurador}}</span>
+<span role="cell">{{c.assunto}}</span>
+<span role="cell">{{c.responsavel}}</span>
+<span role="cell">{{c.interessado}}</span>
+<span role="cell">{{c.periodoTce}}</span>
+<span role="cell">{{c.origem}}</span>
 </div>
 </sc-for>
 </div>
 </div>
 <div class="tfoot"><span>{{aceCountText}}</span></div>
+</div>
+<div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px">
+<button type="button" class="btn btn-o btn-w" onClick="{{aceFechar}}">Fechar</button>
+<button type="button" class="btn btn-o btn-w" onClick="{{aceDevolverSel}}">Devolver Selecionados</button>
+<button type="button" class="btn btn-w" disabled="{{aceBlocked}}" onClick="{{aceAceitarTodos}}">Aceitar TODOS</button>
 </div>
 </div>
 </section>
@@ -585,11 +617,8 @@ textarea.input{height:auto;min-height:92px;padding:10px 12px;resize:vertical;lin
 <div class="card-b" style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; align-items: end">
 <label class="field">Processo<input class="input" inputmode="numeric" placeholder="Número do processo" value="{{prz.fProc}}" onChange="{{przSetProc}}"></label>
 <label class="field">Analista
-<select class="input" value="{{prz.fAn}}" onChange="{{przSetAn}}">
-<option value="">Todos</option>
-<option value="Rafael Nunes">Rafael Nunes</option>
-<option value="Joana Lima">Joana Lima</option>
-</select>
+<input class="input" list="dl-analistas" placeholder="Pesquisar analista" value="{{prz.fAn}}" onChange="{{przSetAn}}">
+<datalist id="dl-analistas"><option value="Rafael Nunes"></option><option value="Joana Lima"></option></datalist>
 </label>
 <div style="display: flex; justify-content: flex-end"><button type="button" class="btn btn-o" onClick="{{przLimpar}}">Limpar filtros</button></div>
 </div>
@@ -604,10 +633,10 @@ textarea.input{height:auto;min-height:92px;padding:10px 12px;resize:vertical;lin
 <sc-if value="{{przHasMsg}}" hint-placeholder-val="{{false}}"><div class="{{przMsg.cls}}" role="alert"><span style="font-weight: 500">{{przMsg.text}}</span></div></sc-if>
 <div>
 <div style="overflow-x: auto" class="tbl">
-<div role="table" aria-label="Solicitações aguardando autorização" style="min-width: 1440px">
+<div role="table" aria-label="Solicitações aguardando autorização" style="min-width: 1560px">
 <div role="row" class="tr th g-prz">
 <span role="columnheader" class="nf"><span class="sr">Seleção</span></span>
-<span role="columnheader">Processos</span><span role="columnheader">Tipo</span><span role="columnheader">Analista</span><span role="columnheader">Início</span><span role="columnheader" class="nf">Dias úteis</span><span role="columnheader" class="nf">Prorrog.</span><span role="columnheader" class="nf">Suspens.</span><span role="columnheader">Data final</span><span role="columnheader" class="nf">Aguardando</span><span role="columnheader">Final ajustada</span>
+<span role="columnheader">Processos</span><span role="columnheader">Tipo</span><span role="columnheader">Analista</span><span role="columnheader">Início</span><span role="columnheader" class="nf">Dias úteis</span><span role="columnheader" class="nf">Prorrog.</span><span role="columnheader" class="nf">Suspens.</span><span role="columnheader">Data final</span><span role="columnheader" class="nf">Aguardando</span><span role="columnheader">Final ajustada</span><span role="columnheader" class="nf">Ação</span>
 </div>
 <sc-if value="{{przEmpty}}" hint-placeholder-val="{{false}}"><div style="padding: 40px 24px; text-align: center; font-weight: 500">Nenhum processo aguardando autorização.</div></sc-if>
 <sc-for list="{{przRows}}" as="z" hint-placeholder-count="3">
@@ -623,6 +652,7 @@ textarea.input{height:auto;min-height:92px;padding:10px 12px;resize:vertical;lin
 <span role="cell">{{z.dataFinal}}</span>
 <span role="cell">{{z.aguardando}}</span>
 <span role="cell" style="font-weight: 600">{{z.ajustada}}</span>
+<span role="cell"><button type="button" class="btn btn-o btn-s" aria-label="Abrir prorrogação/suspensão do processo {{z.numero}}" onClick="{{z.abrir}}">Abrir</button></span>
 </div>
 </sc-for>
 </div>
@@ -641,6 +671,10 @@ textarea.input{height:auto;min-height:92px;padding:10px 12px;resize:vertical;lin
 
 <!-- ================= TELA 10 · Avocação de Processo ================= -->
 <sc-if value="{{isAvo}}" hint-placeholder-val="{{false}}">
+<datalist id="dl-origem"><option value="Secretaria de Estado da Saúde"></option><option value="Instituto de Previdência Estadual"></option><option value="Secretaria de Estado da Educação"></option><option value="Câmara Municipal"></option><option value="Polícia Militar"></option></datalist>
+<datalist id="dl-assunto"><option value="Tomada de contas especial"></option><option value="Aposentadoria — registro"></option><option value="Admissão — concurso público"></option><option value="Prestação de contas anual"></option><option value="Pensão civil"></option><option value="Licitação — representação"></option><option value="Aposentadoria voluntária"></option><option value="Admissão — processo seletivo"></option><option value="Pensão por morte"></option><option value="Reforma de militar"></option></datalist>
+<datalist id="dl-relator"><option value="Conselheiro Relator I"></option><option value="Conselheiro Relator II"></option></datalist>
+<datalist id="dl-gab"><option value="Gabinete de Auditor A"></option><option value="Gabinete de Procurador B"></option><option value="Gabinete de Conselheiro Substituto C"></option></datalist>
 <section class="card" aria-label="Filtros">
 <div class="card-h" style="padding-bottom: 22px">
 <h2 class="card-t">Filtros</h2>
@@ -648,59 +682,17 @@ textarea.input{height:auto;min-height:92px;padding:10px 12px;resize:vertical;lin
 <button type="button" class="icon-btn" aria-label="Mostrar ou ocultar filtros" aria-expanded="{{coStr.avoF}}" onClick="{{ct.avoF}}"><svg class="{{chev.avoF}}" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="m6 15 6-6 6 6"></path></svg></button>
 </div>
 <sc-if value="{{co.avoF}}" hint-placeholder-val="{{true}}">
-<div class="card-b" style="display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px 16px; align-items: end">
-<label class="field">Processo<input class="input" inputmode="numeric" placeholder="Número do processo eletrônico" value="{{avo.proc}}" onChange="{{avoSetProc}}"></label>
-<label class="field">Origem
-<select class="input" value="{{avo.origem}}" onChange="{{avoSetOrigem}}">
-<option value="">Todas</option>
-<option value="Secretaria de Estado da Saúde">Secretaria de Estado da Saúde</option>
-<option value="Instituto de Previdência Estadual">Instituto de Previdência Estadual</option>
-<option value="Secretaria de Estado da Educação">Secretaria de Estado da Educação</option>
-<option value="Câmara Municipal">Câmara Municipal</option>
-<option value="Polícia Militar">Polícia Militar</option>
-</select>
-</label>
-<label class="field">Assunto
-<select class="input" value="{{avo.assunto}}" onChange="{{avoSetAssunto}}">
-<option value="">Todos</option>
-<option value="Tomada de contas especial">Tomada de contas especial</option>
-<option value="Aposentadoria — registro">Aposentadoria — registro</option>
-<option value="Admissão — concurso público">Admissão — concurso público</option>
-<option value="Prestação de contas anual">Prestação de contas anual</option>
-<option value="Pensão civil">Pensão civil</option>
-<option value="Licitação — representação">Licitação — representação</option>
-<option value="Aposentadoria voluntária">Aposentadoria voluntária</option>
-<option value="Admissão — processo seletivo">Admissão — processo seletivo</option>
-<option value="Pensão por morte">Pensão por morte</option>
-<option value="Reforma de militar">Reforma de militar</option>
-</select>
-</label>
-<label class="field">Relator
-<select class="input" value="{{avo.relator}}" disabled="{{notGab}}" onChange="{{avoSetRelator}}">
-<option value="">Todos</option>
-<option value="Auditor A">Auditor A</option>
-<option value="Procurador B">Procurador B</option>
-<option value="Conselheiro Substituto C">Conselheiro Substituto C</option>
-</select>
-</label>
-<sc-if value="{{isGab}}" hint-placeholder-val="{{true}}">
-<label class="field">Setor atual
-<select class="input" value="{{avo.setor}}" onChange="{{avoSetSetor}}">
-<option value="">Todos os gabinetes</option>
-<option value="Gabinete de Auditor A">Gabinete de Auditor A</option>
-<option value="Gabinete de Procurador B">Gabinete de Procurador B</option>
-<option value="Gabinete de Conselheiro Substituto C">Gabinete de Conselheiro Substituto C</option>
-</select>
-</label>
-</sc-if>
-<sc-if value="{{notGab}}" hint-placeholder-val="{{false}}">
-<label class="field">Setor atual<input class="input" disabled="{{true}}" value="{{userSetor}}"></label>
-</sc-if>
-<div style="display: flex; flex-direction: column">
-<label class="check"><input type="checkbox" class="cb" checked="{{avo.venc}}" onChange="{{avoTglVenc}}">Processos vencidos</label>
-<label class="check"><input type="checkbox" class="cb" checked="{{avo.menos10}}" onChange="{{avoTglMenos}}">Vencem em menos de 10 dias</label>
+<div class="card-b" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px 16px; align-items: end">
+<label class="field">Processo<input class="input" inputmode="numeric" placeholder="Pesquisar processo eletrônico" value="{{avo.proc}}" onChange="{{avoSetProc}}"></label>
+<label class="field">Origem<input class="input" list="dl-origem" placeholder="Pesquisar origem" value="{{avo.origem}}" onChange="{{avoSetOrigem}}"></label>
+<label class="field">Assunto<input class="input" list="dl-assunto" placeholder="Pesquisar assunto" value="{{avo.assunto}}" onChange="{{avoSetAssunto}}"></label>
+<label class="field">Relator<input class="input" list="dl-relator" placeholder="Pesquisar relator" disabled="{{notGab}}" value="{{avo.relator}}" onChange="{{avoSetRelator}}"></label>
+<label class="field">Setor atual<input class="input" list="dl-gab" placeholder="Pesquisar setor" disabled="{{notGab}}" value="{{avo.setor}}" onChange="{{avoSetSetor}}"></label>
+<div style="display: flex; flex-direction: column; grid-column: span 2">
+<label class="check"><input type="checkbox" class="cb" checked="{{avo.venc}}" onChange="{{avoTglVenc}}">Processos Vencidos (sujeitos a avocação do Relator)</label>
+<label class="check"><input type="checkbox" class="cb" checked="{{avo.menos10}}" onChange="{{avoTglMenos}}">Processo com menos de 10 dias</label>
 </div>
-<div style="display: flex; gap: 12px; grid-column: span 2; justify-content: flex-end">
+<div style="display: flex; gap: 12px; justify-content: flex-end">
 <button type="button" class="btn btn-t" onClick="{{avoLimpar}}">Limpar</button>
 <button type="button" class="btn btn-o" onClick="{{avoFiltrar}}">Filtrar</button>
 </div>
@@ -708,33 +700,41 @@ textarea.input{height:auto;min-height:92px;padding:10px 12px;resize:vertical;lin
 </sc-if>
 </section>
 <section class="card" aria-label="{{avoTitle}}">
-<div class="card-h"><h2 class="card-t">{{avoTitle}}</h2></div>
+<div class="card-h" style="flex-wrap: wrap">
+<div style="display: flex; flex-direction: column; gap: 4px">
+<h2 class="card-t">{{avoTitle}}</h2>
+<span class="card-s">{{avoGroupTitle}}</span>
+</div>
+<div style="flex-grow: 1"></div>
+<sc-if value="{{canRedistribuir}}" hint-placeholder-val="{{false}}"><button type="button" class="lnk" onClick="{{avoRedistribuir}}"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M2 21 23 12 2 3l3 9zm3-9h9"></path></svg>Redistribuir Selecionados</button></sc-if>
+</div>
 <div class="card-b">
-<sc-if value="{{canRedistribuir}}" hint-placeholder-val="{{false}}">
-<div style="display: flex; justify-content: flex-end"><button type="button" class="lnk" onClick="{{avoRedistribuir}}"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M2 21 23 12 2 3l3 9zm3-9h9"></path></svg>Redistribuir Selecionados</button></div>
-</sc-if>
 <sc-if value="{{avoHasMsg}}" hint-placeholder-val="{{false}}"><div class="{{avoMsg.cls}}" role="alert"><span style="font-weight: 500">{{avoMsg.text}}</span></div></sc-if>
 <sc-if value="{{avoHasFalhas}}" hint-placeholder-val="{{false}}">
 <div class="alert a-error" role="alert"><span style="font-weight: 600">Processos não avocado</span><sc-for list="{{avoFalhas}}" as="f" hint-placeholder-count="1"><span>• {{f.numero}} — {{f.motivo}}</span></sc-for></div>
 </sc-if>
 <div>
 <div style="overflow-x: auto" class="tbl">
-<div role="table" aria-label="Processos" style="min-width: 1360px">
+<div role="table" aria-label="Processos" style="min-width: 1900px">
 <div role="row" class="tr th g-avo">
 <span role="columnheader" class="nf"><span class="sr">Seleção</span></span>
-<span role="columnheader">Processos</span><span role="columnheader">Assunto</span><span role="columnheader">Origem</span><span role="columnheader">Relator</span><span role="columnheader">Setor atual</span><span role="columnheader" class="nf">Dias</span><span role="columnheader">Situação de prazo</span>
+<span role="columnheader">Situação de prazo</span><span role="columnheader">Processos</span><span role="columnheader" class="nf">Período no setor</span><span role="columnheader" class="nf">Período no TCE</span><span role="columnheader">Assunto</span><span role="columnheader">Origem</span><span role="columnheader">Situação</span><span role="columnheader">Setor atual</span><span role="columnheader">Analista</span><span role="columnheader">Relator</span><span role="columnheader" class="nf">Ação</span>
 </div>
 <sc-if value="{{avoEmpty}}" hint-placeholder-val="{{false}}"><div style="padding: 40px 24px; text-align: center; font-weight: 500">Nenhum processo encontrado para os filtros informados.</div></sc-if>
 <sc-for list="{{avoRows}}" as="v" hint-placeholder-count="5">
 <div role="row" class="tr g-avo {{v.cls}}">
 <span role="cell"><input type="checkbox" class="cb" aria-label="Selecionar processo {{v.numero}}" checked="{{v.checked}}" onChange="{{v.toggle}}"></span>
-<span role="cell" class="{{v.stripCls}}" style="flex-direction: column; align-items: flex-start; justify-content: center; gap: 2px"><span class="num">{{v.numero}}</span><sc-if value="{{v.assinado}}" hint-placeholder-val="{{false}}"><span style="font-size: 12px; color: #7A4105; font-weight: 500">Enviado para assinatura</span></sc-if></span>
+<span role="cell"><span class="{{v.prazoCls}}">{{v.prazo}}</span></span>
+<span role="cell" class="{{v.stripCls}}" style="flex-direction: column; align-items: flex-start; justify-content: center; gap: 2px"><span class="num">{{v.numero}}</span><sc-if value="{{v.assinado}}" hint-placeholder-val="{{false}}"><span style="font-size: 12px; color: #7A4105; font-weight: 500; text-transform: none">Enviado para assinatura</span></sc-if></span>
+<span role="cell">{{v.periodoSetor}}</span>
+<span role="cell">{{v.periodoTce}}</span>
 <span role="cell">{{v.assunto}}</span>
 <span role="cell">{{v.origem}}</span>
-<span role="cell">{{v.relator}}</span>
+<span role="cell">{{v.situacao}}</span>
 <span role="cell">{{v.setor}}</span>
-<span role="cell">{{v.dias}}</span>
-<span role="cell"><span class="{{v.prazoCls}}">{{v.prazo}}</span></span>
+<span role="cell">{{v.analista}}</span>
+<span role="cell">{{v.relator}}</span>
+<span role="cell"><button type="button" class="btn btn-o btn-s" aria-label="Abrir processo {{v.numero}}" onClick="{{v.abrir}}">Abrir</button></span>
 </div>
 </sc-for>
 </div>
@@ -756,7 +756,7 @@ textarea.input{height:auto;min-height:92px;padding:10px 12px;resize:vertical;lin
 <!-- ================= DIÁLOGOS ================= -->
 <sc-if value="{{hasDlg}}" hint-placeholder-val="{{false}}">
 <div style="position: fixed; inset: 0; background: rgba(20,28,36,.5); z-index: 60; display: flex; align-items: flex-start; justify-content: center; padding: 56px 16px; overflow: auto">
-<div role="dialog" aria-modal="true" aria-label="{{dlgTitle}}" class="card" style="width: 100%; max-width: 700px; box-shadow: 0 24px 60px rgba(10,20,30,.35); display: flex; flex-direction: column">
+<div role="dialog" aria-modal="true" aria-label="{{dlgTitle}}" class="card" style="width: 100%; max-width: {{dlgMaxW}}; box-shadow: 0 24px 60px rgba(10,20,30,.35); display: flex; flex-direction: column">
 <div style="display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 20px 24px 12px">
 <span class="card-t" style="font-size: 20px">{{dlgTitle}}</span>
 <button type="button" class="icon-btn" aria-label="Fechar" onClick="{{closeDlg}}"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"></path></svg></button>
@@ -779,8 +779,8 @@ textarea.input{height:auto;min-height:92px;padding:10px 12px;resize:vertical;lin
 </sc-if>
 
 <sc-if value="{{dlgDevolver}}" hint-placeholder-val="{{false}}">
-<span>Processo <span class="num">{{dlg.numero}}</span> será devolvido ao setor de origem.</span>
-<label class="field">Justificativa (obrigatória)<textarea class="input" value="{{dlg.just}}" onChange="{{dlgSetJust}}"></textarea></label>
+<span>{{dlgDevText}}</span>
+<label class="field">Justificativa da devolução (obrigatória)<textarea class="input" autoFocus="{{true}}" value="{{dlg.just}}" onChange="{{dlgSetJust}}"></textarea></label>
 </sc-if>
 
 <sc-if value="{{dlgDevolvido}}" hint-placeholder-val="{{false}}">
@@ -789,29 +789,46 @@ textarea.input{height:auto;min-height:92px;padding:10px 12px;resize:vertical;lin
 </sc-if>
 
 <sc-if value="{{dlgJun}}" hint-placeholder-val="{{false}}">
+<div style="display: flex; gap: 4px 16px; flex-wrap: wrap; align-items: center">
 <span>Nº do Processo: <span class="num">{{dlg.processo}}</span></span>
-<sc-if value="{{dlg.readOnly}}" hint-placeholder-val="{{false}}"><div class="alert a-info"><span>Somente visualização.</span></div></sc-if>
-<div class="tbl">
-<div role="row" class="tr th g-doc"><span role="columnheader" class="nf"><span class="sr">Juntar</span></span><span role="columnheader" class="nf">Documento a juntar</span><span role="columnheader" class="nf">Fonte</span></div>
-<sc-for list="{{dlgDocs}}" as="o" hint-placeholder-count="3">
-<div role="row" class="tr g-doc"><span role="cell"><input type="checkbox" class="cb" aria-label="Juntar {{o.nome}}" disabled="{{o.disabled}}" checked="{{o.checked}}" onChange="{{o.toggle}}"></span><span role="cell" style="text-transform: none">{{o.nome}}</span><span role="cell"><span class="chip c-neutral">{{o.fonte}}</span></span></div>
-</sc-for>
-</div>
-<div style="display: flex; gap: 4px 16px; flex-wrap: wrap">
+<div style="flex-grow: 1"></div>
 <button type="button" class="lnk" onClick="{{dlgVerTermo}}"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M6 3h9l4 4v14H6z"></path><path d="M9 11h7M9 15h7"></path></svg>Ver Termo de deferimento</button>
 <button type="button" class="lnk" onClick="{{dlgConsultarProc}}"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-3.5-3.5"></path></svg>Consultar Processo</button>
 </div>
+<sc-if value="{{dlg.readOnly}}" hint-placeholder-val="{{false}}"><div class="alert a-info"><span>Somente visualização.</span></div></sc-if>
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 20px; align-items: start">
+<div style="display: flex; flex-direction: column; gap: 16px; min-width: 0">
+<span class="card-s">Documentos a Juntar ao Processo</span>
+<div class="tbl">
+<div role="row" class="tr th g-doc"><span role="columnheader" class="nf"><span class="sr">Juntar</span></span><span role="columnheader" class="nf">Documento</span><span role="columnheader" class="nf">Fonte</span><span role="columnheader" class="nf"><span class="sr">Visualizar</span></span></div>
+<sc-for list="{{dlgDocs}}" as="o" hint-placeholder-count="3">
+<div role="row" class="{{o.rowCls}}"><span role="cell"><input type="checkbox" class="cb" aria-label="Juntar {{o.nome}}" disabled="{{o.disabled}}" checked="{{o.checked}}" onChange="{{o.toggle}}"></span><span role="cell" style="text-transform: none">{{o.nome}}</span><span role="cell"><span class="chip c-neutral">{{o.fonte}}</span></span><span role="cell"><button type="button" class="btn btn-t btn-s" aria-label="Visualizar {{o.nome}}" aria-pressed="{{o.viewStr}}" onClick="{{o.view}}">Ver</button></span></div>
+</sc-for>
+</div>
+<div class="field">Descrição/Justificativa da solicitação de juntada<p class="ro">{{dlgDescSol}}</p></div>
 <sc-if value="{{dlgShowDecision}}" hint-placeholder-val="{{true}}">
-<label class="field">Descrição / Justificativa<textarea class="input" disabled="{{dlg.readOnly}}" value="{{dlg.desc}}" onChange="{{dlgSetDesc}}"></textarea></label>
-<div role="radiogroup" aria-label="Decisão" style="display: flex; gap: 4px 24px; flex-wrap: wrap">
+<div role="radiogroup" aria-label="Decisão" style="display: flex; flex-direction: column; gap: 0">
 <label class="check"><input type="radio" class="cb" name="dec" disabled="{{dlg.readOnly}}" checked="{{dlgDecSim}}" onChange="{{dlgSetSim}}">Autorizo a juntada de documentos</label>
 <label class="check"><input type="radio" class="cb" name="dec" disabled="{{dlg.readOnly}}" checked="{{dlgDecNao}}" onChange="{{dlgSetNao}}">Não autorizo a juntada de documentos</label>
 </div>
-<sc-if value="{{dlgDecNao}}" hint-placeholder-val="{{false}}">
-<label class="field">Justificativa / Motivo (obrigatório)<textarea class="input" disabled="{{dlg.readOnly}}" value="{{dlg.just}}" onChange="{{dlgSetJust}}"></textarea><span style="font-size: 13px; align-self: flex-end">{{dlgJustCount}}/1000</span></label>
+<label class="field">Justificativa/Motivo<textarea class="input" disabled="{{dlg.readOnly}}" value="{{dlg.just}}" onChange="{{dlgSetJust}}"></textarea></label>
+<sc-if value="{{dlg.saved}}" hint-placeholder-val="{{false}}"><div class="alert a-success" role="status"><span style="font-weight: 500">Decisão salva</span><span>{{dlgSentText}}</span></div></sc-if>
 </sc-if>
-<sc-if value="{{dlg.saved}}" hint-placeholder-val="{{false}}"><div class="alert a-success" role="status"><span style="font-weight: 500">Decisão salva.</span><span>{{dlgSentText}}</span></div></sc-if>
-</sc-if>
+</div>
+<div class="viewer" role="region" aria-label="Visualizador do documento selecionado">
+<div class="viewer-h"><span style="text-transform: none">{{dlgViewDoc}}</span><span class="chip c-info">{{dlgViewNote}}</span></div>
+<div class="viewer-page" aria-hidden="true">
+<span class="vl" style="width: 45%; height: 12px; background: #CBD1D6"></span>
+<span class="vl" style="width: 30%"></span>
+<span style="height: 12px"></span>
+<span class="vl" style="width: 100%"></span><span class="vl" style="width: 96%"></span><span class="vl" style="width: 98%"></span><span class="vl" style="width: 72%"></span>
+<span style="height: 8px"></span>
+<span class="vl" style="width: 100%"></span><span class="vl" style="width: 94%"></span><span class="vl" style="width: 97%"></span><span class="vl" style="width: 88%"></span><span class="vl" style="width: 60%"></span>
+<span style="height: 8px"></span>
+<span class="vl" style="width: 99%"></span><span class="vl" style="width: 92%"></span><span class="vl" style="width: 40%"></span>
+</div>
+</div>
+</div>
 </sc-if>
 
 <sc-if value="{{dlgConfPrz}}" hint-placeholder-val="{{false}}"><span>{{dlg.texto}}</span></sc-if>
@@ -832,9 +849,9 @@ textarea.input{height:auto;min-height:92px;padding:10px 12px;resize:vertical;lin
 <option value="Afastamento do analista">Afastamento do analista</option>
 </select>
 </label>
-<label class="field">Dias úteis<input class="input" type="number" min="1" value="{{dlg.dias}}" onChange="{{dlgSetDias}}"></label>
+<label class="field">Dias úteis (obrigatório)<input class="input" type="number" min="1" value="{{dlg.dias}}" onChange="{{dlgSetDias}}"></label>
 </div>
-<label class="field">Justificativa<textarea class="input" value="{{dlg.just}}" onChange="{{dlgSetJust}}"></textarea><span style="font-size: 13px; align-self: flex-end">{{dlgJustCount}}/1000</span></label>
+<label class="field">Justificativa (obrigatória)<textarea class="input" value="{{dlg.just}}" onChange="{{dlgSetJust}}"></textarea><span style="font-size: 13px; align-self: flex-end">{{dlgJustRest}} caracteres restantes</span></label>
 <div class="tbl">
 <div role="row" class="tr th g-pr2"><span role="columnheader" class="nf">Lançamento</span><span role="columnheader" class="nf">Dias</span><span role="columnheader" class="nf">Situação</span><span role="columnheader" class="nf"><span class="sr">Ação</span></span></div>
 <sc-if value="{{dlgItensEmpty}}" hint-placeholder-val="{{false}}"><div style="padding: 16px; text-align: center">Não existe item a ser Alterado, ou foi negado.</div></sc-if>
@@ -846,6 +863,12 @@ textarea.input{height:auto;min-height:92px;padding:10px 12px;resize:vertical;lin
 <sc-if value="{{dlgAvoConf}}" hint-placeholder-val="{{false}}">
 <div class="alert a-warn"><span style="font-weight: 500">Processos assinados ou enviados para assinatura foram separados da seleção:</span><sc-for list="{{dlgSep}}" as="i" hint-placeholder-count="1"><span>• {{i.t}}</span></sc-for></div>
 <span>{{dlgAvoText}}</span>
+</sc-if>
+
+<sc-if value="{{dlgSol}}" hint-placeholder-val="{{false}}">
+<sc-if value="{{dlgSolEdit}}" hint-placeholder-val="{{false}}"><span>Origem: {{dlgSolOrigem}} · Situação: {{dlgSolSit}}</span></sc-if>
+<label class="field">Título/Resumo<input class="input" maxlength="100" value="{{dlg.titulo}}" onChange="{{dlgSetTitulo}}"><span style="font-size: 13px; align-self: flex-end">{{dlgTituloCount}}/100</span></label>
+<div class="alert a-info"><span>Os demais campos da solicitação seguem o requisito dono do cadastro, ainda a definir (questão 20 do PRD).</span></div>
 </sc-if>
 
 <sc-if value="{{dlgArq}}" hint-placeholder-val="{{false}}">
@@ -886,7 +909,7 @@ textarea.input{height:auto;min-height:92px;padding:10px 12px;resize:vertical;lin
 <sc-if value="{{hasToast}}" hint-placeholder-val="{{false}}"><div class="{{toastCls}}" role="status">{{toastMsg}}</div></sc-if>
 </div>
 </x-dc>
-<script type="text/x-dc" data-dc-script data-props='{"perfil":{"editor":"enum","options":["Chefe de setor","Analista de setor","Gabinete de conselheiro"],"default":"Chefe de setor","section":"Simulação"},"cenario":{"editor":"enum","options":["Padrão","Sem pendências","Volume alto (99+)"],"default":"Padrão","section":"Simulação"},"simularFalha":{"editor":"boolean","default":false,"section":"Simulação"},"$preview":{"width":1440,"height":1000}}'>
+<script type="text/x-dc" data-dc-script data-props='{"perfil":{"editor":"enum","options":["Chefe de setor","Analista de setor","Gabinete de conselheiro","Protocolo (Setor 41)"],"default":"Chefe de setor","section":"Simulação"},"cenario":{"editor":"enum","options":["Padrão","Sem pendências","Volume alto (99+)"],"default":"Padrão","section":"Simulação"},"simularFalha":{"editor":"boolean","default":false,"section":"Simulação"},"$preview":{"width":1440,"height":1000}}'>
 class Component extends DCLogic {
   constructor(...args) {
     super(...args);
@@ -913,6 +936,7 @@ class Component extends DCLogic {
     const v = (p && p.perfil) || 'Chefe de setor';
     if (v.indexOf('Analista') === 0) return 'analista';
     if (v.indexOf('Gabinete') === 0) return 'gabinete';
+    if (v.indexOf('Protocolo') === 0) return 'protocolo';
     return 'chefe';
   }
   user(pk) {
@@ -920,7 +944,8 @@ class Component extends DCLogic {
     const all = {
       chefe: { nome: 'Marina Costa', ini: 'MC', perfil: 'Chefe de setor', setor: setor, claims: { chefia: true, distribuir: true } },
       analista: { nome: 'Rafael Nunes', ini: 'RN', perfil: 'Analista de setor', setor: setor, claims: {} },
-      gabinete: { nome: 'Helena Prado', ini: 'HP', perfil: 'Gabinete de conselheiro', setor: 'Gabinete do Conselheiro Relator', claims: { avocar: true, autorizarJuntada: true } }
+      gabinete: { nome: 'Helena Prado', ini: 'HP', perfil: 'Gabinete de conselheiro', setor: 'Gabinete do Conselheiro Relator I', claims: { avocar: true, autorizarJuntada: true } },
+      protocolo: { nome: 'Lívia Moraes', ini: 'LM', perfil: 'Protocolo', setor: 'SERV-PROTOCOLO (Setor 41)', claims: {} }
     };
     return all[pk];
   }
@@ -951,13 +976,16 @@ class Component extends DCLogic {
       sideOpen: true, pautaOpen: false, distOpen: false,
       collapsed: { fil: true },
       snapshot: null, lastUpdate: null, loading: true, err: null, listLoading: false, autUpd: new Date(),
-      aut: { rowSel: {}, marks: {}, fE: true, fA: pk === 'chefe', fS: false, fC: false, fR: false, modo: 'envio', msg: null },
-      ace: { msg: null },
-      jun: { f: { E: true, N: pk !== 'gabinete', A: false, R: false, S: pk === 'gabinete', X: false }, proc: '', procApplied: '', resp: 'resp', msg: null },
+      aut: { rowSel: {}, marks: {}, fE: false, fA: pk === 'chefe', fS: true, fC: false, fR: true, modo: null, fila: 'destino', origemSetor: '', sei: false, msg: null },
+      ace: { msg: null, sel: {}, done: false },
+      jun: { f: { E: true, N: pk !== 'gabinete', A: false, R: false, S: pk === 'gabinete', X: false }, proc: '', procApplied: '', resp: pk === 'protocolo' ? 'setor' : 'resp', msg: null },
       prz: { sel: {}, fProc: '', fAn: '', msg: null },
-      avo: { sel: {}, proc: '', procApplied: '', origem: '', assunto: '', relator: '', setor: '', venc: false, menos10: false, falhas: null, msg: null },
+      avo: this.avoDefaults(pk),
       dialog: null, toast: null
     };
+  }
+  avoDefaults(pk) {
+    return { sel: {}, proc: '', procApplied: '', origem: '', assunto: '', relator: pk === 'gabinete' ? 'Conselheiro Relator I' : '', setor: pk === 'gabinete' ? '' : this.user(pk).setor, venc: false, menos10: false, falhas: null, msg: null };
   }
   buildData(cen, pk) {
     const P = (id, numero, assunto, interessado, evento, data, resp, tags, apensos, parent, extra) =>
@@ -977,6 +1005,7 @@ class Component extends DCLogic {
       P('p10', '202600047000355', 'Admissão — contratação temporária', 'Universidade Estadual', 'Enviado para revisão oficial', '23/09/2026', 'Rafael Nunes', ['P06'], ['p10a']),
       P('p10a', '202600047000356', 'Admissão — termo aditivo', 'Universidade Estadual', 'Apensado', '23/09/2026', 'Rafael Nunes', [], [], 'p10'),
       P('p11', '202600047000390', 'Aposentadoria compulsória', IPE, 'Enviado para assinatura (revisado)', '22/09/2026', 'Joana Lima', ['P07']),
+      P('p17', '202600047000371', 'Admissão — concurso público (revisão)', 'Secretaria de Estado da Saúde', 'Enviado para revisão oficial', '23/09/2026', 'Marina Costa', ['P06']),
       P('p12', '202600047000412', 'Pensão civil', IPE, 'Revisado', '21/09/2026', 'Rafael Nunes', ['P12']),
       P('p13', '202600047000437', 'Retificação de aposentadoria', IPE, 'Revisado', '20/09/2026', 'Marina Costa', ['P12']),
       P('p14', '202600047000459', 'Admissão — concurso público', 'Secretaria de Estado da Saúde', 'Recebido no setor', '19/09/2026', 'Joana Lima', [], ['p14a']),
@@ -995,17 +1024,20 @@ class Component extends DCLogic {
       A('a6', 'LRF', '29/09/2026', 'Câmara Municipal', 'Fábio Teixeira', 'Relatório de gestão fiscal — 2º quadrimestre', 'A', { arquivos: ['relatorio.pdf', 'demonstrativo.xlsx'] }),
       A('a7', 'Atos de Pessoal', '30/09/2026', 'Secretaria de Estado da Educação', 'Gabriela Pires', 'Admissões — professores temporários', 'A', { arquivos: ['oficio.pdf', 'lista.docx', 'anexo.pdf'] }),
       A('a8', 'SEI', '20/09/2026', 'Protocolo Geral', 'Joana Lima', 'Denúncia — pagamento de gratificações', 'C', { processo: '202600047000318' }),
-      A('a9', 'TCE-HUB', '18/09/2026', IPE, 'Bruna Alves', 'Pensão — documentação incompleta', 'R')
+      A('a9', 'TCE-HUB', '18/09/2026', IPE, 'Bruna Alves', 'Pensão — documentação incompleta', 'R'),
+      A('a10', 'Tomada de Contas', '29/09/2026', 'Câmara Municipal', 'Fábio Teixeira', 'Tomada de contas especial — exercício 2025', 'S', { arquivos: ['relatorio_tce.pdf', 'planilha.xlsx'] })
     ];
+    const C = (id, numero, assunto, sit, extra) => Object.assign({ id: id, numero: numero, assunto: assunto, sit: sit, remetente: 'Ana Ribeiro — Serviço de Fiscalização de Pessoal', conselheiro: 'Conselheiro Relator I', consSubst: '—', procurador: 'Procurador B', responsavel: 'Rafael Nunes', interessado: IPE, periodoTce: '214 dias', origem: 'Secretaria de Estado da Saúde', docs: [], apensos: [], parent: null, atosSemIntegracao: false }, extra || {});
     const ace = [
-      { id: 'c1', numero: '202600047000521', assunto: 'Admissão — concurso público', origem: 'Serviço de Fiscalização de Pessoal', liberador: 'Ana Ribeiro', data: '30/09/2026', sit: 'aguardando', docs: [], apensos: ['c1a'], parent: null },
-      { id: 'c1a', numero: '202600047000522', assunto: 'Admissão — recurso administrativo', origem: 'Serviço de Fiscalização de Pessoal', liberador: 'Ana Ribeiro', data: '30/09/2026', sit: 'apensado', docs: [], apensos: [], parent: 'c1' },
-      { id: 'c2', numero: '202600047000534', assunto: 'Aposentadoria voluntária', origem: 'Gabinete do Conselheiro Relator', liberador: 'Tiago Moreira', data: '29/09/2026', sit: 'devolvido', motivo: 'Documentação incompleta: ausência do parecer técnico conclusivo.', docs: [], apensos: [], parent: null },
-      { id: 'c3', numero: '202600047000547', assunto: 'Pensão por morte', origem: 'Secretaria de Recursos', liberador: 'Luana Freitas', data: '28/09/2026', sit: 'aguardando', docs: ['Despacho nº 312/2026 juntado no andamento atual.', 'Anexo "memoria_calculo.xlsx" no andamento atual do apensado 202600047000548.'], apensos: [], parent: null }
+      C('c1', '202600047000521', 'Admissão — concurso público', 'aguardando', { apensos: ['c1a'], interessado: 'Secretaria de Estado da Saúde', periodoTce: '96 dias' }),
+      C('c1a', '202600047000522', 'Admissão — recurso administrativo', 'apensado', { parent: 'c1', interessado: 'Secretaria de Estado da Saúde', periodoTce: '96 dias' }),
+      C('c2', '202600047000534', 'Aposentadoria voluntária', 'devolvido', { remetente: 'Tiago Moreira — Gabinete do Conselheiro Relator I', consSubst: 'Conselheiro Substituto C', motivo: 'Documentação incompleta: ausência do parecer técnico conclusivo.', periodoTce: '312 dias', origem: IPE }),
+      C('c3', '202600047000547', 'Pensão por morte', 'aguardando', { remetente: 'Luana Freitas — Secretaria de Recursos', docs: ['Despacho nº 312/2026 juntado no andamento atual.', 'Anexo "memoria_calculo.xlsx" no andamento atual do apensado 202600047000548.'], periodoTce: '158 dias', origem: IPE }),
+      C('c4', '202600047000559', 'Admissão — atos de pessoal', 'aguardando', { remetente: 'Integração Atos de Pessoal', atosSemIntegracao: true, responsavel: 'Joana Lima', periodoTce: '12 dias', origem: 'Secretaria de Estado da Educação' })
     ];
-    const docs = [{ id: 'd1', nome: 'Defesa prévia.pdf', fonte: 'Externo' }, { id: 'd2', nome: 'Procuração.pdf', fonte: 'TCE Docs' }, { id: 'd3', nome: 'Certidão de tempo de contribuição.pdf', fonte: 'TCE-Hub' }];
+    const docs = [{ id: 'd1', nome: 'Defesa prévia.pdf', fonte: 'Externo' }, { id: 'd2', nome: 'Procuração.docx', fonte: 'TCE Docs' }, { id: 'd3', nome: 'Certidão de tempo de contribuição.pdf', fonte: 'TCE-Hub' }];
     const J = (id, processo, titulo, data, setorSol, usuario, sit, rel, extra) =>
-      Object.assign({ id: id, processo: processo, titulo: titulo, data: data, relator: 'Conselheiro Relator I', setorSol: setorSol, usuario: usuario, aprov: 'Sim', sit: sit, rel: rel, docs: docs, decisao: null }, extra || {});
+      Object.assign({ id: id, processo: processo, titulo: titulo, data: data, relator: 'Conselheiro Relator I', setorSol: setorSol, usuario: usuario, aprov: 'Sim', sit: sit, rel: rel, docs: docs, decisao: null, descSol: 'Solicito a juntada dos documentos anexos, apresentados pela parte interessada, para instrução do processo.' }, extra || {});
     const jun = [
       J('j1', '202600047000560', 'Juntada de defesa — aposentadoria', '26/09/2026', 'Protocolo Geral', 'Joana Lima', 'E', 'resp'),
       J('j2', '202600047000573', 'Juntada de certidões complementares', '27/09/2026', 'Serviço de Análise de Atos de Pessoal', 'Rafael Nunes', 'N', 'solic'),
@@ -1020,21 +1052,21 @@ class Component extends DCLogic {
       { id: 'z3', numero: '202600047000637', analista: 'Rafael Nunes', inicio: '15/09/2026', diasUteis: 20, tipo: 'P', prorr: 5, susp: 0, aguardando: 1 }
     ];
     const V = (id, numero, assunto, origem, relator, setor, dias, extra) =>
-      Object.assign({ id: id, numero: numero, assunto: assunto, origem: origem, relator: relator, setor: setor, dias: dias, assinado: false, falha: false }, extra || {});
+      Object.assign({ id: id, numero: numero, assunto: assunto, origem: origem, relator: relator, setor: setor, dias: dias, assinado: false, falha: false, situacao: 'Em análise', analista: '—', periodoTce: '—' }, extra || {});
     const own = this.user(pk).setor;
     const avo = pk === 'gabinete' ? [
-      V('v1', '202500047002210', 'Tomada de contas especial', 'Secretaria de Estado da Saúde', 'Auditor A', 'Gabinete de Auditor A', 42),
-      V('v2', '202500047002245', 'Aposentadoria — registro', IPE, 'Procurador B', 'Gabinete de Procurador B', 35, { assinado: true }),
-      V('v3', '202600047000102', 'Admissão — concurso público', 'Secretaria de Estado da Educação', 'Conselheiro Substituto C', 'Gabinete de Conselheiro Substituto C', 27),
-      V('v4', '202600047000145', 'Prestação de contas anual', 'Câmara Municipal', 'Auditor A', 'Gabinete de Auditor A', 22),
-      V('v5', '202600047000199', 'Pensão civil', IPE, 'Procurador B', 'Gabinete de Procurador B', 12),
-      V('v6', '202600047000214', 'Licitação — representação', 'Secretaria de Estado da Saúde', 'Conselheiro Substituto C', 'Gabinete de Conselheiro Substituto C', 5),
-      V('v7', '202500047002301', 'Tomada de contas especial', 'Câmara Municipal', 'Auditor A', 'Gabinete de Auditor A', 31, { falha: true })
+      V('v1', '202500047002210', 'Tomada de contas especial', 'Secretaria de Estado da Saúde', 'Conselheiro Relator I', 'Gabinete de Auditor A', 42, { analista: 'Bruno Sales', periodoTce: '410 dias' }),
+      V('v2', '202500047002245', 'Aposentadoria — registro', IPE, 'Conselheiro Relator I', 'Gabinete de Procurador B', 35, { assinado: true, analista: 'Clara Dias', periodoTce: '388 dias' }),
+      V('v3', '202600047000102', 'Admissão — concurso público', 'Secretaria de Estado da Educação', 'Conselheiro Relator I', 'Gabinete de Conselheiro Substituto C', 27, { analista: 'Bruno Sales', periodoTce: '150 dias' }),
+      V('v4', '202600047000145', 'Prestação de contas anual', 'Câmara Municipal', 'Conselheiro Relator I', 'Gabinete de Auditor A', 22, { analista: 'Davi Ramos', periodoTce: '133 dias' }),
+      V('v5', '202600047000199', 'Pensão civil', IPE, 'Conselheiro Relator I', 'Gabinete de Procurador B', 12, { analista: 'Clara Dias', periodoTce: '98 dias' }),
+      V('v6', '202600047000214', 'Licitação — representação', 'Secretaria de Estado da Saúde', 'Conselheiro Relator II', 'Gabinete de Conselheiro Substituto C', 38, { analista: 'Davi Ramos', periodoTce: '64 dias' }),
+      V('v7', '202500047002301', 'Tomada de contas especial', 'Câmara Municipal', 'Conselheiro Relator I', 'Gabinete de Auditor A', 31, { falha: true, analista: 'Bruno Sales', periodoTce: '402 dias' })
     ] : [
-      V('w1', '202600047000250', 'Aposentadoria voluntária', IPE, '—', own, 33),
-      V('w2', '202600047000263', 'Admissão — processo seletivo', 'Secretaria de Estado da Saúde', '—', own, 24),
-      V('w3', '202600047000277', 'Pensão por morte', IPE, '—', own, 10),
-      V('w4', '202600047000290', 'Reforma de militar', 'Polícia Militar', '—', own, 3)
+      V('w1', '202600047000250', 'Aposentadoria voluntária', IPE, 'Conselheiro Relator I', own, 33, { analista: 'Rafael Nunes', periodoTce: '180 dias' }),
+      V('w2', '202600047000263', 'Admissão — processo seletivo', 'Secretaria de Estado da Saúde', 'Conselheiro Relator II', own, 24, { analista: 'Joana Lima', periodoTce: '75 dias' }),
+      V('w3', '202600047000277', 'Pensão por morte', IPE, 'Conselheiro Relator I', own, 10, { analista: 'Rafael Nunes', periodoTce: '41 dias' }),
+      V('w4', '202600047000290', 'Reforma de militar', 'Polícia Militar', 'Conselheiro Relator II', own, 3, { analista: 'Joana Lima', periodoTce: '20 dias' })
     ];
     if (cen === 'Sem pendências') {
       procs.forEach(p => { p.tags = []; });
@@ -1080,7 +1112,7 @@ class Component extends DCLogic {
     const junSits = st.pk === 'gabinete' ? ['E', 'S'] : ['E', 'N'];
     return {
       P01: d.aut.filter(a => a.sit === 'E' || a.sit === 'S' || (a.sit === 'A' && chefe)).length,
-      P02: tag('P02'), P03: tag('P03'), P04: tag('P04'), P05: tag('P05'), P06: tag('P06'), P07: tag('P07'),
+      P02: tag('P02'), P03: tag('P03'), P04: tag('P04'), P05: tag('P05'), P06: d.procs.filter(p => !p.parent && p.tags.indexOf('P06') >= 0 && p.resp === this.user(st.pk).nome).length, P07: tag('P07'),
       P08: d.ace.filter(c => !c.parent).length,
       P09: d.jun.filter(j => junSits.indexOf(j.sit) >= 0).length,
       P10: chefe ? d.prz.length : 0,
@@ -1187,16 +1219,35 @@ class Component extends DCLogic {
     this.mut(d => { d.aut.forEach(a => { if (marked.some(m => m.id === a.id)) a.central = true; }); });
     this.upd('aut', { marks: {}, msg: this.msg('info', marked.length + ' solicitação(ões) enviada(s) à Central de Assinatura. ' + (naoPdf.length ? 'Anexos não enviados (formato diferente de PDF):' : 'Todos os anexos estavam em PDF.'), naoPdf) });
   }
-  autMarcarTodas() {
-    const s = this.state, A = s.aut, chefe = s.pk === 'chefe';
-    const sit = A.modo === 'assinatura' ? 'A' : 'S';
+  autMarcar(modo) {
+    const s = this.state, chefe = s.pk === 'chefe';
     const marks = {};
-    this.visibleAut().forEach(a => { if (a.sit === sit && !a.central && (sit === 'S' || chefe)) marks[a.id] = true; });
-    this.upd('aut', { marks: marks, msg: null });
+    this.visibleAut().forEach(a => {
+      if (a.central) return;
+      if (modo === 'assinatura' && a.sit === 'A' && chefe) marks[a.id] = true;
+      if (modo === 'envio' && (a.sit === 'S' || (a.sit === 'A' && chefe))) marks[a.id] = true;
+    });
+    this.upd('aut', { modo: modo, marks: marks, msg: null });
   }
   visibleAut() {
-    const s = this.state, A = s.aut, chefe = s.pk === 'chefe';
-    return s.data.aut.filter(a => (a.sit === 'E' && A.fE) || (a.sit === 'A' && A.fA && chefe) || (a.sit === 'S' && A.fS) || (a.sit === 'C' && A.fC) || (a.sit === 'R' && A.fR));
+    const s = this.state, A = s.aut;
+    let v = s.data.aut.filter(a => (a.sit === 'E' && A.fE) || (a.sit === 'A' && A.fA) || (a.sit === 'S' && A.fS) || (a.sit === 'C' && A.fC) || (a.sit === 'R' && A.fR));
+    if (s.pk === 'protocolo') {
+      if (A.fila === 'origem') v = v.filter(a => a.setorSol === this.user(s.pk).setor);
+      if (A.sei) v = v.filter(a => a.origem === 'SEI');
+      else if (A.origemSetor) v = v.filter(a => a.setorSol.toLowerCase().indexOf(A.origemSetor.toLowerCase()) >= 0);
+    }
+    return v;
+  }
+  solSalvar() {
+    const dl = this.state.dialog, u = this.user(this.state.pk);
+    const t = (dl.titulo || '').trim();
+    if (!t) return this.setDlg({ errs: ['Informe o título/resumo da solicitação.'] });
+    if (dl.id) this.mut(d => { d.aut.find(x => x.id === dl.id).titulo = t; }, () => this.refresh());
+    else this.mut(d => { d.aut.unshift({ id: 'n' + Date.now(), origem: 'eTCE', data: this.fmt(this.today()), setorSol: u.setor, usuario: u.nome, titulo: t, sit: 'A', processo: '', arquivos: [], sorteado: '', bloq: '', sort: '', pauta: false, central: false }); }, () => this.refresh());
+    if (!dl.id) this.upd('aut', { fA: true });
+    this.setState({ dialog: null });
+    this.toast(dl.id ? 'Solicitação gravada.' : 'Solicitação gravada com situação "Sem assinatura" — aguarda a assinatura da chefia.');
   }
 
   rejeitarSolicitacao() {
@@ -1222,40 +1273,68 @@ class Component extends DCLogic {
   }
 
   /* ---------- Tela 05 · aceite ---------- */
+  aceToggle(id) {
+    const c = this.state.data.ace.find(x => x.id === id), cur = !!this.state.ace.sel[id];
+    const sel = Object.assign({}, this.state.ace.sel, { [id]: !cur });
+    c.apensos.forEach(a => { sel[a] = !cur; });
+    this.upd('ace', { sel: sel });
+  }
+  aceRemove(ids, msgText) {
+    this.mut(d => { d.ace = d.ace.filter(x => ids.indexOf(x.id) < 0 && ids.indexOf(x.parent) < 0); }, () => this.refresh());
+    this.upd('ace', { sel: {}, done: true, msg: this.msg('success', msgText) });
+  }
   aceCiente(id) {
     const c = this.state.data.ace.find(x => x.id === id);
-    this.mut(d => { d.ace = d.ace.filter(x => x.id !== id && c.apensos.indexOf(x.id) < 0); }, () => this.refresh());
-    this.upd('ace', { msg: null });
-    this.toast('Ciência registrada no processo ' + c.numero + (c.apensos.length ? ' e em seus apensados.' : '.'));
+    this.aceRemove([id], 'Operação realizada com sucesso. Ciência registrada no processo ' + c.numero + (c.apensos.length ? ' e em seus apensados.' : '.'));
+  }
+  aceAceitarTodos() {
+    const tops = this.state.data.ace.filter(c => !c.parent);
+    const marked = tops.filter(c => this.state.ace.sel[c.id]);
+    const ids = (marked.length ? marked : tops).map(c => c.id);
+    if (!ids.length) return;
+    this.aceRemove(ids, 'Operação realizada com sucesso. Ciência registrada em ' + this.plural(ids.length, 'processo', 'processos') + '.');
+    this.toast('Operação realizada com sucesso');
+  }
+  aceCheckDevolucao(list) {
+    const dev = list.find(c => c.sit === 'devolvido');
+    if (dev) { this.upd('ace', { msg: this.msg('error', 'O processo ' + dev.numero + ' já foi devolvido: você deve efetuar novo trâmite.') }); return false; }
+    const comDocs = list.filter(c => c.docs.length);
+    if (comDocs.length) { this.upd('ace', { msg: this.msg('error', 'A devolução foi recusada:', comDocs.reduce((acc, c) => acc.concat(c.docs.map(t => c.numero + ': ' + t)), [])) }); return false; }
+    return true;
   }
   aceDevolver(id) {
     const c = this.state.data.ace.find(x => x.id === id);
     if (c.sit === 'devolvido') return this.setState({ dialog: { kind: 'devolvido', numero: c.numero, motivo: c.motivo, errs: [] } });
-    if (c.docs.length) return this.upd('ace', { msg: this.msg('error', 'A devolução do processo ' + c.numero + ' foi recusada:', c.docs) });
+    if (!this.aceCheckDevolucao([c])) return;
     this.upd('ace', { msg: null });
-    this.setState({ dialog: { kind: 'devolver', id: id, numero: c.numero, just: '', errs: [] } });
+    this.setState({ dialog: { kind: 'devolver', ids: [id], numeros: [c.numero], just: '', errs: [] } });
+  }
+  aceDevolverSel() {
+    const marked = this.state.data.ace.filter(c => !c.parent && this.state.ace.sel[c.id]);
+    if (!marked.length) return this.upd('ace', { msg: this.msg('error', 'Nenhum processo foi selecionado, corrija e tente novamente.') });
+    if (!this.aceCheckDevolucao(marked)) return;
+    this.upd('ace', { msg: null });
+    this.setState({ dialog: { kind: 'devolver', ids: marked.map(c => c.id), numeros: marked.map(c => c.numero), just: '', errs: [] } });
   }
   aceConfirmDevolver() {
     const dl = this.state.dialog;
     if (!dl.just.trim()) return this.setDlg({ errs: ['A justificativa da devolução é obrigatória.'] });
-    this.mut(d => { d.ace = d.ace.filter(x => x.id !== dl.id && x.parent !== dl.id); }, () => this.refresh());
     this.setState({ dialog: null });
-    this.toast('Processo ' + dl.numero + ' devolvido ao setor de origem.');
+    this.aceRemove(dl.ids, 'Operação realizada com sucesso. ' + this.plural(dl.ids.length, 'processo devolvido', 'processos devolvidos') + ' ao setor de origem.');
   }
 
   /* ---------- Tela 06/07 · juntada ---------- */
   junOpen(id, mode) {
     const j = this.state.data.jun.find(x => x.id === id);
     const dec = j.decisao || { dec: null, desc: '', just: '', docs: {} };
-    this.setState({ dialog: { kind: 'juntada', id: id, mode: mode, processo: j.processo, readOnly: mode !== 'decidir', docs: Object.assign({}, dec.docs), desc: dec.desc, dec: dec.dec, just: dec.just, saved: false, sent: false, errs: [] } });
+    this.setState({ dialog: { kind: 'juntada', id: id, mode: mode, processo: j.processo, readOnly: mode !== 'decidir', docs: Object.assign({}, dec.docs), desc: dec.desc, dec: dec.dec, just: dec.just, viewId: j.docs[0] ? j.docs[0].id : null, saved: false, sent: false, errs: [] } });
   }
   junSalvar() {
     const dl = this.state.dialog, errs = [];
     if (!Object.keys(dl.docs).some(k => dl.docs[k])) errs.push('Selecione ao menos um documento para juntar.');
-    if (!dl.desc.trim()) errs.push('Informe a descrição/justificativa da juntada.');
-    if (!dl.dec) errs.push('Escolha uma das ações ao lado: autorizar ou não autorizar a juntada.');
-    if (dl.dec === 'nao' && !dl.just.trim()) errs.push('Ao não autorizar, a justificativa/motivo é obrigatória.');
+    if (!dl.dec) errs.push('Escolha uma das ações ao lado…');
     if (errs.length) return this.setDlg({ errs: errs });
+    if (this.props && this.props.simularFalha) return this.setDlg({ errs: ['Inconsistência devolvida pelo back-end: o termo de deferimento não pôde ser gerado (modelo indisponível).'] });
     this.mut(d => { const j = d.jun.find(x => x.id === dl.id); j.sit = dl.dec === 'sim' ? 'A' : 'R'; j.decisao = { dec: dl.dec, desc: dl.desc, just: dl.just, docs: dl.docs }; }, () => this.refresh());
     this.setDlg({ saved: true, errs: [] });
     this.toast('Decisão salva');
@@ -1293,8 +1372,8 @@ class Component extends DCLogic {
     this.setState({ dialog: null });
     this.toast((dl.acao === 'A' ? 'Autorização' : 'Negação') + ' registrada para ' + dl.ids.length + ' processo(s). Pendências revalidadas.');
   }
-  przAlterar() {
-    const ids = this.przSelIds();
+  przAlterar(rowId) {
+    const ids = rowId ? [rowId] : this.przSelIds();
     if (ids.length !== 1) return this.upd('prz', { msg: this.msg('error', 'Selecione exatamente um processo para alterar a concessão.') });
     const z = this.state.data.prz.find(x => x.id === ids[0]);
     if (!(z.prorr >= 1 || z.susp >= 1)) return this.upd('prz', { msg: this.msg('error', 'Não existe item a ser Alterado, ou foi negado.') });
@@ -1303,7 +1382,6 @@ class Component extends DCLogic {
   przSalvarAlt() {
     const dl = this.state.dialog, errs = [];
     const dias = parseInt(dl.dias, 10);
-    if (!dl.motivo) errs.push('Informe o motivo.');
     if (!(dias > 0)) errs.push('Informe a quantidade de dias úteis (inteiro maior que zero).');
     if (!dl.just.trim()) errs.push('Informe a justificativa.');
     if (errs.length) return this.setDlg({ errs: errs, confirm: false });
@@ -1323,10 +1401,11 @@ class Component extends DCLogic {
     const s = this.state, V = s.avo;
     let vv = s.data.avo;
     if (V.procApplied) vv = vv.filter(v => v.numero.indexOf(V.procApplied) >= 0);
-    if (V.origem) vv = vv.filter(v => v.origem === V.origem);
-    if (V.assunto) vv = vv.filter(v => v.assunto === V.assunto);
-    if (V.relator) vv = vv.filter(v => v.relator === V.relator);
-    if (V.setor) vv = vv.filter(v => v.setor === V.setor);
+    const has = (a, b) => a.toLowerCase().indexOf(b.trim().toLowerCase()) >= 0;
+    if (V.origem) vv = vv.filter(v => has(v.origem, V.origem));
+    if (V.assunto) vv = vv.filter(v => has(v.assunto, V.assunto));
+    if (V.relator) vv = vv.filter(v => has(v.relator, V.relator));
+    if (V.setor) vv = vv.filter(v => has(v.setor, V.setor));
     if (V.venc || V.menos10) vv = vv.filter(v => (V.venc && v.dias > 30) || (V.menos10 && v.dias >= 20 && v.dias <= 30));
     return vv;
   }
@@ -1353,13 +1432,14 @@ class Component extends DCLogic {
     if (!ok.length && !falhas.length) return;
     this.mut(d => { d.avo = d.avo.filter(v => !ok.some(o => o.id === v.id)); }, () => this.refresh());
     this.upd('avo', { sel: {}, msg: null, falhas: falhas.length ? falhas : null });
-    if (ok.length) this.toast(ok.length + ' processo(s) avocado(s). Termo de avocação gerado e andamento registrado.');
+    if (ok.length) this.toast(ok.length + ' processo(s) avocado(s). Termo de avocação gerado, andamento registrado e autuação reprocessada no Maven Docs.');
   }
   avoRedistribuir() {
     const s = this.state;
     const ids = this.visibleAvo().filter(v => s.avo.sel[v.id]).map(v => v.id);
     if (!ids.length) return this.upd('avo', { msg: this.msg('error', 'Nenhum processo foi selecionado, corrija e tente novamente.') });
-    this.setState({ dialog: { kind: 'redist', ids: ids, dest: '', errs: [] } });
+    this.upd('avo', { msg: null });
+    this.toast('Abrindo a distribuição de processos (RF-021) com ' + this.plural(ids.length, 'processo selecionado', 'processos selecionados') + ', no setor ' + this.user(s.pk).setor + '.', 'info');
   }
   avoConfirmRedist() {
     const dl = this.state.dialog;
@@ -1404,14 +1484,14 @@ class Component extends DCLogic {
       };
     };
     let total = 0;
-    if (snap) ['P01', 'P02', 'P03', 'P04', 'P05', 'P06', 'P07', 'P08', 'P09', 'P10', 'P11'].forEach(k => { if (k !== 'P10' || isChefe) total += snap[k] || 0; });
+    if (snap) ['P01', 'P02', 'P03', 'P04', 'P05', 'P06', 'P07', 'P08', 'P09', 'P10', 'P11', 'P12'].forEach(k => { if (k !== 'P10' || isChefe) total += snap[k] || 0; });
     const badgeText = total > 99 ? '99+' : String(total);
 
     /* Lista (RF-010 com filtro de pendência) */
     const byId = {};
     d.procs.forEach(p => { byId[p.id] = p; });
     let tops = d.procs.filter(p => !p.parent);
-    if (ef) tops = tops.filter(p => p.tags.indexOf(ef) >= 0);
+    if (ef) tops = tops.filter(p => p.tags.indexOf(ef) >= 0 && (ef !== 'P06' || p.resp === u.nome));
     const q = this.digits(s.search);
     if (q) tops = tops.filter(p => p.numero.indexOf(q) >= 0 || p.apensos.some(id => byId[id].numero.indexOf(q) >= 0));
     const per = s.per, pages = Math.max(1, Math.ceil(tops.length / per)), page = Math.min(s.page, pages);
@@ -1432,7 +1512,7 @@ class Component extends DCLogic {
     const cnt = id => (snap ? snap[id] : null);
     const pTypes = this.pgroups().map(g => {
       const ids = g.ids.filter(id => id !== 'P10' || isChefe);
-      const gt = snap ? ids.filter(id => id !== 'P12').reduce((n, id) => n + (snap[id] || 0), 0) : null;
+      const gt = snap ? ids.reduce((n, id) => n + (snap[id] || 0), 0) : null;
       const on = s.pendGroup === g.id;
       const hot = ids.indexOf('P11') >= 0 && cnt('P11') > 0;
       return {
@@ -1471,7 +1551,8 @@ class Component extends DCLogic {
         origem: a.origem, data: a.data, setorSol: a.setorSol, usuario: a.usuario, titulo: a.titulo,
         sitText: sitA[a.sit][0], sitCls: 'chip ' + sitA[a.sit][1], flags: flags, noFlags: flags.length === 0,
         processo: a.processo || '—', qtdArq: String(a.arquivos.length), sorteado: a.sorteado || '—',
-        verArq: () => this.setState({ dialog: { kind: 'arquivos', id: a.id, rejecting: false, motivo: '', errs: [] } }),
+        actLabel: ['SEI', 'Atos de Pessoal', 'LRF', 'Tomada de Contas'].indexOf(a.origem) >= 0 ? 'Visualizar arquivos' : 'Abrir solicitação',
+        act: ['SEI', 'Atos de Pessoal', 'LRF', 'Tomada de Contas'].indexOf(a.origem) >= 0 ? () => this.setState({ dialog: { kind: 'arquivos', id: a.id, rejecting: false, motivo: '', errs: [] } }) : () => this.setState({ dialog: { kind: 'solicitacao', id: a.id, titulo: a.titulo, errs: [] } }),
         selected: !!A.rowSel[a.id], marked: !!A.marks[a.id], markDisabled: !markable,
         cls: A.rowSel[a.id] ? 'sel' : (hot ? 'hot' : (a.sit === 'C' ? 'done' : '')),
         stripCls: hot ? 'strip-red' : 'strip-gray',
@@ -1486,8 +1567,10 @@ class Component extends DCLogic {
     const aceRows = [];
     d.ace.filter(c => !c.parent).forEach(c => {
       const mk = (x, child) => ({
-        numero: x.numero, assunto: x.assunto, origem: x.origem, liberador: x.liberador, data: x.data, isChild: child,
-        cls: child ? 'child' : (x.sit === 'devolvido' ? 'hot' : ''),
+        numero: x.numero, assunto: x.assunto, origem: x.origem, remetente: x.remetente, conselheiro: x.conselheiro, consSubst: x.consSubst, procurador: x.procurador,
+        responsavel: x.responsavel, interessado: x.interessado, periodoTce: x.periodoTce, isChild: child,
+        checked: !!s.ace.sel[x.id], toggle: () => this.aceToggle(x.id),
+        cls: (child ? 'child' : (x.sit === 'devolvido' ? 'hot' : '')) + (s.ace.sel[x.id] ? ' sel' : ''),
         stripCls: child ? '' : (x.sit === 'devolvido' ? 'strip-red' : 'strip-gray'),
         sitText: child ? 'Apensado' : (x.sit === 'devolvido' ? 'Devolvido' : 'Aguardando ciência'),
         sitCls: 'chip ' + (child ? 'c-neutral' : (x.sit === 'devolvido' ? 'c-error' : 'c-warn')),
@@ -1497,7 +1580,9 @@ class Component extends DCLogic {
       aceRows.push(mk(c, false));
       c.apensos.forEach(id => { const ch = d.ace.find(y => y.id === id); if (ch) aceRows.push(mk(ch, true)); });
     });
-    const aceTop = d.ace.filter(c => !c.parent).length;
+    const aceTops = d.ace.filter(c => !c.parent), aceTop = aceTops.length;
+    const aceBlk = aceTops.find(c => c.atosSemIntegracao);
+    const aceAll = aceTop > 0 && aceTops.every(c => s.ace.sel[c.id]);
 
     /* Juntada */
     const Jf = s.jun;
@@ -1530,7 +1615,8 @@ class Component extends DCLogic {
       prorr: String(z.prorr), susp: String(z.susp), dataFinal: this.addBD(z.inicio, z.diasUteis),
       aguardando: this.plural(z.aguardando, 'dia', 'dias'), ajustada: this.addBD(z.inicio, z.diasUteis + z.prorr + z.susp),
       checked: !!Z.sel[z.id], cls: Z.sel[z.id] ? 'sel' : '',
-      toggle: () => this.upd('prz', { sel: Object.assign({}, this.state.prz.sel, { [z.id]: !this.state.prz.sel[z.id] }) })
+      toggle: () => this.upd('prz', { sel: Object.assign({}, this.state.prz.sel, { [z.id]: !this.state.prz.sel[z.id] }) }),
+      abrir: () => this.przAlterar(z.id)
     }));
     const przSelN = this.przSelIds().length;
 
@@ -1543,6 +1629,8 @@ class Component extends DCLogic {
       else { prazo = 'CONTANDO PRAZO'; tone = 'c-neutral'; }
       return {
         numero: v.numero, assunto: v.assunto, origem: v.origem, relator: v.relator, setor: v.setor, dias: String(v.dias), assinado: v.assinado,
+        periodoSetor: this.plural(v.dias, 'dia', 'dias'), periodoTce: v.periodoTce, situacao: v.situacao, analista: v.analista,
+        abrir: () => this.toast('Abrindo a análise do processo eletrônico ' + v.numero + '.', 'info'),
         prazo: prazo, prazoCls: 'chip ' + tone, checked: !!Vv.sel[v.id],
         cls: Vv.sel[v.id] ? 'sel' : (v.dias > 30 ? 'hot' : ''), stripCls: v.dias > 30 ? 'strip-red' : 'strip-gray',
         toggle: () => this.upd('avo', { sel: Object.assign({}, this.state.avo.sel, { [v.id]: !this.state.avo.sel[v.id] }) })
@@ -1555,7 +1643,7 @@ class Component extends DCLogic {
     const titles = {
       autuar: 'Autuação de Processo Eletrônico', devolver: 'Devolver processo', devolvido: 'Processo já devolvido',
       juntada: dl.mode === 'decidir' ? 'Decisão de Juntada' : (dl.mode === 'ver' ? 'Decisão de Juntada — consulta' : 'Cadastro de documentos — consulta'),
-      confPrz: 'Confirmar decisão', alterar: dl.tipo === 'S' ? 'SUSPENSÃO DE PRAZO' : 'PRORROGAÇÃO DE PRAZO',
+      confPrz: 'Confirmar decisão', alterar: 'Prorrogar/Suspender', solicitacao: dl.id ? 'Solicitação de Autuação' : 'Nova Solicitação de Autuação',
       avoConf: 'Avocar processos', redist: 'Redistribuir processos', arquivos: 'Visualização de arquivos da solicitação'
     };
     let pri = null, priLabel = '', priCls = 'btn btn-w', sec = null, secLabel = '', secDis = false, cancelLabel = 'Cancelar';
@@ -1573,6 +1661,9 @@ class Component extends DCLogic {
     if (k === 'alterar') { pri = () => this.przSalvarAlt(); priLabel = dl.confirm ? 'Confirmar e salvar' : 'Salvar'; cancelLabel = 'Fechar'; }
     if (k === 'avoConf') { pri = () => this.doAvocar(dl.ids); priLabel = 'Avocar os demais'; }
     if (k === 'redist') { pri = () => this.avoConfirmRedist(); priLabel = 'Redistribuir'; }
+    if (k === 'solicitacao') { pri = () => this.solSalvar(); priLabel = 'Salvar'; }
+    const solA = k === 'solicitacao' && dl.id ? d.aut.find(x => x.id === dl.id) : null;
+    const jView = k === 'juntada' ? (d.jun.find(x => x.id === dl.id) || { docs: [] }).docs.find(o => o.id === dl.viewId) : null;
     const arqSol = k === 'arquivos' ? d.aut.find(x => x.id === dl.id) : null;
     const canReject = !!arqSol && ['Atos de Pessoal', 'LRF'].indexOf(arqSol.origem) >= 0 && arqSol.sit !== 'C' && arqSol.sit !== 'R';
     if (k === 'arquivos') { cancelLabel = 'Fechar'; if (canReject) { pri = () => this.rejeitarSolicitacao(); priLabel = dl.rejecting ? 'Confirmar rejeição' : 'Rejeitar Solicitação'; priCls = 'btn btn-d btn-w'; } }
@@ -1647,20 +1738,27 @@ class Component extends DCLogic {
 
       /* autuação */
       aut: A, autTgl: autTgl, autRows: autRows, autEmpty: autRows.length === 0,
-      autCountText: this.plural(autRows.length, 'solicitação carregada', 'solicitações carregadas'),
+      autCountText: 'Quantidade: ' + autRows.length,
       autUpdText: this.hhmmss(s.autUpd),
       autHasMsg: !!A.msg, autMsg: A.msg || { cls: '', text: '', items: [] },
       autModoEnvio: A.modo === 'envio', autModoAss: A.modo === 'assinatura',
-      autModoE: () => this.upd('aut', { modo: 'envio' }), autModoA: () => this.upd('aut', { modo: 'assinatura' }),
-      autMarcarTodas: () => this.autMarcarTodas(), autDesmarcar: () => this.upd('aut', { marks: {} }),
-      autLimpar: () => this.upd('aut', { fE: true, fA: isChefe, fS: false, fC: false, fR: false, msg: null }),
+      autModoE: () => this.autMarcar('envio'), autModoA: () => this.autMarcar('assinatura'),
+      autDesmarcar: () => this.upd('aut', { marks: {}, modo: null }),
+      autLimpar: () => this.upd('aut', { fE: false, fA: isChefe, fS: true, fC: false, fR: true, fila: 'destino', origemSetor: '', sei: false, msg: null }),
+      isProtocolo: pk === 'protocolo', autFilaDestino: A.fila === 'destino', autFilaOrigem: A.fila === 'origem',
+      autSetDestino: () => this.upd('aut', { fila: 'destino' }), autSetOrigem: () => this.upd('aut', { fila: 'origem' }),
+      autSetOrigemSetor: e => this.upd('aut', { origemSetor: e.target.value }), autTglSei: () => this.upd('aut', { sei: !this.state.aut.sei, origemSetor: '' }),
       autAtualizar: () => { this.setState({ autUpd: new Date() }); this.refresh(); },
-      autNova: () => this.toast('O cadastro de nova solicitação pertence ao RF-025 e não faz parte deste protótipo.', 'info'),
+      autNova: () => this.setState({ dialog: { kind: 'solicitacao', id: null, titulo: '', errs: [] } }),
       autProsseguir: () => this.autProsseguir(), autEnviarSel: () => this.autEnviarSel(), autEnviarCentral: () => this.autEnviarCentral(),
 
       /* aceite */
       aceRows: aceRows, aceEmpty: aceRows.length === 0, aceHasMsg: !!s.ace.msg, aceMsg: s.ace.msg || { cls: '', text: '', items: [] },
       aceCountText: this.plural(aceTop, 'processo aguardando aceite', 'processos aguardando aceite'),
+      aceBlocked: !!aceBlk, aceBlockedText: aceBlk ? 'O processo ' + aceBlk.numero + ' tem documento de Atos de Pessoal sem setor de integração. Dê ciência a ele individualmente ou ajuste a integração.' : '',
+      aceAllChecked: aceAll, aceToggleAll: () => { const sel = {}; if (!aceAll) d.ace.forEach(c => { sel[c.id] = true; }); this.upd('ace', { sel: sel }); },
+      aceAceitarTodos: () => this.aceAceitarTodos(), aceDevolverSel: () => this.aceDevolverSel(),
+      aceFechar: () => { if (s.ace.done) this.loadList(); this.goLista(true); },
 
       /* juntada */
       jun: Jf, junFilters: junFilters, junRows: junRows, junEmpty: junRows.length === 0,
@@ -1691,12 +1789,12 @@ class Component extends DCLogic {
       /* avocação */
       avo: Vv, avoRows: avoRows, avoEmpty: avoRows.length === 0,
       avoCountText: this.plural(avoRows.length, 'processo', 'processos'),
-      avoTitle: isGab ? 'Avocar Processo' : 'Prazos a vencer/vencidos',
+      avoTitle: isGab ? 'Avocar Processo' : 'Prazos a vencer/vencido', avoGroupTitle: 'Processos (' + avoRows.length + ')',
       avoSetProc: e => this.upd('avo', { proc: e.target.value }),
       avoSetOrigem: e => this.upd('avo', { origem: e.target.value }), avoSetAssunto: e => this.upd('avo', { assunto: e.target.value }),
       avoSetRelator: e => this.upd('avo', { relator: e.target.value }), avoSetSetor: e => this.upd('avo', { setor: e.target.value }),
       avoTglVenc: () => this.upd('avo', { venc: !this.state.avo.venc }), avoTglMenos: () => this.upd('avo', { menos10: !this.state.avo.menos10 }),
-      avoLimpar: () => this.upd('avo', { proc: '', procApplied: '', origem: '', assunto: '', relator: '', setor: '', venc: false, menos10: false, msg: null, falhas: null }),
+      avoLimpar: () => this.setState({ avo: this.avoDefaults(pk) }),
       avoFiltrar: () => this.avoFiltrar(),
       avoHasMsg: !!Vv.msg, avoMsg: Vv.msg || { cls: '', text: '' },
       avoHasFalhas: !!Vv.falhas, avoFalhas: Vv.falhas || [],
@@ -1715,6 +1813,7 @@ class Component extends DCLogic {
       dlgSetJust: e => this.setDlg({ just: e.target.value.slice(0, 1000) }),
       dlgJustCount: String((dl.just || '').length),
       dlgDocs: jdocs.map(o => ({ nome: o.nome, fonte: o.fonte, checked: !!(dl.docs && dl.docs[o.id]), disabled: !!dl.readOnly || !!dl.saved,
+        rowCls: 'tr g-doc' + (dl.viewId === o.id ? ' sel' : ''), viewStr: dl.viewId === o.id ? 'true' : 'false', view: () => this.setDlg({ viewId: o.id }),
         toggle: () => this.setDlg({ docs: Object.assign({}, this.state.dialog.docs, { [o.id]: !this.state.dialog.docs[o.id] }) }) })),
       dlgShowDecision: k === 'juntada' && dl.mode !== 'consultar',
       dlgSetDesc: e => this.setDlg({ desc: e.target.value }),
@@ -1724,6 +1823,14 @@ class Component extends DCLogic {
       dlgTipoP: dl.tipo === 'P', dlgTipoS: dl.tipo === 'S',
       dlgSetTipoP: () => this.setDlg({ tipo: 'P', confirm: false }), dlgSetTipoS: () => this.setDlg({ tipo: 'S', confirm: false }),
       dlgSetMotivo: e => this.setDlg({ motivo: e.target.value, confirm: false }), dlgSetDias: e => this.setDlg({ dias: e.target.value, confirm: false }),
+      dlgMaxW: k === 'juntada' ? '1160px' : '700px',
+      dlgDevText: k === 'devolver' ? (dl.numeros.length === 1 ? 'Processo ' + dl.numeros[0] + ' será devolvido ao setor de origem.' : dl.numeros.length + ' processos serão devolvidos ao setor de origem: ' + dl.numeros.join(', ') + '.') : '',
+      dlgSol: k === 'solicitacao', dlgSolEdit: !!solA, dlgSolOrigem: solA ? solA.origem : '', dlgSolSit: solA ? sitA[solA.sit][0] : '',
+      dlgSetTitulo: e => this.setDlg({ titulo: e.target.value.slice(0, 100) }), dlgTituloCount: String((dl.titulo || '').length),
+      dlgJustRest: String(1000 - (dl.just || '').length),
+      dlgDescSol: k === 'juntada' ? ((d.jun.find(x => x.id === dl.id) || {}).descSol || '') : '',
+      dlgViewDoc: jView ? jView.nome : 'Selecione um documento',
+      dlgViewNote: jView ? (/\.(rtf|docx?)$/i.test(jView.nome) ? 'Convertido em PDF para exibição' : 'PDF · somente leitura') : 'Visualizador (RF-024)',
       dlgItens: dlgItens, dlgItensEmpty: k === 'alterar' && dlgItens.length === 0,
       dlgArq: k === 'arquivos', dlgArqTitulo: arqSol ? arqSol.titulo : '', dlgArqOrigem: arqSol ? arqSol.origem : '',
       dlgArqEmpty: !!arqSol && arqSol.arquivos.length === 0, dlgArqHas: !!arqSol && arqSol.arquivos.length > 0,

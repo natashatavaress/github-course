@@ -8,6 +8,8 @@ juntada, autorização de prazo e avocação).
 - `Main.dc.html` — fonte do artboard (formato Design Component do canvas de design)
 - `canvas.json` — índice do canvas
 
+Layout conforme o padrão visual do projeto ([`../PADRAO_VISUAL.md`](../PADRAO_VISUAL.md)); este arquivo é a implementação de referência desse padrão.
+
 Tweaks disponíveis no artefato: perfil (chefe, analista, gabinete), cenário (padrão, sem
 pendências, volume 99+) e simulação de falha.
 

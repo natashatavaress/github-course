@@ -96,7 +96,8 @@ a{color:#1E78BE}a:hover{color:#155A90}
 .g-prz{grid-template-columns:56px 210px 140px 140px 120px 104px 100px 100px 124px 124px 140px}
 .g-avo{grid-template-columns:56px 220px 1.3fr 1.2fr 1fr 1.3fr 80px 220px}
 .g-doc{grid-template-columns:56px 1fr 140px}
-.g-pr2{grid-template-columns:1fr 90px 1.2fr}
+.g-pr2{grid-template-columns:1fr 80px 1.3fr 120px}
+.g-arq{grid-template-columns:1fr 110px 140px}
 .tfoot{display:flex;align-items:center;gap:16px;flex-wrap:wrap;padding:14px 16px;border:1px solid #A7AEB3;border-top:0;font:400 15px 'Poppins',sans-serif;color:#3D4448}
 .pager{border:0;background:transparent;width:32px;height:32px;border-radius:16px;display:inline-flex;align-items:center;justify-content:center;color:#3D4448;cursor:pointer}
 .pager:hover{background:#EEF1F3}
@@ -448,7 +449,7 @@ textarea.input{height:auto;min-height:92px;padding:10px 12px;resize:vertical;lin
 <span role="cell"><span class="{{a.sitCls}}">{{a.sitText}}</span></span>
 <span role="cell" style="flex-wrap: wrap; gap: 4px"><sc-for list="{{a.flags}}" as="f" hint-placeholder-count="1"><span class="{{f.cls}}">{{f.t}}</span></sc-for><sc-if value="{{a.noFlags}}" hint-placeholder-val="{{false}}"><span class="muted">—</span></sc-if></span>
 <span role="cell"><span class="num">{{a.processo}}</span></span>
-<span role="cell">{{a.qtdArq}}</span>
+<span role="cell"><button type="button" class="lnk" style="min-height: 32px; padding: 0 4px" aria-label="Ver os {{a.qtdArq}} arquivos da solicitação {{a.titulo}}" title="Visualizar arquivos da solicitação" onClick="{{a.verArq}}"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M8 12V7a4 4 0 0 1 8 0v10a6 6 0 0 1-12 0V9"></path></svg>{{a.qtdArq}}</button></span>
 <span role="cell">{{a.sorteado}}</span>
 </div>
 </sc-for>
@@ -796,6 +797,10 @@ textarea.input{height:auto;min-height:92px;padding:10px 12px;resize:vertical;lin
 <div role="row" class="tr g-doc"><span role="cell"><input type="checkbox" class="cb" aria-label="Juntar {{o.nome}}" disabled="{{o.disabled}}" checked="{{o.checked}}" onChange="{{o.toggle}}"></span><span role="cell" style="text-transform: none">{{o.nome}}</span><span role="cell"><span class="chip c-neutral">{{o.fonte}}</span></span></div>
 </sc-for>
 </div>
+<div style="display: flex; gap: 4px 16px; flex-wrap: wrap">
+<button type="button" class="lnk" onClick="{{dlgVerTermo}}"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M6 3h9l4 4v14H6z"></path><path d="M9 11h7M9 15h7"></path></svg>Ver Termo de deferimento</button>
+<button type="button" class="lnk" onClick="{{dlgConsultarProc}}"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-3.5-3.5"></path></svg>Consultar Processo</button>
+</div>
 <sc-if value="{{dlgShowDecision}}" hint-placeholder-val="{{true}}">
 <label class="field">Descrição / Justificativa<textarea class="input" disabled="{{dlg.readOnly}}" value="{{dlg.desc}}" onChange="{{dlgSetDesc}}"></textarea></label>
 <div role="radiogroup" aria-label="Decisão" style="display: flex; gap: 4px 24px; flex-wrap: wrap">
@@ -831,8 +836,9 @@ textarea.input{height:auto;min-height:92px;padding:10px 12px;resize:vertical;lin
 </div>
 <label class="field">Justificativa<textarea class="input" value="{{dlg.just}}" onChange="{{dlgSetJust}}"></textarea><span style="font-size: 13px; align-self: flex-end">{{dlgJustCount}}/1000</span></label>
 <div class="tbl">
-<div role="row" class="tr th g-pr2"><span role="columnheader" class="nf">Lançamento</span><span role="columnheader" class="nf">Dias</span><span role="columnheader" class="nf">Situação</span></div>
-<sc-for list="{{dlgItens}}" as="i" hint-placeholder-count="1"><div role="row" class="tr g-pr2"><span role="cell">{{i.tipo}}</span><span role="cell">{{i.dias}}</span><span role="cell"><span class="chip c-warn">{{i.sit}}</span></span></div></sc-for>
+<div role="row" class="tr th g-pr2"><span role="columnheader" class="nf">Lançamento</span><span role="columnheader" class="nf">Dias</span><span role="columnheader" class="nf">Situação</span><span role="columnheader" class="nf"><span class="sr">Ação</span></span></div>
+<sc-if value="{{dlgItensEmpty}}" hint-placeholder-val="{{false}}"><div style="padding: 16px; text-align: center">Não existe item a ser Alterado, ou foi negado.</div></sc-if>
+<sc-for list="{{dlgItens}}" as="i" hint-placeholder-count="1"><div role="row" class="tr g-pr2"><span role="cell">{{i.tipo}}</span><span role="cell">{{i.dias}}</span><span role="cell"><span class="chip c-warn">{{i.sit}}</span></span><span role="cell"><button type="button" class="lnk red" disabled="{{i.delDis}}" title="{{i.delTitle}}" onClick="{{i.del}}">Excluir</button></span></div></sc-for>
 </div>
 <sc-if value="{{dlg.confirm}}" hint-placeholder-val="{{false}}"><div class="alert a-warn" role="alert"><span style="font-weight: 500">Confirma o lançamento? A data final ajustada será recalculada em dias úteis.</span></div></sc-if>
 </sc-if>
@@ -840,6 +846,19 @@ textarea.input{height:auto;min-height:92px;padding:10px 12px;resize:vertical;lin
 <sc-if value="{{dlgAvoConf}}" hint-placeholder-val="{{false}}">
 <div class="alert a-warn"><span style="font-weight: 500">Processos assinados ou enviados para assinatura foram separados da seleção:</span><sc-for list="{{dlgSep}}" as="i" hint-placeholder-count="1"><span>• {{i.t}}</span></sc-for></div>
 <span>{{dlgAvoText}}</span>
+</sc-if>
+
+<sc-if value="{{dlgArq}}" hint-placeholder-val="{{false}}">
+<span>Solicitação: <strong style="font-weight: 600">{{dlgArqTitulo}}</strong> · Origem: {{dlgArqOrigem}}</span>
+<sc-if value="{{dlgArqEmpty}}" hint-placeholder-val="{{false}}"><div class="alert a-info"><span>A solicitação não possui anexos.</span></div></sc-if>
+<sc-if value="{{dlgArqHas}}" hint-placeholder-val="{{true}}">
+<div class="tbl">
+<div role="row" class="tr th g-arq"><span role="columnheader" class="nf">Anexo</span><span role="columnheader" class="nf">Formato</span><span role="columnheader" class="nf"><span class="sr">Ação</span></span></div>
+<sc-for list="{{dlgArqs}}" as="f" hint-placeholder-count="2"><div role="row" class="tr g-arq"><span role="cell" style="text-transform: none">{{f.nome}}</span><span role="cell"><span class="chip c-neutral">{{f.fmt}}</span></span><span role="cell"><button type="button" class="btn btn-o btn-s" onClick="{{f.ver}}">Visualizar</button></span></div></sc-for>
+</div>
+</sc-if>
+<sc-if value="{{dlg.rejecting}}" hint-placeholder-val="{{false}}"><label class="field">Motivo da rejeição (obrigatório)<textarea class="input" value="{{dlg.motivo}}" onChange="{{dlgSetMotivoRej}}"></textarea></label></sc-if>
+<sc-if value="{{dlgArqNoReject}}" hint-placeholder-val="{{false}}"><span class="muted" style="font-size: 13px">{{dlgArqNoRejectText}}</span></sc-if>
 </sc-if>
 
 <sc-if value="{{dlgRedist}}" hint-placeholder-val="{{false}}">
@@ -1130,6 +1149,8 @@ class Component extends DCLogic {
     const s = this.state, A = s.aut;
     const sel = s.data.aut.filter(a => A.rowSel[a.id]);
     if (!sel.length) return this.upd('aut', { msg: this.msg('warn', 'Selecione ao menos uma solicitação para prosseguir.') });
+    const ja = sel.find(a => a.sit === 'C');
+    if (ja) return this.upd('aut', { msg: this.msg('error', 'Solicitação já Autuada no processo ' + ja.processo + '. A autuação não foi aberta.', [ja.titulo]) });
     if (sel.some(a => a.sit !== 'E')) return this.upd('aut', { msg: this.msg('error', 'Você só pode prosseguir com solicitações já enviadas e não concluídas') });
     const b = sel.find(a => a.bloq);
     if (b) return this.upd('aut', { msg: this.msg('error', 'Solicitação bloqueada pelo usuário ' + b.bloq + '. A autuação não foi aberta.', [b.titulo]) });
@@ -1176,6 +1197,28 @@ class Component extends DCLogic {
   visibleAut() {
     const s = this.state, A = s.aut, chefe = s.pk === 'chefe';
     return s.data.aut.filter(a => (a.sit === 'E' && A.fE) || (a.sit === 'A' && A.fA && chefe) || (a.sit === 'S' && A.fS) || (a.sit === 'C' && A.fC) || (a.sit === 'R' && A.fR));
+  }
+
+  rejeitarSolicitacao() {
+    const dl = this.state.dialog;
+    if (!dl.rejecting) return this.setDlg({ rejecting: true, errs: [] });
+    if (!dl.motivo.trim()) return this.setDlg({ errs: ['Informe o motivo da rejeição.'] });
+    const a = this.state.data.aut.find(x => x.id === dl.id);
+    this.mut(d => { const x = d.aut.find(y => y.id === dl.id); x.sit = 'R'; x.motivoRej = dl.motivo; }, () => this.refresh());
+    this.setState({ dialog: null });
+    this.toast('Solicitação "' + a.titulo + '" rejeitada. Pendências revalidadas.');
+  }
+  excluirItemPrz(id, campo) {
+    let removed = false, numero = '';
+    this.mut(d => {
+      const z = d.prz.find(x => x.id === id);
+      numero = z.numero; z[campo] = 0;
+      if (!z.prorr && !z.susp) { d.prz = d.prz.filter(x => x.id !== id); removed = true; }
+    }, () => {
+      this.refresh();
+      if (removed) { this.setState({ dialog: null }); this.upd('prz', { sel: {} }); }
+      this.toast('Lançamento excluído do processo ' + numero + (removed ? '. Não restam itens aguardando autorização.' : '.'));
+    });
   }
 
   /* ---------- Tela 05 · aceite ---------- */
@@ -1428,6 +1471,7 @@ class Component extends DCLogic {
         origem: a.origem, data: a.data, setorSol: a.setorSol, usuario: a.usuario, titulo: a.titulo,
         sitText: sitA[a.sit][0], sitCls: 'chip ' + sitA[a.sit][1], flags: flags, noFlags: flags.length === 0,
         processo: a.processo || '—', qtdArq: String(a.arquivos.length), sorteado: a.sorteado || '—',
+        verArq: () => this.setState({ dialog: { kind: 'arquivos', id: a.id, rejecting: false, motivo: '', errs: [] } }),
         selected: !!A.rowSel[a.id], marked: !!A.marks[a.id], markDisabled: !markable,
         cls: A.rowSel[a.id] ? 'sel' : (hot ? 'hot' : (a.sit === 'C' ? 'done' : '')),
         stripCls: hot ? 'strip-red' : 'strip-gray',
@@ -1512,7 +1556,7 @@ class Component extends DCLogic {
       autuar: 'Autuação de Processo Eletrônico', devolver: 'Devolver processo', devolvido: 'Processo já devolvido',
       juntada: dl.mode === 'decidir' ? 'Decisão de Juntada' : (dl.mode === 'ver' ? 'Decisão de Juntada — consulta' : 'Cadastro de documentos — consulta'),
       confPrz: 'Confirmar decisão', alterar: dl.tipo === 'S' ? 'SUSPENSÃO DE PRAZO' : 'PRORROGAÇÃO DE PRAZO',
-      avoConf: 'Avocar processos', redist: 'Redistribuir processos'
+      avoConf: 'Avocar processos', redist: 'Redistribuir processos', arquivos: 'Visualização de arquivos da solicitação'
     };
     let pri = null, priLabel = '', priCls = 'btn btn-w', sec = null, secLabel = '', secDis = false, cancelLabel = 'Cancelar';
     if (k === 'autuar') { pri = () => this.autSalvar(); priLabel = dl.confirmShort ? 'Confirmar e gravar' : 'Gravar autuação'; }
@@ -1529,12 +1573,19 @@ class Component extends DCLogic {
     if (k === 'alterar') { pri = () => this.przSalvarAlt(); priLabel = dl.confirm ? 'Confirmar e salvar' : 'Salvar'; cancelLabel = 'Fechar'; }
     if (k === 'avoConf') { pri = () => this.doAvocar(dl.ids); priLabel = 'Avocar os demais'; }
     if (k === 'redist') { pri = () => this.avoConfirmRedist(); priLabel = 'Redistribuir'; }
+    const arqSol = k === 'arquivos' ? d.aut.find(x => x.id === dl.id) : null;
+    const canReject = !!arqSol && ['Atos de Pessoal', 'LRF'].indexOf(arqSol.origem) >= 0 && arqSol.sit !== 'C' && arqSol.sit !== 'R';
+    if (k === 'arquivos') { cancelLabel = 'Fechar'; if (canReject) { pri = () => this.rejeitarSolicitacao(); priLabel = dl.rejecting ? 'Confirmar rejeição' : 'Rejeitar Solicitação'; priCls = 'btn btn-d btn-w'; } }
     const jdocs = k === 'juntada' ? (d.jun.find(x => x.id === dl.id) || { docs: [] }).docs : [];
     const zAlt = k === 'alterar' ? d.prz.find(x => x.id === dl.id) : null;
     const dlgItens = [];
     if (zAlt) {
-      if (zAlt.prorr) dlgItens.push({ tipo: 'Prorrogação', dias: String(zAlt.prorr), sit: 'Aguardando autorização' });
-      if (zAlt.susp) dlgItens.push({ tipo: 'Suspensão', dias: String(zAlt.susp), sit: 'Aguardando autorização' });
+      const podeExcluir = isChefe || zAlt.analista === u.nome;
+      const mkI = (tipo, campo, dias) => ({ tipo: tipo, dias: String(dias), sit: 'Aguardando autorização', delDis: !podeExcluir,
+        delTitle: podeExcluir ? 'Excluir lançamento' : 'Somente o solicitante ou o chefe do setor pode excluir',
+        del: () => this.excluirItemPrz(zAlt.id, campo) });
+      if (zAlt.prorr) dlgItens.push(mkI('Prorrogação', 'prorr', zAlt.prorr));
+      if (zAlt.susp) dlgItens.push(mkI('Suspensão', 'susp', zAlt.susp));
     }
     const outOfScope = () => this.toast('Este item de menu não faz parte do protótipo do RF-028.', 'info');
 
@@ -1673,7 +1724,15 @@ class Component extends DCLogic {
       dlgTipoP: dl.tipo === 'P', dlgTipoS: dl.tipo === 'S',
       dlgSetTipoP: () => this.setDlg({ tipo: 'P', confirm: false }), dlgSetTipoS: () => this.setDlg({ tipo: 'S', confirm: false }),
       dlgSetMotivo: e => this.setDlg({ motivo: e.target.value, confirm: false }), dlgSetDias: e => this.setDlg({ dias: e.target.value, confirm: false }),
-      dlgItens: dlgItens,
+      dlgItens: dlgItens, dlgItensEmpty: k === 'alterar' && dlgItens.length === 0,
+      dlgArq: k === 'arquivos', dlgArqTitulo: arqSol ? arqSol.titulo : '', dlgArqOrigem: arqSol ? arqSol.origem : '',
+      dlgArqEmpty: !!arqSol && arqSol.arquivos.length === 0, dlgArqHas: !!arqSol && arqSol.arquivos.length > 0,
+      dlgArqs: arqSol ? arqSol.arquivos.map(f => ({ nome: f, fmt: (f.split('.').pop() || '').toUpperCase(), ver: () => this.toast('Abrindo "' + f + '" no visualizador de documentos (RF-024).', 'info') })) : [],
+      dlgArqNoReject: !!arqSol && !canReject,
+      dlgArqNoRejectText: arqSol && (arqSol.sit === 'C' || arqSol.sit === 'R') ? 'Solicitação já concluída ou rejeitada: não pode ser rejeitada.' : 'A rejeição só é permitida para solicitações de origem Atos de Pessoal ou LRF.',
+      dlgSetMotivoRej: e => this.setDlg({ motivo: e.target.value }),
+      dlgVerTermo: () => { const j = d.jun.find(x => x.id === dl.id); this.toast(j && (j.decisao || dl.saved) ? 'Abrindo o Termo de Deferimento de Juntada do processo ' + dl.processo + '.' : 'O termo é gerado depois que a decisão é salva.', 'info'); },
+      dlgConsultarProc: () => this.toast('Abrindo o processo ' + dl.processo + ' em Detalhar Processo (RF-003).', 'info'),
       dlgSep: (dl.sep || []).map(t => ({ t: t })),
       dlgAvoText: dl.ids ? (dl.ids.length ? 'Deseja avocar os demais ' + dl.ids.length + ' processo(s)?' : 'Não restaram processos para avocar.') : '',
       dlgRedistText: dl.ids ? dl.ids.length + ' processo(s) selecionado(s).' : '',

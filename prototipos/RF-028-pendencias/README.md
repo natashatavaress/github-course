@@ -13,6 +13,22 @@ Layout conforme o padrão visual do projeto ([`../PADRAO_VISUAL.md`](../PADRAO_V
 Tweaks disponíveis no artefato: perfil (chefe, analista, gabinete), cenário (padrão, sem
 pendências, volume 99+) e simulação de falha.
 
+## Cobertura das telas do PRD
+
+| Tela do PRD | Onde está no protótipo |
+|---|---|
+| 01 — Painel de Pendências | Página **Com Pendências** (sino do cabeçalho ou submenu): seleção de tipo e de item, com contagens, horário da última atualização e "Atualizar" |
+| 02 — Lista filtrada por pendência | Itens P02–P07 e P12: tabela de processos filtrada, com apensados |
+| 03 — Solicitações de Autuação Pendentes | Item "Autuação" (P01) |
+| 04 — Autuação de Processo Eletrônico | Diálogo aberto por "Prosseguir com Autuação" |
+| 05 — Aguardando Aceite de Processos | Item "Aguardando aceite" (P08) |
+| 06 — Juntada de Documentos: solicitações | Item "Juntada" (P09) |
+| 07 — Decisão de Juntada | Diálogo aberto por "Decidir juntada", "Ver decisão" ou "Consultar", com "Ver Termo de deferimento" e "Consultar Processo" |
+| 08 — Autorizar Prorrogação/Suspensão | Item "Prorrogação/Suspensão" (P10), só para o chefe de setor |
+| 09 — Prorrogar / Suspender | Diálogo aberto por "Alterar Prorrogação/Suspensão concedida", com "Excluir" por lançamento (RN61) |
+| 10 — Avocação de Processo | Item "A serem avocados" (P11) |
+| 11 — Visualização de arquivos da solicitação | Diálogo aberto pela contagem de arquivos (coluna "Arq.") na Tela 03, com "Visualizar" e "Rejeitar Solicitação" (só Atos de Pessoal e LRF, RN76) |
+
 ## Decisões tomadas onde o PRD é ambíguo
 
 1. Fonte Figtree no lugar de Product Sans (indisponível na web).
@@ -27,5 +43,5 @@ pendências, volume 99+) e simulação de falha.
 10. "Processo com menos de 10 dias" = vence em menos de 10 dias (20–30 dias no setor, RN68).
 11. Claims simulados: chefe (chefia, distribuir); gabinete (avocar, autorizar juntada); analista (nenhum).
 12. Aceite com ações por linha, sem marcação em lote (RN41 não representada).
-13. Fora do protótipo: Tela 11, "Nova Solicitação" (RF-025/RF-024) e exclusão de prorrogação (Fluxo 09). Dados são fictícios.
+13. Fora do protótipo: "Nova Solicitação" (RF-025), o visualizador de arquivos em si (RF-024), o download de anexos do TCE-HUB/SolarBPM (RN35) e a recusa de lançamento duplicado (RN60). Dados são fictícios.
 14. O ponto de entrada não é um botão na barra de filtros de RF-010, como diz o PRD (seção 2 e Tela 01). Por decisão do negócio, o **sino do cabeçalho** e o submenu "Com Pendências" levam à página **Com Pendências**, que substitui o painel suspenso. As 12 pendências ficam em seleção de dois níveis: primeiro o tipo, entre quatro (Solicitações, Tramitação e prazo, Assinaturas, Revisão), com o total de cada um; depois de clicar no tipo, os itens dele aparecem como chips com contagem. O item selecionado mostra a lista filtrada (P02–P07, P12) ou a tela de trabalho (P01, P08–P11) na própria página. É preciso ajustar o PRD (Tela 01, Fluxo 01) e verificar a convivência com o indicador de anotações (RF-027).

@@ -15,7 +15,7 @@ padrão, salvo pedido explícito em contrário.
 
 | Região | Regra |
 |---|---|
-| Cabeçalho | Branco, 82 px de altura, borda inferior `#DDE1E4`. Da esquerda para a direita: botão hambúrguer (quadrado cinza `#DADDE0`, 40 px, recolhe o menu), marca "TRIBUNAL DE CONTAS / DO ESTADO DE GOIÁS", campo "Buscar processo..." (500 px, 50 px de altura, lupa à direita), espaço livre, sino de **pendências** (azul `#1E78BE` sem pendência, vermelho `#C62828` com pendência, badge vermelho com a contagem até `99+`; abre o painel de pendências ancorado abaixo dele), bloco **Usuário:** / **Órgão/Setor:** (rótulo em negrito, valor truncado com reticências, seta ▾) e avatar circular de 50 px. |
+| Cabeçalho | Branco, 82 px de altura, borda inferior `#DDE1E4`. Da esquerda para a direita: botão hambúrguer (quadrado cinza `#DADDE0`, 40 px, recolhe o menu), marca "TRIBUNAL DE CONTAS / DO ESTADO DE GOIÁS", campo "Buscar processo..." (500 px, 50 px de altura, lupa à direita), espaço livre, sino de **pendências** (azul `#1E78BE` sem pendência, vermelho `#C62828` com pendência, badge vermelho com a contagem até `99+`; leva à página **Com Pendências**, com o submenu correspondente selecionado), bloco **Usuário:** / **Órgão/Setor:** (rótulo em negrito, valor truncado com reticências, seta ▾) e avatar circular de 50 px. |
 | Menu lateral | Branco, 250 px expandido ou 58 px recolhido (só ícones). Itens de 48 px com ícone colorido + rótulo cinza `#5A6268` 14 px. Ordem: **Dashboard**; **Listagem de processos**, com os subitens fixos **Com Anotações** (RF-027) e **Com Pendências** (RF-028), recuados, com ícone laranja `#F2A33A` e badge vermelho de contagem à direita; **Pauta** e **Distribuir processos**, grupos que começam recolhidos, com chevron ⌄ à direita. Item ativo: fundo `#E8F1FA`, raio 4 px, rótulo em peso 500 (pode quebrar em duas linhas). Cores dos ícones: Dashboard azul `#1E78BE`, Listagem verde `#13855E`, Pauta roxo `#8E44AD`, Distribuir vermelho `#E74C3C`. Avatar do cabeçalho: círculo cinza `#E3E6E8` com as iniciais. |
 | Trilha (breadcrumb) | Faixa branca de 50 px sob o cabeçalho. Ícone de casa e itens separados por `›`, 16 px, cor `#3D4448`. O último item não é clicável. |
 | Área de conteúdo | Fundo `#ECEFF1`, padding de 24 px, cartões empilhados com 12 px de espaço entre si. |
@@ -27,6 +27,14 @@ padrão, salvo pedido explícito em contrário.
 - Subtítulo de seção (ex.: "Processos" dentro de um cartão): 15 px, peso 600, `#6B7378`.
 - Cartão **Filtros**: título "Filtros", divisor vertical e o indicador de filtro aplicado (funil laranja `#F57C00`). Ações de filtro ficam no corpo do cartão; pendências não ficam aqui, e sim no sino do cabeçalho. Começa recolhido.
 - Telas de trabalho: um cartão "Filtros" e, abaixo, um cartão com o título da tela, contendo a tabela e as ações.
+
+### 2.1 Página com abas agrupadas (ex.: Com Pendências, Com Anotações)
+
+- Cartão de topo com título, subtítulo de contexto à esquerda e, à direita, o horário da última atualização mais o link de ação "Atualizar".
+- Abas organizadas em **grupos**, cada um com rótulo em caixa alta (11 px, peso 600, `#5E676D`). Os grupos ficam lado a lado, separados por divisória vertical `#DDE1E4`.
+- Cada aba traz o rótulo curto e uma pílula de contagem: cinza `#E6E9EB`, azul `#1E78BE` na aba ativa, vermelha `#C62828` quando indica prazo vencido, esmaecida quando é zero. O rótulo completo aparece no `title`.
+- Aba ativa: texto peso 600 e sublinhado azul de 3 px. O conteúdo da aba (tabela ou tela de trabalho) aparece logo abaixo, em cartões próprios.
+- O sino do cabeçalho e o submenu levam à mesma página. Ao entrar, a aba aberta é a última usada na sessão; na primeira vez, é a primeira aba com contagem maior que zero.
 
 ## 3. Tabela
 

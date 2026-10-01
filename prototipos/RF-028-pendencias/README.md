@@ -28,3 +28,4 @@ pendências, volume 99+) e simulação de falha.
 11. Claims simulados: chefe (chefia, distribuir); gabinete (avocar, autorizar juntada); analista (nenhum).
 12. Aceite com ações por linha, sem marcação em lote (RN41 não representada).
 13. Fora do protótipo: Tela 11, "Nova Solicitação" (RF-025/RF-024) e exclusão de prorrogação (Fluxo 09). Dados são fictícios.
+14. O ponto de entrada do painel é o **sino do cabeçalho**, e não um botão na barra de filtros de RF-010 como diz o PRD (seção 2 e Tela 01) — decisão de layout pedida pelo negócio. O submenu "Com Pendências" abre o mesmo painel. Ajustar o PRD e verificar a convivência com o indicador de anotações (RF-027).

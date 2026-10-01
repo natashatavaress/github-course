@@ -15,7 +15,7 @@ padrão, salvo pedido explícito em contrário.
 
 | Região | Regra |
 |---|---|
-| Cabeçalho | Branco, 82 px de altura, borda inferior `#DDE1E4`. Da esquerda para a direita: botão hambúrguer (quadrado cinza `#DADDE0`, 40 px, recolhe o menu), marca "TRIBUNAL DE CONTAS / DO ESTADO DE GOIÁS", campo "Buscar processo..." (500 px, 50 px de altura, lupa à direita), espaço livre, sino de notificações, bloco **Usuário:** / **Órgão/Setor:** (rótulo em negrito, valor truncado com reticências, seta ▾) e avatar circular de 50 px. |
+| Cabeçalho | Branco, 82 px de altura, borda inferior `#DDE1E4`. Da esquerda para a direita: botão hambúrguer (quadrado cinza `#DADDE0`, 40 px, recolhe o menu), marca "TRIBUNAL DE CONTAS / DO ESTADO DE GOIÁS", campo "Buscar processo..." (500 px, 50 px de altura, lupa à direita), espaço livre, sino de **pendências** (azul `#1E78BE` sem pendência, vermelho `#C62828` com pendência, badge vermelho com a contagem até `99+`; abre o painel de pendências ancorado abaixo dele), bloco **Usuário:** / **Órgão/Setor:** (rótulo em negrito, valor truncado com reticências, seta ▾) e avatar circular de 50 px. |
 | Menu lateral | Branco, 250 px expandido ou 58 px recolhido (só ícones). Itens de 48 px com ícone colorido + rótulo cinza `#5A6268` 14 px. Ordem: **Dashboard**; **Listagem de processos**, com os subitens fixos **Com Anotações** (RF-027) e **Com Pendências** (RF-028), recuados, com ícone laranja `#F2A33A` e badge vermelho de contagem à direita; **Pauta** e **Distribuir processos**, grupos que começam recolhidos, com chevron ⌄ à direita. Item ativo: fundo `#E8F1FA`, raio 4 px, rótulo em peso 500 (pode quebrar em duas linhas). Cores dos ícones: Dashboard azul `#1E78BE`, Listagem verde `#13855E`, Pauta roxo `#8E44AD`, Distribuir vermelho `#E74C3C`. Avatar do cabeçalho: círculo cinza `#E3E6E8` com as iniciais. |
 | Trilha (breadcrumb) | Faixa branca de 50 px sob o cabeçalho. Ícone de casa e itens separados por `›`, 16 px, cor `#3D4448`. O último item não é clicável. |
 | Área de conteúdo | Fundo `#ECEFF1`, padding de 24 px, cartões empilhados com 12 px de espaço entre si. |
@@ -25,7 +25,7 @@ padrão, salvo pedido explícito em contrário.
 - Branco, raio de 4 px, sombra `0 1px 3px rgba(30,40,50,.16)`.
 - Cabeçalho do cartão: título 22 px, peso 400, `#3D4448`, e chevron ^ à direita para recolher.
 - Subtítulo de seção (ex.: "Processos" dentro de um cartão): 15 px, peso 600, `#6B7378`.
-- Cartão **Filtros**: título "Filtros", divisor vertical e o indicador de filtro aplicado (funil laranja `#F57C00`). Os botões da barra de filtros (ex.: "Pendências") ficam à direita, antes do chevron. Começa recolhido.
+- Cartão **Filtros**: título "Filtros", divisor vertical e o indicador de filtro aplicado (funil laranja `#F57C00`). Ações de filtro ficam no corpo do cartão; pendências não ficam aqui, e sim no sino do cabeçalho. Começa recolhido.
 - Telas de trabalho: um cartão "Filtros" e, abaixo, um cartão com o título da tela, contendo a tabela e as ações.
 
 ## 3. Tabela

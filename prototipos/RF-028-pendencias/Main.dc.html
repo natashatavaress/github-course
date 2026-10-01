@@ -163,7 +163,50 @@ textarea.input{height:auto;min-height:92px;padding:10px 12px;resize:vertical;lin
 </label>
 <span class="chip c-warn" style="margin-left: 4px">Protótipo · dados simulados</span>
 <div style="flex-grow: 1"></div>
-<button type="button" class="icon-btn" aria-label="Notificações do sistema" onClick="{{bellHeader}}"><svg width="22" height="22" viewBox="0 0 24 24" fill="#2F3437" aria-hidden="true"><path d="M12 22a2.5 2.5 0 0 0 2.45-2h-4.9A2.5 2.5 0 0 0 12 22zm7-6V11a7 7 0 0 0-5.5-6.84V3.5a1.5 1.5 0 0 0-3 0v.66A7 7 0 0 0 5 11v5l-2 2v1h18v-1z"></path></svg></button>
+<div style="position: relative">
+<button type="button" class="icon-btn" style="position: relative" aria-label="Pendências" aria-haspopup="dialog" aria-expanded="{{panelOpenStr}}" onClick="{{togglePanel}}">
+<svg width="24" height="24" viewBox="0 0 24 24" fill="{{bellColor}}" aria-hidden="true"><path d="M12 22a2.5 2.5 0 0 0 2.45-2h-4.9A2.5 2.5 0 0 0 12 22zm7-6V11a7 7 0 0 0-5.5-6.84V3.5a1.5 1.5 0 0 0-3 0v.66A7 7 0 0 0 5 11v5l-2 2v1h18v-1z"></path></svg>
+<sc-if value="{{showBadge}}" hint-placeholder-val="{{true}}"><span class="badge" style="top: -2px; right: -4px" aria-label="{{badgeAria}}">{{badgeText}}</span></sc-if>
+</button>
+<sc-if value="{{panelOpen}}" hint-placeholder-val="{{false}}">
+<button type="button" aria-label="Fechar painel de pendências" onClick="{{closePanel}}" style="position: fixed; inset: 0; background: transparent; border: 0; z-index: 20; cursor: default"></button>
+<div role="dialog" aria-label="Painel de pendências" class="card" style="position: absolute; right: -8px; top: 54px; width: 460px; max-width: calc(100vw - 32px); z-index: 30; box-shadow: 0 16px 40px rgba(20,30,40,.22); overflow: hidden">
+<div style="display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 14px 12px 14px 16px; border-bottom: 1px solid #DDE1E4">
+<div style="display: flex; flex-direction: column; gap: 2px">
+<span style="font-weight: 500; font-size: 17px; color: #3D4448">Pendências do setor</span>
+<span style="font-size: 12px; color: #5E676D">{{lastUpdateText}}</span>
+</div>
+<button type="button" class="icon-btn" aria-label="Atualizar pendências" onClick="{{refreshNow}}"><svg class="{{refreshCls}}" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a9 9 0 1 1-2.64-6.36"></path><path d="M21 3v6h-6"></path></svg></button>
+</div>
+<sc-if value="{{hasErr}}" hint-placeholder-val="{{false}}"><div class="alert a-error" role="alert" style="margin: 12px 16px 4px">{{err}}</div></sc-if>
+<div style="padding: 6px 0">
+<sc-for list="{{pItems}}" as="it" hint-placeholder-count="11">
+<button type="button" class="{{it.cls}}" onClick="{{it.open}}">
+<span style="flex-grow: 1">{{it.label}}</span>
+<span class="dest">{{it.dest}}</span>
+<sc-if value="{{it.loading}}" hint-placeholder-val="{{false}}"><span class="skel" style="width: 30px; height: 22px; border-radius: 11px"></span></sc-if>
+<sc-if value="{{it.ready}}" hint-placeholder-val="{{true}}"><span class="{{it.countCls}}">{{it.countText}}</span></sc-if>
+</button>
+</sc-for>
+</div>
+<div style="border-top: 1px solid #DDE1E4; padding: 6px 0">
+<span style="display: block; padding: 6px 16px 2px; font-size: 11px; font-weight: 600; color: #5E676D; text-transform: uppercase; letter-spacing: .05em">Fora do total do badge</span>
+<sc-for list="{{pExtra}}" as="it" hint-placeholder-count="1">
+<button type="button" class="{{it.cls}}" onClick="{{it.open}}">
+<span style="flex-grow: 1">{{it.label}}</span>
+<span class="dest">{{it.dest}}</span>
+<sc-if value="{{it.loading}}" hint-placeholder-val="{{false}}"><span class="skel" style="width: 30px; height: 22px; border-radius: 11px"></span></sc-if>
+<sc-if value="{{it.ready}}" hint-placeholder-val="{{true}}"><span class="{{it.countCls}}">{{it.countText}}</span></sc-if>
+</button>
+</sc-for>
+</div>
+<div style="padding: 10px 16px; background: #F5F7F8; border-top: 1px solid #DDE1E4; font-size: 12px; color: #5E676D; display: flex; justify-content: space-between; gap: 12px">
+<span>Total no badge: <strong>{{totalText}}</strong></span>
+<span>Revalidação automática a cada 5 min</span>
+</div>
+</div>
+</sc-if>
+</div>
 <div style="display: flex; flex-direction: column; gap: 2px; font-size: 15px; max-width: 320px; min-width: 0">
 <span style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis"><strong style="font-weight: 600">Usuário:</strong> {{userNome}}</span>
 <span style="display: flex; align-items: center; gap: 8px; min-width: 0"><span style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis"><strong style="font-weight: 600">Órgão/Setor:</strong> {{userSetor}}</span><svg width="12" height="12" viewBox="0 0 24 24" fill="#3D4448" aria-hidden="true" style="flex-shrink: 0"><path d="M4 8h16l-8 9z"></path></svg></span>
@@ -215,51 +258,6 @@ textarea.input{height:auto;min-height:92px;padding:10px 12px;resize:vertical;lin
 </sc-if>
 <sc-if value="{{noFilter}}" hint-placeholder-val="{{true}}"><span style="font-size: 16px; color: #6B7378">Nenhum filtro aplicado</span></sc-if>
 <div style="flex-grow: 1"></div>
-<div style="position: relative">
-<button type="button" class="btn btn-o" style="position: relative" aria-haspopup="dialog" aria-expanded="{{panelOpenStr}}" onClick="{{togglePanel}}">
-<svg width="20" height="20" viewBox="0 0 24 24" fill="{{bellColor}}" aria-hidden="true"><path d="M12 22a2.5 2.5 0 0 0 2.45-2h-4.9A2.5 2.5 0 0 0 12 22zm7-6V11a7 7 0 0 0-5.5-6.84V3.5a1.5 1.5 0 0 0-3 0v.66A7 7 0 0 0 5 11v5l-2 2v1h18v-1z"></path></svg>
-<span>Pendências</span>
-<sc-if value="{{showBadge}}" hint-placeholder-val="{{true}}"><span class="badge" aria-label="{{badgeAria}}">{{badgeText}}</span></sc-if>
-</button>
-<sc-if value="{{panelOpen}}" hint-placeholder-val="{{false}}">
-<button type="button" aria-label="Fechar painel de pendências" onClick="{{closePanel}}" style="position: fixed; inset: 0; background: transparent; border: 0; z-index: 20; cursor: default"></button>
-<div role="dialog" aria-label="Painel de pendências" class="card" style="position: absolute; right: 0; top: 52px; width: 460px; max-width: calc(100vw - 32px); z-index: 30; box-shadow: 0 16px 40px rgba(20,30,40,.22); overflow: hidden">
-<div style="display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 14px 12px 14px 16px; border-bottom: 1px solid #DDE1E4">
-<div style="display: flex; flex-direction: column; gap: 2px">
-<span style="font-weight: 500; font-size: 17px; color: #3D4448">Pendências do setor</span>
-<span style="font-size: 12px; color: #5E676D">{{lastUpdateText}}</span>
-</div>
-<button type="button" class="icon-btn" aria-label="Atualizar pendências" onClick="{{refreshNow}}"><svg class="{{refreshCls}}" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a9 9 0 1 1-2.64-6.36"></path><path d="M21 3v6h-6"></path></svg></button>
-</div>
-<sc-if value="{{hasErr}}" hint-placeholder-val="{{false}}"><div class="alert a-error" role="alert" style="margin: 12px 16px 4px">{{err}}</div></sc-if>
-<div style="padding: 6px 0">
-<sc-for list="{{pItems}}" as="it" hint-placeholder-count="11">
-<button type="button" class="{{it.cls}}" onClick="{{it.open}}">
-<span style="flex-grow: 1">{{it.label}}</span>
-<span class="dest">{{it.dest}}</span>
-<sc-if value="{{it.loading}}" hint-placeholder-val="{{false}}"><span class="skel" style="width: 30px; height: 22px; border-radius: 11px"></span></sc-if>
-<sc-if value="{{it.ready}}" hint-placeholder-val="{{true}}"><span class="{{it.countCls}}">{{it.countText}}</span></sc-if>
-</button>
-</sc-for>
-</div>
-<div style="border-top: 1px solid #DDE1E4; padding: 6px 0">
-<span style="display: block; padding: 6px 16px 2px; font-size: 11px; font-weight: 600; color: #5E676D; text-transform: uppercase; letter-spacing: .05em">Fora do total do badge</span>
-<sc-for list="{{pExtra}}" as="it" hint-placeholder-count="1">
-<button type="button" class="{{it.cls}}" onClick="{{it.open}}">
-<span style="flex-grow: 1">{{it.label}}</span>
-<span class="dest">{{it.dest}}</span>
-<sc-if value="{{it.loading}}" hint-placeholder-val="{{false}}"><span class="skel" style="width: 30px; height: 22px; border-radius: 11px"></span></sc-if>
-<sc-if value="{{it.ready}}" hint-placeholder-val="{{true}}"><span class="{{it.countCls}}">{{it.countText}}</span></sc-if>
-</button>
-</sc-for>
-</div>
-<div style="padding: 10px 16px; background: #F5F7F8; border-top: 1px solid #DDE1E4; font-size: 12px; color: #5E676D; display: flex; justify-content: space-between; gap: 12px">
-<span>Total no badge: <strong>{{totalText}}</strong></span>
-<span>Revalidação automática a cada 5 min</span>
-</div>
-</div>
-</sc-if>
-</div>
 <button type="button" class="icon-btn" aria-label="Mostrar ou ocultar filtros" aria-expanded="{{coStr.fil}}" onClick="{{ct.fil}}"><svg class="{{chev.fil}}" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="m6 15 6-6 6 6"></path></svg></button>
 </div>
 <sc-if value="{{co.fil}}" hint-placeholder-val="{{false}}">
@@ -1502,7 +1500,6 @@ class Component extends DCLogic {
       navPendCls: inPend ? 'nav sub2 on' : 'nav sub2', navPendCur: inPend ? 'page' : 'false',
       navPendencias: () => this.setState({ view: 'lista', panelOpen: true, collapsed: Object.assign({}, this.state.collapsed) }),
       navAnotacoes: () => this.toast('"Com Anotações" pertence ao RF-027 e não faz parte deste protótipo.', 'info'),
-      bellHeader: () => this.toast('Notificações gerais do sistema — fora do escopo do RF-028. As pendências ficam no botão "Pendências" da listagem.', 'info'),
       crumbs: crumbs, co: co, coStr: coStr, chev: chev, ct: ct,
 
       /* painel */

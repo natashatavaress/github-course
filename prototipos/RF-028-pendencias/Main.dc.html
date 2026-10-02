@@ -275,12 +275,12 @@ textarea.input{height:auto;min-height:92px;padding:10px 12px;resize:vertical;lin
 </section>
 </sc-if>
 
-<!-- ================= RF-014 · Gerenciar assinatura (destino do redirecionamento) ================= -->
+<!-- ================= Destino dos redirecionamentos (RF-014 Assinar · RF-012 Enviar) ================= -->
 <sc-if value="{{isAssinView}}" hint-placeholder-val="{{false}}">
-<section class="card" aria-label="Gerenciar assinatura">
-<div class="card-h"><h2 class="card-t">Gerenciar assinatura</h2></div>
+<section class="card" aria-label="{{redirTitulo}}">
+<div class="card-h"><h2 class="card-t">{{redirTitulo}}</h2></div>
 <div class="card-b">
-<div class="alert a-info"><span style="font-weight: 500">Tela do RF-014 (Gerenciar Assinaturas).</span><span>O protótipo do RF-028 só faz o redirecionamento com os processos selecionados; a assinatura em si é especificada no RF-014.</span></div>
+<div class="alert a-info"><span style="font-weight: 500">Tela do {{redirRf}}.</span><span>O protótipo do RF-028 só faz o redirecionamento com os processos selecionados; {{redirFluxo}} é especificado no {{redirRfCurto}}.</span></div>
 <span class="card-s">Processos</span>
 <div class="tbl">
 <div role="row" class="tr th g-ass"><span role="columnheader">Processos</span><span role="columnheader">Assunto</span><span role="columnheader">Andamento atual</span><span role="columnheader">Responsável</span></div>
@@ -290,7 +290,7 @@ textarea.input{height:auto;min-height:92px;padding:10px 12px;resize:vertical;lin
 </div>
 <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px">
 <button type="button" class="btn btn-o btn-w" onClick="{{voltarPend}}">{{voltarLabel}}</button>
-<button type="button" class="btn btn-w" disabled="{{true}}" title="Fluxo de assinatura do RF-014">Enviar para assinatura</button>
+<button type="button" class="btn btn-w" disabled="{{true}}" title="Fluxo do {{redirRfCurto}}">{{redirBtn}}</button>
 </div>
 </div>
 </section>
@@ -326,14 +326,14 @@ textarea.input{height:auto;min-height:92px;padding:10px 12px;resize:vertical;lin
 </div>
 <sc-if value="{{co.proc}}" hint-placeholder-val="{{true}}">
 <div class="card-b" style="gap: 20px">
-<sc-if value="{{notAssin}}" hint-placeholder-val="{{true}}">
+<sc-if value="{{notSingle}}" hint-placeholder-val="{{true}}">
 <div style="display: flex; align-items: center; gap: 4px; flex-wrap: wrap">
 <button type="button" class="tb" aria-label="Atualizar lista" title="Atualizar lista" onClick="{{reloadList}}"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M21 12a9 9 0 1 1-2.64-6.36"></path><path d="M21 3v6h-6"></path></svg></button>
 <button type="button" class="tb" aria-label="Tramitar (RF-013)" title="Tramitar (RF-013)" disabled="{{tbDis}}" onClick="{{actTramitar}}"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M4 8h14l-3-3M20 16H6l3 3"></path></svg></button>
 <button type="button" class="tb" aria-label="Novo documento (RF-015)" title="Novo documento (RF-015)" disabled="{{tbDis}}" onClick="{{actNovoDoc}}"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path d="M6 3h8l4 4v14H6z"></path><path d="M12 11v6M9 14h6"></path></svg></button>
 <button type="button" class="tb" aria-label="Anexar (RF-016)" title="Anexar (RF-016)" disabled="{{tbDis}}" onClick="{{actAnexar}}"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M8 12V7a4 4 0 0 1 8 0v10a6 6 0 0 1-12 0V9"></path></svg></button>
 <button type="button" class="tb" aria-label="Assinar (RF-014)" title="{{assinTitle}}" disabled="{{tbDis}}" onClick="{{assinar}}"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="m15 4 5 5-10 10H5v-5zM4 21h16v-1.6H4z"></path></svg></button>
-<button type="button" class="tb" aria-label="Enviar processo (RF-012)" title="Enviar processo (RF-012)" disabled="{{tbDis}}" onClick="{{actEnviar}}"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M2 21 23 12 2 3l3 9zm3-9h9"></path></svg></button>
+<button type="button" class="tb" aria-label="Enviar processo (RF-012)" title="{{enviarTitle}}" disabled="{{tbDis}}" onClick="{{actEnviar}}"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M2 21 23 12 2 3l3 9zm3-9h9"></path></svg></button>
 <button type="button" class="tb" aria-label="Visualizar documentos (RF-024)" title="Visualizar documentos (RF-024)" disabled="{{tbDis}}" onClick="{{actVisualizar}}"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path d="M2 12c3-5 6.5-7 10-7s7 2 10 7c-3 5-6.5 7-10 7S5 17 2 12z"></path><circle cx="12" cy="12" r="3"></circle></svg></button>
 <div style="flex-grow: 1"></div>
 <span style="font-size: 14px; color: #5E676D; margin-right: 12px">{{selText}}</span>
@@ -344,6 +344,12 @@ textarea.input{height:auto;min-height:92px;padding:10px 12px;resize:vertical;lin
 <div style="display: flex; align-items: center; gap: 12px; flex-wrap: wrap">
 <button type="button" class="tb" aria-label="Assinar (RF-014)" disabled="{{tbDis}}" title="{{assinTitle}}" onClick="{{assinar}}"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="m15 4 5 5-10 10H5v-5zM4 21h16v-1.6H4z"></path></svg></button>
 <span style="font-size: 14px; color: #5E676D">{{assinHint}}</span>
+</div>
+</sc-if>
+<sc-if value="{{isEnviar}}" hint-placeholder-val="{{false}}">
+<div style="display: flex; align-items: center; gap: 12px; flex-wrap: wrap">
+<button type="button" class="tb" aria-label="Enviar processo (RF-012)" disabled="{{tbDis}}" title="{{enviarTitle}}" onClick="{{actEnviar}}"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M2 21 23 12 2 3l3 9zm3-9h9"></path></svg></button>
+<span style="font-size: 14px; color: #5E676D">{{enviarHint}}</span>
 </div>
 </sc-if>
 <div>
@@ -1193,6 +1199,16 @@ class Component extends DCLogic {
     if (this.state.pendGroup === gid) return;
     this.setState({ pendGroup: gid, pendTab: null, page: 1 });
   }
+  redirecionar(rf, tops) {
+    const s = this.state, ids = [];
+    tops.forEach(p => { if (s.sel[p.id]) ids.push(p.id); p.apensos.forEach(id => { if (s.sel[id]) ids.push(id); }); });
+    this.setState({ view: 'assinaturas', redirRf: rf, assinIds: ids, assinFrom: s.view === 'pendencias' ? 'pend' : 'lista' });
+  }
+  redirInfo(rf) {
+    return rf === '012'
+      ? { titulo: 'Enviar processo', rf: 'RF-012 (Enviar Processo)', curto: 'RF-012', fluxo: 'o envio (tramitação) em si', btn: 'Enviar' }
+      : { titulo: 'Gerenciar assinatura', rf: 'RF-014 (Gerenciar Assinaturas)', curto: 'RF-014', fluxo: 'a assinatura em si', btn: 'Enviar para assinatura' };
+  }
   goPend() {
     const t = this.state.pendTab;
     this.setState({ view: 'pendencias', page: 1 });
@@ -1499,7 +1515,8 @@ class Component extends DCLogic {
     const tabDef = inPend ? this.pdefs().find(p => p.id === s.pendTab) : null;
     const ef = tabDef && tabDef.kind === 'filtro' ? tabDef.id : null;
     const procCrumb = { t: 'Processos', link: true, last: false, go: () => this.goLista(true) };
-    const crumbs = s.view === 'assinaturas' ? (s.assinFrom === 'pend' ? [procCrumb, { t: 'Com Pendências', link: true, last: false, go: () => this.goPend() }, { t: 'Gerenciar assinatura (RF-014)', link: false, last: true }] : [procCrumb, { t: 'Listagem de processos', link: true, last: false, go: () => this.goLista(false) }, { t: 'Gerenciar assinatura (RF-014)', link: false, last: true }]) : !inPend
+    const ri = this.redirInfo(s.redirRf);
+    const crumbs = s.view === 'assinaturas' ? (s.assinFrom === 'pend' ? [procCrumb, { t: 'Com Pendências', link: true, last: false, go: () => this.goPend() }, { t: ri.titulo + ' (' + ri.curto + ')', link: false, last: true }] : [procCrumb, { t: 'Listagem de processos', link: true, last: false, go: () => this.goLista(false) }, { t: ri.titulo + ' (' + ri.curto + ')', link: false, last: true }]) : !inPend
       ? [procCrumb, { t: 'Listagem de processos', link: false, last: true }]
       : (tabDef ? [procCrumb, { t: 'Com Pendências', link: true, last: false, go: () => this.setState({ pendGroup: null, pendTab: null }) }, { t: tabDef.label, link: false, last: true }] : [procCrumb, { t: 'Com Pendências', link: false, last: true }]);
 
@@ -1715,7 +1732,7 @@ class Component extends DCLogic {
     return {
       userNome: u.nome, userPerfil: u.perfil, userSetor: u.setor, userIni: u.ini,
       isChefe: isChefe, notChefe: !isChefe, isGab: isGab, notGab: !isGab,
-      isAssinView: s.view === 'assinaturas', assinRows: (s.assinIds || []).map(id => byId[id]).filter(Boolean).map(p => ({ numero: p.numero, assunto: p.assunto, evento: p.evento, resp: p.resp })),
+      isAssinView: s.view === 'assinaturas', redirTitulo: ri.titulo, redirRf: ri.rf, redirRfCurto: ri.curto, redirFluxo: ri.fluxo, redirBtn: ri.btn, assinRows: (s.assinIds || []).map(id => byId[id]).filter(Boolean).map(p => ({ numero: p.numero, assunto: p.assunto, evento: p.evento, resp: p.resp })),
       voltarPend: () => (s.assinFrom === 'pend' ? this.goPend() : this.goLista(false)), voltarLabel: s.assinFrom === 'pend' ? 'Voltar para Com Pendências' : 'Voltar para a Listagem de processos',
       isLista: s.view === 'lista', isPend: inPend, showProc: s.view === 'lista' || !!ef, procTitle: ef ? tabDef.label : 'Processos', pTypes: pTypes, pItemsG: pItemsG, hasGroup: !!grp, noGroup: !grp, groupNoItem: !!grp && !s.pendTab, groupLabel: grp ? grp.label : '', showRevNote: !!grp && grp.id === 'pg-rev', goPend: () => this.goPend(), bellAria: 'Pendências: ' + (snap ? total : 'carregando'), pendSub: 'Setor: ' + u.setor + (snap ? ' · ' + total + ' pendência(s) no total do sino' : ''),
       isAut: inPend && s.pendTab === 'P01', isAce: inPend && s.pendTab === 'P08', isJun: inPend && s.pendTab === 'P09', isPrz: inPend && s.pendTab === 'P10', isAvo: inPend && s.pendTab === 'P11',
@@ -1757,15 +1774,17 @@ class Component extends DCLogic {
       toggleAllPage: () => this.setState(st => { const sel = Object.assign({}, st.sel); pageIds.forEach(id => { sel[id] = !allPageChecked; }); return { sel: sel }; }),
       reloadList: () => { this.loadList(); this.refresh(); },
       configTabela: () => this.toast('A configuração de colunas pertence ao RF-011 (Personalizar Listagem).', 'info'),
-      isAssin: ef === 'P02', notAssin: ef !== 'P02',
+      isAssin: ef === 'P02', isEnviar: ef === 'P03', notSingle: ef !== 'P02' && ef !== 'P03',
+      enviarTitle: assinN ? 'Enviar os processos selecionados (RF-012)' : 'Selecione ao menos um processo para enviar',
+      enviarHint: assinN ? this.plural(assinN, 'processo selecionado', 'processos selecionados') + ' para envio.' : 'Selecione os processos na tabela para habilitar o envio.',
       assinDis: assinN === 0, tbDis: assinN === 0,
       actTramitar: () => this.toast('Abrindo Tramitar (RF-013) com ' + this.plural(assinN, 'processo selecionado', 'processos selecionados') + '.', 'info'),
       actNovoDoc: () => this.toast('Abrindo Novo documento (RF-015) com ' + this.plural(assinN, 'processo selecionado', 'processos selecionados') + '.', 'info'),
       actAnexar: () => this.toast('Abrindo Anexar (RF-016) com ' + this.plural(assinN, 'processo selecionado', 'processos selecionados') + '.', 'info'),
-      actEnviar: () => this.toast('Abrindo Enviar processo (RF-012) com ' + this.plural(assinN, 'processo selecionado', 'processos selecionados') + '.', 'info'),
+      actEnviar: () => this.redirecionar('012', tops),
       actVisualizar: () => this.toast('Abrindo Visualizar documentos (RF-024) com ' + this.plural(assinN, 'processo selecionado', 'processos selecionados') + '.', 'info'), assinTitle: assinN ? 'Assinar os processos selecionados (RF-014)' : 'Selecione ao menos um processo para assinar',
       assinHint: assinN ? this.plural(assinN, 'processo selecionado', 'processos selecionados') + ' para assinatura.' : 'Selecione os processos na tabela para habilitar a assinatura.',
-      assinar: () => { const ids = []; tops.forEach(p => { if (s.sel[p.id]) ids.push(p.id); p.apensos.forEach(id => { if (s.sel[id]) ids.push(id); }); }); this.setState({ view: 'assinaturas', assinIds: ids, assinFrom: s.view === 'pendencias' ? 'pend' : 'lista' }); },
+      assinar: () => this.redirecionar('014', tops),
       exportar: () => this.toast('Exportação para Excel simulada: ' + tops.length + ' processo(s).', 'info'),
       skelRows: [1, 2, 3, 4, 5, 6].map(n => ({ n: n })),
       listLoading: s.listLoading, listError: listError,

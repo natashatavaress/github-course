@@ -20,7 +20,7 @@ pendências, volume 99+) e simulação de falha.
 | Tela do PRD | Onde está no protótipo |
 |---|---|
 | 01 — Painel de Pendências | Página **Com Pendências** (sino do cabeçalho ou submenu): seleção de tipo e de item, com contagens, horário da última atualização e "Atualizar" |
-| 02 — Lista filtrada por pendência | Itens P02–P07 e P12: tabela de processos filtrada, com apensados |
+| 02 — Lista filtrada por pendência | Itens P02–P07 e P12: tabela de processos filtrada, com apensados. Em "Aguardando assinatura" (P02), a única ação acima da tabela é "Assinar", habilitada ao selecionar processos, que redireciona para Gerenciar assinatura (RF-014) com os selecionados |
 | 03 — Solicitações de Autuação Pendentes | Item "Autuação" (P01), com filtros iniciais da RN25, "Filtros Exclusivos do Protocolo" só para o Setor 41 (RN78), marcação "Todas p/ Envio · Todas p/ Assinatura" e ação de linha por origem (RN79) |
 | 04 — Autuação de Processo Eletrônico | Diálogo aberto por "Prosseguir com Autuação" |
 | 05 — Aguardando Aceite de Processos | Item "Aguardando aceite" (P08): "Aceite eletrônico — Recebimento de Processos", com as colunas do PRD, marcação em cascata dos apensados (RN41), "Aceitar TODOS", "Devolver Selecionados" e "Fechar" (RN81) |

@@ -95,6 +95,7 @@ a{color:#1E78BE}a:hover{color:#155A90}
 .g-jun{grid-template-columns:210px 1.4fr 116px 1fr 1fr 140px 116px 200px 64px 180px}
 .g-prz{grid-template-columns:56px 210px 140px 140px 120px 104px 100px 100px 124px 124px 140px 120px}
 .g-avo{grid-template-columns:56px 210px 210px 120px 120px 1.2fr 1.2fr 130px 1.3fr 140px 190px 110px}
+.g-ass{grid-template-columns:220px 1.5fr 1.3fr 160px}
 .g-doc{grid-template-columns:48px 1fr 110px 76px}
 .g-pr2{grid-template-columns:1fr 80px 1.3fr 120px}
 .g-arq{grid-template-columns:1fr 110px 140px}
@@ -274,6 +275,27 @@ textarea.input{height:auto;min-height:92px;padding:10px 12px;resize:vertical;lin
 </section>
 </sc-if>
 
+<!-- ================= RF-014 · Gerenciar assinatura (destino do redirecionamento) ================= -->
+<sc-if value="{{isAssinView}}" hint-placeholder-val="{{false}}">
+<section class="card" aria-label="Gerenciar assinatura">
+<div class="card-h"><h2 class="card-t">Gerenciar assinatura</h2></div>
+<div class="card-b">
+<div class="alert a-info"><span style="font-weight: 500">Tela do RF-014 (Gerenciar Assinaturas).</span><span>O protótipo do RF-028 só faz o redirecionamento com os processos selecionados; a assinatura em si é especificada no RF-014.</span></div>
+<span class="card-s">Processos</span>
+<div class="tbl">
+<div role="row" class="tr th g-ass"><span role="columnheader">Processos</span><span role="columnheader">Assunto</span><span role="columnheader">Andamento atual</span><span role="columnheader">Responsável</span></div>
+<sc-for list="{{assinRows}}" as="r" hint-placeholder-count="2">
+<div role="row" class="tr g-ass"><span role="cell" class="strip-gray"><span class="num">{{r.numero}}</span></span><span role="cell">{{r.assunto}}</span><span role="cell">{{r.evento}}</span><span role="cell">{{r.resp}}</span></div>
+</sc-for>
+</div>
+<div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px">
+<button type="button" class="btn btn-o btn-w" onClick="{{voltarPend}}">Voltar para Com Pendências</button>
+<button type="button" class="btn btn-w" disabled="{{true}}" title="Fluxo de assinatura do RF-014">Enviar para assinatura</button>
+</div>
+</div>
+</section>
+</sc-if>
+
 <!-- ================= TELA 01 + 02 · Listagem com Painel de Pendências ================= -->
 <sc-if value="{{isLista}}" hint-placeholder-val="{{true}}">
 <section class="card" aria-label="Filtros">
@@ -304,6 +326,7 @@ textarea.input{height:auto;min-height:92px;padding:10px 12px;resize:vertical;lin
 </div>
 <sc-if value="{{co.proc}}" hint-placeholder-val="{{true}}">
 <div class="card-b" style="gap: 20px">
+<sc-if value="{{notAssin}}" hint-placeholder-val="{{true}}">
 <div style="display: flex; align-items: center; gap: 4px; flex-wrap: wrap">
 <button type="button" class="tb" aria-label="Atualizar lista" title="Atualizar lista" onClick="{{reloadList}}"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M21 12a9 9 0 1 1-2.64-6.36"></path><path d="M21 3v6h-6"></path></svg></button>
 <button type="button" class="tb" aria-label="Tramitar (RF-013)" title="Tramitar (RF-013)" disabled="{{true}}"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M4 8h14l-3-3M20 16H6l3 3"></path></svg></button>
@@ -316,6 +339,13 @@ textarea.input{height:auto;min-height:92px;padding:10px 12px;resize:vertical;lin
 <span style="font-size: 14px; color: #5E676D; margin-right: 12px">{{selText}}</span>
 <button type="button" class="lnk green" onClick="{{exportar}}"><svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="13" height="18" rx="1" fill="#13855E"></rect><path d="M6.5 8.5l4 7M10.5 8.5l-4 7" stroke="#FFFFFF" stroke-width="1.8"></path><path d="M16 6h5v12h-5" fill="none" stroke="#13855E" stroke-width="1.8"></path></svg>Exportar para excel</button>
 </div>
+</sc-if>
+<sc-if value="{{isAssin}}" hint-placeholder-val="{{false}}">
+<div style="display: flex; align-items: center; gap: 12px; flex-wrap: wrap">
+<button type="button" class="btn" disabled="{{assinDis}}" title="{{assinTitle}}" onClick="{{assinar}}"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="m15 4 5 5-10 10H5v-5zM4 21h16v-1.6H4z"></path></svg>Assinar</button>
+<span style="font-size: 14px; color: #5E676D">{{assinHint}}</span>
+</div>
+</sc-if>
 <div>
 <div style="overflow-x: auto" class="tbl">
 <div role="table" aria-label="Processos" style="min-width: 1180px">
@@ -970,7 +1000,7 @@ class Component extends DCLogic {
     const pk = this.pkOf(p);
     return {
       pk: pk, data: this.buildData(p.cenario || 'Padrão', pk),
-      view: 'lista', pendTab: null, pendGroup: null, panelOpen: false, filter: null, search: '', page: 1, per: 10, sel: {},
+      view: 'lista', assinIds: [], pendTab: null, pendGroup: null, panelOpen: false, filter: null, search: '', page: 1, per: 10, sel: {},
       sideOpen: true, pautaOpen: false, distOpen: false,
       collapsed: { fil: true },
       snapshot: null, lastUpdate: null, loading: true, err: null, listLoading: false, autUpd: new Date(),
@@ -1469,7 +1499,7 @@ class Component extends DCLogic {
     const tabDef = inPend ? this.pdefs().find(p => p.id === s.pendTab) : null;
     const ef = tabDef && tabDef.kind === 'filtro' ? tabDef.id : null;
     const procCrumb = { t: 'Processos', link: true, last: false, go: () => this.goLista(true) };
-    const crumbs = !inPend
+    const crumbs = s.view === 'assinaturas' ? [procCrumb, { t: 'Com Pendências', link: true, last: false, go: () => this.goPend() }, { t: 'Gerenciar assinatura (RF-014)', link: false, last: true }] : !inPend
       ? [procCrumb, { t: 'Listagem de processos', link: false, last: true }]
       : (tabDef ? [procCrumb, { t: 'Com Pendências', link: true, last: false, go: () => this.setState({ pendGroup: null, pendTab: null }) }, { t: tabDef.label, link: false, last: true }] : [procCrumb, { t: 'Com Pendências', link: false, last: true }]);
 
@@ -1506,6 +1536,7 @@ class Component extends DCLogic {
     });
     const rows = [], pageIds = [];
     pageTops.forEach(p => { rows.push(mkRow(p, false)); pageIds.push(p.id); p.apensos.forEach(id => { if (byId[id]) { rows.push(mkRow(byId[id], true)); pageIds.push(id); } }); });
+    const assinN = ef === 'P02' ? tops.reduce((n, p) => n + (s.sel[p.id] ? 1 : 0) + p.apensos.filter(id => s.sel[id]).length, 0) : 0;
     const allPageChecked = pageIds.length > 0 && pageIds.every(id => s.sel[id]);
     const fail = !!(this.props && this.props.simularFalha);
     const listError = !!ef && fail && !s.listLoading;
@@ -1684,6 +1715,8 @@ class Component extends DCLogic {
     return {
       userNome: u.nome, userPerfil: u.perfil, userSetor: u.setor, userIni: u.ini,
       isChefe: isChefe, notChefe: !isChefe, isGab: isGab, notGab: !isGab,
+      isAssinView: s.view === 'assinaturas', assinRows: (s.assinIds || []).map(id => byId[id]).filter(Boolean).map(p => ({ numero: p.numero, assunto: p.assunto, evento: p.evento, resp: p.resp })),
+      voltarPend: () => this.goPend(),
       isLista: s.view === 'lista', isPend: inPend, showProc: s.view === 'lista' || !!ef, procTitle: ef ? tabDef.label : 'Processos', pTypes: pTypes, pItemsG: pItemsG, hasGroup: !!grp, noGroup: !grp, groupNoItem: !!grp && !s.pendTab, groupLabel: grp ? grp.label : '', showRevNote: !!grp && grp.id === 'pg-rev', goPend: () => this.goPend(), bellAria: 'Pendências: ' + (snap ? total : 'carregando'), pendSub: 'Setor: ' + u.setor + (snap ? ' · ' + total + ' pendência(s) no total do sino' : ''),
       isAut: inPend && s.pendTab === 'P01', isAce: inPend && s.pendTab === 'P08', isJun: inPend && s.pendTab === 'P09', isPrz: inPend && s.pendTab === 'P10', isAvo: inPend && s.pendTab === 'P11',
       goLista: () => this.goLista(false), goListaRefresh: () => this.goLista(true),
@@ -1724,6 +1757,10 @@ class Component extends DCLogic {
       toggleAllPage: () => this.setState(st => { const sel = Object.assign({}, st.sel); pageIds.forEach(id => { sel[id] = !allPageChecked; }); return { sel: sel }; }),
       reloadList: () => { this.loadList(); this.refresh(); },
       configTabela: () => this.toast('A configuração de colunas pertence ao RF-011 (Personalizar Listagem).', 'info'),
+      isAssin: ef === 'P02', notAssin: ef !== 'P02',
+      assinDis: assinN === 0, assinTitle: assinN ? 'Assinar os processos selecionados (RF-014)' : 'Selecione ao menos um processo para assinar',
+      assinHint: assinN ? this.plural(assinN, 'processo selecionado', 'processos selecionados') + ' para assinatura.' : 'Selecione os processos na tabela para habilitar a assinatura.',
+      assinar: () => { const ids = []; tops.forEach(p => { if (s.sel[p.id]) ids.push(p.id); p.apensos.forEach(id => { if (s.sel[id]) ids.push(id); }); }); this.setState({ view: 'assinaturas', assinIds: ids }); },
       exportar: () => this.toast('Exportação para Excel simulada: ' + tops.length + ' processo(s).', 'info'),
       skelRows: [1, 2, 3, 4, 5, 6].map(n => ({ n: n })),
       listLoading: s.listLoading, listError: listError,

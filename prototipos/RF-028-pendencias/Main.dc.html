@@ -508,8 +508,8 @@ textarea.input{height:auto;min-height:92px;padding:10px 12px;resize:vertical;lin
 <sc-for list="{{aceRows}}" as="c" hint-placeholder-count="4">
 <div role="row" class="tr g-ace {{c.cls}}">
 <span role="cell"><input type="checkbox" class="cb" aria-label="Marcar processo {{c.numero}}" disabled="{{c.isChild}}" checked="{{c.checked}}" onChange="{{c.toggle}}"></span>
-<span role="cell"><span class="{{c.sitCls}}">{{c.sitText}}</span></span>
-<span role="cell" class="{{c.stripCls}}"><sc-if value="{{c.isChild}}" hint-placeholder-val="{{false}}"><span aria-hidden="true" style="color: #6B7378">↳</span></sc-if><span class="num">{{c.numero}}</span></span>
+<span role="cell" class="{{c.stripCls}}"><span class="{{c.sitCls}}">{{c.sitText}}</span></span>
+<span role="cell"><sc-if value="{{c.isChild}}" hint-placeholder-val="{{false}}"><span aria-hidden="true" style="color: #6B7378">↳</span></sc-if><span class="num">{{c.numero}}</span></span>
 <span role="cell">{{c.remetente}}</span>
 <span role="cell">{{c.conselheiro}}</span>
 <span role="cell">{{c.consSubst}}</span>

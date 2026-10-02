@@ -91,7 +91,7 @@ a{color:#1E78BE}a:hover{color:#155A90}
 .strip-red{box-shadow:inset 6px 0 0 #C62828}
 .g-lista{grid-template-columns:56px 260px 1.4fr 1.3fr 1.2fr 116px 150px}
 .g-aut{grid-template-columns:56px 130px 116px 1.3fr 1.6fr 140px 1.4fr 180px 64px 140px 190px}
-.g-ace{grid-template-columns:56px 170px 220px 200px 150px 170px 180px 150px 1.3fr 140px 1.3fr 130px 1.2fr}
+.g-ace{grid-template-columns:56px 170px 200px 150px 170px 180px 150px 1.3fr 140px 1.3fr 130px 1.2fr 220px}
 .g-jun{grid-template-columns:210px 1.4fr 116px 1fr 1fr 140px 116px 200px 64px 180px}
 .g-prz{grid-template-columns:56px 210px 140px 140px 120px 104px 100px 100px 124px 124px 140px 120px}
 .g-avo{grid-template-columns:56px 210px 210px 120px 120px 1.2fr 1.2fr 130px 1.3fr 140px 190px 110px}
@@ -502,17 +502,13 @@ textarea.input{height:auto;min-height:92px;padding:10px 12px;resize:vertical;lin
 <div role="table" aria-label="Processos aguardando aceite" style="min-width: 2120px">
 <div role="row" class="tr th g-ace">
 <span role="columnheader" class="nf"><input type="checkbox" class="cb" aria-label="Marcar todos os processos" checked="{{aceAllChecked}}" onChange="{{aceToggleAll}}"></span>
-<span role="columnheader">Situação</span><span role="columnheader" class="nf">Ações</span><span role="columnheader">Processos</span><span role="columnheader">Remetente</span><span role="columnheader">Conselheiro(a)</span><span role="columnheader">Conselheiro(a) substituto(a)</span><span role="columnheader">Procurador(a)</span><span role="columnheader">Assunto</span><span role="columnheader">Responsável</span><span role="columnheader">Interessado</span><span role="columnheader" class="nf">Período no TCE</span><span role="columnheader">Origem</span>
+<span role="columnheader">Situação</span><span role="columnheader">Processos</span><span role="columnheader">Remetente</span><span role="columnheader">Conselheiro(a)</span><span role="columnheader">Conselheiro(a) substituto(a)</span><span role="columnheader">Procurador(a)</span><span role="columnheader">Assunto</span><span role="columnheader">Responsável</span><span role="columnheader">Interessado</span><span role="columnheader" class="nf">Período no TCE</span><span role="columnheader">Origem</span><span role="columnheader" class="nf">Ações</span>
 </div>
 <sc-if value="{{aceEmpty}}" hint-placeholder-val="{{false}}"><div style="padding: 40px 24px; text-align: center; font-weight: 500">Não existe processos pendente de aceite. Outro usuário já deve ter recebido.</div></sc-if>
 <sc-for list="{{aceRows}}" as="c" hint-placeholder-count="4">
 <div role="row" class="tr g-ace {{c.cls}}">
 <span role="cell"><input type="checkbox" class="cb" aria-label="Marcar processo {{c.numero}}" disabled="{{c.isChild}}" checked="{{c.checked}}" onChange="{{c.toggle}}"></span>
 <span role="cell"><span class="{{c.sitCls}}">{{c.sitText}}</span></span>
-<span role="cell">
-<button type="button" class="btn btn-s" disabled="{{c.isChild}}" onClick="{{c.ciente}}">Ciente</button>
-<button type="button" class="btn btn-o btn-s" disabled="{{c.isChild}}" onClick="{{c.devolver}}">{{c.devLabel}}</button>
-</span>
 <span role="cell" class="{{c.stripCls}}"><sc-if value="{{c.isChild}}" hint-placeholder-val="{{false}}"><span aria-hidden="true" style="color: #6B7378">↳</span></sc-if><span class="num">{{c.numero}}</span></span>
 <span role="cell">{{c.remetente}}</span>
 <span role="cell">{{c.conselheiro}}</span>
@@ -523,6 +519,10 @@ textarea.input{height:auto;min-height:92px;padding:10px 12px;resize:vertical;lin
 <span role="cell">{{c.interessado}}</span>
 <span role="cell">{{c.periodoTce}}</span>
 <span role="cell">{{c.origem}}</span>
+<span role="cell">
+<button type="button" class="btn btn-s" disabled="{{c.isChild}}" onClick="{{c.ciente}}">Ciente</button>
+<button type="button" class="btn btn-o btn-s" disabled="{{c.isChild}}" onClick="{{c.devolver}}">{{c.devLabel}}</button>
+</span>
 </div>
 </sc-for>
 </div>

@@ -70,6 +70,8 @@ a{color:#1E78BE}a:hover{color:#155A90}
 .lnk:disabled{color:#9AA1A6;cursor:not-allowed;text-decoration:none}
 .tb{width:40px;height:40px;border-radius:3px;border:0;background:#13855E;color:#FFFFFF;display:inline-flex;align-items:center;justify-content:center;cursor:pointer}
 .tb:hover{background:#0E6B4B}
+.tb-lgreen{background:#2E9E5B}
+.tb-lgreen:hover{background:#24804A}
 .tb-orange{background:#C2570C}
 .tb-orange:hover{background:#9A4509}
 .tb:disabled{background:#BFC4C8;cursor:not-allowed}
@@ -331,7 +333,7 @@ textarea.input{height:auto;min-height:92px;padding:10px 12px;resize:vertical;lin
 <sc-if value="{{notSingle}}" hint-placeholder-val="{{true}}">
 <div style="display: flex; align-items: center; gap: 4px; flex-wrap: wrap">
 <button type="button" class="tb" aria-label="Atualizar lista" title="Atualizar lista" onClick="{{reloadList}}"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M21 12a9 9 0 1 1-2.64-6.36"></path><path d="M21 3v6h-6"></path></svg></button>
-<button type="button" class="tb" aria-label="Tramitar (RF-013)" title="Tramitar (RF-013)" disabled="{{tbDis}}" onClick="{{actTramitar}}"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M4 8h14l-3-3M20 16H6l3 3"></path></svg></button>
+<button type="button" class="tb" aria-label="Tramitar (RF-013)" title="{{tramitarTitle}}" disabled="{{tbDis}}" onClick="{{actTramitar}}"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M4 8h14l-3-3M20 16H6l3 3"></path></svg></button>
 <button type="button" class="tb" aria-label="Novo documento (RF-015)" title="Novo documento (RF-015)" disabled="{{tbDis}}" onClick="{{actNovoDoc}}"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path d="M6 3h8l4 4v14H6z"></path><path d="M12 11v6M9 14h6"></path></svg></button>
 <button type="button" class="tb" aria-label="Anexar (RF-016)" title="Anexar (RF-016)" disabled="{{tbDis}}" onClick="{{actAnexar}}"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M8 12V7a4 4 0 0 1 8 0v10a6 6 0 0 1-12 0V9"></path></svg></button>
 <button type="button" class="tb" aria-label="Assinar (RF-014)" title="{{assinTitle}}" disabled="{{tbDis}}" onClick="{{assinar}}"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="m15 4 5 5-10 10H5v-5zM4 21h16v-1.6H4z"></path></svg></button>
@@ -346,6 +348,13 @@ textarea.input{height:auto;min-height:92px;padding:10px 12px;resize:vertical;lin
 <div style="display: flex; align-items: center; gap: 12px; flex-wrap: wrap">
 <button type="button" class="tb tb-orange" aria-label="Assinar (RF-014)" disabled="{{tbDis}}" title="{{assinTitle}}" onClick="{{assinar}}"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="m15 4 5 5-10 10H5v-5zM4 21h16v-1.6H4z"></path></svg></button>
 <span style="font-size: 14px; color: #5E676D">{{assinHint}}</span>
+</div>
+</sc-if>
+<sc-if value="{{isRevOficial}}" hint-placeholder-val="{{false}}">
+<div style="display: flex; align-items: center; gap: 4px; flex-wrap: wrap">
+<button type="button" class="tb tb-lgreen" aria-label="Tramitar (RF-013)" disabled="{{tbDis}}" title="{{tramitarTitle}}" onClick="{{actTramitar}}"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M4 8h14l-3-3M20 16H6l3 3"></path></svg></button>
+<button type="button" class="tb tb-orange" aria-label="Assinar (RF-014)" disabled="{{tbDis}}" title="{{assinTitle}}" onClick="{{assinar}}"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="m15 4 5 5-10 10H5v-5zM4 21h16v-1.6H4z"></path></svg></button>
+<span style="font-size: 14px; color: #5E676D; margin-left: 8px">{{revHint}}</span>
 </div>
 </sc-if>
 <sc-if value="{{isEnviar}}" hint-placeholder-val="{{false}}">
@@ -1207,6 +1216,7 @@ class Component extends DCLogic {
     this.setState({ view: 'assinaturas', redirRf: rf, assinIds: ids, assinFrom: s.view === 'pendencias' ? 'pend' : 'lista' });
   }
   redirInfo(rf) {
+    if (rf === '013') return { titulo: 'Tramitar processo', rf: 'RF-013 (Gerenciar Trâmite)', curto: 'RF-013', fluxo: 'a tramitação em si', btn: 'Tramitar' };
     return rf === '012'
       ? { titulo: 'Enviar processo', rf: 'RF-012 (Enviar Processo)', curto: 'RF-012', fluxo: 'o envio (tramitação) em si', btn: 'Enviar' }
       : { titulo: 'Gerenciar assinatura', rf: 'RF-014 (Gerenciar Assinaturas)', curto: 'RF-014', fluxo: 'a assinatura em si', btn: 'Enviar para assinatura' };
@@ -1776,11 +1786,13 @@ class Component extends DCLogic {
       toggleAllPage: () => this.setState(st => { const sel = Object.assign({}, st.sel); pageIds.forEach(id => { sel[id] = !allPageChecked; }); return { sel: sel }; }),
       reloadList: () => { this.loadList(); this.refresh(); },
       configTabela: () => this.toast('A configuração de colunas pertence ao RF-011 (Personalizar Listagem).', 'info'),
-      isAssin: ef === 'P02', isEnviar: ['P03', 'P04', 'P05'].indexOf(ef) >= 0, notSingle: ['P02', 'P03', 'P04', 'P05'].indexOf(ef) < 0,
+      isAssin: ef === 'P02', isEnviar: ['P03', 'P04', 'P05'].indexOf(ef) >= 0, notSingle: ['P02', 'P03', 'P04', 'P05', 'P06'].indexOf(ef) < 0, isRevOficial: ef === 'P06',
+      tramitarTitle: assinN ? 'Tramitar os processos selecionados (RF-013)' : 'Selecione ao menos um processo para tramitar',
+      revHint: assinN ? this.plural(assinN, 'processo selecionado', 'processos selecionados') + '.' : 'Selecione os processos na tabela para habilitar as ações.',
       enviarTitle: assinN ? 'Enviar os processos selecionados (RF-012)' : 'Selecione ao menos um processo para enviar',
       enviarHint: assinN ? this.plural(assinN, 'processo selecionado', 'processos selecionados') + ' para envio.' : 'Selecione os processos na tabela para habilitar o envio.',
       assinDis: assinN === 0, tbDis: assinN === 0,
-      actTramitar: () => this.toast('Abrindo Tramitar (RF-013) com ' + this.plural(assinN, 'processo selecionado', 'processos selecionados') + '.', 'info'),
+      actTramitar: () => this.redirecionar('013', tops),
       actNovoDoc: () => this.toast('Abrindo Novo documento (RF-015) com ' + this.plural(assinN, 'processo selecionado', 'processos selecionados') + '.', 'info'),
       actAnexar: () => this.toast('Abrindo Anexar (RF-016) com ' + this.plural(assinN, 'processo selecionado', 'processos selecionados') + '.', 'info'),
       actEnviar: () => this.redirecionar('012', tops),

@@ -1786,7 +1786,7 @@ class Component extends DCLogic {
       toggleAllPage: () => this.setState(st => { const sel = Object.assign({}, st.sel); pageIds.forEach(id => { sel[id] = !allPageChecked; }); return { sel: sel }; }),
       reloadList: () => { this.loadList(); this.refresh(); },
       configTabela: () => this.toast('A configuração de colunas pertence ao RF-011 (Personalizar Listagem).', 'info'),
-      isAssin: ef === 'P02', isEnviar: ['P03', 'P04', 'P05'].indexOf(ef) >= 0, notSingle: ['P02', 'P03', 'P04', 'P05', 'P06'].indexOf(ef) < 0, isRevOficial: ef === 'P06',
+      isAssin: ef === 'P02', isEnviar: ['P03', 'P04', 'P05'].indexOf(ef) >= 0, notSingle: ['P02', 'P03', 'P04', 'P05', 'P06', 'P07'].indexOf(ef) < 0, isRevOficial: ef === 'P06',
       tramitarTitle: assinN ? 'Tramitar os processos selecionados (RF-013)' : 'Selecione ao menos um processo para tramitar',
       revHint: assinN ? this.plural(assinN, 'processo selecionado', 'processos selecionados') + '.' : 'Selecione os processos na tabela para habilitar as ações.',
       enviarTitle: assinN ? 'Enviar os processos selecionados (RF-012)' : 'Selecione ao menos um processo para enviar',

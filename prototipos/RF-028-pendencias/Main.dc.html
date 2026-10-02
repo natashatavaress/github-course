@@ -9,205 +9,389 @@
 <x-dc>
 <helmet>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&amp;display=swap" rel="stylesheet">
 <style>
-body{margin:0;background:#EEF2F7}
-a{color:#0F366D}a:hover{color:#0B2A55}
+body{margin:0;background:#ECEFF1}
+a{color:#1E78BE}a:hover{color:#155A90}
 *{box-sizing:border-box}
-.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:40px;padding:0 16px;border-radius:8px;border:1px solid #0F366D;background:#0F366D;color:#FFFFFF;font:600 14px/1.1 'Figtree',system-ui,sans-serif;cursor:pointer;white-space:nowrap}
-.btn:hover{background:#0B2A55;border-color:#0B2A55}
-.btn:disabled{opacity:.45;cursor:not-allowed}
-.btn-o{background:#FFFFFF;color:#0F366D;border-color:#B9C6D8}
-.btn-o:hover{background:#EEF3FA;border-color:#8FA4C2}
-.btn-t{background:transparent;color:#0F366D;border-color:transparent;padding:0 10px}
-.btn-t:hover{background:#E4EBF5;border-color:transparent}
-.btn-d{background:#B42318;border-color:#B42318}
-.btn-d:hover{background:#912018;border-color:#912018}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+/* ---------- casca: cabeçalho, menu lateral, trilha ---------- */
+.hdr{height:82px;background:#FFFFFF;border-bottom:1px solid #DDE1E4;display:flex;align-items:center;gap:16px;padding:0 24px}
+.hamb{width:40px;height:40px;border-radius:4px;border:1px solid #B9BFC4;background:#DADDE0;color:#2F3437;display:inline-flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0}
+.hamb:hover{background:#CDD1D5}
+.gsearch{display:flex;align-items:center;width:500px;max-width:40vw;height:50px;border:1px solid #C9CED2;border-radius:4px;background:#FFFFFF;padding:0 8px 0 16px}
+.gsearch input{flex-grow:1;border:0;outline:0;font:400 15px 'Poppins',sans-serif;color:#3D4448;background:transparent;min-width:0}
+.gsearch:focus-within{outline:2px solid #1E78BE;outline-offset:1px}
+.side{width:250px;background:#FFFFFF;flex-shrink:0;padding:16px 0;display:flex;flex-direction:column;gap:2px;transition:width .15s}
+.side.mini{width:58px}
+.side.mini .lbl,.side.mini .sub,.side.mini .caret{display:none}
+.nav{display:flex;align-items:center;gap:14px;width:100%;min-height:48px;padding:0 18px;border:0;background:transparent;font:400 14px 'Poppins',sans-serif;color:#5A6268;text-align:left;cursor:pointer}
+.nav:hover{background:#F2F5F7}
+.nav.on{color:#2F3437;font-weight:500;background:#E8F1FA}
+.nav.sub2{padding-left:38px;margin:0 8px;width:calc(100% - 16px);border-radius:4px;padding-right:12px;line-height:1.3}
+.side.mini .nav.sub2{padding-left:10px}
+.nbadge{margin-left:auto;min-width:22px;height:22px;padding:0 6px;border-radius:11px;background:#C62828;color:#FFFFFF;font:600 12px/22px 'Poppins',sans-serif;text-align:center;flex-shrink:0}
+.side.mini .nbadge{display:none}
+.nav.sub{padding-left:38px}
+.nav svg{flex-shrink:0}
+.caret{margin-left:auto}
+.crumbs{height:50px;background:#FFFFFF;display:flex;align-items:center;gap:6px;padding:0 20px;flex-wrap:wrap}
+.crumb-b{border:0;background:transparent;font:400 16px 'Poppins',sans-serif;color:#3D4448;cursor:pointer;padding:4px 6px;border-radius:4px}
+.crumb-b:hover{background:#F2F5F7}
+.crumb-c{font:400 16px 'Poppins',sans-serif;color:#3D4448;padding:4px 6px}
+/* ---------- cartões ---------- */
+.card{background:#FFFFFF;border-radius:4px;box-shadow:0 1px 3px rgba(30,40,50,.16)}
+.card-h{display:flex;align-items:center;gap:14px;padding:22px 24px 14px}
+.card-t{margin:0;font:400 22px/1.3 'Poppins',sans-serif;color:#3D4448}
+.card-s{margin:0;font:600 15px 'Poppins',sans-serif;color:#6B7378}
+.card-b{padding:4px 24px 24px;display:flex;flex-direction:column;gap:16px}
+.chev{transition:transform .15s}
+.chev.down{transform:rotate(180deg)}
+.vbar{width:1px;height:20px;background:#C9CED2}
+/* ---------- botões ---------- */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:40px;padding:0 18px;border-radius:4px;border:1px solid #1E78BE;background:#1E78BE;color:#FFFFFF;font:500 14px/1.1 'Poppins',sans-serif;cursor:pointer;white-space:nowrap;text-transform:none}
+.btn:hover{background:#155A90;border-color:#155A90}
+.btn:disabled{background:#C2C7CB;border-color:#C2C7CB;color:#FFFFFF;cursor:not-allowed}
+.btn-o{background:#FFFFFF;color:#1E78BE;border-color:#1E78BE}
+.btn-o:hover{background:#EEF5FB;border-color:#155A90;color:#155A90}
+.btn-o:disabled{background:#FFFFFF;color:#9AA1A6;border-color:#C9CED2}
+.btn-g{background:#13855E;border-color:#13855E}
+.btn-g:hover{background:#0E6B4B;border-color:#0E6B4B}
+.btn-d{background:#C62828;border-color:#C62828}
+.btn-d:hover{background:#A21F1F;border-color:#A21F1F}
+.btn-t{background:transparent;color:#1E78BE;border-color:transparent;padding:0 10px}
+.btn-t:hover{background:#EEF5FB;border-color:transparent}
 .btn-s{min-height:34px;padding:0 12px;font-size:13px}
-.icon-btn{width:40px;height:40px;border-radius:20px;border:0;background:transparent;color:#0F366D;display:inline-flex;align-items:center;justify-content:center;cursor:pointer}
-.icon-btn:hover{background:#E4EBF5}
-.btn:focus-visible,.icon-btn:focus-visible,.pitem:focus-visible,.chip-x:focus-visible,.input:focus,.cb:focus-visible{outline:2px solid #2F6FD0;outline-offset:2px}
-.badge{position:absolute;top:-9px;right:-9px;min-width:22px;height:22px;padding:0 6px;border-radius:11px;background:#C62828;color:#FFFFFF;font:700 12px/22px 'Figtree',sans-serif;text-align:center;box-shadow:0 0 0 2px #FFFFFF}
-.chip{display:inline-flex;align-items:center;gap:6px;height:24px;padding:0 10px;border-radius:12px;font:600 12px/1 'Figtree',sans-serif;white-space:nowrap}
-.c-neutral{background:#E7EBF1;color:#3A4558}
-.c-primary{background:#DCE6F5;color:#0F366D}
-.c-success{background:#DDF1E3;color:#1E6B34}
-.c-warn{background:#FCEBD3;color:#7A4105}
-.c-error{background:#FBE1DE;color:#A3271C}
-.c-info{background:#E1EDFB;color:#1D4F91}
-.chip-x{width:24px;height:24px;border-radius:12px;border:0;background:transparent;color:#0F366D;display:inline-flex;align-items:center;justify-content:center;cursor:pointer}
-.chip-x:hover{background:#C3D3EC}
-.card{background:#FFFFFF;border:1px solid #DDE3EC;border-radius:12px}
-.tr{display:grid;align-items:center;column-gap:12px;padding:10px 16px;border-bottom:1px solid #E8ECF2;font-size:14px;line-height:1.35}
-.th{background:#F5F7FA;font-size:12px;font-weight:700;color:#4A5568;text-transform:uppercase;letter-spacing:.04em;padding-top:12px;padding-bottom:12px}
-.tr.child{background:#F8FAFC}
-.tr.sel{background:#EAF1FB}
-.tr.done{background:#F2FAF4}
-.g-lista{grid-template-columns:40px 170px 1.6fr 1.4fr 1.3fr 96px 130px}
-.g-aut{grid-template-columns:40px 48px 76px 88px 1.3fr 1.6fr 110px 1.4fr 150px 40px 120px}
-.g-ace{grid-template-columns:170px 1.5fr 1.3fr 130px 96px 160px 210px}
-.g-jun{grid-template-columns:160px 1.4fr 96px 1fr 1fr 120px 84px 170px 40px 150px}
-.g-prz{grid-template-columns:40px 160px 104px 120px 96px 76px 80px 80px 104px 96px 116px}
-.g-avo{grid-template-columns:40px 160px 1.3fr 1.2fr 1fr 1.3fr 64px 200px}
-.g-doc{grid-template-columns:40px 1fr 110px}
-.g-pr2{grid-template-columns:1fr 80px 1.2fr}
-.num{font-variant-numeric:tabular-nums;font-weight:600;color:#0F366D}
-.muted{color:#4F5A6B}
-.field{display:flex;flex-direction:column;gap:6px;font-size:13px;font-weight:600;color:#3A4558}
-.input{height:40px;border:1px solid #B9C6D8;border-radius:8px;padding:0 12px;font:400 14px 'Figtree',system-ui,sans-serif;color:#1B2433;background:#FFFFFF;width:100%}
-.input:disabled{background:#F1F3F7;color:#5B6577}
-textarea.input{height:auto;min-height:88px;padding:10px 12px;resize:vertical;line-height:1.45}
-.check{display:inline-flex;align-items:center;gap:8px;font-size:14px;font-weight:500;color:#1B2433;min-height:36px;cursor:pointer}
-.cb{width:18px;height:18px;accent-color:#0F366D;cursor:pointer;margin:0}
-.cb:disabled{cursor:not-allowed;opacity:.4}
-.alert{display:flex;flex-direction:column;gap:6px;padding:12px 16px;border-radius:8px;font-size:14px;line-height:1.45}
-.a-error{background:#FDECEA;color:#7A1F16;border:1px solid #F3C1BB}
+.btn-w{width:100%}
+.lnk{display:inline-flex;align-items:center;gap:8px;min-height:40px;padding:0 6px;border:0;background:transparent;font:500 14px 'Poppins',sans-serif;color:#1E78BE;cursor:pointer;white-space:nowrap}
+.lnk:hover{text-decoration:underline}
+.lnk.red{color:#C62828}
+.lnk.green{color:#13855E;font-weight:400;font-size:15px}
+.lnk:disabled{color:#9AA1A6;cursor:not-allowed;text-decoration:none}
+.tb{width:40px;height:40px;border-radius:3px;border:0;background:#13855E;color:#FFFFFF;display:inline-flex;align-items:center;justify-content:center;cursor:pointer}
+.tb:hover{background:#0E6B4B}
+.tb-lgreen{background:#2E9E5B}
+.tb-lgreen:hover{background:#24804A}
+.tb-orange{background:#C2570C}
+.tb-orange:hover{background:#9A4509}
+.tb:disabled{background:#BFC4C8;cursor:not-allowed}
+.icon-btn{width:40px;height:40px;border-radius:20px;border:0;background:transparent;color:#3D4448;display:inline-flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0}
+.icon-btn:hover{background:#EEF1F3}
+.btn:focus-visible,.icon-btn:focus-visible,.pitem:focus-visible,.chip-x:focus-visible,.input:focus,.cb:focus-visible,.lnk:focus-visible,.tb:focus-visible,.nav:focus-visible,.hamb:focus-visible,.crumb-b:focus-visible{outline:2px solid #1E78BE;outline-offset:2px}
+/* ---------- tabela ---------- */
+.tbl{border:1px solid #A7AEB3}
+.tr{display:grid;column-gap:0;border-bottom:1px solid #A7AEB3;font:400 14px/1.4 'Poppins',sans-serif;color:#3D4448}
+.tr:last-child{border-bottom:0}
+.tr>*{padding:12px 16px;border-right:1px solid #A7AEB3;min-height:64px;display:flex;align-items:center;gap:8px;min-width:0}
+.tr>*:last-child{border-right:0}
+.tr:not(.th)>[role=cell]{text-transform:uppercase}
+.th>*{font-size:15px;justify-content:space-between;background:#FFFFFF}
+.th>[role=columnheader]:not(.nf)::after{content:"";flex-shrink:0;width:0;height:0;border-left:8px solid transparent;border-right:8px solid transparent;border-top:10px solid #3D4448}
+.tr.child>*{background:#F6F8F9}
+.tr.sel>*{background:#EEF5FB}
+.tr.hot>*{background:#FDECEC}
+.tr.done>*{background:#F1F9F4}
+.strip-gray{box-shadow:inset 6px 0 0 #8E979C}
+.strip-red{box-shadow:inset 6px 0 0 #C62828}
+.g-lista{grid-template-columns:56px 260px 1.4fr 1.3fr 1.2fr 116px 150px}
+.g-aut{grid-template-columns:56px 130px 116px 1.3fr 1.6fr 140px 1.4fr 180px 64px 140px 190px}
+.g-ace{grid-template-columns:56px 170px 200px 150px 170px 180px 150px 1.3fr 140px 1.3fr 130px 1.2fr 220px}
+.g-jun{grid-template-columns:210px 1.4fr 116px 1fr 1fr 140px 116px 200px 64px 180px}
+.g-prz{grid-template-columns:56px 210px 140px 140px 120px 104px 100px 100px 124px 124px 140px 120px}
+.g-avo{grid-template-columns:56px 210px 210px 120px 120px 1.2fr 1.2fr 130px 1.3fr 140px 190px 110px}
+.g-ass{grid-template-columns:220px 1.5fr 1.3fr 160px}
+.g-doc{grid-template-columns:48px 1fr 110px 76px}
+.g-pr2{grid-template-columns:1fr 80px 1.3fr 120px}
+.g-arq{grid-template-columns:1fr 110px 140px}
+.tfoot{display:flex;align-items:center;gap:16px;flex-wrap:wrap;padding:14px 16px;border:1px solid #A7AEB3;border-top:0;font:400 15px 'Poppins',sans-serif;color:#3D4448}
+.pager{border:0;background:transparent;width:32px;height:32px;border-radius:16px;display:inline-flex;align-items:center;justify-content:center;color:#3D4448;cursor:pointer}
+.pager:hover{background:#EEF1F3}
+.pager:disabled{color:#B5BABE;cursor:not-allowed;background:transparent}
+.perpage{border:0;background:transparent;font:400 15px 'Poppins',sans-serif;color:#3D4448;cursor:pointer}
+.num{font-variant-numeric:tabular-nums;color:#3D4448;text-decoration:underline;text-underline-offset:3px;text-transform:none}
+.muted{color:#5E676D}
+/* ---------- formulários ---------- */
+.field{display:flex;flex-direction:column;gap:6px;font:400 15px 'Poppins',sans-serif;color:#5E676D}
+.input{height:42px;border:1px solid #A7AEB3;border-radius:4px;padding:0 12px;font:400 15px 'Poppins',sans-serif;color:#3D4448;background:#FFFFFF;width:100%}
+.input:disabled{background:#F2F4F5;color:#6B7378}
+textarea.input{height:auto;min-height:92px;padding:10px 12px;resize:vertical;line-height:1.45}
+.check{display:inline-flex;align-items:center;gap:10px;font:400 15px 'Poppins',sans-serif;color:#5E676D;min-height:36px;cursor:pointer}
+.cb{width:20px;height:20px;accent-color:#3D4448;cursor:pointer;margin:0;flex-shrink:0}
+.cb:disabled{cursor:not-allowed;opacity:.35}
+/* ---------- avisos, chips, badge ---------- */
+.chip{display:inline-flex;align-items:center;gap:6px;height:26px;padding:0 10px;border-radius:13px;font:500 12px/1 'Poppins',sans-serif;white-space:nowrap;text-transform:none}
+.c-neutral{background:#E6E9EB;color:#3D4448}
+.c-primary{background:#DCEBF7;color:#155A90}
+.c-success{background:#DDF1E7;color:#0E6B4B}
+.c-warn{background:#FDEBD3;color:#7A4105}
+.c-error{background:#FBE0DE;color:#A21F1F}
+.c-info{background:#E3EEF8;color:#1D4F7A}
+.chip-x{width:24px;height:24px;border-radius:12px;border:0;background:transparent;color:#3D4448;display:inline-flex;align-items:center;justify-content:center;cursor:pointer}
+.chip-x:hover{background:#E6E9EB}
+.alert{display:flex;flex-direction:column;gap:6px;padding:12px 16px;border-radius:4px;font:400 14px/1.5 'Poppins',sans-serif}
+.a-error{background:#FDECEC;color:#7A1F16;border:1px solid #F3C1BB}
 .a-warn{background:#FFF4E2;color:#6B3A06;border:1px solid #F2D2A0}
-.a-info{background:#EAF2FC;color:#173F73;border:1px solid #BCD3F0}
-.a-success{background:#E8F5EC;color:#1A5A2C;border:1px solid #B9DFC4}
-.skel{display:inline-block;height:12px;border-radius:6px;background:linear-gradient(90deg,#E3E8F0 0%,#F1F4F8 50%,#E3E8F0 100%);background-size:200% 100%;animation:sk 1.2s ease-in-out infinite}
+.a-info{background:#EEF5FB;color:#173F63;border:1px solid #C3DAEE}
+.a-success{background:#E9F6EF;color:#0E5A3F;border:1px solid #BDE2CE}
+.badge{position:absolute;top:-9px;right:-9px;min-width:22px;height:22px;padding:0 6px;border-radius:11px;background:#C62828;color:#FFFFFF;font:600 12px/22px 'Poppins',sans-serif;text-align:center;box-shadow:0 0 0 2px #FFFFFF}
+.skel{display:inline-block;height:12px;border-radius:6px;background:linear-gradient(90deg,#E3E7EA 0%,#F2F4F6 50%,#E3E7EA 100%);background-size:200% 100%;animation:sk 1.2s ease-in-out infinite}
 @keyframes sk{0%{background-position:100% 0}100%{background-position:-100% 0}}
-.pitem{display:flex;align-items:center;gap:12px;width:100%;min-height:44px;padding:8px 16px;border:0;background:transparent;text-align:left;font:500 14px/1.3 'Figtree',system-ui,sans-serif;color:#1B2433;cursor:pointer}
-.pitem:hover{background:#F1F5FB}
-.pitem.dim{color:#5E6878}
-.dest{font-size:11px;font-weight:600;color:#5B6577;white-space:nowrap}
-.count{min-width:30px;height:24px;padding:0 8px;border-radius:12px;background:#0F366D;color:#FFFFFF;font:700 12px/24px 'Figtree',sans-serif;text-align:center}
-.count.zero{background:#E7EBF1;color:#4F5A6B}
+.pitem{display:flex;align-items:center;gap:12px;width:100%;min-height:46px;padding:8px 16px;border:0;background:transparent;text-align:left;font:400 14px/1.35 'Poppins',sans-serif;color:#3D4448;cursor:pointer}
+.pitem:hover{background:#F2F5F7}
+.pitem.dim{color:#6B7378}
+.dest{font-size:11px;font-weight:500;color:#5E676D;white-space:nowrap}
+.count{min-width:30px;height:24px;padding:0 8px;border-radius:12px;background:#1E78BE;color:#FFFFFF;font:600 12px/24px 'Poppins',sans-serif;text-align:center}
+.count.zero{background:#E6E9EB;color:#5E676D}
 .spin{animation:rot .8s linear infinite}
 @keyframes rot{to{transform:rotate(360deg)}}
-.crumb{font-size:13px;color:#4F5A6B;display:flex;gap:6px;align-items:center;flex-wrap:wrap}
-.h1{margin:0;font-size:26px;font-weight:700;color:#0F366D;line-height:1.2}
-.toast{position:fixed;left:24px;bottom:24px;z-index:80;max-width:520px;padding:14px 18px;border-radius:10px;color:#FFFFFF;font:500 14px/1.45 'Figtree',sans-serif;box-shadow:0 12px 32px rgba(10,25,50,.28)}
-.t-success{background:#1E5B32}
-.t-info{background:#0F366D}
-.t-error{background:#8E1F17}
+.ptypes{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px}
+.ptype{display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:56px;padding:0 16px;border:1px solid #D5DADE;border-radius:4px;background:#FFFFFF;font:500 15px/1.3 'Poppins',sans-serif;color:#2F3437;cursor:pointer;text-align:left}
+.ptype:hover{border-color:#1E78BE;background:#F7FAFD}
+.ptype.on{background:#1E78BE;border-color:#1E78BE;color:#FFFFFF}
+.ptype:focus-visible,.pchip:focus-visible{outline:2px solid #1E78BE;outline-offset:2px}
+.ptc{min-width:28px;height:24px;padding:0 8px;border-radius:12px;background:#E6E9EB;color:#2F3437;font:600 13px/24px 'Poppins',sans-serif;text-align:center;flex-shrink:0}
+.ptc.hot{background:#C62828;color:#FFFFFF}
+.ptc.zero{background:#EEF0F2;color:#6B7378}
+.ptype.on .ptc{background:#FFFFFF;color:#155A90}
+.pitems-box{margin-top:12px;padding:14px 16px;background:#F6F8F9;border-radius:4px;display:flex;flex-direction:column;gap:8px}
+.pitems{display:flex;flex-wrap:wrap;gap:8px}
+.pchip{display:inline-flex;align-items:center;gap:10px;min-height:40px;padding:0 6px 0 16px;border:1px solid #D5DADE;border-radius:20px;background:#FFFFFF;font:400 14px 'Poppins',sans-serif;color:#2F3437;cursor:pointer}
+.pchip:hover{border-color:#1E78BE}
+.pchip.on{border-color:#1E78BE;background:#EEF5FB;color:#155A90;font-weight:500}
+.pchip.dim{color:#6B7378}
+.pic{min-width:28px;height:28px;padding:0 8px;border-radius:14px;background:#E6E9EB;color:#2F3437;font:600 12px/28px 'Poppins',sans-serif;text-align:center}
+.pic.hot{background:#C62828;color:#FFFFFF}
+.pic.zero{background:#EEF0F2;color:#6B7378}
+.pchip.on .pic{background:#1E78BE;color:#FFFFFF}
+.phint{margin:0;font:400 14px 'Poppins',sans-serif;color:#5E676D}
+.viewer{border:1px solid #A7AEB3;border-radius:4px;background:#ECEFF1;display:flex;flex-direction:column;min-height:440px}
+.viewer-h{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:10px 12px;background:#FFFFFF;border-bottom:1px solid #DDE1E4;font:500 13px 'Poppins',sans-serif;color:#3D4448;border-radius:4px 4px 0 0}
+.viewer-page{margin:16px;background:#FFFFFF;flex-grow:1;box-shadow:0 1px 3px rgba(0,0,0,.15);padding:28px 24px;display:flex;flex-direction:column;gap:10px}
+.vl{height:8px;background:#E3E6E8;border-radius:4px}
+.ro{margin:0;padding:10px 12px;background:#F6F8F9;border-radius:4px;color:#3D4448;font:400 14px/1.5 'Poppins',sans-serif}
+.toast{position:fixed;left:24px;bottom:24px;z-index:80;max-width:520px;padding:14px 18px;border-radius:4px;color:#FFFFFF;font:400 14px/1.5 'Poppins',sans-serif;box-shadow:0 12px 32px rgba(10,25,40,.28)}
+.t-success{background:#0E6B4B}
+.t-info{background:#155A90}
+.t-error{background:#A21F1F}
 </style>
 </helmet>
-<div style="min-height: 100vh; display: flex; flex-direction: column; background: #EEF2F7; color: #1B2433; font-family: 'Figtree', system-ui, sans-serif">
+<div style="min-height: 100vh; display: flex; flex-direction: column; background: #ECEFF1; color: #3D4448; font-family: 'Poppins', system-ui, sans-serif">
 
-<header style="background: #0F366D; color: #FFFFFF">
-<div style="max-width: 1360px; margin: 0 auto; padding: 12px 32px; display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap">
-<div style="display: flex; align-items: center; gap: 12px; flex-wrap: wrap">
-<div aria-hidden="true" style="width: 38px; height: 38px; border-radius: 8px; background: #FFFFFF; color: #0F366D; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 13px">TCE</div>
-<div style="display: flex; flex-direction: column; gap: 2px">
-<span style="font-weight: 700; font-size: 18px">eTCE Web</span>
-<span style="font-size: 12px; color: #C9D6EA">Tribunal de Contas do Estado de Goiás</span>
-</div>
-<span class="chip" style="background: #F2B84B; color: #3B2A05; margin-left: 8px">Protótipo · dados simulados</span>
-</div>
-<div style="display: flex; align-items: center; gap: 12px">
-<div style="display: flex; flex-direction: column; align-items: flex-end; gap: 2px">
-<span style="font-weight: 600; font-size: 14px">{{userNome}} · {{userPerfil}}</span>
-<span style="font-size: 12px; color: #C9D6EA">{{userSetor}}</span>
-</div>
-<div aria-hidden="true" style="width: 38px; height: 38px; border-radius: 19px; background: #2A5597; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 13px">{{userIni}}</div>
+<!-- ================= CABEÇALHO ================= -->
+<header class="hdr">
+<button type="button" class="hamb" aria-label="Recolher ou expandir o menu" aria-expanded="{{sideOpenStr}}" onClick="{{toggleSide}}"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"></path></svg></button>
+<div style="display: flex; align-items: center; gap: 8px; flex-shrink: 0" aria-label="Tribunal de Contas do Estado de Goiás">
+<svg width="46" height="30" viewBox="0 0 46 30" fill="none" stroke="#2F3437" stroke-width="2" aria-hidden="true"><path d="M2 15c6-9 14-12 21-12s15 3 21 12c-6 9-14 12-21 12S8 24 2 15z"></path><circle cx="23" cy="15" r="7"></circle><circle cx="23" cy="15" r="2.5" fill="#2F3437"></circle></svg>
+<div style="display: flex; flex-direction: column; line-height: 1.05; color: #2F3437">
+<span style="font-size: 12px; font-weight: 600; letter-spacing: .02em">TRIBUNAL DE CONTAS</span>
+<span style="font-size: 12px; font-weight: 400; letter-spacing: .02em">DO ESTADO DE GOIÁS</span>
 </div>
 </div>
+<label class="gsearch">
+<span class="sr">Buscar processo</span>
+<input type="search" placeholder="Buscar processo..." value="{{search}}" onChange="{{setSearch}}">
+<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#2F3437" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-3.5-3.5"></path></svg>
+</label>
+<span class="chip c-warn" style="margin-left: 4px">Protótipo · dados simulados</span>
+<div style="flex-grow: 1"></div>
+<button type="button" class="icon-btn" style="position: relative" aria-label="{{bellAria}}" onClick="{{goPend}}">
+<svg width="24" height="24" viewBox="0 0 24 24" fill="{{bellColor}}" aria-hidden="true"><path d="M12 22a2.5 2.5 0 0 0 2.45-2h-4.9A2.5 2.5 0 0 0 12 22zm7-6V11a7 7 0 0 0-5.5-6.84V3.5a1.5 1.5 0 0 0-3 0v.66A7 7 0 0 0 5 11v5l-2 2v1h18v-1z"></path></svg>
+<sc-if value="{{showBadge}}" hint-placeholder-val="{{true}}"><span class="badge" style="top: -2px; right: -4px" aria-hidden="true">{{badgeText}}</span></sc-if>
+</button>
+<div style="display: flex; flex-direction: column; gap: 2px; font-size: 15px; max-width: 320px; min-width: 0">
+<span style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis"><strong style="font-weight: 600">Usuário:</strong> {{userNome}}</span>
+<span style="display: flex; align-items: center; gap: 8px; min-width: 0"><span style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis"><strong style="font-weight: 600">Órgão/Setor:</strong> {{userSetor}}</span><svg width="12" height="12" viewBox="0 0 24 24" fill="#3D4448" aria-hidden="true" style="flex-shrink: 0"><path d="M4 8h16l-8 9z"></path></svg></span>
+</div>
+<div aria-hidden="true" style="width: 50px; height: 50px; border-radius: 25px; background: #E3E6E8; color: #2F3437; display: flex; align-items: center; justify-content: center; font-weight: 600; font-size: 16px; flex-shrink: 0" title="{{userPerfil}}">{{userIni}}</div>
 </header>
 
-<main style="flex-grow: 1; width: 100%; max-width: 1360px; margin: 0 auto; padding: 24px 32px 64px; display: flex; flex-direction: column; gap: 16px">
+<div style="display: flex; flex-grow: 1; min-height: 0">
 
-<!-- ============ TELA 01 + 02 · Listagem de processos com Painel de Pendências ============ -->
-<sc-if value="{{isLista}}" hint-placeholder-val="{{true}}">
-<section style="display: flex; flex-direction: column; gap: 16px">
+<!-- ================= MENU LATERAL ================= -->
+<nav class="{{sideCls}}" aria-label="Menu principal">
+<button type="button" class="nav" onClick="{{navOutro}}" title="Dashboard"><svg width="20" height="20" viewBox="0 0 24 24" fill="#1E78BE" aria-hidden="true"><rect x="3" y="14" width="4" height="7"></rect><rect x="9.5" y="10" width="4" height="11"></rect><rect x="16" y="4" width="4" height="17"></rect></svg><span class="lbl">Dashboard</span></button>
+<button type="button" class="{{navListaCls}}" aria-current="{{navListaCur}}" onClick="{{goListaRefresh}}" title="Listagem de processos"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#13855E" stroke-width="2" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="1"></rect><path d="M3 9h18M3 14h18M9 9v11M15 9v11"></path></svg><span class="lbl">Listagem de processos</span></button>
+<button type="button" class="nav sub2" onClick="{{navAnotacoes}}" title="Com Anotações"><svg width="20" height="20" viewBox="0 0 24 24" fill="#F2A33A" aria-hidden="true"><path d="M4 4h16v12H8l-4 4z"></path><path d="M8 8h8M8 11.5h6" stroke="#FFFFFF" stroke-width="1.6"></path></svg><span class="lbl">Com Anotações</span><span class="nbadge">17</span></button>
+<button type="button" class="{{navPendCls}}" aria-current="{{navPendCur}}" onClick="{{navPendencias}}" title="Com Pendências"><svg width="20" height="20" viewBox="0 0 24 24" fill="#F2A33A" aria-hidden="true"><path d="M12 22a2.5 2.5 0 0 0 2.45-2h-4.9A2.5 2.5 0 0 0 12 22zm7-6V11a7 7 0 0 0-5.5-6.84V3.5a1.5 1.5 0 0 0-3 0v.66A7 7 0 0 0 5 11v5l-2 2v1h18v-1z"></path></svg><span class="lbl">Com Pendências</span><sc-if value="{{showBadge}}" hint-placeholder-val="{{true}}"><span class="nbadge" aria-label="{{badgeAria}}">{{badgeText}}</span></sc-if></button>
+<button type="button" class="nav" aria-expanded="{{pautaOpenStr}}" onClick="{{togglePauta}}" title="Pauta"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#8E44AD" stroke-width="2" aria-hidden="true"><path d="M6 3h9l4 4v14H6z"></path><path d="M9 11h7M9 15h7M9 19h4"></path></svg><span class="lbl">Pauta</span><svg class="caret" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#5A6268" stroke-width="2" aria-hidden="true"><path d="{{pautaChev}}"></path></svg></button>
+<sc-if value="{{pautaOpen}}" hint-placeholder-val="{{true}}">
+<button type="button" class="nav sub" onClick="{{navOutro}}" title="Configurar Tipo/Voto"><svg width="20" height="20" viewBox="0 0 24 24" fill="#8E44AD" aria-hidden="true"><path d="M19.4 13a7.5 7.5 0 0 0 0-2l2.1-1.6-2-3.4-2.5 1a7.4 7.4 0 0 0-1.7-1L15 3.3h-4l-.4 2.7a7.4 7.4 0 0 0-1.7 1l-2.5-1-2 3.4L6.6 11a7.5 7.5 0 0 0 0 2l-2.1 1.6 2 3.4 2.5-1a7.4 7.4 0 0 0 1.7 1l.3 2.7h4l.4-2.7a7.4 7.4 0 0 0 1.7-1l2.5 1 2-3.4zM13 15.5a3.5 3.5 0 1 1 0-7 3.5 3.5 0 0 1 0 7z" transform="translate(-1 0)"></path></svg><span class="lbl">Configurar Tipo/Voto</span></button>
+</sc-if>
+<button type="button" class="nav" aria-expanded="{{distOpenStr}}" onClick="{{toggleDist}}" title="Distribuir processos"><svg width="20" height="20" viewBox="0 0 24 24" fill="#E74C3C" aria-hidden="true"><circle cx="8" cy="8" r="3"></circle><circle cx="16" cy="8" r="3"></circle><path d="M2 19c0-3.3 2.7-5 6-5s6 1.7 6 5zM12 19c.2-2.4 1.3-4 4-4 3.3 0 6 1.7 6 4z"></path></svg><span class="lbl">Distribuir processos</span><svg class="caret" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#5A6268" stroke-width="2" aria-hidden="true"><path d="{{distChev}}"></path></svg></button>
+<sc-if value="{{distOpen}}" hint-placeholder-val="{{true}}">
+<button type="button" class="nav sub" onClick="{{navOutro}}" title="Distribuir processos"><svg width="20" height="20" viewBox="0 0 24 24" fill="#E74C3C" aria-hidden="true"><path d="M2 21 23 12 2 3l3 9zm3-9h9"></path></svg><span class="lbl">Distribuir processos</span></button>
+<button type="button" class="nav sub" onClick="{{navOutro}}" title="Config. distribuição"><svg width="20" height="20" viewBox="0 0 24 24" fill="#E74C3C" aria-hidden="true"><path d="M19.4 13a7.5 7.5 0 0 0 0-2l2.1-1.6-2-3.4-2.5 1a7.4 7.4 0 0 0-1.7-1L15 3.3h-4l-.4 2.7a7.4 7.4 0 0 0-1.7 1l-2.5-1-2 3.4L6.6 11a7.5 7.5 0 0 0 0 2l-2.1 1.6 2 3.4 2.5-1a7.4 7.4 0 0 0 1.7 1l.3 2.7h4l.4-2.7a7.4 7.4 0 0 0 1.7-1l2.5 1 2-3.4zM13 15.5a3.5 3.5 0 1 1 0-7 3.5 3.5 0 0 1 0 7z" transform="translate(-1 0)"></path></svg><span class="lbl">Config. distribuição</span></button>
+</sc-if>
+</nav>
+
+<div style="flex-grow: 1; min-width: 0; display: flex; flex-direction: column">
+
+<!-- ================= TRILHA ================= -->
+<nav class="crumbs" aria-label="Trilha de navegação">
+<button type="button" class="crumb-b" aria-label="Início" onClick="{{goListaRefresh}}"><svg width="20" height="20" viewBox="0 0 24 24" fill="#3D4448" aria-hidden="true"><path d="M12 3 2 12h3v8h5v-5h4v5h5v-8h3z"></path></svg></button>
+<sc-for list="{{crumbs}}" as="c" hint-placeholder-count="2">
+<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#3D4448" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="m9 5 7 7-7 7"></path></svg>
+<sc-if value="{{c.link}}" hint-placeholder-val="{{true}}"><button type="button" class="crumb-b" onClick="{{c.go}}">{{c.t}}</button></sc-if>
+<sc-if value="{{c.last}}" hint-placeholder-val="{{false}}"><span class="crumb-c" aria-current="page">{{c.t}}</span></sc-if>
+</sc-for>
+</nav>
+
+<main style="flex-grow: 1; padding: 24px; display: flex; flex-direction: column; gap: 12px">
+
+<!-- ================= COM PENDÊNCIAS · página de entrada (sino e submenu) ================= -->
+<sc-if value="{{isPend}}" hint-placeholder-val="{{false}}">
+<section class="card" aria-label="Com Pendências">
+<div class="card-h" style="flex-wrap: wrap; align-items: flex-start">
 <div style="display: flex; flex-direction: column; gap: 4px">
-<span class="crumb">eTCE Web <span aria-hidden="true">›</span> Processos</span>
-<h1 class="h1">Processos do setor</h1>
+<h2 class="card-t">Com Pendências</h2>
+<span style="font-size: 14px; color: #5E676D">{{pendSub}}</span>
+</div>
+<div style="flex-grow: 1"></div>
+<span style="font-size: 14px; color: #5E676D; align-self: center">{{lastUpdateText}}</span>
+<button type="button" class="lnk" style="align-self: center" onClick="{{refreshNow}}"><svg class="{{refreshCls}}" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a9 9 0 1 1-2.64-6.36"></path><path d="M21 3v6h-6"></path></svg>Atualizar</button>
+</div>
+<div class="card-b" style="gap: 12px">
+<sc-if value="{{hasErr}}" hint-placeholder-val="{{false}}"><div class="alert a-error" role="alert">{{err}}</div></sc-if>
+<div class="ptypes" role="group" aria-label="Tipos de pendência">
+<sc-for list="{{pTypes}}" as="g" hint-placeholder-count="4">
+<button type="button" class="{{g.cls}}" aria-pressed="{{g.selStr}}" aria-controls="pend-itens" onClick="{{g.open}}">
+<span>{{g.label}}</span>
+<sc-if value="{{g.loading}}" hint-placeholder-val="{{false}}"><span class="skel" style="width: 28px; height: 24px; border-radius: 12px"></span></sc-if>
+<sc-if value="{{g.ready}}" hint-placeholder-val="{{true}}"><span class="{{g.countCls}}">{{g.countText}}</span></sc-if>
+</button>
+</sc-for>
+</div>
+<div id="pend-itens" aria-live="polite">
+<sc-if value="{{hasGroup}}" hint-placeholder-val="{{false}}">
+<div class="pitems-box">
+<div class="pitems" role="group" aria-label="{{groupLabel}}">
+<sc-for list="{{pItemsG}}" as="t" hint-placeholder-count="3">
+<button type="button" class="{{t.cls}}" aria-pressed="{{t.selStr}}" title="{{t.full}}" onClick="{{t.open}}"><span>{{t.label}}</span><span class="{{t.countCls}}">{{t.countText}}</span></button>
+</sc-for>
 </div>
 
-<div class="card" style="padding: 12px 16px; display: flex; align-items: center; gap: 12px; flex-wrap: wrap">
-<label style="display: flex; align-items: center; gap: 8px; flex-grow: 1; max-width: 420px">
-<span style="position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0)">Pesquisar processo</span>
-<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#4F5A6B" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-3.5-3.5"></path></svg>
-<input class="input" type="search" placeholder="Pesquisar pelo número do processo" value="{{search}}" onChange="{{setSearch}}">
-</label>
-<div style="flex-grow: 1"></div>
-<div style="position: relative">
-<button type="button" class="btn btn-o" style="position: relative" aria-haspopup="dialog" aria-expanded="{{panelOpenStr}}" onClick="{{togglePanel}}">
-<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="{{bellColor}}" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"></path><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"></path></svg>
-<span>Pendências</span>
-<sc-if value="{{showBadge}}" hint-placeholder-val="{{true}}"><span class="badge" aria-label="{{badgeAria}}">{{badgeText}}</span></sc-if>
-</button>
-<sc-if value="{{panelOpen}}" hint-placeholder-val="{{false}}">
-<button type="button" aria-label="Fechar painel de pendências" onClick="{{closePanel}}" style="position: fixed; inset: 0; background: transparent; border: 0; z-index: 20; cursor: default"></button>
-<div role="dialog" aria-label="Painel de pendências" class="card" style="position: absolute; right: 0; top: 52px; width: 452px; max-width: calc(100vw - 32px); z-index: 30; box-shadow: 0 18px 44px rgba(15,54,109,.20); overflow: hidden">
-<div style="display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 14px 12px 14px 16px; border-bottom: 1px solid #E3E8EF">
-<div style="display: flex; flex-direction: column; gap: 2px">
-<span style="font-weight: 700; font-size: 16px; color: #0F366D">Pendências do setor</span>
-<span style="font-size: 12px; color: #4F5A6B">{{lastUpdateText}}</span>
-</div>
-<button type="button" class="icon-btn" aria-label="Atualizar pendências" onClick="{{refreshNow}}">
-<svg class="{{refreshCls}}" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a9 9 0 1 1-2.64-6.36"></path><path d="M21 3v6h-6"></path></svg>
-</button>
-</div>
-<sc-if value="{{hasErr}}" hint-placeholder-val="{{false}}"><div class="alert a-error" role="alert" style="margin: 12px 16px 4px">{{err}}</div></sc-if>
-<div style="padding: 6px 0">
-<sc-for list="{{pItems}}" as="it" hint-placeholder-count="11">
-<button type="button" class="{{it.cls}}" onClick="{{it.open}}">
-<span style="flex-grow: 1">{{it.label}}</span>
-<span class="dest">{{it.dest}}</span>
-<sc-if value="{{it.loading}}" hint-placeholder-val="{{false}}"><span class="skel" style="width: 30px; height: 22px; border-radius: 11px"></span></sc-if>
-<sc-if value="{{it.ready}}" hint-placeholder-val="{{true}}"><span class="{{it.countCls}}">{{it.countText}}</span></sc-if>
-</button>
-</sc-for>
-</div>
-<div style="border-top: 1px solid #E3E8EF; padding: 6px 0">
-<span style="display: block; padding: 6px 16px 2px; font-size: 11px; font-weight: 700; color: #4F5A6B; text-transform: uppercase; letter-spacing: .05em">Fora do total do badge</span>
-<sc-for list="{{pExtra}}" as="it" hint-placeholder-count="1">
-<button type="button" class="{{it.cls}}" onClick="{{it.open}}">
-<span style="flex-grow: 1">{{it.label}}</span>
-<span class="dest">{{it.dest}}</span>
-<sc-if value="{{it.loading}}" hint-placeholder-val="{{false}}"><span class="skel" style="width: 30px; height: 22px; border-radius: 11px"></span></sc-if>
-<sc-if value="{{it.ready}}" hint-placeholder-val="{{true}}"><span class="{{it.countCls}}">{{it.countText}}</span></sc-if>
-</button>
-</sc-for>
-</div>
-<div style="padding: 10px 16px; background: #F5F7FA; border-top: 1px solid #E3E8EF; font-size: 12px; color: #4F5A6B; display: flex; justify-content: space-between; gap: 12px">
-<span>Total no badge: <strong>{{totalText}}</strong></span>
-<span>Revalidação automática a cada 5 min</span>
-</div>
 </div>
 </sc-if>
+<sc-if value="{{noGroup}}" hint-placeholder-val="{{true}}"><p class="phint">Selecione um tipo de pendência para ver os itens.</p></sc-if>
+<sc-if value="{{groupNoItem}}" hint-placeholder-val="{{false}}"><p class="phint" style="margin-top: 12px">Selecione uma pendência para exibir os processos.</p></sc-if>
 </div>
 </div>
+</section>
+</sc-if>
 
-<div class="card" style="overflow: hidden">
-<div style="display: flex; align-items: center; gap: 12px; flex-wrap: wrap; padding: 14px 16px; border-bottom: 1px solid #E3E8EF">
-<span style="font-weight: 700; font-size: 16px">{{listTitle}}</span>
+<!-- ================= Destino dos redirecionamentos (RF-014 Assinar · RF-012 Enviar) ================= -->
+<sc-if value="{{isAssinView}}" hint-placeholder-val="{{false}}">
+<section class="card" aria-label="{{redirTitulo}}">
+<div class="card-h"><h2 class="card-t">{{redirTitulo}}</h2></div>
+<div class="card-b">
+<div class="alert a-info"><span style="font-weight: 500">Tela do {{redirRf}}.</span><span>O protótipo do RF-028 só faz o redirecionamento com os processos selecionados; {{redirFluxo}} é especificado no {{redirRfCurto}}.</span></div>
+<span class="card-s">Processos</span>
+<div class="tbl">
+<div role="row" class="tr th g-ass"><span role="columnheader">Processos</span><span role="columnheader">Assunto</span><span role="columnheader">Andamento atual</span><span role="columnheader">Responsável</span></div>
+<sc-for list="{{assinRows}}" as="r" hint-placeholder-count="2">
+<div role="row" class="tr g-ass"><span role="cell" class="strip-gray"><span class="num">{{r.numero}}</span></span><span role="cell">{{r.assunto}}</span><span role="cell">{{r.evento}}</span><span role="cell">{{r.resp}}</span></div>
+</sc-for>
+</div>
+<div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px">
+<button type="button" class="btn btn-o btn-w" onClick="{{voltarPend}}">{{voltarLabel}}</button>
+<button type="button" class="btn btn-w" disabled="{{true}}" title="Fluxo do {{redirRfCurto}}">{{redirBtn}}</button>
+</div>
+</div>
+</section>
+</sc-if>
+
+<!-- ================= TELA 01 + 02 · Listagem com Painel de Pendências ================= -->
+<sc-if value="{{isLista}}" hint-placeholder-val="{{true}}">
+<section class="card" aria-label="Filtros">
+<div class="card-h" style="padding-bottom: 22px; flex-wrap: wrap">
+<h2 class="card-t">Filtros</h2>
+<span class="vbar" aria-hidden="true"></span>
 <sc-if value="{{hasFilter}}" hint-placeholder-val="{{false}}">
-<span class="chip c-primary" style="height: 30px; padding-right: 4px; border-radius: 15px">Pendência: {{filterLabel}}<button type="button" class="chip-x" aria-label="Remover filtro da pendência" onClick="{{clearFilter}}"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"></path></svg></button></span>
+<span style="display: inline-flex; align-items: center; gap: 6px; font-size: 16px; color: #3D4448"><svg width="16" height="16" viewBox="0 0 24 24" fill="#F57C00" aria-hidden="true"><path d="M3 4h18l-7 8.5V20l-4-2v-5.5z"></path></svg>Filtro aplicado: {{filterLabel}}<button type="button" class="chip-x" aria-label="Remover filtro da pendência" onClick="{{clearFilter}}"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"></path></svg></button></span>
 </sc-if>
+<sc-if value="{{noFilter}}" hint-placeholder-val="{{true}}"><span style="font-size: 16px; color: #6B7378">Nenhum filtro aplicado</span></sc-if>
 <div style="flex-grow: 1"></div>
-<span style="font-size: 13px; color: #4F5A6B">{{selText}}</span>
+<button type="button" class="icon-btn" aria-label="Mostrar ou ocultar filtros" aria-expanded="{{coStr.fil}}" onClick="{{ct.fil}}"><svg class="{{chev.fil}}" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="m6 15 6-6 6 6"></path></svg></button>
 </div>
-<div style="overflow-x: auto">
-<div role="table" aria-label="Processos" style="min-width: 1080px">
+<sc-if value="{{co.fil}}" hint-placeholder-val="{{false}}">
+<div class="card-b" style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; align-items: end">
+<label class="field">Número do processo<input class="input" inputmode="numeric" placeholder="Digite o número" value="{{search}}" onChange="{{setSearch}}"></label>
+<div style="display: flex; justify-content: flex-end"><button type="button" class="btn btn-o" onClick="{{limparTudo}}">Limpar filtros</button></div>
+</div>
+</sc-if>
+</section>
+</sc-if>
+<sc-if value="{{showProc}}" hint-placeholder-val="{{true}}">
+<section class="card" aria-label="Processos">
+<div class="card-h">
+<h2 class="card-t">{{procTitle}}</h2>
+<div style="flex-grow: 1"></div>
+<button type="button" class="icon-btn" aria-label="Mostrar ou ocultar processos" aria-expanded="{{coStr.proc}}" onClick="{{ct.proc}}"><svg class="{{chev.proc}}" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="m6 15 6-6 6 6"></path></svg></button>
+</div>
+<sc-if value="{{co.proc}}" hint-placeholder-val="{{true}}">
+<div class="card-b" style="gap: 20px">
+<sc-if value="{{notSingle}}" hint-placeholder-val="{{true}}">
+<div style="display: flex; align-items: center; gap: 4px; flex-wrap: wrap">
+<button type="button" class="tb" aria-label="Atualizar lista" title="Atualizar lista" onClick="{{reloadList}}"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M21 12a9 9 0 1 1-2.64-6.36"></path><path d="M21 3v6h-6"></path></svg></button>
+<button type="button" class="tb" aria-label="Tramitar (RF-013)" title="{{tramitarTitle}}" disabled="{{tbDis}}" onClick="{{actTramitar}}"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M4 8h14l-3-3M20 16H6l3 3"></path></svg></button>
+<button type="button" class="tb" aria-label="Novo documento (RF-015)" title="Novo documento (RF-015)" disabled="{{tbDis}}" onClick="{{actNovoDoc}}"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path d="M6 3h8l4 4v14H6z"></path><path d="M12 11v6M9 14h6"></path></svg></button>
+<button type="button" class="tb" aria-label="Anexar (RF-016)" title="Anexar (RF-016)" disabled="{{tbDis}}" onClick="{{actAnexar}}"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M8 12V7a4 4 0 0 1 8 0v10a6 6 0 0 1-12 0V9"></path></svg></button>
+<button type="button" class="tb" aria-label="Assinar (RF-014)" title="{{assinTitle}}" disabled="{{tbDis}}" onClick="{{assinar}}"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="m15 4 5 5-10 10H5v-5zM4 21h16v-1.6H4z"></path></svg></button>
+<button type="button" class="tb" aria-label="Enviar processo (RF-012)" title="{{enviarTitle}}" disabled="{{tbDis}}" onClick="{{actEnviar}}"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M2 21 23 12 2 3l3 9zm3-9h9"></path></svg></button>
+<button type="button" class="tb" aria-label="Visualizar documentos (RF-024)" title="Visualizar documentos (RF-024)" disabled="{{tbDis}}" onClick="{{actVisualizar}}"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path d="M2 12c3-5 6.5-7 10-7s7 2 10 7c-3 5-6.5 7-10 7S5 17 2 12z"></path><circle cx="12" cy="12" r="3"></circle></svg></button>
+<div style="flex-grow: 1"></div>
+<span style="font-size: 14px; color: #5E676D; margin-right: 12px">{{selText}}</span>
+<button type="button" class="lnk green" onClick="{{exportar}}"><svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="13" height="18" rx="1" fill="#13855E"></rect><path d="M6.5 8.5l4 7M10.5 8.5l-4 7" stroke="#FFFFFF" stroke-width="1.8"></path><path d="M16 6h5v12h-5" fill="none" stroke="#13855E" stroke-width="1.8"></path></svg>Exportar para excel</button>
+</div>
+</sc-if>
+<sc-if value="{{isAssin}}" hint-placeholder-val="{{false}}">
+<div style="display: flex; align-items: center; gap: 12px; flex-wrap: wrap">
+<button type="button" class="tb tb-orange" aria-label="Assinar (RF-014)" disabled="{{tbDis}}" title="{{assinTitle}}" onClick="{{assinar}}"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="m15 4 5 5-10 10H5v-5zM4 21h16v-1.6H4z"></path></svg></button>
+<span style="font-size: 14px; color: #5E676D">{{assinHint}}</span>
+</div>
+</sc-if>
+<sc-if value="{{isRevOficial}}" hint-placeholder-val="{{false}}">
+<div style="display: flex; align-items: center; gap: 4px; flex-wrap: wrap">
+<button type="button" class="tb tb-lgreen" aria-label="Tramitar (RF-013)" disabled="{{tbDis}}" title="{{tramitarTitle}}" onClick="{{actTramitar}}"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M4 8h14l-3-3M20 16H6l3 3"></path></svg></button>
+<button type="button" class="tb tb-orange" aria-label="Assinar (RF-014)" disabled="{{tbDis}}" title="{{assinTitle}}" onClick="{{assinar}}"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="m15 4 5 5-10 10H5v-5zM4 21h16v-1.6H4z"></path></svg></button>
+<span style="font-size: 14px; color: #5E676D; margin-left: 8px">{{revHint}}</span>
+</div>
+</sc-if>
+<sc-if value="{{isEnviar}}" hint-placeholder-val="{{false}}">
+<div style="display: flex; align-items: center; gap: 12px; flex-wrap: wrap">
+<button type="button" class="tb" aria-label="Enviar processo (RF-012)" disabled="{{tbDis}}" title="{{enviarTitle}}" onClick="{{actEnviar}}"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M2 21 23 12 2 3l3 9zm3-9h9"></path></svg></button>
+<span style="font-size: 14px; color: #5E676D">{{enviarHint}}</span>
+</div>
+</sc-if>
+<div>
+<div style="overflow-x: auto" class="tbl">
+<div role="table" aria-label="Processos" style="min-width: 1180px">
 <div role="row" class="tr th g-lista">
-<span role="columnheader"><span style="position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0)">Seleção</span></span>
-<span role="columnheader">Processo</span>
+<span role="columnheader" class="nf"><input type="checkbox" class="cb" aria-label="Selecionar todos os processos da página" checked="{{allPageChecked}}" onChange="{{toggleAllPage}}"></span>
+<span role="columnheader">Processos</span>
 <span role="columnheader">Assunto</span>
 <span role="columnheader">Interessado</span>
-<span role="columnheader">Último evento</span>
+<span role="columnheader">Andamento atual</span>
 <span role="columnheader">Data</span>
 <span role="columnheader">Responsável</span>
 </div>
 <sc-if value="{{listLoading}}" hint-placeholder-val="{{false}}">
 <sc-for list="{{skelRows}}" as="k" hint-placeholder-count="6">
-<div class="tr g-lista"><span class="skel" style="width: 18px"></span><span class="skel" style="width: 140px"></span><span class="skel" style="width: 80%"></span><span class="skel" style="width: 70%"></span><span class="skel" style="width: 60%"></span><span class="skel" style="width: 70px"></span><span class="skel" style="width: 90px"></span></div>
+<div class="tr g-lista"><span><span class="skel" style="width: 20px"></span></span><span><span class="skel" style="width: 150px"></span></span><span><span class="skel" style="width: 80%"></span></span><span><span class="skel" style="width: 70%"></span></span><span><span class="skel" style="width: 60%"></span></span><span><span class="skel" style="width: 70px"></span></span><span><span class="skel" style="width: 90px"></span></span></div>
 </sc-for>
 </sc-if>
 <sc-if value="{{listError}}" hint-placeholder-val="{{false}}">
 <div role="alert" style="padding: 48px 24px; display: flex; flex-direction: column; align-items: center; gap: 12px; text-align: center">
-<svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#B42318" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><path d="M12 7v6M12 16.5v.5"></path></svg>
-<span style="font-weight: 700; font-size: 16px">Não foi possível carregar a lista</span>
+<svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#C62828" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><path d="M12 7v6M12 16.5v.5"></path></svg>
+<span style="font-weight: 500; font-size: 17px">Não foi possível carregar a lista</span>
 <span class="muted" style="max-width: 560px">Ocorreu um erro ao tentar carregar os processos. Mensagem: o serviço de processos não respondeu (HTTP 504).</span>
 <button type="button" class="btn btn-o" onClick="{{clearFilter}}">Limpar filtro</button>
 </div>
 </sc-if>
 <sc-if value="{{listEmpty}}" hint-placeholder-val="{{false}}">
 <div style="padding: 48px 24px; display: flex; flex-direction: column; align-items: center; gap: 12px; text-align: center">
-<svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#5B6577" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7h16M4 12h10M4 17h6"></path></svg>
-<span style="font-weight: 600">{{emptyText}}</span>
+<svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#6B7378" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h10M4 17h6"></path></svg>
+<span style="font-weight: 500">{{emptyText}}</span>
 <sc-if value="{{hasFilter}}" hint-placeholder-val="{{true}}"><button type="button" class="btn btn-o" onClick="{{clearFilter}}">Limpar filtro</button></sc-if>
 </div>
 </sc-if>
@@ -215,131 +399,171 @@ textarea.input{height:auto;min-height:88px;padding:10px 12px;resize:vertical;lin
 <sc-for list="{{rows}}" as="r" hint-placeholder-count="8">
 <div role="row" class="tr g-lista {{r.cls}}">
 <span role="cell"><input type="checkbox" class="cb" aria-label="Selecionar processo {{r.numero}}" checked="{{r.checked}}" onChange="{{r.toggle}}"></span>
-<span role="cell" style="display: flex; align-items: center; gap: 6px"><sc-if value="{{r.isChild}}" hint-placeholder-val="{{false}}"><span aria-hidden="true" style="color: #5B6577">↳</span></sc-if><span class="num">{{r.numero}}</span></span>
-<span role="cell" style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap">{{r.assunto}}<sc-if value="{{r.isChild}}" hint-placeholder-val="{{false}}"><span class="chip c-neutral">Apensado</span></sc-if></span>
-<span role="cell" class="muted">{{r.interessado}}</span>
-<span role="cell"><span class="{{r.evCls}}">{{r.evento}}</span></span>
-<span role="cell" class="muted">{{r.data}}</span>
+<span role="cell" class="{{r.stripCls}}">
+<sc-if value="{{r.isChild}}" hint-placeholder-val="{{false}}"><span aria-hidden="true" style="color: #6B7378">↳</span></sc-if>
+<sc-if value="{{r.sigiloso}}" hint-placeholder-val="{{false}}"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#3D4448" stroke-width="2" aria-label="Sigiloso" role="img"><rect x="5" y="10" width="14" height="11" rx="1"></rect><path d="M8 10V7a4 4 0 0 1 8 0v3M9 14h6M9 17h6"></path></svg></sc-if>
+<span class="num">{{r.numero}}</span>
+<sc-if value="{{r.fav}}" hint-placeholder-val="{{false}}"><svg width="20" height="20" viewBox="0 0 24 24" fill="#3D4448" aria-label="Favorito" role="img"><path d="m12 2.8 2.9 6 6.5.9-4.7 4.6 1.1 6.5L12 17.7l-5.8 3.1 1.1-6.5L2.6 9.7l6.5-.9z"></path></svg></sc-if>
+</span>
+<span role="cell" style="flex-wrap: wrap">{{r.assunto}}<sc-if value="{{r.isChild}}" hint-placeholder-val="{{false}}"><span class="chip c-neutral">Apensado</span></sc-if></span>
+<span role="cell">{{r.interessado}}</span>
+<span role="cell">{{r.evento}}</span>
+<span role="cell">{{r.data}}</span>
 <span role="cell">{{r.resp}}</span>
 </div>
 </sc-for>
 </sc-if>
 </div>
 </div>
-<div style="display: flex; align-items: center; justify-content: flex-end; gap: 12px; padding: 12px 16px; flex-wrap: wrap">
-<span style="font-size: 13px; color: #4F5A6B">{{pageText}}</span>
-<button type="button" class="btn btn-o btn-s" disabled="{{prevDis}}" onClick="{{prevPage}}">Anterior</button>
-<button type="button" class="btn btn-o btn-s" disabled="{{nextDis}}" onClick="{{nextPage}}">Próxima</button>
+<div class="tfoot">
+<sc-if value="{{isLista}}" hint-placeholder-val="{{true}}"><button type="button" class="btn" onClick="{{firstPage}}"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 3 2 12h3v8h5v-5h4v5h5v-8h3z"></path></svg>Início da tabela</button></sc-if>
+<sc-if value="{{isLista}}" hint-placeholder-val="{{true}}"><button type="button" class="btn btn-g" onClick="{{configTabela}}"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M19.4 13a7.5 7.5 0 0 0 0-2l2.1-1.6-2-3.4-2.5 1a7.4 7.4 0 0 0-1.7-1L15 3.3h-4l-.4 2.7a7.4 7.4 0 0 0-1.7 1l-2.5-1-2 3.4L6.6 11a7.5 7.5 0 0 0 0 2l-2.1 1.6 2 3.4 2.5-1a7.4 7.4 0 0 0 1.7 1l.3 2.7h4l.4-2.7a7.4 7.4 0 0 0 1.7-1l2.5 1 2-3.4zM13 15.5a3.5 3.5 0 1 1 0-7 3.5 3.5 0 0 1 0 7z" transform="translate(-1 0)"></path></svg>Configurar tabela</button></sc-if>
+<label style="display: inline-flex; align-items: center; gap: 10px">Linhas por página
+<select class="perpage" value="{{perStr}}" onChange="{{setPer}}"><option value="5">5</option><option value="10">10</option><option value="20">20</option></select>
+</label>
+<button type="button" class="pager" aria-label="Página anterior" disabled="{{prevDis}}" onClick="{{prevPage}}"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="m15 5-7 7 7 7"></path></svg></button>
+<span>{{rangeText}}</span>
+<button type="button" class="pager" aria-label="Próxima página" disabled="{{nextDis}}" onClick="{{nextPage}}"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="m9 5 7 7-7 7"></path></svg></button>
 </div>
 </div>
+</div>
+</sc-if>
 </section>
 </sc-if>
 
-<!-- ============ TELA 03 · Solicitações de Autuação Pendentes ============ -->
+<!-- ================= TELA 03 · Solicitações de Autuação Pendentes ================= -->
 <sc-if value="{{isAut}}" hint-placeholder-val="{{false}}">
-<section style="display: flex; flex-direction: column; gap: 16px">
-<div style="display: flex; align-items: flex-end; justify-content: space-between; gap: 16px; flex-wrap: wrap">
-<div style="display: flex; flex-direction: column; gap: 6px">
-<span class="crumb"><button type="button" class="btn btn-t btn-s" onClick="{{goLista}}">← Processos</button><span aria-hidden="true">›</span> Pendências</span>
-<h1 class="h1">Solicitações de Autuação Pendentes</h1>
+<section class="card" aria-label="Filtros">
+<div class="card-h" style="padding-bottom: 22px">
+<h2 class="card-t">Filtros</h2>
+<div style="flex-grow: 1"></div>
+<button type="button" class="icon-btn" aria-label="Mostrar ou ocultar filtros" aria-expanded="{{coStr.autF}}" onClick="{{ct.autF}}"><svg class="{{chev.autF}}" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="m6 15 6-6 6 6"></path></svg></button>
 </div>
-<div style="display: flex; align-items: center; gap: 12px">
-<span style="font-size: 13px; color: #4F5A6B">Fila revalidada a cada 60 s · última às {{autUpdText}}</span>
-<button type="button" class="btn btn-o" onClick="{{autAtualizar}}">Atualizar</button>
-</div>
-</div>
-<div class="card" style="padding: 12px 16px; display: flex; align-items: center; gap: 4px 20px; flex-wrap: wrap">
-<span style="font-size: 13px; font-weight: 700; color: #3A4558">Mostrar solicitações:</span>
+<sc-if value="{{co.autF}}" hint-placeholder-val="{{true}}">
+<div class="card-b" style="flex-direction: row; flex-wrap: wrap; align-items: center; gap: 4px 24px">
+<span class="card-s">Mostrar solicitações:</span>
 <label class="check"><input type="checkbox" class="cb" checked="{{aut.fE}}" onChange="{{autTgl.fE}}">Enviadas</label>
-<sc-if value="{{isChefe}}" hint-placeholder-val="{{true}}"><label class="check"><input type="checkbox" class="cb" checked="{{aut.fA}}" onChange="{{autTgl.fA}}">Sem assinatura</label></sc-if>
+<label class="check"><input type="checkbox" class="cb" checked="{{aut.fA}}" onChange="{{autTgl.fA}}">Sem assinatura</label>
 <label class="check"><input type="checkbox" class="cb" checked="{{aut.fS}}" onChange="{{autTgl.fS}}">Assinadas (não enviadas)</label>
 <label class="check"><input type="checkbox" class="cb" checked="{{aut.fC}}" onChange="{{autTgl.fC}}">Concluídas</label>
 <label class="check"><input type="checkbox" class="cb" checked="{{aut.fR}}" onChange="{{autTgl.fR}}">Rejeitadas</label>
 <div style="flex-grow: 1"></div>
-<button type="button" class="btn btn-t btn-s" onClick="{{autLimpar}}">Limpar filtros</button>
+<button type="button" class="btn btn-o" onClick="{{autLimpar}}">Limpar filtros</button>
+<sc-if value="{{isProtocolo}}" hint-placeholder-val="{{false}}">
+<fieldset style="flex-basis: 100%; margin: 8px 0 0; padding: 12px 16px 16px; border: 1px solid #D5DADE; border-radius: 4px; display: flex; flex-wrap: wrap; align-items: flex-end; gap: 8px 24px">
+<legend style="padding: 0 6px; font: 600 13px 'Poppins',sans-serif; color: #3D4448">Filtros Exclusivos do Protocolo</legend>
+<div role="radiogroup" aria-label="Fila" style="display: flex; gap: 4px 20px; flex-wrap: wrap">
+<label class="check"><input type="radio" class="cb" name="filaProt" checked="{{autFilaDestino}}" onChange="{{autSetDestino}}">Fila de destino (recebidas pelo Protocolo)</label>
+<label class="check"><input type="radio" class="cb" name="filaProt" checked="{{autFilaOrigem}}" onChange="{{autSetOrigem}}">Fila de origem</label>
 </div>
-<div class="card" style="padding: 12px 16px; display: flex; align-items: center; gap: 12px; flex-wrap: wrap">
+<label class="field" style="width: 300px">Origem (setor)<input class="input" list="dl-setor-sol" placeholder="Pesquisar setor" disabled="{{aut.sei}}" value="{{aut.origemSetor}}" onChange="{{autSetOrigemSetor}}"></label>
+<datalist id="dl-setor-sol"><option value="Protocolo Geral"></option><option value="Secretaria de Estado da Saúde"></option><option value="Instituto de Previdência Estadual"></option><option value="Polícia Militar"></option><option value="Corpo de Bombeiros Militar"></option><option value="Câmara Municipal"></option><option value="Secretaria de Estado da Educação"></option></datalist>
+<label class="check"><input type="checkbox" class="cb" checked="{{aut.sei}}" onChange="{{autTglSei}}">Integrador SEI</label>
+</fieldset>
+</sc-if>
+</div>
+</sc-if>
+</section>
+<section class="card" aria-label="Solicitações de Autuação Pendentes">
+<div class="card-h" style="flex-wrap: wrap">
+<h2 class="card-t">Solicitações de Autuação Pendentes</h2>
+<div style="flex-grow: 1"></div>
+</div>
+<div class="card-b">
+<div style="display: flex; align-items: center; gap: 8px 16px; flex-wrap: wrap">
 <div role="radiogroup" aria-label="Marcar ou desmarcar" style="display: flex; align-items: center; gap: 4px 16px; flex-wrap: wrap">
-<label class="check"><input type="radio" class="cb" name="modo" checked="{{autModoEnvio}}" onChange="{{autModoE}}">Todas para envio</label>
-<label class="check"><input type="radio" class="cb" name="modo" disabled="{{notChefe}}" checked="{{autModoAss}}" onChange="{{autModoA}}">Todas para assinatura</label>
-<button type="button" class="btn btn-o btn-s" onClick="{{autMarcarTodas}}">Marcar</button>
+<span class="card-s" style="font-size: 14px">Marcar/Desmarcar:</span>
+<label class="check"><input type="radio" class="cb" name="modo" checked="{{autModoEnvio}}" onChange="{{autModoE}}">Todas p/ Envio</label>
+<label class="check"><input type="radio" class="cb" name="modo" disabled="{{notChefe}}" checked="{{autModoAss}}" onChange="{{autModoA}}">Todas p/ Assinatura</label>
 <button type="button" class="btn btn-t btn-s" onClick="{{autDesmarcar}}">Desmarcar</button>
 </div>
 <div style="flex-grow: 1"></div>
-<button type="button" class="btn btn-o" onClick="{{autNova}}">Nova Solicitação</button>
-<button type="button" class="btn btn-o" onClick="{{autEnviarCentral}}">Enviar para a Central de Assinatura</button>
-<button type="button" class="btn btn-o" onClick="{{autEnviarSel}}">Enviar Solicitações Selecionadas</button>
-<button type="button" class="btn" onClick="{{autProsseguir}}">Prosseguir com Autuação</button>
+<button type="button" class="lnk" onClick="{{autEnviarCentral}}"><svg width="20" height="20" viewBox="0 0 24 24" fill="#1E78BE" aria-hidden="true"><circle cx="5" cy="5" r="1.4"></circle><circle cx="9.7" cy="5" r="1.4"></circle><circle cx="14.3" cy="5" r="1.4"></circle><circle cx="19" cy="5" r="1.4"></circle><circle cx="5" cy="9.7" r="1.4"></circle><circle cx="9.7" cy="9.7" r="1.4"></circle><circle cx="14.3" cy="9.7" r="1.4"></circle><circle cx="19" cy="9.7" r="1.4"></circle><circle cx="5" cy="14.3" r="1.4"></circle><circle cx="9.7" cy="14.3" r="1.4"></circle><circle cx="14.3" cy="14.3" r="1.4"></circle><circle cx="19" cy="14.3" r="1.4"></circle><circle cx="5" cy="19" r="1.4"></circle><circle cx="9.7" cy="19" r="1.4"></circle><circle cx="14.3" cy="19" r="1.4"></circle><circle cx="19" cy="19" r="1.4"></circle></svg>Enviar para a Central de Assinatura</button>
 </div>
 <sc-if value="{{autHasMsg}}" hint-placeholder-val="{{false}}">
-<div class="{{autMsg.cls}}" role="alert"><span style="font-weight: 600">{{autMsg.text}}</span><sc-for list="{{autMsg.items}}" as="m" hint-placeholder-count="0"><span>• {{m.t}}</span></sc-for></div>
+<div class="{{autMsg.cls}}" role="alert"><span style="font-weight: 500">{{autMsg.text}}</span><sc-for list="{{autMsg.items}}" as="m" hint-placeholder-count="0"><span>• {{m.t}}</span></sc-for></div>
 </sc-if>
-<div class="card" style="overflow: hidden">
-<div style="overflow: auto; max-height: 560px">
-<div role="table" aria-label="Solicitações de autuação" style="min-width: 1240px">
-<div role="row" class="tr th g-aut" style="position: sticky; top: 0; z-index: 1">
-<span role="columnheader" title="Selecionar para prosseguir">Sel.</span>
-<span role="columnheader" title="Marcar para envio ou assinatura">Marc.</span>
+<div>
+<div style="overflow-x: auto" class="tbl">
+<div role="table" aria-label="Solicitações de autuação" style="min-width: 1670px">
+<div role="row" class="tr th g-aut">
+<span role="columnheader" class="nf"><input type="checkbox" class="cb" aria-label="Selecionar todas as solicitações da fila" checked="{{autAllChecked}}" onChange="{{autToggleAll}}"></span>
 <span role="columnheader">Origem</span>
 <span role="columnheader">Data</span>
 <span role="columnheader">Solicitante</span>
 <span role="columnheader">Título / resumo</span>
 <span role="columnheader">Situação</span>
-<span role="columnheader">Status</span>
+<span role="columnheader" class="nf">Status</span>
 <span role="columnheader">Processo</span>
-<span role="columnheader">Arq.</span>
+<span role="columnheader" class="nf">Arq.</span>
 <span role="columnheader">Sorteado</span>
+<span role="columnheader" class="nf">Ação</span>
 </div>
-<sc-if value="{{autEmpty}}" hint-placeholder-val="{{false}}"><div style="padding: 40px 24px; text-align: center; font-weight: 600">Nenhuma solicitação de autuação encontrada.</div></sc-if>
+<sc-if value="{{autEmpty}}" hint-placeholder-val="{{false}}"><div style="padding: 40px 24px; text-align: center; font-weight: 500">Nenhuma solicitação de autuação encontrada.</div></sc-if>
 <sc-for list="{{autRows}}" as="a" hint-placeholder-count="6">
 <div role="row" class="tr g-aut {{a.cls}}">
-<span role="cell"><input type="checkbox" class="cb" aria-label="Selecionar solicitação {{a.titulo}}" checked="{{a.selected}}" onChange="{{a.toggleSel}}"></span>
-<span role="cell"><input type="checkbox" class="cb" aria-label="Marcar solicitação {{a.titulo}}" disabled="{{a.markDisabled}}" checked="{{a.marked}}" onChange="{{a.toggleMark}}"></span>
-<span role="cell" style="font-weight: 600">{{a.origem}}</span>
-<span role="cell" class="muted">{{a.data}}</span>
-<span role="cell" style="display: flex; flex-direction: column; gap: 2px"><span>{{a.setorSol}}</span><span class="muted" style="font-size: 12px">{{a.usuario}}</span></span>
+<span role="cell"><input type="checkbox" class="cb" aria-label="Selecionar solicitação {{a.titulo}}" checked="{{a.marked}}" onChange="{{a.toggleMark}}"></span>
+<span role="cell" class="{{a.stripCls}}">{{a.origem}}</span>
+<span role="cell">{{a.data}}</span>
+<span role="cell" style="flex-direction: column; align-items: flex-start; justify-content: center; gap: 2px"><span>{{a.setorSol}}</span><span class="muted" style="font-size: 12px">{{a.usuario}}</span></span>
 <span role="cell">{{a.titulo}}</span>
 <span role="cell"><span class="{{a.sitCls}}">{{a.sitText}}</span></span>
-<span role="cell" style="display: flex; flex-wrap: wrap; gap: 4px"><sc-for list="{{a.flags}}" as="f" hint-placeholder-count="1"><span class="{{f.cls}}">{{f.t}}</span></sc-for><sc-if value="{{a.noFlags}}" hint-placeholder-val="{{false}}"><span class="muted">—</span></sc-if></span>
-<span role="cell" class="num">{{a.processo}}</span>
+<span role="cell" style="flex-wrap: wrap; gap: 4px"><sc-for list="{{a.flags}}" as="f" hint-placeholder-count="1"><span class="{{f.cls}}">{{f.t}}</span></sc-for><sc-if value="{{a.noFlags}}" hint-placeholder-val="{{false}}"><span class="muted">—</span></sc-if></span>
+<span role="cell"><span class="num">{{a.processo}}</span></span>
 <span role="cell">{{a.qtdArq}}</span>
-<span role="cell" class="muted">{{a.sorteado}}</span>
+<span role="cell">{{a.sorteado}}</span>
+<span role="cell"><button type="button" class="btn btn-o btn-s" onClick="{{a.act}}">{{a.actLabel}}</button></span>
 </div>
 </sc-for>
 </div>
 </div>
-<div style="padding: 10px 16px; font-size: 13px; color: #4F5A6B; border-top: 1px solid #E3E8EF">{{autCountText}}</div>
+<div class="tfoot"><span>{{autCountText}}</span></div>
+</div>
+<div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px">
+<button type="button" class="btn btn-o btn-w" onClick="{{autNova}}">Nova Solicitação</button>
+<button type="button" class="btn btn-o btn-w" onClick="{{autEnviarSel}}">Enviar Solicitações Selecionadas</button>
+<button type="button" class="btn btn-w" onClick="{{autProsseguir}}">Prosseguir com Autuação</button>
+</div>
 </div>
 </section>
 </sc-if>
 
-<!-- ============ TELA 05 · Aguardando Aceite de Processos ============ -->
+<!-- ================= TELA 05 · Aguardando Aceite de Processos ================= -->
 <sc-if value="{{isAce}}" hint-placeholder-val="{{false}}">
-<section style="display: flex; flex-direction: column; gap: 16px">
+<section class="card" aria-label="Aceite eletrônico — Recebimento de Processos">
+<div class="card-h">
 <div style="display: flex; flex-direction: column; gap: 6px">
-<span class="crumb"><button type="button" class="btn btn-t btn-s" onClick="{{goLista}}">← Processos</button><span aria-hidden="true">›</span> Pendências <span aria-hidden="true">›</span> Aguardando Aceite de Processos</span>
-<h1 class="h1">Aceite eletrônico</h1>
-<span class="muted" style="font-size: 14px">Processos devolvidos ao setor que aguardam ciência. As regras de aceite e devolução seguem o RF-013.</span>
+<h2 class="card-t">Aceite eletrônico — Recebimento de Processos</h2>
 </div>
+</div>
+<div class="card-b">
 <sc-if value="{{aceHasMsg}}" hint-placeholder-val="{{false}}">
-<div class="{{aceMsg.cls}}" role="alert"><span style="font-weight: 600">{{aceMsg.text}}</span><sc-for list="{{aceMsg.items}}" as="m" hint-placeholder-count="0"><span>• {{m.t}}</span></sc-for></div>
+<div class="{{aceMsg.cls}}" role="alert"><span style="font-weight: 500">{{aceMsg.text}}</span><sc-for list="{{aceMsg.items}}" as="m" hint-placeholder-count="0"><span>• {{m.t}}</span></sc-for></div>
 </sc-if>
-<div class="card" style="overflow: hidden">
-<div style="overflow-x: auto">
-<div role="table" aria-label="Processos aguardando aceite" style="min-width: 1100px">
+<sc-if value="{{aceBlocked}}" hint-placeholder-val="{{false}}"><div class="alert a-warn"><span style="font-weight: 500">"Aceitar TODOS" indisponível.</span><span>{{aceBlockedText}}</span></div></sc-if>
+<div>
+<div style="overflow-x: auto" class="tbl">
+<div role="table" aria-label="Processos aguardando aceite" style="min-width: 2120px">
 <div role="row" class="tr th g-ace">
-<span role="columnheader">Processo</span><span role="columnheader">Assunto</span><span role="columnheader">Setor de origem</span><span role="columnheader">Liberado por</span><span role="columnheader">Data</span><span role="columnheader">Situação</span><span role="columnheader">Ações</span>
+<span role="columnheader" class="nf"><input type="checkbox" class="cb" aria-label="Marcar todos os processos" checked="{{aceAllChecked}}" onChange="{{aceToggleAll}}"></span>
+<span role="columnheader">Situação</span><span role="columnheader">Processos</span><span role="columnheader">Remetente</span><span role="columnheader">Conselheiro(a)</span><span role="columnheader">Conselheiro(a) substituto(a)</span><span role="columnheader">Procurador(a)</span><span role="columnheader">Assunto</span><span role="columnheader">Responsável</span><span role="columnheader">Interessado</span><span role="columnheader" class="nf">Período no TCE</span><span role="columnheader">Origem</span><span role="columnheader" class="nf">Ações</span>
 </div>
-<sc-if value="{{aceEmpty}}" hint-placeholder-val="{{false}}"><div style="padding: 40px 24px; text-align: center; font-weight: 600">Não existe processos pendente de aceite. Outro usuário já deve ter recebido.</div></sc-if>
+<sc-if value="{{aceEmpty}}" hint-placeholder-val="{{false}}"><div style="padding: 40px 24px; text-align: center; font-weight: 500">Não existe processos pendente de aceite. Outro usuário já deve ter recebido.</div></sc-if>
 <sc-for list="{{aceRows}}" as="c" hint-placeholder-count="4">
 <div role="row" class="tr g-ace {{c.cls}}">
-<span role="cell" style="display: flex; align-items: center; gap: 6px"><sc-if value="{{c.isChild}}" hint-placeholder-val="{{false}}"><span aria-hidden="true" style="color: #5B6577">↳</span></sc-if><span class="num">{{c.numero}}</span></span>
+<span role="cell"><input type="checkbox" class="cb" aria-label="Marcar processo {{c.numero}}" disabled="{{c.isChild}}" checked="{{c.checked}}" onChange="{{c.toggle}}"></span>
+<span role="cell" class="{{c.stripCls}}"><span class="{{c.sitCls}}">{{c.sitText}}</span></span>
+<span role="cell"><sc-if value="{{c.isChild}}" hint-placeholder-val="{{false}}"><span aria-hidden="true" style="color: #6B7378">↳</span></sc-if><span class="num">{{c.numero}}</span></span>
+<span role="cell">{{c.remetente}}</span>
+<span role="cell">{{c.conselheiro}}</span>
+<span role="cell">{{c.consSubst}}</span>
+<span role="cell">{{c.procurador}}</span>
 <span role="cell">{{c.assunto}}</span>
-<span role="cell" class="muted">{{c.origem}}</span>
-<span role="cell">{{c.liberador}}</span>
-<span role="cell" class="muted">{{c.data}}</span>
-<span role="cell"><span class="{{c.sitCls}}">{{c.sitText}}</span></span>
-<span role="cell" style="display: flex; gap: 8px">
+<span role="cell">{{c.responsavel}}</span>
+<span role="cell">{{c.interessado}}</span>
+<span role="cell">{{c.periodoTce}}</span>
+<span role="cell">{{c.origem}}</span>
+<span role="cell">
 <button type="button" class="btn btn-s" disabled="{{c.isChild}}" onClick="{{c.ciente}}">Ciente</button>
 <button type="button" class="btn btn-o btn-s" disabled="{{c.isChild}}" onClick="{{c.devolver}}">{{c.devLabel}}</button>
 </span>
@@ -347,49 +571,63 @@ textarea.input{height:auto;min-height:88px;padding:10px 12px;resize:vertical;lin
 </sc-for>
 </div>
 </div>
+<div class="tfoot"><span>{{aceCountText}}</span></div>
+</div>
+<div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px">
+<button type="button" class="btn btn-o btn-w" onClick="{{aceFechar}}">Fechar</button>
+<button type="button" class="btn btn-o btn-w" onClick="{{aceDevolverSel}}">Devolver Selecionados</button>
+<button type="button" class="btn btn-w" disabled="{{aceBlocked}}" onClick="{{aceAceitarTodos}}">Aceitar TODOS</button>
+</div>
 </div>
 </section>
 </sc-if>
 
-<!-- ============ TELA 06 · Juntada de Documentos ============ -->
+<!-- ================= TELA 06 · Juntada de Documentos ================= -->
 <sc-if value="{{isJun}}" hint-placeholder-val="{{false}}">
-<section style="display: flex; flex-direction: column; gap: 16px">
-<div style="display: flex; flex-direction: column; gap: 6px">
-<span class="crumb"><button type="button" class="btn btn-t btn-s" onClick="{{goLista}}">← Processos</button><span aria-hidden="true">›</span> Pendências</span>
-<h1 class="h1">Juntada de Documentos — solicitações</h1>
+<section class="card" aria-label="Filtros">
+<div class="card-h" style="padding-bottom: 22px">
+<h2 class="card-t">Filtros</h2>
+<div style="flex-grow: 1"></div>
+<button type="button" class="icon-btn" aria-label="Mostrar ou ocultar filtros" aria-expanded="{{coStr.junF}}" onClick="{{ct.junF}}"><svg class="{{chev.junF}}" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="m6 15 6-6 6 6"></path></svg></button>
 </div>
-<div class="card" style="padding: 16px; display: flex; flex-direction: column; gap: 12px">
-<div style="display: flex; align-items: center; gap: 4px 20px; flex-wrap: wrap">
-<span style="font-size: 13px; font-weight: 700; color: #3A4558">Situação:</span>
+<sc-if value="{{co.junF}}" hint-placeholder-val="{{true}}">
+<div class="card-b">
+<div style="display: flex; align-items: center; gap: 4px 24px; flex-wrap: wrap">
+<span class="card-s">Situação:</span>
 <sc-for list="{{junFilters}}" as="f" hint-placeholder-count="6"><label class="check"><input type="checkbox" class="cb" checked="{{f.checked}}" onChange="{{f.toggle}}">{{f.label}}</label></sc-for>
 </div>
 <div style="display: flex; align-items: flex-end; gap: 12px; flex-wrap: wrap">
-<label class="field" style="width: 280px">Número do processo<input class="input" inputmode="numeric" placeholder="Ex.: 202600047000560" value="{{jun.proc}}" onChange="{{junSetProc}}"></label>
+<label class="field" style="width: 300px">Número do processo<input class="input" inputmode="numeric" placeholder="Ex.: 202600047000560" value="{{jun.proc}}" onChange="{{junSetProc}}"></label>
 <button type="button" class="btn btn-o" onClick="{{junBuscar}}">Filtrar</button>
 <button type="button" class="btn btn-t" onClick="{{junLimpar}}">Limpar</button>
 <div style="flex-grow: 1"></div>
-<div role="radiogroup" aria-label="Responsabilidade" style="display: flex; gap: 4px 16px; flex-wrap: wrap">
+<div role="radiogroup" aria-label="Responsabilidade" style="display: flex; gap: 4px 20px; flex-wrap: wrap">
 <label class="check"><input type="radio" class="cb" name="resp" checked="{{junRespR}}" onChange="{{junSetR}}">{{junRespLabel}}</label>
 <label class="check"><input type="radio" class="cb" name="resp" checked="{{junRespS}}" onChange="{{junSetS}}">Sou solicitante</label>
 <label class="check"><input type="radio" class="cb" name="resp" checked="{{junRespT}}" onChange="{{junSetT}}">Juntadas criadas no setor</label>
 </div>
 </div>
 </div>
-<sc-if value="{{junHasMsg}}" hint-placeholder-val="{{false}}"><div class="{{junMsg.cls}}" role="alert"><span style="font-weight: 600">{{junMsg.text}}</span></div></sc-if>
-<div class="card" style="overflow: hidden">
-<div style="overflow-x: auto">
-<div role="table" aria-label="Solicitações de juntada" style="min-width: 1260px">
+</sc-if>
+</section>
+<section class="card" aria-label="Solicitações de juntada">
+<div class="card-h"><h2 class="card-t">Juntada de Documentos — solicitações</h2></div>
+<div class="card-b">
+<sc-if value="{{junHasMsg}}" hint-placeholder-val="{{false}}"><div class="{{junMsg.cls}}" role="alert"><span style="font-weight: 500">{{junMsg.text}}</span></div></sc-if>
+<div>
+<div style="overflow-x: auto" class="tbl">
+<div role="table" aria-label="Solicitações de juntada" style="min-width: 1520px">
 <div role="row" class="tr th g-jun">
-<span role="columnheader">Processo</span><span role="columnheader">Título / resumo</span><span role="columnheader">Data</span><span role="columnheader">Relator</span><span role="columnheader">Setor solicitante</span><span role="columnheader">Solicitante</span><span role="columnheader">Aprovação</span><span role="columnheader">Situação</span><span role="columnheader">Arq.</span><span role="columnheader">Ação</span>
+<span role="columnheader">Processos</span><span role="columnheader">Título / resumo</span><span role="columnheader">Data</span><span role="columnheader">Relator</span><span role="columnheader">Setor solicitante</span><span role="columnheader">Solicitante</span><span role="columnheader" class="nf">Aprovação</span><span role="columnheader">Situação</span><span role="columnheader" class="nf">Arq.</span><span role="columnheader" class="nf">Ação</span>
 </div>
-<sc-if value="{{junEmpty}}" hint-placeholder-val="{{false}}"><div style="padding: 40px 24px; text-align: center; font-weight: 600">Nenhuma solicitação de juntada encontrada.</div></sc-if>
+<sc-if value="{{junEmpty}}" hint-placeholder-val="{{false}}"><div style="padding: 40px 24px; text-align: center; font-weight: 500">Nenhuma solicitação de juntada encontrada.</div></sc-if>
 <sc-for list="{{junRows}}" as="j" hint-placeholder-count="4">
-<div role="row" class="tr g-jun">
-<span role="cell" class="num">{{j.processo}}</span>
+<div role="row" class="tr g-jun {{j.cls}}">
+<span role="cell" class="{{j.stripCls}}"><span class="num">{{j.processo}}</span></span>
 <span role="cell">{{j.titulo}}</span>
-<span role="cell" class="muted">{{j.data}}</span>
+<span role="cell">{{j.data}}</span>
 <span role="cell">{{j.relator}}</span>
-<span role="cell" class="muted">{{j.setorSol}}</span>
+<span role="cell">{{j.setorSol}}</span>
 <span role="cell">{{j.usuario}}</span>
 <span role="cell">{{j.aprov}}</span>
 <span role="cell"><span class="{{j.sitCls}}">{{j.sitText}}</span></span>
@@ -399,238 +637,246 @@ textarea.input{height:auto;min-height:88px;padding:10px 12px;resize:vertical;lin
 </sc-for>
 </div>
 </div>
+<div class="tfoot"><span>{{junCountText}}</span></div>
+</div>
 </div>
 </section>
 </sc-if>
 
-<!-- ============ TELA 08 · Autorizar Prorrogação/Suspensão ============ -->
+<!-- ================= TELA 08 · Autorizar Prorrogação/Suspensão ================= -->
 <sc-if value="{{isPrz}}" hint-placeholder-val="{{false}}">
-<section style="display: flex; flex-direction: column; gap: 16px">
-<div style="display: flex; flex-direction: column; gap: 6px">
-<span class="crumb"><button type="button" class="btn btn-t btn-s" onClick="{{goLista}}">← Processos</button><span aria-hidden="true">›</span> Pendências</span>
-<h1 class="h1">Autorizar Prorrogação/Suspensão</h1>
-</div>
 <sc-if value="{{przDenied}}" hint-placeholder-val="{{false}}">
-<div class="alert a-error" role="alert"><span style="font-weight: 600">Acesso não permitido.</span><span>Esta tela é restrita ao chefe de setor (claim de chefia).</span></div>
+<section class="card"><div class="card-b" style="padding-top: 24px"><div class="alert a-error" role="alert"><span style="font-weight: 500">Acesso não permitido.</span><span>Esta tela é restrita ao chefe de setor (claim de chefia).</span></div></div></section>
 </sc-if>
 <sc-if value="{{przAllowed}}" hint-placeholder-val="{{true}}">
-<div class="card" style="padding: 16px; display: flex; align-items: flex-end; gap: 12px; flex-wrap: wrap">
-<label class="field" style="width: 260px">Processo<input class="input" inputmode="numeric" placeholder="Número do processo" value="{{prz.fProc}}" onChange="{{przSetProc}}"></label>
-<label class="field" style="width: 220px">Analista
-<select class="input" value="{{prz.fAn}}" onChange="{{przSetAn}}">
-<option value="">Todos</option>
-<option value="Rafael Nunes">Rafael Nunes</option>
-<option value="Joana Lima">Joana Lima</option>
-</select>
-</label>
-<button type="button" class="btn btn-t" onClick="{{przLimpar}}">Limpar</button>
+<section class="card" aria-label="Filtros">
+<div class="card-h" style="padding-bottom: 22px">
+<h2 class="card-t">Filtros</h2>
 <div style="flex-grow: 1"></div>
-<button type="button" class="btn btn-o" disabled="{{przAltDis}}" onClick="{{przAlterar}}">Alterar Prorrogação/Suspensão concedida</button>
-<button type="button" class="btn btn-o" onClick="{{przNegar}}">Negar Autorização</button>
-<button type="button" class="btn" onClick="{{przAutorizar}}">Autorizar</button>
+<button type="button" class="icon-btn" aria-label="Mostrar ou ocultar filtros" aria-expanded="{{coStr.przF}}" onClick="{{ct.przF}}"><svg class="{{chev.przF}}" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="m6 15 6-6 6 6"></path></svg></button>
 </div>
-<sc-if value="{{przHasMsg}}" hint-placeholder-val="{{false}}"><div class="{{przMsg.cls}}" role="alert"><span style="font-weight: 600">{{przMsg.text}}</span></div></sc-if>
-<div class="card" style="overflow: hidden">
-<div style="overflow-x: auto">
-<div role="table" aria-label="Solicitações aguardando autorização" style="min-width: 1260px">
+<sc-if value="{{co.przF}}" hint-placeholder-val="{{true}}">
+<div class="card-b" style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; align-items: end">
+<label class="field">Processo<input class="input" inputmode="numeric" placeholder="Número do processo" value="{{prz.fProc}}" onChange="{{przSetProc}}"></label>
+<label class="field">Analista
+<input class="input" list="dl-analistas" placeholder="Pesquisar analista" value="{{prz.fAn}}" onChange="{{przSetAn}}">
+<datalist id="dl-analistas"><option value="Rafael Nunes"></option><option value="Joana Lima"></option></datalist>
+</label>
+<div style="display: flex; justify-content: flex-end"><button type="button" class="btn btn-o" onClick="{{przLimpar}}">Limpar filtros</button></div>
+</div>
+</sc-if>
+</section>
+<section class="card" aria-label="Autorizar Prorrogação/Suspensão">
+<div class="card-h"><h2 class="card-t">Autorizar Prorrogação/Suspensão</h2></div>
+<div class="card-b">
+<div style="display: flex; justify-content: flex-end">
+<button type="button" class="lnk" disabled="{{przAltDis}}" onClick="{{przAlterar}}"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="m15 4 5 5-10 10H5v-5zM4 21h16v-1.6H4z"></path></svg>Alterar Prorrogação/Suspensão concedida</button>
+</div>
+<sc-if value="{{przHasMsg}}" hint-placeholder-val="{{false}}"><div class="{{przMsg.cls}}" role="alert"><span style="font-weight: 500">{{przMsg.text}}</span></div></sc-if>
+<div>
+<div style="overflow-x: auto" class="tbl">
+<div role="table" aria-label="Solicitações aguardando autorização" style="min-width: 1560px">
 <div role="row" class="tr th g-prz">
-<span role="columnheader"><span style="position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0)">Seleção</span></span>
-<span role="columnheader">Processo</span><span role="columnheader">Tipo</span><span role="columnheader">Analista</span><span role="columnheader">Início análise</span><span role="columnheader">Dias úteis</span><span role="columnheader">Prorrog.</span><span role="columnheader">Suspens.</span><span role="columnheader">Data final</span><span role="columnheader">Aguardando</span><span role="columnheader">Final ajustada</span>
+<span role="columnheader" class="nf"><span class="sr">Seleção</span></span>
+<span role="columnheader">Processos</span><span role="columnheader">Tipo</span><span role="columnheader">Analista</span><span role="columnheader">Início</span><span role="columnheader" class="nf">Dias úteis</span><span role="columnheader" class="nf">Prorrog.</span><span role="columnheader" class="nf">Suspens.</span><span role="columnheader">Data final</span><span role="columnheader" class="nf">Aguardando</span><span role="columnheader">Final ajustada</span><span role="columnheader" class="nf">Ação</span>
 </div>
-<sc-if value="{{przEmpty}}" hint-placeholder-val="{{false}}"><div style="padding: 40px 24px; text-align: center; font-weight: 600">Nenhum processo aguardando autorização.</div></sc-if>
+<sc-if value="{{przEmpty}}" hint-placeholder-val="{{false}}"><div style="padding: 40px 24px; text-align: center; font-weight: 500">Nenhum processo aguardando autorização.</div></sc-if>
 <sc-for list="{{przRows}}" as="z" hint-placeholder-count="3">
 <div role="row" class="tr g-prz {{z.cls}}">
 <span role="cell"><input type="checkbox" class="cb" aria-label="Selecionar processo {{z.numero}}" checked="{{z.checked}}" onChange="{{z.toggle}}"></span>
-<span role="cell" class="num">{{z.numero}}</span>
+<span role="cell" class="strip-gray"><span class="num">{{z.numero}}</span></span>
 <span role="cell"><span class="{{z.tipoCls}}">{{z.tipo}}</span></span>
 <span role="cell">{{z.analista}}</span>
-<span role="cell" class="muted">{{z.inicio}}</span>
+<span role="cell">{{z.inicio}}</span>
 <span role="cell">{{z.diasUteis}}</span>
 <span role="cell">{{z.prorr}}</span>
 <span role="cell">{{z.susp}}</span>
-<span role="cell" class="muted">{{z.dataFinal}}</span>
+<span role="cell">{{z.dataFinal}}</span>
 <span role="cell">{{z.aguardando}}</span>
-<span role="cell" style="font-weight: 700">{{z.ajustada}}</span>
+<span role="cell" style="font-weight: 600">{{z.ajustada}}</span>
+<span role="cell"><button type="button" class="btn btn-o btn-s" aria-label="Abrir prorrogação/suspensão do processo {{z.numero}}" onClick="{{z.abrir}}">Abrir</button></span>
 </div>
 </sc-for>
 </div>
 </div>
+<div class="tfoot"><span>{{przCountText}}</span></div>
 </div>
-<div style="display: flex; justify-content: flex-end"><button type="button" class="btn btn-o" onClick="{{goListaRefresh}}">Fechar</button></div>
-</sc-if>
+<div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px">
+<button type="button" class="btn btn-o btn-w" onClick="{{goListaRefresh}}">Fechar</button>
+<button type="button" class="btn btn-o btn-w" onClick="{{przNegar}}">Negar Autorização</button>
+<button type="button" class="btn btn-w" onClick="{{przAutorizar}}">Autorizar</button>
+</div>
+</div>
 </section>
 </sc-if>
+</sc-if>
 
-<!-- ============ TELA 10 · Avocação de Processo ============ -->
+<!-- ================= TELA 10 · Avocação de Processo ================= -->
 <sc-if value="{{isAvo}}" hint-placeholder-val="{{false}}">
-<section style="display: flex; flex-direction: column; gap: 16px">
-<div style="display: flex; flex-direction: column; gap: 6px">
-<span class="crumb"><button type="button" class="btn btn-t btn-s" onClick="{{goListaRefresh}}">← Processos</button><span aria-hidden="true">›</span> Pendências <span aria-hidden="true">›</span> Processos a serem Avocados</span>
-<h1 class="h1">{{avoTitle}}</h1>
+<datalist id="dl-origem"><option value="Secretaria de Estado da Saúde"></option><option value="Instituto de Previdência Estadual"></option><option value="Secretaria de Estado da Educação"></option><option value="Câmara Municipal"></option><option value="Polícia Militar"></option></datalist>
+<datalist id="dl-assunto"><option value="Tomada de contas especial"></option><option value="Aposentadoria — registro"></option><option value="Admissão — concurso público"></option><option value="Prestação de contas anual"></option><option value="Pensão civil"></option><option value="Licitação — representação"></option><option value="Aposentadoria voluntária"></option><option value="Admissão — processo seletivo"></option><option value="Pensão por morte"></option><option value="Reforma de militar"></option></datalist>
+<datalist id="dl-relator"><option value="Conselheiro Relator I"></option><option value="Conselheiro Relator II"></option></datalist>
+<datalist id="dl-gab"><option value="Gabinete de Auditor A"></option><option value="Gabinete de Procurador B"></option><option value="Gabinete de Conselheiro Substituto C"></option></datalist>
+<section class="card" aria-label="Filtros">
+<div class="card-h" style="padding-bottom: 22px">
+<h2 class="card-t">Filtros</h2>
+<div style="flex-grow: 1"></div>
+<button type="button" class="icon-btn" aria-label="Mostrar ou ocultar filtros" aria-expanded="{{coStr.avoF}}" onClick="{{ct.avoF}}"><svg class="{{chev.avoF}}" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="m6 15 6-6 6 6"></path></svg></button>
 </div>
-<div class="card" style="padding: 16px; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px 16px; align-items: end">
-<label class="field">Processo<input class="input" inputmode="numeric" placeholder="Número do processo eletrônico" value="{{avo.proc}}" onChange="{{avoSetProc}}"></label>
-<label class="field">Origem
-<select class="input" value="{{avo.origem}}" onChange="{{avoSetOrigem}}">
-<option value="">Todas</option>
-<option value="Secretaria de Estado da Saúde">Secretaria de Estado da Saúde</option>
-<option value="Instituto de Previdência Estadual">Instituto de Previdência Estadual</option>
-<option value="Secretaria de Estado da Educação">Secretaria de Estado da Educação</option>
-<option value="Câmara Municipal">Câmara Municipal</option>
-<option value="Polícia Militar">Polícia Militar</option>
-</select>
-</label>
-<label class="field">Assunto
-<select class="input" value="{{avo.assunto}}" onChange="{{avoSetAssunto}}">
-<option value="">Todos</option>
-<option value="Tomada de contas especial">Tomada de contas especial</option>
-<option value="Aposentadoria — registro">Aposentadoria — registro</option>
-<option value="Admissão — concurso público">Admissão — concurso público</option>
-<option value="Prestação de contas anual">Prestação de contas anual</option>
-<option value="Pensão civil">Pensão civil</option>
-<option value="Licitação — representação">Licitação — representação</option>
-<option value="Aposentadoria voluntária">Aposentadoria voluntária</option>
-<option value="Admissão — processo seletivo">Admissão — processo seletivo</option>
-<option value="Pensão por morte">Pensão por morte</option>
-<option value="Reforma de militar">Reforma de militar</option>
-</select>
-</label>
-<label class="field">Relator
-<select class="input" value="{{avo.relator}}" disabled="{{notGab}}" onChange="{{avoSetRelator}}">
-<option value="">Todos</option>
-<option value="Auditor A">Auditor A</option>
-<option value="Procurador B">Procurador B</option>
-<option value="Conselheiro Substituto C">Conselheiro Substituto C</option>
-</select>
-</label>
-<sc-if value="{{isGab}}" hint-placeholder-val="{{true}}">
-<label class="field">Setor atual
-<select class="input" value="{{avo.setor}}" onChange="{{avoSetSetor}}">
-<option value="">Todos os gabinetes</option>
-<option value="Gabinete de Auditor A">Gabinete de Auditor A</option>
-<option value="Gabinete de Procurador B">Gabinete de Procurador B</option>
-<option value="Gabinete de Conselheiro Substituto C">Gabinete de Conselheiro Substituto C</option>
-</select>
-</label>
-</sc-if>
-<sc-if value="{{notGab}}" hint-placeholder-val="{{false}}">
-<label class="field">Setor atual<input class="input" disabled="{{true}}" value="{{userSetor}}"></label>
-</sc-if>
-<div style="display: flex; flex-direction: column; gap: 0">
-<label class="check"><input type="checkbox" class="cb" checked="{{avo.venc}}" onChange="{{avoTglVenc}}">Processos vencidos</label>
-<label class="check"><input type="checkbox" class="cb" checked="{{avo.menos10}}" onChange="{{avoTglMenos}}">Vencem em menos de 10 dias</label>
+<sc-if value="{{co.avoF}}" hint-placeholder-val="{{true}}">
+<div class="card-b" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px 16px; align-items: end">
+<label class="field">Processo<input class="input" inputmode="numeric" placeholder="Pesquisar processo eletrônico" value="{{avo.proc}}" onChange="{{avoSetProc}}"></label>
+<label class="field">Origem<input class="input" list="dl-origem" placeholder="Pesquisar origem" value="{{avo.origem}}" onChange="{{avoSetOrigem}}"></label>
+<label class="field">Assunto<input class="input" list="dl-assunto" placeholder="Pesquisar assunto" value="{{avo.assunto}}" onChange="{{avoSetAssunto}}"></label>
+<label class="field">Relator<input class="input" list="dl-relator" placeholder="Pesquisar relator" disabled="{{notGab}}" value="{{avo.relator}}" onChange="{{avoSetRelator}}"></label>
+<label class="field">Setor atual<input class="input" list="dl-gab" placeholder="Pesquisar setor" disabled="{{notGab}}" value="{{avo.setor}}" onChange="{{avoSetSetor}}"></label>
+<div style="display: flex; flex-direction: column; grid-column: span 2">
+<label class="check"><input type="checkbox" class="cb" checked="{{avo.venc}}" onChange="{{avoTglVenc}}">Processos Vencidos (sujeitos a avocação do Relator)</label>
+<label class="check"><input type="checkbox" class="cb" checked="{{avo.menos10}}" onChange="{{avoTglMenos}}">Processo com menos de 10 dias</label>
 </div>
-<div style="display: flex; gap: 8px; grid-column: span 2; justify-content: flex-end">
+<div style="display: flex; gap: 12px; justify-content: flex-end">
 <button type="button" class="btn btn-t" onClick="{{avoLimpar}}">Limpar</button>
 <button type="button" class="btn btn-o" onClick="{{avoFiltrar}}">Filtrar</button>
 </div>
 </div>
-<sc-if value="{{avoHasMsg}}" hint-placeholder-val="{{false}}"><div class="{{avoMsg.cls}}" role="alert"><span style="font-weight: 600">{{avoMsg.text}}</span></div></sc-if>
-<sc-if value="{{avoHasFalhas}}" hint-placeholder-val="{{false}}">
-<div class="alert a-error" role="alert"><span style="font-weight: 700">Processos não avocado</span><sc-for list="{{avoFalhas}}" as="f" hint-placeholder-count="1"><span>• {{f.numero}} — {{f.motivo}}</span></sc-for></div>
 </sc-if>
-<div class="card" style="overflow: hidden">
-<div style="overflow-x: auto">
-<div role="table" aria-label="Processos" style="min-width: 1180px">
-<div role="row" class="tr th g-avo">
-<span role="columnheader"><span style="position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0)">Seleção</span></span>
-<span role="columnheader">Processo</span><span role="columnheader">Assunto</span><span role="columnheader">Origem</span><span role="columnheader">Relator</span><span role="columnheader">Setor atual</span><span role="columnheader">Dias</span><span role="columnheader">Situação de prazo</span>
+</section>
+<section class="card" aria-label="{{avoTitle}}">
+<div class="card-h" style="flex-wrap: wrap">
+<div style="display: flex; flex-direction: column; gap: 4px">
+<h2 class="card-t">{{avoTitle}}</h2>
+<span class="card-s">{{avoGroupTitle}}</span>
 </div>
-<sc-if value="{{avoEmpty}}" hint-placeholder-val="{{false}}"><div style="padding: 40px 24px; text-align: center; font-weight: 600">Nenhum processo encontrado para os filtros informados.</div></sc-if>
+<div style="flex-grow: 1"></div>
+<sc-if value="{{canRedistribuir}}" hint-placeholder-val="{{false}}"><button type="button" class="lnk" onClick="{{avoRedistribuir}}"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M2 21 23 12 2 3l3 9zm3-9h9"></path></svg>Redistribuir Selecionados</button></sc-if>
+</div>
+<div class="card-b">
+<sc-if value="{{avoHasMsg}}" hint-placeholder-val="{{false}}"><div class="{{avoMsg.cls}}" role="alert"><span style="font-weight: 500">{{avoMsg.text}}</span></div></sc-if>
+<sc-if value="{{avoHasFalhas}}" hint-placeholder-val="{{false}}">
+<div class="alert a-error" role="alert"><span style="font-weight: 600">Processos não avocado</span><sc-for list="{{avoFalhas}}" as="f" hint-placeholder-count="1"><span>• {{f.numero}} — {{f.motivo}}</span></sc-for></div>
+</sc-if>
+<div>
+<div style="overflow-x: auto" class="tbl">
+<div role="table" aria-label="Processos" style="min-width: 1900px">
+<div role="row" class="tr th g-avo">
+<span role="columnheader" class="nf"><span class="sr">Seleção</span></span>
+<span role="columnheader">Situação de prazo</span><span role="columnheader">Processos</span><span role="columnheader" class="nf">Período no setor</span><span role="columnheader" class="nf">Período no TCE</span><span role="columnheader">Assunto</span><span role="columnheader">Origem</span><span role="columnheader">Situação</span><span role="columnheader">Setor atual</span><span role="columnheader">Analista</span><span role="columnheader">Relator</span><span role="columnheader" class="nf">Ação</span>
+</div>
+<sc-if value="{{avoEmpty}}" hint-placeholder-val="{{false}}"><div style="padding: 40px 24px; text-align: center; font-weight: 500">Nenhum processo encontrado para os filtros informados.</div></sc-if>
 <sc-for list="{{avoRows}}" as="v" hint-placeholder-count="5">
 <div role="row" class="tr g-avo {{v.cls}}">
 <span role="cell"><input type="checkbox" class="cb" aria-label="Selecionar processo {{v.numero}}" checked="{{v.checked}}" onChange="{{v.toggle}}"></span>
-<span role="cell" style="display: flex; flex-direction: column; gap: 2px"><span class="num">{{v.numero}}</span><sc-if value="{{v.assinado}}" hint-placeholder-val="{{false}}"><span style="font-size: 12px; color: #7A4105; font-weight: 600">Enviado para assinatura</span></sc-if></span>
+<span role="cell" class="{{v.stripCls}}"><span class="{{v.prazoCls}}">{{v.prazo}}</span></span>
+<span role="cell" style="flex-direction: column; align-items: flex-start; justify-content: center; gap: 2px"><span class="num">{{v.numero}}</span><sc-if value="{{v.assinado}}" hint-placeholder-val="{{false}}"><span style="font-size: 12px; color: #7A4105; font-weight: 500; text-transform: none">Enviado para assinatura</span></sc-if></span>
+<span role="cell">{{v.periodoSetor}}</span>
+<span role="cell">{{v.periodoTce}}</span>
 <span role="cell">{{v.assunto}}</span>
-<span role="cell" class="muted">{{v.origem}}</span>
+<span role="cell">{{v.origem}}</span>
+<span role="cell">{{v.situacao}}</span>
+<span role="cell">{{v.setor}}</span>
+<span role="cell">{{v.analista}}</span>
 <span role="cell">{{v.relator}}</span>
-<span role="cell" class="muted">{{v.setor}}</span>
-<span role="cell">{{v.dias}}</span>
-<span role="cell"><span class="{{v.prazoCls}}">{{v.prazo}}</span></span>
+<span role="cell"><button type="button" class="btn btn-o btn-s" aria-label="Abrir processo {{v.numero}}" onClick="{{v.abrir}}">Abrir</button></span>
 </div>
 </sc-for>
 </div>
 </div>
+<div class="tfoot"><span>{{avoCountText}}</span></div>
 </div>
-<div style="display: flex; justify-content: flex-end; gap: 12px; flex-wrap: wrap">
-<button type="button" class="btn btn-o" onClick="{{goListaRefresh}}">Fechar</button>
-<sc-if value="{{canRedistribuir}}" hint-placeholder-val="{{false}}"><button type="button" class="btn btn-o" onClick="{{avoRedistribuir}}">Redistribuir Selecionados</button></sc-if>
-<sc-if value="{{canAvocar}}" hint-placeholder-val="{{true}}"><button type="button" class="btn" onClick="{{avoAvocar}}">Avocar Selecionados</button></sc-if>
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px">
+<button type="button" class="btn btn-o btn-w" onClick="{{goListaRefresh}}">Fechar</button>
+<sc-if value="{{canAvocar}}" hint-placeholder-val="{{false}}"><button type="button" class="btn btn-w" onClick="{{avoAvocar}}">Avocar Selecionados</button></sc-if>
+</div>
 </div>
 </section>
 </sc-if>
 
 </main>
+</div>
+</div>
 
-<!-- ============ Diálogos ============ -->
+<!-- ================= DIÁLOGOS ================= -->
 <sc-if value="{{hasDlg}}" hint-placeholder-val="{{false}}">
-<div style="position: fixed; inset: 0; background: rgba(12,22,40,.5); z-index: 60; display: flex; align-items: flex-start; justify-content: center; padding: 56px 16px; overflow: auto">
-<div role="dialog" aria-modal="true" aria-label="{{dlgTitle}}" class="card" style="width: 100%; max-width: 680px; box-shadow: 0 24px 60px rgba(10,25,50,.35); display: flex; flex-direction: column">
-<div style="display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 16px 20px; border-bottom: 1px solid #E3E8EF">
-<span style="font-size: 18px; font-weight: 700; color: #0F366D">{{dlgTitle}}</span>
+<div style="position: fixed; inset: 0; background: rgba(20,28,36,.5); z-index: 60; display: flex; align-items: flex-start; justify-content: center; padding: 56px 16px; overflow: auto">
+<div role="dialog" aria-modal="true" aria-label="{{dlgTitle}}" class="card" style="width: 100%; max-width: {{dlgMaxW}}; box-shadow: 0 24px 60px rgba(10,20,30,.35); display: flex; flex-direction: column">
+<div style="display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 20px 24px 12px">
+<span class="card-t" style="font-size: 20px">{{dlgTitle}}</span>
 <button type="button" class="icon-btn" aria-label="Fechar" onClick="{{closeDlg}}"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"></path></svg></button>
 </div>
-<div style="padding: 20px; display: flex; flex-direction: column; gap: 16px">
+<div style="padding: 8px 24px 20px; display: flex; flex-direction: column; gap: 16px; font-size: 15px">
 
 <sc-if value="{{dlgHasErrs}}" hint-placeholder-val="{{false}}">
 <div class="alert a-error" role="alert"><sc-for list="{{dlgErrs}}" as="e" hint-placeholder-count="1"><span>• {{e.t}}</span></sc-for></div>
 </sc-if>
 
-<!-- Tela 04 · Autuação -->
 <sc-if value="{{dlgAutuar}}" hint-placeholder-val="{{false}}">
-<div class="alert a-info"><span>As solicitações abaixo ficam bloqueadas para você até a conclusão ou o cancelamento da autuação.</span><sc-for list="{{dlgAutItems}}" as="i" hint-placeholder-count="1"><span style="font-weight: 600">• {{i.t}}</span></sc-for></div>
+<div class="alert a-info"><span>As solicitações abaixo ficam bloqueadas para você até a conclusão ou o cancelamento da autuação.</span><sc-for list="{{dlgAutItems}}" as="i" hint-placeholder-count="1"><span style="font-weight: 500">• {{i.t}}</span></sc-for></div>
 <label class="field">Número do processo<input class="input" inputmode="numeric" value="{{dlg.numero}}" onChange="{{dlgSetNumero}}"></label>
 <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px">
 <label class="field">Assunto<input class="input" disabled="{{true}}" value="Conforme regras de autuação (RF-025)"></label>
 <label class="field">Relator<input class="input" disabled="{{true}}" value="Definido por sorteio (RF-025)"></label>
 </div>
 <label class="check"><input type="checkbox" class="cb" role="switch" checked="{{dlg.sigilo}}" onChange="{{dlgTglSigilo}}">Habilitar sigilo</label>
-<sc-if value="{{dlg.confirmShort}}" hint-placeholder-val="{{false}}"><div class="alert a-warn" role="alert"><span style="font-weight: 600">O número do processo tem menos de 15 caracteres.</span><span>Confirme para gravar mesmo assim.</span></div></sc-if>
+<sc-if value="{{dlg.confirmShort}}" hint-placeholder-val="{{false}}"><div class="alert a-warn" role="alert"><span style="font-weight: 500">O número do processo tem menos de 15 caracteres.</span><span>Confirme para gravar mesmo assim.</span></div></sc-if>
 </sc-if>
 
-<!-- Devolver -->
 <sc-if value="{{dlgDevolver}}" hint-placeholder-val="{{false}}">
-<span>Processo <strong class="num">{{dlg.numero}}</strong> será devolvido ao setor de origem.</span>
-<label class="field">Justificativa (obrigatória)<textarea class="input" value="{{dlg.just}}" onChange="{{dlgSetJust}}"></textarea></label>
+<span>{{dlgDevText}}</span>
+<label class="field">Justificativa da devolução (obrigatória)<textarea class="input" autoFocus="{{true}}" value="{{dlg.just}}" onChange="{{dlgSetJust}}"></textarea></label>
 </sc-if>
 
-<!-- Já devolvido -->
 <sc-if value="{{dlgDevolvido}}" hint-placeholder-val="{{false}}">
-<div class="alert a-warn"><span style="font-weight: 600">Processo já devolvido: você deve efetuar novo trâmite.</span><span>Somente visualização.</span></div>
+<div class="alert a-warn"><span style="font-weight: 500">Processo já devolvido: você deve efetuar novo trâmite.</span><span>Somente visualização.</span></div>
 <label class="field">Motivo da recusa<textarea class="input" disabled="{{true}}" value="{{dlg.motivo}}"></textarea></label>
 </sc-if>
 
-<!-- Tela 07 · Decisão de juntada / consulta -->
 <sc-if value="{{dlgJun}}" hint-placeholder-val="{{false}}">
-<span>Nº do Processo: <strong class="num">{{dlg.processo}}</strong></span>
+<div style="display: flex; gap: 4px 16px; flex-wrap: wrap; align-items: center">
+<span>Nº do Processo: <span class="num">{{dlg.processo}}</span></span>
+<div style="flex-grow: 1"></div>
+<button type="button" class="lnk" onClick="{{dlgVerTermo}}"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M6 3h9l4 4v14H6z"></path><path d="M9 11h7M9 15h7"></path></svg>Ver Termo de deferimento</button>
+<button type="button" class="lnk" onClick="{{dlgConsultarProc}}"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-3.5-3.5"></path></svg>Consultar Processo</button>
+</div>
 <sc-if value="{{dlg.readOnly}}" hint-placeholder-val="{{false}}"><div class="alert a-info"><span>Somente visualização.</span></div></sc-if>
-<div class="card" style="overflow: hidden">
-<div role="row" class="tr th g-doc"><span role="columnheader"><span style="position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0)">Juntar</span></span><span role="columnheader">Documento a juntar</span><span role="columnheader">Fonte</span></div>
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 20px; align-items: start">
+<div style="display: flex; flex-direction: column; gap: 16px; min-width: 0">
+<span class="card-s">Documentos a Juntar ao Processo</span>
+<div class="tbl">
+<div role="row" class="tr th g-doc"><span role="columnheader" class="nf"><span class="sr">Juntar</span></span><span role="columnheader" class="nf">Documento</span><span role="columnheader" class="nf">Fonte</span><span role="columnheader" class="nf"><span class="sr">Visualizar</span></span></div>
 <sc-for list="{{dlgDocs}}" as="o" hint-placeholder-count="3">
-<div role="row" class="tr g-doc"><span role="cell"><input type="checkbox" class="cb" aria-label="Juntar {{o.nome}}" disabled="{{o.disabled}}" checked="{{o.checked}}" onChange="{{o.toggle}}"></span><span role="cell">{{o.nome}}</span><span role="cell"><span class="chip c-neutral">{{o.fonte}}</span></span></div>
+<div role="row" class="{{o.rowCls}}"><span role="cell"><input type="checkbox" class="cb" aria-label="Juntar {{o.nome}}" disabled="{{o.disabled}}" checked="{{o.checked}}" onChange="{{o.toggle}}"></span><span role="cell" style="text-transform: none">{{o.nome}}</span><span role="cell"><span class="chip c-neutral">{{o.fonte}}</span></span><span role="cell"><button type="button" class="btn btn-t btn-s" aria-label="Visualizar {{o.nome}}" aria-pressed="{{o.viewStr}}" onClick="{{o.view}}">Ver</button></span></div>
 </sc-for>
 </div>
+<div class="field">Descrição/Justificativa da solicitação de juntada<p class="ro">{{dlgDescSol}}</p></div>
 <sc-if value="{{dlgShowDecision}}" hint-placeholder-val="{{true}}">
-<label class="field">Descrição / Justificativa<textarea class="input" disabled="{{dlg.readOnly}}" value="{{dlg.desc}}" onChange="{{dlgSetDesc}}"></textarea></label>
-<div role="radiogroup" aria-label="Decisão" style="display: flex; gap: 4px 24px; flex-wrap: wrap">
+<div role="radiogroup" aria-label="Decisão" style="display: flex; flex-direction: column; gap: 0">
 <label class="check"><input type="radio" class="cb" name="dec" disabled="{{dlg.readOnly}}" checked="{{dlgDecSim}}" onChange="{{dlgSetSim}}">Autorizo a juntada de documentos</label>
 <label class="check"><input type="radio" class="cb" name="dec" disabled="{{dlg.readOnly}}" checked="{{dlgDecNao}}" onChange="{{dlgSetNao}}">Não autorizo a juntada de documentos</label>
 </div>
-<sc-if value="{{dlgDecNao}}" hint-placeholder-val="{{false}}">
-<label class="field">Justificativa / Motivo (obrigatório)<textarea class="input" disabled="{{dlg.readOnly}}" value="{{dlg.just}}" onChange="{{dlgSetJust}}"></textarea><span style="font-weight: 400; color: #4F5A6B; align-self: flex-end">{{dlgJustCount}}/1000</span></label>
+<label class="field">Justificativa/Motivo<textarea class="input" disabled="{{dlg.readOnly}}" value="{{dlg.just}}" onChange="{{dlgSetJust}}"></textarea></label>
+<sc-if value="{{dlg.saved}}" hint-placeholder-val="{{false}}"><div class="alert a-success" role="status"><span style="font-weight: 500">Decisão salva</span><span>{{dlgSentText}}</span></div></sc-if>
 </sc-if>
-<sc-if value="{{dlg.saved}}" hint-placeholder-val="{{false}}"><div class="alert a-success" role="status"><span style="font-weight: 600">Decisão salva.</span><span>{{dlgSentText}}</span></div></sc-if>
-</sc-if>
+</div>
+<div class="viewer" role="region" aria-label="Visualizador do documento selecionado">
+<div class="viewer-h"><span style="text-transform: none">{{dlgViewDoc}}</span><span class="chip c-info">{{dlgViewNote}}</span></div>
+<div class="viewer-page" aria-hidden="true">
+<span class="vl" style="width: 45%; height: 12px; background: #CBD1D6"></span>
+<span class="vl" style="width: 30%"></span>
+<span style="height: 12px"></span>
+<span class="vl" style="width: 100%"></span><span class="vl" style="width: 96%"></span><span class="vl" style="width: 98%"></span><span class="vl" style="width: 72%"></span>
+<span style="height: 8px"></span>
+<span class="vl" style="width: 100%"></span><span class="vl" style="width: 94%"></span><span class="vl" style="width: 97%"></span><span class="vl" style="width: 88%"></span><span class="vl" style="width: 60%"></span>
+<span style="height: 8px"></span>
+<span class="vl" style="width: 99%"></span><span class="vl" style="width: 92%"></span><span class="vl" style="width: 40%"></span>
+</div>
+</div>
+</div>
 </sc-if>
 
-<!-- Confirmação de autorização de prazo -->
-<sc-if value="{{dlgConfPrz}}" hint-placeholder-val="{{false}}">
-<span style="font-size: 15px">{{dlg.texto}}</span>
-</sc-if>
+<sc-if value="{{dlgConfPrz}}" hint-placeholder-val="{{false}}"><span>{{dlg.texto}}</span></sc-if>
 
-<!-- Tela 09 · Prorrogar / Suspender -->
 <sc-if value="{{dlgAlt}}" hint-placeholder-val="{{false}}">
-<span>Processo <strong class="num">{{dlg.numero}}</strong></span>
+<span>Processo <span class="num">{{dlg.numero}}</span></span>
 <div role="radiogroup" aria-label="Tipo" style="display: flex; gap: 4px 24px">
 <label class="check"><input type="radio" class="cb" name="tipo" checked="{{dlgTipoP}}" onChange="{{dlgSetTipoP}}">Prorrogação</label>
 <label class="check"><input type="radio" class="cb" name="tipo" checked="{{dlgTipoS}}" onChange="{{dlgSetTipoS}}">Suspensão</label>
@@ -645,23 +891,41 @@ textarea.input{height:auto;min-height:88px;padding:10px 12px;resize:vertical;lin
 <option value="Afastamento do analista">Afastamento do analista</option>
 </select>
 </label>
-<label class="field">Dias úteis<input class="input" type="number" min="1" value="{{dlg.dias}}" onChange="{{dlgSetDias}}"></label>
+<label class="field">Dias úteis (obrigatório)<input class="input" type="number" min="1" value="{{dlg.dias}}" onChange="{{dlgSetDias}}"></label>
 </div>
-<label class="field">Justificativa<textarea class="input" value="{{dlg.just}}" onChange="{{dlgSetJust}}"></textarea><span style="font-weight: 400; color: #4F5A6B; align-self: flex-end">{{dlgJustCount}}/1000</span></label>
-<div class="card" style="overflow: hidden">
-<div role="row" class="tr th g-pr2"><span role="columnheader">Lançamento</span><span role="columnheader">Dias</span><span role="columnheader">Situação</span></div>
-<sc-for list="{{dlgItens}}" as="i" hint-placeholder-count="1"><div role="row" class="tr g-pr2"><span role="cell">{{i.tipo}}</span><span role="cell">{{i.dias}}</span><span role="cell"><span class="chip c-warn">{{i.sit}}</span></span></div></sc-for>
+<label class="field">Justificativa (obrigatória)<textarea class="input" value="{{dlg.just}}" onChange="{{dlgSetJust}}"></textarea><span style="font-size: 13px; align-self: flex-end">{{dlgJustRest}} caracteres restantes</span></label>
+<div class="tbl">
+<div role="row" class="tr th g-pr2"><span role="columnheader" class="nf">Lançamento</span><span role="columnheader" class="nf">Dias</span><span role="columnheader" class="nf">Situação</span><span role="columnheader" class="nf"><span class="sr">Ação</span></span></div>
+<sc-if value="{{dlgItensEmpty}}" hint-placeholder-val="{{false}}"><div style="padding: 16px; text-align: center">Não existe item a ser Alterado, ou foi negado.</div></sc-if>
+<sc-for list="{{dlgItens}}" as="i" hint-placeholder-count="1"><div role="row" class="tr g-pr2"><span role="cell">{{i.tipo}}</span><span role="cell">{{i.dias}}</span><span role="cell"><span class="chip c-warn">{{i.sit}}</span></span><span role="cell"><button type="button" class="lnk red" disabled="{{i.delDis}}" title="{{i.delTitle}}" onClick="{{i.del}}">Excluir</button></span></div></sc-for>
 </div>
-<sc-if value="{{dlg.confirm}}" hint-placeholder-val="{{false}}"><div class="alert a-warn" role="alert"><span style="font-weight: 600">Confirma o lançamento? A data final ajustada será recalculada em dias úteis.</span></div></sc-if>
+<sc-if value="{{dlg.confirm}}" hint-placeholder-val="{{false}}"><div class="alert a-warn" role="alert"><span style="font-weight: 500">Confirma o lançamento? A data final ajustada será recalculada em dias úteis.</span></div></sc-if>
 </sc-if>
 
-<!-- Avocação: processos separados -->
 <sc-if value="{{dlgAvoConf}}" hint-placeholder-val="{{false}}">
-<div class="alert a-warn"><span style="font-weight: 600">Processos assinados ou enviados para assinatura foram separados da seleção:</span><sc-for list="{{dlgSep}}" as="i" hint-placeholder-count="1"><span>• {{i.t}}</span></sc-for></div>
+<div class="alert a-warn"><span style="font-weight: 500">Processos assinados ou enviados para assinatura foram separados da seleção:</span><sc-for list="{{dlgSep}}" as="i" hint-placeholder-count="1"><span>• {{i.t}}</span></sc-for></div>
 <span>{{dlgAvoText}}</span>
 </sc-if>
 
-<!-- Redistribuir -->
+<sc-if value="{{dlgSol}}" hint-placeholder-val="{{false}}">
+<sc-if value="{{dlgSolEdit}}" hint-placeholder-val="{{false}}"><span>Origem: {{dlgSolOrigem}} · Situação: {{dlgSolSit}}</span></sc-if>
+<label class="field">Título/Resumo<input class="input" maxlength="100" value="{{dlg.titulo}}" onChange="{{dlgSetTitulo}}"><span style="font-size: 13px; align-self: flex-end">{{dlgTituloCount}}/100</span></label>
+<div class="alert a-info"><span>Os demais campos da solicitação seguem o requisito dono do cadastro, ainda a definir (questão 20 do PRD).</span></div>
+</sc-if>
+
+<sc-if value="{{dlgArq}}" hint-placeholder-val="{{false}}">
+<span>Solicitação: <strong style="font-weight: 600">{{dlgArqTitulo}}</strong> · Origem: {{dlgArqOrigem}}</span>
+<sc-if value="{{dlgArqEmpty}}" hint-placeholder-val="{{false}}"><div class="alert a-info"><span>A solicitação não possui anexos.</span></div></sc-if>
+<sc-if value="{{dlgArqHas}}" hint-placeholder-val="{{true}}">
+<div class="tbl">
+<div role="row" class="tr th g-arq"><span role="columnheader" class="nf">Anexo</span><span role="columnheader" class="nf">Formato</span><span role="columnheader" class="nf"><span class="sr">Ação</span></span></div>
+<sc-for list="{{dlgArqs}}" as="f" hint-placeholder-count="2"><div role="row" class="tr g-arq"><span role="cell" style="text-transform: none">{{f.nome}}</span><span role="cell"><span class="chip c-neutral">{{f.fmt}}</span></span><span role="cell"><button type="button" class="btn btn-o btn-s" onClick="{{f.ver}}">Visualizar</button></span></div></sc-for>
+</div>
+</sc-if>
+<sc-if value="{{dlg.rejecting}}" hint-placeholder-val="{{false}}"><label class="field">Motivo da rejeição (obrigatório)<textarea class="input" value="{{dlg.motivo}}" onChange="{{dlgSetMotivoRej}}"></textarea></label></sc-if>
+<sc-if value="{{dlgArqNoReject}}" hint-placeholder-val="{{false}}"><span class="muted" style="font-size: 13px">{{dlgArqNoRejectText}}</span></sc-if>
+</sc-if>
+
 <sc-if value="{{dlgRedist}}" hint-placeholder-val="{{false}}">
 <span>{{dlgRedistText}}</span>
 <label class="field">Redistribuir para
@@ -675,9 +939,9 @@ textarea.input{height:auto;min-height:88px;padding:10px 12px;resize:vertical;lin
 </sc-if>
 
 </div>
-<div style="display: flex; justify-content: flex-end; gap: 12px; padding: 14px 20px; border-top: 1px solid #E3E8EF; flex-wrap: wrap">
-<button type="button" class="btn btn-o" onClick="{{closeDlg}}">{{dlgCancelLabel}}</button>
-<sc-if value="{{dlgShowSec}}" hint-placeholder-val="{{false}}"><button type="button" class="btn btn-o" disabled="{{dlgSecDis}}" onClick="{{dlgSec}}">{{dlgSecLabel}}</button></sc-if>
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 16px; padding: 4px 24px 24px">
+<button type="button" class="btn btn-o btn-w" onClick="{{closeDlg}}">{{dlgCancelLabel}}</button>
+<sc-if value="{{dlgShowSec}}" hint-placeholder-val="{{false}}"><button type="button" class="btn btn-o btn-w" disabled="{{dlgSecDis}}" onClick="{{dlgSec}}">{{dlgSecLabel}}</button></sc-if>
 <sc-if value="{{dlgShowPri}}" hint-placeholder-val="{{true}}"><button type="button" class="{{dlgPriCls}}" onClick="{{dlgPri}}">{{dlgPriLabel}}</button></sc-if>
 </div>
 </div>
@@ -687,7 +951,7 @@ textarea.input{height:auto;min-height:88px;padding:10px 12px;resize:vertical;lin
 <sc-if value="{{hasToast}}" hint-placeholder-val="{{false}}"><div class="{{toastCls}}" role="status">{{toastMsg}}</div></sc-if>
 </div>
 </x-dc>
-<script type="text/x-dc" data-dc-script data-props='{"perfil":{"editor":"enum","options":["Chefe de setor","Analista de setor","Gabinete de conselheiro"],"default":"Chefe de setor","section":"Simulação"},"cenario":{"editor":"enum","options":["Padrão","Sem pendências","Volume alto (99+)"],"default":"Padrão","section":"Simulação"},"simularFalha":{"editor":"boolean","default":false,"section":"Simulação"},"$preview":{"width":1440,"height":1000}}'>
+<script type="text/x-dc" data-dc-script data-props='{"perfil":{"editor":"enum","options":["Chefe de setor","Analista de setor","Gabinete de conselheiro","Protocolo (Setor 41)"],"default":"Chefe de setor","section":"Simulação"},"cenario":{"editor":"enum","options":["Padrão","Sem pendências","Volume alto (99+)"],"default":"Padrão","section":"Simulação"},"simularFalha":{"editor":"boolean","default":false,"section":"Simulação"},"$preview":{"width":1440,"height":1400}}'>
 class Component extends DCLogic {
   constructor(...args) {
     super(...args);
@@ -696,7 +960,7 @@ class Component extends DCLogic {
   componentDidMount() {
     this.refresh();
     this._iv = setInterval(() => this.refresh(), 300000);
-    this._iv2 = setInterval(() => { if (this.state.view === 'autuacao') this.setState({ autUpd: new Date() }); }, 60000);
+    this._iv2 = setInterval(() => { if (this.state.view === 'pendencias' && this.state.pendTab === 'P01') this.setState({ autUpd: new Date() }); }, 60000);
   }
   componentWillUnmount() {
     clearInterval(this._iv); clearInterval(this._iv2);
@@ -714,6 +978,7 @@ class Component extends DCLogic {
     const v = (p && p.perfil) || 'Chefe de setor';
     if (v.indexOf('Analista') === 0) return 'analista';
     if (v.indexOf('Gabinete') === 0) return 'gabinete';
+    if (v.indexOf('Protocolo') === 0) return 'protocolo';
     return 'chefe';
   }
   user(pk) {
@@ -721,7 +986,8 @@ class Component extends DCLogic {
     const all = {
       chefe: { nome: 'Marina Costa', ini: 'MC', perfil: 'Chefe de setor', setor: setor, claims: { chefia: true, distribuir: true } },
       analista: { nome: 'Rafael Nunes', ini: 'RN', perfil: 'Analista de setor', setor: setor, claims: {} },
-      gabinete: { nome: 'Helena Prado', ini: 'HP', perfil: 'Gabinete de conselheiro', setor: 'Gabinete do Conselheiro Relator', claims: { avocar: true, autorizarJuntada: true } }
+      gabinete: { nome: 'Helena Prado', ini: 'HP', perfil: 'Gabinete de conselheiro', setor: 'Gabinete do Conselheiro Relator I', claims: { avocar: true, autorizarJuntada: true } },
+      protocolo: { nome: 'Lívia Moraes', ini: 'LM', perfil: 'Protocolo', setor: 'SERV-PROTOCOLO (Setor 41)', claims: {} }
     };
     return all[pk];
   }
@@ -741,38 +1007,47 @@ class Component extends DCLogic {
       { id: 'P12', label: 'Revisado', kind: 'filtro' }
     ];
   }
+  screenTitle(view) {
+    return { autuacao: 'Solicitações de Autuação Pendentes', aceite: 'Aguardando Aceite de Processos', juntada: 'Solicitações pendentes de Juntada', prazo: 'Prorrogação/Suspensão aguardando autorização', avocacao: 'Processos a serem Avocados' }[view] || '';
+  }
   makeState(p) {
     const pk = this.pkOf(p);
     return {
       pk: pk, data: this.buildData(p.cenario || 'Padrão', pk),
-      view: 'lista', panelOpen: false, filter: null, search: '', page: 1, sel: {},
+      view: 'lista', assinIds: [], pendTab: null, pendGroup: null, panelOpen: false, filter: null, search: '', page: 1, per: 10, sel: {},
+      sideOpen: true, pautaOpen: false, distOpen: false,
+      collapsed: { fil: true },
       snapshot: null, lastUpdate: null, loading: true, err: null, listLoading: false, autUpd: new Date(),
-      aut: { rowSel: {}, marks: {}, fE: true, fA: pk === 'chefe', fS: false, fC: false, fR: false, modo: 'envio', msg: null },
-      ace: { msg: null },
-      jun: { f: { E: true, N: pk !== 'gabinete', A: false, R: false, S: pk === 'gabinete', X: false }, proc: '', procApplied: '', resp: 'resp', msg: null },
+      aut: { marks: {}, fE: false, fA: pk === 'chefe', fS: true, fC: false, fR: true, modo: null, fila: 'destino', origemSetor: '', sei: false, msg: null },
+      ace: { msg: null, sel: {}, done: false },
+      jun: { f: { E: true, N: pk !== 'gabinete', A: false, R: false, S: pk === 'gabinete', X: false }, proc: '', procApplied: '', resp: pk === 'protocolo' ? 'setor' : 'resp', msg: null },
       prz: { sel: {}, fProc: '', fAn: '', msg: null },
-      avo: { sel: {}, proc: '', procApplied: '', origem: '', assunto: '', relator: '', setor: '', venc: false, menos10: false, falhas: null, msg: null },
+      avo: this.avoDefaults(pk),
       dialog: null, toast: null
     };
   }
+  avoDefaults(pk) {
+    return { sel: {}, proc: '', procApplied: '', origem: '', assunto: '', relator: pk === 'gabinete' ? 'Conselheiro Relator I' : '', setor: pk === 'gabinete' ? '' : this.user(pk).setor, venc: false, menos10: false, falhas: null, msg: null };
+  }
   buildData(cen, pk) {
-    const P = (id, numero, assunto, interessado, evento, data, resp, tags, apensos, parent) =>
-      ({ id: id, numero: numero, assunto: assunto, interessado: interessado, evento: evento, data: data, resp: resp, tags: tags || [], apensos: apensos || [], parent: parent || null });
+    const P = (id, numero, assunto, interessado, evento, data, resp, tags, apensos, parent, extra) =>
+      Object.assign({ id: id, numero: numero, assunto: assunto, interessado: interessado, evento: evento, data: data, resp: resp, tags: tags || [], apensos: apensos || [], parent: parent || null, sigiloso: false, fav: false }, extra || {});
     const IPE = 'Instituto de Previdência Estadual';
     const procs = [
-      P('p1', '202500047001842', 'Aposentadoria voluntária — registro', IPE, 'Aguardando assinatura', '29/09/2026', 'Rafael Nunes', ['P02'], ['p1a']),
+      P('p1', '202500047001842', 'Aposentadoria voluntária — registro', IPE, 'Aguardando assinatura', '29/09/2026', 'Rafael Nunes', ['P02'], ['p1a'], null, { fav: true }),
       P('p1a', '202500047001843', 'Pensão por morte — registro', IPE, 'Apensado', '29/09/2026', 'Rafael Nunes', [], [], 'p1'),
       P('p2', '202500047001907', 'Admissão de pessoal — concurso público', 'Secretaria de Estado da Educação', 'Em análise', '28/09/2026', 'Marina Costa'),
-      P('p3', '202600047000118', 'Aposentadoria por invalidez — registro', IPE, 'Aguardando assinatura', '30/09/2026', 'Joana Lima', ['P02']),
+      P('p3', '202600047000118', 'Aposentadoria por invalidez — registro', IPE, 'Aguardando assinatura', '30/09/2026', 'Joana Lima', ['P02'], [], null, { sigiloso: true, fav: true }),
       P('p4', '202600047000156', 'Reforma de militar — registro', 'Polícia Militar', 'Assinado — pendente de envio', '27/09/2026', 'Rafael Nunes', ['P03']),
       P('p5', '202600047000203', 'Pensão especial — registro', IPE, 'Aguardando assinatura', '30/09/2026', 'Rafael Nunes', ['P02']),
       P('p6', '202600047000241', 'Admissão — processo seletivo simplificado', 'Secretaria de Estado da Saúde', 'Assinado — pendente de envio', '26/09/2026', 'Joana Lima', ['P03']),
-      P('p7', '202600047000288', 'Revisão de proventos', IPE, 'Assinado', '25/09/2026', 'Marina Costa', ['P04']),
+      P('p7', '202600047000288', 'Revisão de proventos', IPE, 'Assinado', '25/09/2026', 'Marina Costa', ['P04'], [], null, { fav: true }),
       P('p8', '202600047000302', 'Aposentadoria especial — professor', 'Secretaria de Estado da Educação', 'Assinado (por mim e por terceiro)', '24/09/2026', 'Rafael Nunes', ['P04']),
       P('p9', '202600047000317', 'Transferência para a reserva', 'Corpo de Bombeiros Militar', 'Assinado por terceiro', '24/09/2026', 'Joana Lima', ['P05']),
       P('p10', '202600047000355', 'Admissão — contratação temporária', 'Universidade Estadual', 'Enviado para revisão oficial', '23/09/2026', 'Rafael Nunes', ['P06'], ['p10a']),
       P('p10a', '202600047000356', 'Admissão — termo aditivo', 'Universidade Estadual', 'Apensado', '23/09/2026', 'Rafael Nunes', [], [], 'p10'),
       P('p11', '202600047000390', 'Aposentadoria compulsória', IPE, 'Enviado para assinatura (revisado)', '22/09/2026', 'Joana Lima', ['P07']),
+      P('p17', '202600047000371', 'Admissão — concurso público (revisão)', 'Secretaria de Estado da Saúde', 'Enviado para revisão oficial', '23/09/2026', 'Marina Costa', ['P06']),
       P('p12', '202600047000412', 'Pensão civil', IPE, 'Revisado', '21/09/2026', 'Rafael Nunes', ['P12']),
       P('p13', '202600047000437', 'Retificação de aposentadoria', IPE, 'Revisado', '20/09/2026', 'Marina Costa', ['P12']),
       P('p14', '202600047000459', 'Admissão — concurso público', 'Secretaria de Estado da Saúde', 'Recebido no setor', '19/09/2026', 'Joana Lima', [], ['p14a']),
@@ -791,17 +1066,20 @@ class Component extends DCLogic {
       A('a6', 'LRF', '29/09/2026', 'Câmara Municipal', 'Fábio Teixeira', 'Relatório de gestão fiscal — 2º quadrimestre', 'A', { arquivos: ['relatorio.pdf', 'demonstrativo.xlsx'] }),
       A('a7', 'Atos de Pessoal', '30/09/2026', 'Secretaria de Estado da Educação', 'Gabriela Pires', 'Admissões — professores temporários', 'A', { arquivos: ['oficio.pdf', 'lista.docx', 'anexo.pdf'] }),
       A('a8', 'SEI', '20/09/2026', 'Protocolo Geral', 'Joana Lima', 'Denúncia — pagamento de gratificações', 'C', { processo: '202600047000318' }),
-      A('a9', 'TCE-HUB', '18/09/2026', IPE, 'Bruna Alves', 'Pensão — documentação incompleta', 'R')
+      A('a9', 'TCE-HUB', '18/09/2026', IPE, 'Bruna Alves', 'Pensão — documentação incompleta', 'R'),
+      A('a10', 'Tomada de Contas', '29/09/2026', 'Câmara Municipal', 'Fábio Teixeira', 'Tomada de contas especial — exercício 2025', 'S', { arquivos: ['relatorio_tce.pdf', 'planilha.xlsx'] })
     ];
+    const C = (id, numero, assunto, sit, extra) => Object.assign({ id: id, numero: numero, assunto: assunto, sit: sit, remetente: 'Ana Ribeiro — Serviço de Fiscalização de Pessoal', conselheiro: 'Conselheiro Relator I', consSubst: '—', procurador: 'Procurador B', responsavel: 'Rafael Nunes', interessado: IPE, periodoTce: '214 dias', origem: 'Secretaria de Estado da Saúde', docs: [], apensos: [], parent: null, atosSemIntegracao: false }, extra || {});
     const ace = [
-      { id: 'c1', numero: '202600047000521', assunto: 'Admissão — concurso público', origem: 'Serviço de Fiscalização de Pessoal', liberador: 'Ana Ribeiro', data: '30/09/2026', sit: 'aguardando', docs: [], apensos: ['c1a'], parent: null },
-      { id: 'c1a', numero: '202600047000522', assunto: 'Admissão — recurso administrativo', origem: 'Serviço de Fiscalização de Pessoal', liberador: 'Ana Ribeiro', data: '30/09/2026', sit: 'apensado', docs: [], apensos: [], parent: 'c1' },
-      { id: 'c2', numero: '202600047000534', assunto: 'Aposentadoria voluntária', origem: 'Gabinete do Conselheiro Relator', liberador: 'Tiago Moreira', data: '29/09/2026', sit: 'devolvido', motivo: 'Documentação incompleta: ausência do parecer técnico conclusivo.', docs: [], apensos: [], parent: null },
-      { id: 'c3', numero: '202600047000547', assunto: 'Pensão por morte', origem: 'Secretaria de Recursos', liberador: 'Luana Freitas', data: '28/09/2026', sit: 'aguardando', docs: ['Despacho nº 312/2026 juntado no andamento atual.', 'Anexo "memoria_calculo.xlsx" no andamento atual do apensado 202600047000548.'], apensos: [], parent: null }
+      C('c1', '202600047000521', 'Admissão — concurso público', 'aguardando', { apensos: ['c1a'], interessado: 'Secretaria de Estado da Saúde', periodoTce: '96 dias' }),
+      C('c1a', '202600047000522', 'Admissão — recurso administrativo', 'apensado', { parent: 'c1', interessado: 'Secretaria de Estado da Saúde', periodoTce: '96 dias' }),
+      C('c2', '202600047000534', 'Aposentadoria voluntária', 'devolvido', { remetente: 'Tiago Moreira — Gabinete do Conselheiro Relator I', consSubst: 'Conselheiro Substituto C', motivo: 'Documentação incompleta: ausência do parecer técnico conclusivo.', periodoTce: '312 dias', origem: IPE }),
+      C('c3', '202600047000547', 'Pensão por morte', 'aguardando', { remetente: 'Luana Freitas — Secretaria de Recursos', docs: ['Despacho nº 312/2026 juntado no andamento atual.', 'Anexo "memoria_calculo.xlsx" no andamento atual do apensado 202600047000548.'], periodoTce: '158 dias', origem: IPE }),
+      C('c4', '202600047000559', 'Admissão — atos de pessoal', 'aguardando', { remetente: 'Integração Atos de Pessoal', atosSemIntegracao: true, responsavel: 'Joana Lima', periodoTce: '12 dias', origem: 'Secretaria de Estado da Educação' })
     ];
-    const docs = [{ id: 'd1', nome: 'Defesa prévia.pdf', fonte: 'Externo' }, { id: 'd2', nome: 'Procuração.pdf', fonte: 'TCE Docs' }, { id: 'd3', nome: 'Certidão de tempo de contribuição.pdf', fonte: 'TCE-Hub' }];
+    const docs = [{ id: 'd1', nome: 'Defesa prévia.pdf', fonte: 'Externo' }, { id: 'd2', nome: 'Procuração.docx', fonte: 'TCE Docs' }, { id: 'd3', nome: 'Certidão de tempo de contribuição.pdf', fonte: 'TCE-Hub' }];
     const J = (id, processo, titulo, data, setorSol, usuario, sit, rel, extra) =>
-      Object.assign({ id: id, processo: processo, titulo: titulo, data: data, relator: 'Conselheiro Relator I', setorSol: setorSol, usuario: usuario, aprov: 'Sim', sit: sit, rel: rel, docs: docs, decisao: null }, extra || {});
+      Object.assign({ id: id, processo: processo, titulo: titulo, data: data, relator: 'Conselheiro Relator I', setorSol: setorSol, usuario: usuario, aprov: 'Sim', sit: sit, rel: rel, docs: docs, decisao: null, descSol: 'Solicito a juntada dos documentos anexos, apresentados pela parte interessada, para instrução do processo.' }, extra || {});
     const jun = [
       J('j1', '202600047000560', 'Juntada de defesa — aposentadoria', '26/09/2026', 'Protocolo Geral', 'Joana Lima', 'E', 'resp'),
       J('j2', '202600047000573', 'Juntada de certidões complementares', '27/09/2026', 'Serviço de Análise de Atos de Pessoal', 'Rafael Nunes', 'N', 'solic'),
@@ -816,21 +1094,21 @@ class Component extends DCLogic {
       { id: 'z3', numero: '202600047000637', analista: 'Rafael Nunes', inicio: '15/09/2026', diasUteis: 20, tipo: 'P', prorr: 5, susp: 0, aguardando: 1 }
     ];
     const V = (id, numero, assunto, origem, relator, setor, dias, extra) =>
-      Object.assign({ id: id, numero: numero, assunto: assunto, origem: origem, relator: relator, setor: setor, dias: dias, assinado: false, falha: false }, extra || {});
+      Object.assign({ id: id, numero: numero, assunto: assunto, origem: origem, relator: relator, setor: setor, dias: dias, assinado: false, falha: false, situacao: 'Em análise', analista: '—', periodoTce: '—' }, extra || {});
     const own = this.user(pk).setor;
     const avo = pk === 'gabinete' ? [
-      V('v1', '202500047002210', 'Tomada de contas especial', 'Secretaria de Estado da Saúde', 'Auditor A', 'Gabinete de Auditor A', 42),
-      V('v2', '202500047002245', 'Aposentadoria — registro', IPE, 'Procurador B', 'Gabinete de Procurador B', 35, { assinado: true }),
-      V('v3', '202600047000102', 'Admissão — concurso público', 'Secretaria de Estado da Educação', 'Conselheiro Substituto C', 'Gabinete de Conselheiro Substituto C', 27),
-      V('v4', '202600047000145', 'Prestação de contas anual', 'Câmara Municipal', 'Auditor A', 'Gabinete de Auditor A', 22),
-      V('v5', '202600047000199', 'Pensão civil', IPE, 'Procurador B', 'Gabinete de Procurador B', 12),
-      V('v6', '202600047000214', 'Licitação — representação', 'Secretaria de Estado da Saúde', 'Conselheiro Substituto C', 'Gabinete de Conselheiro Substituto C', 5),
-      V('v7', '202500047002301', 'Tomada de contas especial', 'Câmara Municipal', 'Auditor A', 'Gabinete de Auditor A', 31, { falha: true })
+      V('v1', '202500047002210', 'Tomada de contas especial', 'Secretaria de Estado da Saúde', 'Conselheiro Relator I', 'Gabinete de Auditor A', 42, { analista: 'Bruno Sales', periodoTce: '410 dias' }),
+      V('v2', '202500047002245', 'Aposentadoria — registro', IPE, 'Conselheiro Relator I', 'Gabinete de Procurador B', 35, { assinado: true, analista: 'Clara Dias', periodoTce: '388 dias' }),
+      V('v3', '202600047000102', 'Admissão — concurso público', 'Secretaria de Estado da Educação', 'Conselheiro Relator I', 'Gabinete de Conselheiro Substituto C', 27, { analista: 'Bruno Sales', periodoTce: '150 dias' }),
+      V('v4', '202600047000145', 'Prestação de contas anual', 'Câmara Municipal', 'Conselheiro Relator I', 'Gabinete de Auditor A', 22, { analista: 'Davi Ramos', periodoTce: '133 dias' }),
+      V('v5', '202600047000199', 'Pensão civil', IPE, 'Conselheiro Relator I', 'Gabinete de Procurador B', 12, { analista: 'Clara Dias', periodoTce: '98 dias' }),
+      V('v6', '202600047000214', 'Licitação — representação', 'Secretaria de Estado da Saúde', 'Conselheiro Relator II', 'Gabinete de Conselheiro Substituto C', 38, { analista: 'Davi Ramos', periodoTce: '64 dias' }),
+      V('v7', '202500047002301', 'Tomada de contas especial', 'Câmara Municipal', 'Conselheiro Relator I', 'Gabinete de Auditor A', 31, { falha: true, analista: 'Bruno Sales', periodoTce: '402 dias' })
     ] : [
-      V('w1', '202600047000250', 'Aposentadoria voluntária', IPE, '—', own, 33),
-      V('w2', '202600047000263', 'Admissão — processo seletivo', 'Secretaria de Estado da Saúde', '—', own, 24),
-      V('w3', '202600047000277', 'Pensão por morte', IPE, '—', own, 10),
-      V('w4', '202600047000290', 'Reforma de militar', 'Polícia Militar', '—', own, 3)
+      V('w1', '202600047000250', 'Aposentadoria voluntária', IPE, 'Conselheiro Relator I', own, 33, { analista: 'Rafael Nunes', periodoTce: '180 dias' }),
+      V('w2', '202600047000263', 'Admissão — processo seletivo', 'Secretaria de Estado da Saúde', 'Conselheiro Relator II', own, 24, { analista: 'Joana Lima', periodoTce: '75 dias' }),
+      V('w3', '202600047000277', 'Pensão por morte', IPE, 'Conselheiro Relator I', own, 10, { analista: 'Rafael Nunes', periodoTce: '41 dias' }),
+      V('w4', '202600047000290', 'Reforma de militar', 'Polícia Militar', 'Conselheiro Relator II', own, 3, { analista: 'Joana Lima', periodoTce: '20 dias' })
     ];
     if (cen === 'Sem pendências') {
       procs.forEach(p => { p.tags = []; });
@@ -867,6 +1145,7 @@ class Component extends DCLogic {
     this._tt = setTimeout(() => this.setState({ toast: null }), 4500);
   }
   digits(s) { return String(s || '').replace(/\D/g, ''); }
+  plural(n, um, varios) { return n + ' ' + (n === 1 ? um : varios); }
 
   /* ---------- contagens (RN01–RN09) ---------- */
   compute(st) {
@@ -875,7 +1154,7 @@ class Component extends DCLogic {
     const junSits = st.pk === 'gabinete' ? ['E', 'S'] : ['E', 'N'];
     return {
       P01: d.aut.filter(a => a.sit === 'E' || a.sit === 'S' || (a.sit === 'A' && chefe)).length,
-      P02: tag('P02'), P03: tag('P03'), P04: tag('P04'), P05: tag('P05'), P06: tag('P06'), P07: tag('P07'),
+      P02: tag('P02'), P03: tag('P03'), P04: tag('P04'), P05: tag('P05'), P06: d.procs.filter(p => !p.parent && p.tags.indexOf('P06') >= 0 && p.resp === this.user(st.pk).nome).length, P07: tag('P07'),
       P08: d.ace.filter(c => !c.parent).length,
       P09: d.jun.filter(j => junSits.indexOf(j.sit) >= 0).length,
       P10: chefe ? d.prz.length : 0,
@@ -896,26 +1175,68 @@ class Component extends DCLogic {
   }
 
   /* ---------- navegação ---------- */
+  loadList() {
+    this.setState({ listLoading: true });
+    clearTimeout(this._tl);
+    this._tl = setTimeout(() => this.setState({ listLoading: false }), 600);
+  }
+  defaultTab() {
+    const s = this.state, snap = s.snapshot, chefe = s.pk === 'chefe';
+    const order = this.pgroups().reduce((acc, g) => acc.concat(g.ids), []).filter(id => id !== 'P10' || chefe);
+    const hit = snap ? order.find(id => snap[id] > 0) : null;
+    return hit || order[0];
+  }
+  pgroups() {
+    return [
+      { id: 'pg-sol', label: 'Solicitações', ids: ['P01', 'P09', 'P10'] },
+      { id: 'pg-proc', label: 'Tramitação e prazo', ids: ['P08', 'P11'] },
+      { id: 'pg-ass', label: 'Assinaturas', ids: ['P02', 'P03', 'P04', 'P05'] },
+      { id: 'pg-rev', label: 'Revisão', ids: ['P06', 'P07', 'P12'] }
+    ];
+  }
+  shortLabel(id) {
+    return { P01: 'Autuação', P02: 'Aguardando assinatura', P03: 'Pendentes de envio', P04: 'Assinados por mim', P05: 'Assinados por outros', P06: 'Revisão oficial', P07: 'Revisados p/ assinatura', P08: 'Aguardando aceite', P09: 'Juntada', P10: 'Prorrogação/Suspensão', P11: 'A serem avocados', P12: 'Revisado' }[id];
+  }
   openP(id) {
     const def = this.pdefs().find(p => p.id === id);
-    if (def.kind === 'filtro') {
-      this.setState({ panelOpen: false, view: 'lista', filter: id, page: 1, listLoading: true });
-      clearTimeout(this._tl);
-      this._tl = setTimeout(() => this.setState({ listLoading: false }), 600);
-    } else {
-      this.setState({ panelOpen: false, view: def.screen });
-    }
+    const g = this.pgroups().find(x => x.ids.indexOf(id) >= 0);
+    this.setState({ view: 'pendencias', pendGroup: g.id, pendTab: id, page: 1, panelOpen: false });
+    if (def.kind === 'filtro') this.loadList();
+  }
+  openGroup(gid) {
+    if (this.state.pendGroup === gid) return;
+    this.setState({ pendGroup: gid, pendTab: null, page: 1 });
+  }
+  redirecionar(rf, tops) {
+    const s = this.state, ids = [];
+    tops.forEach(p => { if (s.sel[p.id]) ids.push(p.id); p.apensos.forEach(id => { if (s.sel[id]) ids.push(id); }); });
+    this.setState({ view: 'assinaturas', redirRf: rf, redirRows: null, assinIds: ids, assinFrom: s.view === 'pendencias' ? 'pend' : 'lista' });
+  }
+  redirInfo(rf) {
+    if (rf === '022') return { titulo: 'Distribuição Manual', rf: 'RF-022 (Distribuição Manual)', curto: 'RF-022', fluxo: 'a redistribuição em si', btn: 'Redistribuir' };
+    if (rf === '013') return { titulo: 'Tramitar processo', rf: 'RF-013 (Gerenciar Trâmite)', curto: 'RF-013', fluxo: 'a tramitação em si', btn: 'Tramitar' };
+    return rf === '012'
+      ? { titulo: 'Enviar processo', rf: 'RF-012 (Enviar Processo)', curto: 'RF-012', fluxo: 'o envio (tramitação) em si', btn: 'Enviar' }
+      : { titulo: 'Gerenciar assinatura', rf: 'RF-014 (Gerenciar Assinaturas)', curto: 'RF-014', fluxo: 'a assinatura em si', btn: 'Enviar para assinatura' };
+  }
+  goPend() {
+    const t = this.state.pendTab;
+    this.setState({ view: 'pendencias', page: 1 });
+    if (t && this.pdefs().find(p => p.id === t).kind === 'filtro') this.loadList();
   }
   goLista(doRefresh) {
     this.setState({ view: 'lista', dialog: null });
     if (doRefresh) this.refresh();
   }
+  toggleCard(k) { this.setState(st => ({ collapsed: Object.assign({}, st.collapsed, { [k]: !st.collapsed[k] }) })); }
 
   /* ---------- Tela 03 · autuação ---------- */
   autProsseguir() {
     const s = this.state, A = s.aut;
-    const sel = s.data.aut.filter(a => A.rowSel[a.id]);
+    const sel = s.data.aut.filter(a => A.marks[a.id]);
     if (!sel.length) return this.upd('aut', { msg: this.msg('warn', 'Selecione ao menos uma solicitação para prosseguir.') });
+    const ja = sel.find(a => a.sit === 'C');
+    if (ja) return this.upd('aut', { msg: this.msg('error', 'Solicitação já Autuada no processo ' + ja.processo + '. A autuação não foi aberta.', [ja.titulo]) });
     if (sel.some(a => a.sit !== 'E')) return this.upd('aut', { msg: this.msg('error', 'Você só pode prosseguir com solicitações já enviadas e não concluídas') });
     const b = sel.find(a => a.bloq);
     if (b) return this.upd('aut', { msg: this.msg('error', 'Solicitação bloqueada pelo usuário ' + b.bloq + '. A autuação não foi aberta.', [b.titulo]) });
@@ -930,7 +1251,7 @@ class Component extends DCLogic {
     if (!n) return this.setDlg({ errs: ['Informe o número do processo.'] });
     if (n.length < 15 && !dl.confirmShort) return this.setDlg({ confirmShort: true, errs: [] });
     this.mut(d => { d.aut.forEach(a => { if (dl.ids.indexOf(a.id) >= 0) { a.sit = 'C'; a.processo = n; } }); }, () => this.refresh());
-    this.upd('aut', { rowSel: {}, msg: null });
+    this.upd('aut', { marks: {}, modo: null, msg: null });
     this.setState({ dialog: null });
     this.toast('Autuação gravada no processo ' + n + '. Solicitações liberadas e pendências revalidadas.');
   }
@@ -940,73 +1261,146 @@ class Component extends DCLogic {
     if (!marked.length) return this.upd('aut', { msg: this.msg('warn', 'Nenhuma solicitação marcada para envio.') });
     const ok = marked.filter(a => a.sit === 'S'), fail = marked.filter(a => a.sit !== 'S');
     this.mut(d => { d.aut.forEach(a => { if (ok.some(o => o.id === a.id)) a.sit = 'E'; }); }, () => this.refresh());
-    this.upd('aut', { marks: {}, msg: this.msg(ok.length ? 'success' : 'warn', ok.length + ' de ' + marked.length + ' solicitação(ões) enviada(s) ao Setor 41 (SERV-PROTOCOLO).', fail.map(a => a.titulo + ': sem assinatura — envie antes à Central de Assinatura.')) });
+    this.upd('aut', { marks: {}, msg: this.msg(ok.length ? 'success' : 'warn', ok.length + ' de ' + marked.length + ' solicitação(ões) enviada(s) ao Setor 41 (SERV-PROTOCOLO).', fail.map(a => a.titulo + (a.sit === 'A' ? ': sem assinatura — envie antes à Central de Assinatura.' : ': situação "' + ({ E: 'Enviada', C: 'Concluída', R: 'Rejeitada', X: 'Cancelada' }[a.sit] || a.sit) + '" — não enviada.'))) });
+    this.upd('aut', { modo: null });
   }
   autEnviarCentral() {
     const s = this.state, A = s.aut;
-    const marked = s.data.aut.filter(a => A.marks[a.id] && a.sit === 'A');
-    if (!marked.length) return this.upd('aut', { msg: this.msg('warn', 'Marque solicitações sem assinatura (modo "Todas para assinatura") para enviar à Central.') });
+    const all = s.data.aut.filter(a => A.marks[a.id]);
+    const marked = all.filter(a => a.sit === 'A' && !a.central && s.pk === 'chefe');
+    if (!all.length) return this.upd('aut', { msg: this.msg('warn', 'Nenhuma solicitação selecionada.') });
+    if (!marked.length) return this.upd('aut', { msg: this.msg('warn', 'Somente solicitações sem assinatura podem ser enviadas à Central de Assinatura, pelo chefe de setor.') });
     if (this.props && this.props.simularFalha) return this.upd('aut', { msg: this.msg('error', 'Central de Assinatura indisponível (TCE Docs). O envio não ocorreu; a pendência permanece sem alteração.') });
     const naoPdf = [];
     marked.forEach(a => a.arquivos.forEach(f => { if (!/\.pdf$/i.test(f)) naoPdf.push(a.titulo + ': ' + f); }));
     this.mut(d => { d.aut.forEach(a => { if (marked.some(m => m.id === a.id)) a.central = true; }); });
     this.upd('aut', { marks: {}, msg: this.msg('info', marked.length + ' solicitação(ões) enviada(s) à Central de Assinatura. ' + (naoPdf.length ? 'Anexos não enviados (formato diferente de PDF):' : 'Todos os anexos estavam em PDF.'), naoPdf) });
   }
-  autMarcarTodas() {
-    const s = this.state, A = s.aut, chefe = s.pk === 'chefe';
-    const sit = A.modo === 'assinatura' ? 'A' : 'S';
+  autMarcar(modo) {
+    const s = this.state, chefe = s.pk === 'chefe';
     const marks = {};
-    this.visibleAut().forEach(a => { if (a.sit === sit && !a.central && (sit === 'S' || chefe)) marks[a.id] = true; });
-    this.upd('aut', { marks: marks, msg: null });
+    this.visibleAut().forEach(a => {
+      if (a.central) return;
+      if (modo === 'assinatura' && a.sit === 'A' && chefe) marks[a.id] = true;
+      if (modo === 'envio' && (a.sit === 'S' || (a.sit === 'A' && chefe))) marks[a.id] = true;
+    });
+    this.upd('aut', { modo: modo, marks: marks, msg: null });
   }
   visibleAut() {
-    const s = this.state, A = s.aut, chefe = s.pk === 'chefe';
-    return s.data.aut.filter(a => (a.sit === 'E' && A.fE) || (a.sit === 'A' && A.fA && chefe) || (a.sit === 'S' && A.fS) || (a.sit === 'C' && A.fC) || (a.sit === 'R' && A.fR));
+    const s = this.state, A = s.aut;
+    let v = s.data.aut.filter(a => (a.sit === 'E' && A.fE) || (a.sit === 'A' && A.fA) || (a.sit === 'S' && A.fS) || (a.sit === 'C' && A.fC) || (a.sit === 'R' && A.fR));
+    if (s.pk === 'protocolo') {
+      if (A.fila === 'origem') v = v.filter(a => a.setorSol === this.user(s.pk).setor);
+      if (A.sei) v = v.filter(a => a.origem === 'SEI');
+      else if (A.origemSetor) v = v.filter(a => a.setorSol.toLowerCase().indexOf(A.origemSetor.toLowerCase()) >= 0);
+    }
+    return v;
+  }
+  solSalvar() {
+    const dl = this.state.dialog, u = this.user(this.state.pk);
+    const t = (dl.titulo || '').trim();
+    if (!t) return this.setDlg({ errs: ['Informe o título/resumo da solicitação.'] });
+    if (dl.id) this.mut(d => { d.aut.find(x => x.id === dl.id).titulo = t; }, () => this.refresh());
+    else this.mut(d => { d.aut.unshift({ id: 'n' + Date.now(), origem: 'eTCE', data: this.fmt(this.today()), setorSol: u.setor, usuario: u.nome, titulo: t, sit: 'A', processo: '', arquivos: [], sorteado: '', bloq: '', sort: '', pauta: false, central: false }); }, () => this.refresh());
+    if (!dl.id) this.upd('aut', { fA: true });
+    this.setState({ dialog: null });
+    this.toast(dl.id ? 'Solicitação gravada.' : 'Solicitação gravada com situação "Sem assinatura" — aguarda a assinatura da chefia.');
+  }
+
+  rejeitarSolicitacao() {
+    const dl = this.state.dialog;
+    if (!dl.rejecting) return this.setDlg({ rejecting: true, errs: [] });
+    if (!dl.motivo.trim()) return this.setDlg({ errs: ['Informe o motivo da rejeição.'] });
+    const a = this.state.data.aut.find(x => x.id === dl.id);
+    this.mut(d => { const x = d.aut.find(y => y.id === dl.id); x.sit = 'R'; x.motivoRej = dl.motivo; }, () => this.refresh());
+    this.setState({ dialog: null });
+    this.toast('Solicitação "' + a.titulo + '" rejeitada. Pendências revalidadas.');
+  }
+  excluirItemPrz(id, campo) {
+    let removed = false, numero = '';
+    this.mut(d => {
+      const z = d.prz.find(x => x.id === id);
+      numero = z.numero; z[campo] = 0;
+      if (!z.prorr && !z.susp) { d.prz = d.prz.filter(x => x.id !== id); removed = true; }
+    }, () => {
+      this.refresh();
+      if (removed) { this.setState({ dialog: null }); this.upd('prz', { sel: {} }); }
+      this.toast('Lançamento excluído do processo ' + numero + (removed ? '. Não restam itens aguardando autorização.' : '.'));
+    });
   }
 
   /* ---------- Tela 05 · aceite ---------- */
+  aceToggle(id) {
+    const c = this.state.data.ace.find(x => x.id === id), cur = !!this.state.ace.sel[id];
+    const sel = Object.assign({}, this.state.ace.sel, { [id]: !cur });
+    c.apensos.forEach(a => { sel[a] = !cur; });
+    this.upd('ace', { sel: sel });
+  }
+  aceRemove(ids, msgText) {
+    this.mut(d => { d.ace = d.ace.filter(x => ids.indexOf(x.id) < 0 && ids.indexOf(x.parent) < 0); }, () => this.refresh());
+    this.upd('ace', { sel: {}, done: true, msg: this.msg('success', msgText) });
+  }
   aceCiente(id) {
     const c = this.state.data.ace.find(x => x.id === id);
-    this.mut(d => { d.ace = d.ace.filter(x => x.id !== id && c.apensos.indexOf(x.id) < 0); }, () => this.refresh());
-    this.upd('ace', { msg: null });
-    this.toast('Ciência registrada no processo ' + c.numero + (c.apensos.length ? ' e em seus apensados.' : '.'));
+    this.aceRemove([id], 'Operação realizada com sucesso. Ciência registrada no processo ' + c.numero + (c.apensos.length ? ' e em seus apensados.' : '.'));
+  }
+  aceAceitarTodos() {
+    const tops = this.state.data.ace.filter(c => !c.parent);
+    const marked = tops.filter(c => this.state.ace.sel[c.id]);
+    const ids = (marked.length ? marked : tops).map(c => c.id);
+    if (!ids.length) return;
+    this.aceRemove(ids, 'Operação realizada com sucesso. Ciência registrada em ' + this.plural(ids.length, 'processo', 'processos') + '.');
+    this.toast('Operação realizada com sucesso');
+  }
+  aceCheckDevolucao(list) {
+    const dev = list.find(c => c.sit === 'devolvido');
+    if (dev) { this.upd('ace', { msg: this.msg('error', 'O processo ' + dev.numero + ' já foi devolvido: você deve efetuar novo trâmite.') }); return false; }
+    const comDocs = list.filter(c => c.docs.length);
+    if (comDocs.length) { this.upd('ace', { msg: this.msg('error', 'A devolução foi recusada:', comDocs.reduce((acc, c) => acc.concat(c.docs.map(t => c.numero + ': ' + t)), [])) }); return false; }
+    return true;
   }
   aceDevolver(id) {
     const c = this.state.data.ace.find(x => x.id === id);
     if (c.sit === 'devolvido') return this.setState({ dialog: { kind: 'devolvido', numero: c.numero, motivo: c.motivo, errs: [] } });
-    if (c.docs.length) return this.upd('ace', { msg: this.msg('error', 'A devolução do processo ' + c.numero + ' foi recusada:', c.docs) });
+    if (!this.aceCheckDevolucao([c])) return;
     this.upd('ace', { msg: null });
-    this.setState({ dialog: { kind: 'devolver', id: id, numero: c.numero, just: '', errs: [] } });
+    this.setState({ dialog: { kind: 'devolver', ids: [id], numeros: [c.numero], just: '', errs: [] } });
+  }
+  aceDevolverSel() {
+    const marked = this.state.data.ace.filter(c => !c.parent && this.state.ace.sel[c.id]);
+    if (!marked.length) return this.upd('ace', { msg: this.msg('error', 'Nenhum processo foi selecionado, corrija e tente novamente.') });
+    if (!this.aceCheckDevolucao(marked)) return;
+    this.upd('ace', { msg: null });
+    this.setState({ dialog: { kind: 'devolver', ids: marked.map(c => c.id), numeros: marked.map(c => c.numero), just: '', errs: [] } });
   }
   aceConfirmDevolver() {
     const dl = this.state.dialog;
     if (!dl.just.trim()) return this.setDlg({ errs: ['A justificativa da devolução é obrigatória.'] });
-    this.mut(d => { d.ace = d.ace.filter(x => x.id !== dl.id && x.parent !== dl.id); }, () => this.refresh());
     this.setState({ dialog: null });
-    this.toast('Processo ' + dl.numero + ' devolvido ao setor de origem.');
+    this.aceRemove(dl.ids, 'Operação realizada com sucesso. ' + this.plural(dl.ids.length, 'processo devolvido', 'processos devolvidos') + ' ao setor de origem.');
   }
 
   /* ---------- Tela 06/07 · juntada ---------- */
   junOpen(id, mode) {
     const j = this.state.data.jun.find(x => x.id === id);
     const dec = j.decisao || { dec: null, desc: '', just: '', docs: {} };
-    this.setState({ dialog: { kind: 'juntada', id: id, mode: mode, processo: j.processo, readOnly: mode !== 'decidir', docs: Object.assign({}, dec.docs), desc: dec.desc, dec: dec.dec, just: dec.just, saved: false, sent: false, errs: [] } });
+    this.setState({ dialog: { kind: 'juntada', id: id, mode: mode, processo: j.processo, readOnly: mode !== 'decidir', docs: Object.assign({}, dec.docs), desc: dec.desc, dec: dec.dec, just: dec.just, viewId: j.docs[0] ? j.docs[0].id : null, saved: false, sent: false, errs: [] } });
   }
   junSalvar() {
     const dl = this.state.dialog, errs = [];
     if (!Object.keys(dl.docs).some(k => dl.docs[k])) errs.push('Selecione ao menos um documento para juntar.');
-    if (!dl.desc.trim()) errs.push('Informe a descrição/justificativa da juntada.');
-    if (!dl.dec) errs.push('Escolha uma das ações ao lado: autorizar ou não autorizar a juntada.');
-    if (dl.dec === 'nao' && !dl.just.trim()) errs.push('Ao não autorizar, a justificativa/motivo é obrigatória.');
+    if (!dl.dec) errs.push('Escolha uma das ações ao lado…');
     if (errs.length) return this.setDlg({ errs: errs });
+    if (this.props && this.props.simularFalha) return this.setDlg({ errs: ['Inconsistência devolvida pelo back-end: o termo de deferimento não pôde ser gerado (modelo indisponível).'] });
     this.mut(d => { const j = d.jun.find(x => x.id === dl.id); j.sit = dl.dec === 'sim' ? 'A' : 'R'; j.decisao = { dec: dl.dec, desc: dl.desc, just: dl.just, docs: dl.docs }; }, () => this.refresh());
     this.setDlg({ saved: true, errs: [] });
     this.toast('Decisão salva');
   }
   junEnviarAss() {
     if (this.props && this.props.simularFalha) return this.setDlg({ errs: ['Central de Assinatura indisponível (Lacuna). O termo não foi enviado.'] });
-    this.setDlg({ sent: !this.state.dialog.sent, errs: [] });
-    this.toast(this.state.dialog.sent ? 'Envio do Termo de Deferimento cancelado.' : 'Termo de Deferimento de Juntada enviado à Central de Assinatura.', 'info');
+    const wasSent = this.state.dialog.sent;
+    this.setDlg({ sent: !wasSent, errs: [] });
+    this.toast(wasSent ? 'Envio do Termo de Deferimento cancelado.' : 'Termo de Deferimento de Juntada enviado à Central de Assinatura.', 'info');
   }
 
   /* ---------- Tela 08/09 · prazo ---------- */
@@ -1035,8 +1429,8 @@ class Component extends DCLogic {
     this.setState({ dialog: null });
     this.toast((dl.acao === 'A' ? 'Autorização' : 'Negação') + ' registrada para ' + dl.ids.length + ' processo(s). Pendências revalidadas.');
   }
-  przAlterar() {
-    const ids = this.przSelIds();
+  przAlterar(rowId) {
+    const ids = rowId ? [rowId] : this.przSelIds();
     if (ids.length !== 1) return this.upd('prz', { msg: this.msg('error', 'Selecione exatamente um processo para alterar a concessão.') });
     const z = this.state.data.prz.find(x => x.id === ids[0]);
     if (!(z.prorr >= 1 || z.susp >= 1)) return this.upd('prz', { msg: this.msg('error', 'Não existe item a ser Alterado, ou foi negado.') });
@@ -1045,7 +1439,6 @@ class Component extends DCLogic {
   przSalvarAlt() {
     const dl = this.state.dialog, errs = [];
     const dias = parseInt(dl.dias, 10);
-    if (!dl.motivo) errs.push('Informe o motivo.');
     if (!(dias > 0)) errs.push('Informe a quantidade de dias úteis (inteiro maior que zero).');
     if (!dl.just.trim()) errs.push('Informe a justificativa.');
     if (errs.length) return this.setDlg({ errs: errs, confirm: false });
@@ -1065,10 +1458,11 @@ class Component extends DCLogic {
     const s = this.state, V = s.avo;
     let vv = s.data.avo;
     if (V.procApplied) vv = vv.filter(v => v.numero.indexOf(V.procApplied) >= 0);
-    if (V.origem) vv = vv.filter(v => v.origem === V.origem);
-    if (V.assunto) vv = vv.filter(v => v.assunto === V.assunto);
-    if (V.relator) vv = vv.filter(v => v.relator === V.relator);
-    if (V.setor) vv = vv.filter(v => v.setor === V.setor);
+    const has = (a, b) => a.toLowerCase().indexOf(b.trim().toLowerCase()) >= 0;
+    if (V.origem) vv = vv.filter(v => has(v.origem, V.origem));
+    if (V.assunto) vv = vv.filter(v => has(v.assunto, V.assunto));
+    if (V.relator) vv = vv.filter(v => has(v.relator, V.relator));
+    if (V.setor) vv = vv.filter(v => has(v.setor, V.setor));
     if (V.venc || V.menos10) vv = vv.filter(v => (V.venc && v.dias > 30) || (V.menos10 && v.dias >= 20 && v.dias <= 30));
     return vv;
   }
@@ -1079,7 +1473,7 @@ class Component extends DCLogic {
   }
   avoAvocar() {
     const s = this.state, own = this.user(s.pk).setor;
-    let sel = this.visibleAvo().filter(v => s.avo.sel[v.id] && v.setor !== own);
+    const sel = this.visibleAvo().filter(v => s.avo.sel[v.id] && v.setor !== own);
     if (!sel.length) return this.upd('avo', { msg: this.msg('error', 'Nenhum processo foi selecionado, corrija e tente novamente.') });
     const sep = sel.filter(v => v.assinado);
     const rest = sel.filter(v => !v.assinado).map(v => v.id);
@@ -1095,13 +1489,14 @@ class Component extends DCLogic {
     if (!ok.length && !falhas.length) return;
     this.mut(d => { d.avo = d.avo.filter(v => !ok.some(o => o.id === v.id)); }, () => this.refresh());
     this.upd('avo', { sel: {}, msg: null, falhas: falhas.length ? falhas : null });
-    if (ok.length) this.toast(ok.length + ' processo(s) avocado(s). Termo de avocação gerado e andamento registrado.');
+    if (ok.length) this.toast(ok.length + ' processo(s) avocado(s). Termo de avocação gerado, andamento registrado e autuação reprocessada no Maven Docs.');
   }
   avoRedistribuir() {
     const s = this.state;
-    const ids = this.visibleAvo().filter(v => s.avo.sel[v.id]).map(v => v.id);
-    if (!ids.length) return this.upd('avo', { msg: this.msg('error', 'Nenhum processo foi selecionado, corrija e tente novamente.') });
-    this.setState({ dialog: { kind: 'redist', ids: ids, dest: '', errs: [] } });
+    const sel = this.visibleAvo().filter(v => s.avo.sel[v.id]);
+    if (!sel.length) return this.upd('avo', { msg: this.msg('error', 'Nenhum processo foi selecionado, corrija e tente novamente.') });
+    this.upd('avo', { msg: null });
+    this.setState({ view: 'assinaturas', redirRf: '022', assinFrom: 'pend', assinIds: [], redirRows: sel.map(v => ({ numero: v.numero, assunto: v.assunto, evento: v.situacao + ' · ' + v.dias + ' dias no setor', resp: v.analista })) });
   }
   avoConfirmRedist() {
     const dl = this.state.dialog;
@@ -1118,6 +1513,23 @@ class Component extends DCLogic {
     const snap = s.snapshot;
     const defs = this.pdefs().filter(p => !p.chefia || isChefe);
 
+    /* Casca: cartões recolhíveis, trilha */
+    const keys = ['fil', 'proc', 'autF', 'junF', 'przF', 'avoF'];
+    const co = {}, coStr = {}, chev = {}, ct = {};
+    keys.forEach(k => {
+      const open = !s.collapsed[k];
+      co[k] = open; coStr[k] = open ? 'true' : 'false'; chev[k] = open ? 'chev' : 'chev down';
+      ct[k] = () => this.toggleCard(k);
+    });
+    const inPend = s.view === 'pendencias';
+    const tabDef = inPend ? this.pdefs().find(p => p.id === s.pendTab) : null;
+    const ef = tabDef && tabDef.kind === 'filtro' ? tabDef.id : null;
+    const procCrumb = { t: 'Processos', link: true, last: false, go: () => this.goLista(true) };
+    const ri = this.redirInfo(s.redirRf);
+    const crumbs = s.view === 'assinaturas' ? (s.assinFrom === 'pend' ? [procCrumb, { t: 'Com Pendências', link: true, last: false, go: () => this.goPend() }, { t: ri.titulo + ' (' + ri.curto + ')', link: false, last: true }] : [procCrumb, { t: 'Listagem de processos', link: true, last: false, go: () => this.goLista(false) }, { t: ri.titulo + ' (' + ri.curto + ')', link: false, last: true }]) : !inPend
+      ? [procCrumb, { t: 'Listagem de processos', link: false, last: true }]
+      : (tabDef ? [procCrumb, { t: 'Com Pendências', link: true, last: false, go: () => this.setState({ pendGroup: null, pendTab: null }) }, { t: tabDef.label, link: false, last: true }] : [procCrumb, { t: 'Com Pendências', link: false, last: true }]);
+
     /* Painel */
     const mkItem = p => {
       const c = snap ? snap[p.id] : null;
@@ -1130,52 +1542,83 @@ class Component extends DCLogic {
       };
     };
     let total = 0;
-    if (snap) ['P01', 'P02', 'P03', 'P04', 'P05', 'P06', 'P07', 'P08', 'P09', 'P10', 'P11'].forEach(k => { if (k !== 'P10' || isChefe) total += snap[k] || 0; });
+    if (snap) ['P01', 'P02', 'P03', 'P04', 'P05', 'P06', 'P07', 'P08', 'P09', 'P10', 'P11', 'P12'].forEach(k => { if (k !== 'P10' || isChefe) total += snap[k] || 0; });
     const badgeText = total > 99 ? '99+' : String(total);
 
     /* Lista (RF-010 com filtro de pendência) */
     const byId = {};
     d.procs.forEach(p => { byId[p.id] = p; });
     let tops = d.procs.filter(p => !p.parent);
-    if (s.filter) tops = tops.filter(p => p.tags.indexOf(s.filter) >= 0);
+    if (ef) tops = tops.filter(p => p.tags.indexOf(ef) >= 0 && (ef !== 'P06' || p.resp === u.nome));
     const q = this.digits(s.search);
     if (q) tops = tops.filter(p => p.numero.indexOf(q) >= 0 || p.apensos.some(id => byId[id].numero.indexOf(q) >= 0));
-    const per = 6, pages = Math.max(1, Math.ceil(tops.length / per)), page = Math.min(s.page, pages);
-    const evTone = e => /Aguardando/.test(e) ? 'chip c-warn' : /Assinado/.test(e) ? 'chip c-success' : /Revis|revis/.test(e) ? 'chip c-info' : 'chip c-neutral';
+    const per = s.per, pages = Math.max(1, Math.ceil(tops.length / per)), page = Math.min(s.page, pages);
+    const pageTops = tops.slice((page - 1) * per, page * per);
     const mkRow = (p, child) => ({
-      numero: p.numero, assunto: p.assunto, interessado: p.interessado, evento: p.evento, evCls: evTone(p.evento), data: p.data, resp: p.resp,
-      isChild: child, checked: !!s.sel[p.id], cls: (child ? 'child' : '') + (s.sel[p.id] ? ' sel' : ''),
+      numero: p.numero, assunto: p.assunto, interessado: p.interessado, evento: p.evento, data: p.data, resp: p.resp,
+      isChild: child, sigiloso: p.sigiloso, fav: p.fav, checked: !!s.sel[p.id],
+      cls: (p.sigiloso ? 'hot' : (child ? 'child' : '')) + (s.sel[p.id] ? ' sel' : ''),
+      stripCls: child ? '' : (p.sigiloso ? 'strip-red' : 'strip-gray'),
       toggle: () => this.setState(st => ({ sel: Object.assign({}, st.sel, { [p.id]: !st.sel[p.id] }) }))
     });
-    const rows = [];
-    tops.slice((page - 1) * per, page * per).forEach(p => { rows.push(mkRow(p, false)); p.apensos.forEach(id => { if (byId[id]) rows.push(mkRow(byId[id], true)); }); });
+    const rows = [], pageIds = [];
+    pageTops.forEach(p => { rows.push(mkRow(p, false)); pageIds.push(p.id); p.apensos.forEach(id => { if (byId[id]) { rows.push(mkRow(byId[id], true)); pageIds.push(id); } }); });
+    const assinN = tops.reduce((n, p) => n + (s.sel[p.id] ? 1 : 0) + p.apensos.filter(id => s.sel[id]).length, 0);
+    const allPageChecked = pageIds.length > 0 && pageIds.every(id => s.sel[id]);
     const fail = !!(this.props && this.props.simularFalha);
-    const listError = !!s.filter && fail && !s.listLoading;
-    const filterDef = s.filter ? this.pdefs().find(p => p.id === s.filter) : null;
+    const listError = !!ef && fail && !s.listLoading;
+    const filterDef = ef ? tabDef : null;
+    const cnt = id => (snap ? snap[id] : null);
+    const pTypes = this.pgroups().map(g => {
+      const ids = g.ids.filter(id => id !== 'P10' || isChefe);
+      const gt = snap ? ids.reduce((n, id) => n + (snap[id] || 0), 0) : null;
+      const on = s.pendGroup === g.id;
+      const hot = ids.indexOf('P11') >= 0 && cnt('P11') > 0;
+      return {
+        label: g.label, selStr: on ? 'true' : 'false', cls: 'ptype' + (on ? ' on' : ''),
+        countText: gt == null ? '–' : String(gt), countCls: 'ptc' + (gt === 0 ? ' zero' : (hot ? ' hot' : '')),
+        loading: s.loading && !snap, ready: !(s.loading && !snap),
+        open: () => this.openGroup(g.id)
+      };
+    });
+    const grp = this.pgroups().find(g => g.id === s.pendGroup) || null;
+    const pItemsG = grp ? grp.ids.filter(id => id !== 'P10' || isChefe).map(id => {
+      const c = cnt(id), on = s.pendTab === id;
+      return {
+        label: this.shortLabel(id), full: this.pdefs().find(p => p.id === id).label,
+        cls: 'pchip' + (on ? ' on' : '') + (c === 0 ? ' dim' : ''), selStr: on ? 'true' : 'false',
+        countText: c == null ? '–' : String(c), countCls: 'pic' + (c === 0 || c == null ? ' zero' : (id === 'P11' ? ' hot' : '')),
+        open: () => this.openP(id)
+      };
+    }) : [];
     const selCount = Object.keys(s.sel).filter(k => s.sel[k]).length;
+    const from = tops.length ? (page - 1) * per + 1 : 0, to = Math.min(page * per, tops.length);
 
     /* Autuação */
     const A = s.aut;
     const sitA = { A: ['Sem assinatura', 'c-warn'], S: ['Assinada', 'c-info'], E: ['Enviada', 'c-primary'], C: ['Concluída', 'c-success'], R: ['Rejeitada', 'c-error'], X: ['Cancelada', 'c-neutral'] };
-    const visA = this.visibleAut();
-    const autRows = visA.map(a => {
+    const autRows = this.visibleAut().map(a => {
       const flags = [];
       if (a.bloq) flags.push({ t: 'Bloqueada por ' + a.bloq, cls: 'chip c-warn' });
       if (a.sort) flags.push({ t: 'Sorteada para ' + a.sort, cls: 'chip c-info' });
       if (a.pauta) flags.push({ t: 'Em pauta', cls: 'chip c-neutral' });
       if (a.central) flags.push({ t: 'Na Central de Assinatura', cls: 'chip c-info' });
-      if (A.marks[a.id]) flags.push({ t: 'Marcada', cls: 'chip c-primary' });
-      const markable = !a.central && (a.sit === 'S' || (a.sit === 'A' && isChefe));
+      const hot = !!a.bloq || a.sit === 'R';
       return {
         origem: a.origem, data: a.data, setorSol: a.setorSol, usuario: a.usuario, titulo: a.titulo,
         sitText: sitA[a.sit][0], sitCls: 'chip ' + sitA[a.sit][1], flags: flags, noFlags: flags.length === 0,
         processo: a.processo || '—', qtdArq: String(a.arquivos.length), sorteado: a.sorteado || '—',
-        selected: !!A.rowSel[a.id], marked: !!A.marks[a.id], markDisabled: !markable,
-        cls: A.rowSel[a.id] ? 'sel' : (a.sit === 'C' ? 'done' : ''),
-        toggleSel: () => this.upd('aut', { rowSel: Object.assign({}, this.state.aut.rowSel, { [a.id]: !this.state.aut.rowSel[a.id] }) }),
-        toggleMark: () => this.upd('aut', { marks: Object.assign({}, this.state.aut.marks, { [a.id]: !this.state.aut.marks[a.id] }) })
+        actLabel: ['SEI', 'Atos de Pessoal', 'LRF', 'Tomada de Contas'].indexOf(a.origem) >= 0 ? 'Visualizar arquivos' : 'Abrir solicitação',
+        act: ['SEI', 'Atos de Pessoal', 'LRF', 'Tomada de Contas'].indexOf(a.origem) >= 0 ? () => this.setState({ dialog: { kind: 'arquivos', id: a.id, rejecting: false, motivo: '', errs: [] } }) : () => this.setState({ dialog: { kind: 'solicitacao', id: a.id, titulo: a.titulo, errs: [] } }),
+        marked: !!A.marks[a.id],
+        cls: A.marks[a.id] ? 'sel' : (hot ? 'hot' : (a.sit === 'C' ? 'done' : '')),
+        stripCls: hot ? 'strip-red' : 'strip-gray',
+        toggleMark: () => this.upd('aut', { modo: null, marks: Object.assign({}, this.state.aut.marks, { [a.id]: !this.state.aut.marks[a.id] }) })
       };
     });
+    const autVisIds = this.visibleAut().map(a => a.id);
+    const autSelN = autVisIds.filter(id => A.marks[id]).length;
+    const autAll = autVisIds.length > 0 && autSelN === autVisIds.length;
     const autTgl = {};
     ['fE', 'fA', 'fS', 'fC', 'fR'].forEach(k => { autTgl[k] = () => this.upd('aut', { [k]: !this.state.aut[k] }); });
 
@@ -1183,8 +1626,11 @@ class Component extends DCLogic {
     const aceRows = [];
     d.ace.filter(c => !c.parent).forEach(c => {
       const mk = (x, child) => ({
-        numero: x.numero, assunto: x.assunto, origem: x.origem, liberador: x.liberador, data: x.data, isChild: child,
-        cls: child ? 'child' : '',
+        numero: x.numero, assunto: x.assunto, origem: x.origem, remetente: x.remetente, conselheiro: x.conselheiro, consSubst: x.consSubst, procurador: x.procurador,
+        responsavel: x.responsavel, interessado: x.interessado, periodoTce: x.periodoTce, isChild: child,
+        checked: !!s.ace.sel[x.id], toggle: () => this.aceToggle(x.id),
+        cls: (child ? 'child' : (x.sit === 'devolvido' ? 'hot' : '')) + (s.ace.sel[x.id] ? ' sel' : ''),
+        stripCls: child ? '' : (x.sit === 'devolvido' ? 'strip-red' : 'strip-gray'),
         sitText: child ? 'Apensado' : (x.sit === 'devolvido' ? 'Devolvido' : 'Aguardando ciência'),
         sitCls: 'chip ' + (child ? 'c-neutral' : (x.sit === 'devolvido' ? 'c-error' : 'c-warn')),
         devLabel: x.sit === 'devolvido' ? 'Ver devolução' : 'Devolver',
@@ -1193,6 +1639,9 @@ class Component extends DCLogic {
       aceRows.push(mk(c, false));
       c.apensos.forEach(id => { const ch = d.ace.find(y => y.id === id); if (ch) aceRows.push(mk(ch, true)); });
     });
+    const aceTops = d.ace.filter(c => !c.parent), aceTop = aceTops.length;
+    const aceBlk = aceTops.find(c => c.atosSemIntegracao);
+    const aceAll = aceTop > 0 && aceTops.every(c => s.ace.sel[c.id]);
 
     /* Juntada */
     const Jf = s.jun;
@@ -1210,6 +1659,7 @@ class Component extends DCLogic {
       return {
         processo: j.processo, titulo: j.titulo, data: j.data, relator: j.relator, setorSol: j.setorSol, usuario: j.usuario, aprov: j.aprov,
         sitText: sitJ[j.sit][0], sitCls: 'chip ' + sitJ[j.sit][1], qtd: String(j.docs.length),
+        cls: j.sit === 'R' ? 'hot' : '', stripCls: j.sit === 'R' ? 'strip-red' : 'strip-gray',
         actLabel: decide ? 'Decidir juntada' : (ver ? 'Ver decisão' : 'Consultar'),
         btnCls: decide ? 'btn btn-s' : 'btn btn-o btn-s',
         act: () => this.junOpen(j.id, decide ? 'decidir' : (ver ? 'ver' : 'consultar'))
@@ -1222,9 +1672,10 @@ class Component extends DCLogic {
       numero: z.numero, analista: z.analista, inicio: z.inicio, diasUteis: String(z.diasUteis),
       tipo: z.tipo === 'P' ? 'Prorrogação' : 'Suspensão', tipoCls: 'chip ' + (z.tipo === 'P' ? 'c-primary' : 'c-info'),
       prorr: String(z.prorr), susp: String(z.susp), dataFinal: this.addBD(z.inicio, z.diasUteis),
-      aguardando: z.aguardando + (z.aguardando === 1 ? ' dia' : ' dias'), ajustada: this.addBD(z.inicio, z.diasUteis + z.prorr + z.susp),
+      aguardando: this.plural(z.aguardando, 'dia', 'dias'), ajustada: this.addBD(z.inicio, z.diasUteis + z.prorr + z.susp),
       checked: !!Z.sel[z.id], cls: Z.sel[z.id] ? 'sel' : '',
-      toggle: () => this.upd('prz', { sel: Object.assign({}, this.state.prz.sel, { [z.id]: !this.state.prz.sel[z.id] }) })
+      toggle: () => this.upd('prz', { sel: Object.assign({}, this.state.prz.sel, { [z.id]: !this.state.prz.sel[z.id] }) }),
+      abrir: () => this.przAlterar(z.id)
     }));
     const przSelN = this.przSelIds().length;
 
@@ -1237,7 +1688,10 @@ class Component extends DCLogic {
       else { prazo = 'CONTANDO PRAZO'; tone = 'c-neutral'; }
       return {
         numero: v.numero, assunto: v.assunto, origem: v.origem, relator: v.relator, setor: v.setor, dias: String(v.dias), assinado: v.assinado,
-        prazo: prazo, prazoCls: 'chip ' + tone, checked: !!Vv.sel[v.id], cls: Vv.sel[v.id] ? 'sel' : '',
+        periodoSetor: this.plural(v.dias, 'dia', 'dias'), periodoTce: v.periodoTce, situacao: v.situacao, analista: v.analista,
+        abrir: () => this.toast('Abrindo a análise do processo eletrônico ' + v.numero + '.', 'info'),
+        prazo: prazo, prazoCls: 'chip ' + tone, checked: !!Vv.sel[v.id],
+        cls: Vv.sel[v.id] ? 'sel' : (v.dias > 30 ? 'hot' : ''), stripCls: v.dias > 30 ? 'strip-red' : 'strip-gray',
         toggle: () => this.upd('avo', { sel: Object.assign({}, this.state.avo.sel, { [v.id]: !this.state.avo.sel[v.id] }) })
       };
     });
@@ -1248,12 +1702,12 @@ class Component extends DCLogic {
     const titles = {
       autuar: 'Autuação de Processo Eletrônico', devolver: 'Devolver processo', devolvido: 'Processo já devolvido',
       juntada: dl.mode === 'decidir' ? 'Decisão de Juntada' : (dl.mode === 'ver' ? 'Decisão de Juntada — consulta' : 'Cadastro de documentos — consulta'),
-      confPrz: 'Confirmar decisão', alterar: dl.tipo === 'S' ? 'SUSPENSÃO DE PRAZO' : 'PRORROGAÇÃO DE PRAZO',
-      avoConf: 'Avocar processos', redist: 'Redistribuir processos'
+      confPrz: 'Confirmar decisão', alterar: 'Prorrogar/Suspender', solicitacao: dl.id ? 'Solicitação de Autuação' : 'Nova Solicitação de Autuação',
+      avoConf: 'Avocar processos', redist: 'Redistribuir processos', arquivos: 'Visualização de arquivos da solicitação'
     };
-    let pri = null, priLabel = '', priCls = 'btn', sec = null, secLabel = '', secDis = false, cancelLabel = 'Cancelar';
+    let pri = null, priLabel = '', priCls = 'btn btn-w', sec = null, secLabel = '', secDis = false, cancelLabel = 'Cancelar';
     if (k === 'autuar') { pri = () => this.autSalvar(); priLabel = dl.confirmShort ? 'Confirmar e gravar' : 'Gravar autuação'; }
-    if (k === 'devolver') { pri = () => this.aceConfirmDevolver(); priLabel = 'Devolver'; priCls = 'btn btn-d'; }
+    if (k === 'devolver') { pri = () => this.aceConfirmDevolver(); priLabel = 'Devolver'; priCls = 'btn btn-d btn-w'; }
     if (k === 'devolvido') { cancelLabel = 'Fechar'; }
     if (k === 'juntada') {
       cancelLabel = 'Fechar';
@@ -1262,29 +1716,57 @@ class Component extends DCLogic {
         sec = () => this.junEnviarAss(); secLabel = dl.sent ? 'Cancelar envio' : 'Enviar Decisão para Assinatura'; secDis = !dl.saved;
       }
     }
-    if (k === 'confPrz') { pri = () => this.przConfirmar(); priLabel = dl.acao === 'A' ? 'Confirmar autorização' : 'Confirmar negação'; priCls = dl.acao === 'A' ? 'btn' : 'btn btn-d'; }
+    if (k === 'confPrz') { pri = () => this.przConfirmar(); priLabel = dl.acao === 'A' ? 'Confirmar autorização' : 'Confirmar negação'; priCls = dl.acao === 'A' ? 'btn btn-w' : 'btn btn-d btn-w'; }
     if (k === 'alterar') { pri = () => this.przSalvarAlt(); priLabel = dl.confirm ? 'Confirmar e salvar' : 'Salvar'; cancelLabel = 'Fechar'; }
     if (k === 'avoConf') { pri = () => this.doAvocar(dl.ids); priLabel = 'Avocar os demais'; }
     if (k === 'redist') { pri = () => this.avoConfirmRedist(); priLabel = 'Redistribuir'; }
+    if (k === 'solicitacao') { pri = () => this.solSalvar(); priLabel = 'Salvar'; }
+    const solA = k === 'solicitacao' && dl.id ? d.aut.find(x => x.id === dl.id) : null;
+    const jView = k === 'juntada' ? (d.jun.find(x => x.id === dl.id) || { docs: [] }).docs.find(o => o.id === dl.viewId) : null;
+    const arqSol = k === 'arquivos' ? d.aut.find(x => x.id === dl.id) : null;
+    const canReject = !!arqSol && ['Atos de Pessoal', 'LRF'].indexOf(arqSol.origem) >= 0 && arqSol.sit !== 'C' && arqSol.sit !== 'R';
+    if (k === 'arquivos') { cancelLabel = 'Fechar'; if (canReject) { pri = () => this.rejeitarSolicitacao(); priLabel = dl.rejecting ? 'Confirmar rejeição' : 'Rejeitar Solicitação'; priCls = 'btn btn-d btn-w'; } }
     const jdocs = k === 'juntada' ? (d.jun.find(x => x.id === dl.id) || { docs: [] }).docs : [];
     const zAlt = k === 'alterar' ? d.prz.find(x => x.id === dl.id) : null;
     const dlgItens = [];
     if (zAlt) {
-      if (zAlt.prorr) dlgItens.push({ tipo: 'Prorrogação', dias: String(zAlt.prorr), sit: 'Aguardando autorização' });
-      if (zAlt.susp) dlgItens.push({ tipo: 'Suspensão', dias: String(zAlt.susp), sit: 'Aguardando autorização' });
+      const podeExcluir = isChefe || zAlt.analista === u.nome;
+      const mkI = (tipo, campo, dias) => ({ tipo: tipo, dias: String(dias), sit: 'Aguardando autorização', delDis: !podeExcluir,
+        delTitle: podeExcluir ? 'Excluir lançamento' : 'Somente o solicitante ou o chefe do setor pode excluir',
+        del: () => this.excluirItemPrz(zAlt.id, campo) });
+      if (zAlt.prorr) dlgItens.push(mkI('Prorrogação', 'prorr', zAlt.prorr));
+      if (zAlt.susp) dlgItens.push(mkI('Suspensão', 'susp', zAlt.susp));
     }
+    const outOfScope = () => this.toast('Este item de menu não faz parte do protótipo do RF-028.', 'info');
 
     return {
       userNome: u.nome, userPerfil: u.perfil, userSetor: u.setor, userIni: u.ini,
       isChefe: isChefe, notChefe: !isChefe, isGab: isGab, notGab: !isGab,
-      isLista: s.view === 'lista', isAut: s.view === 'autuacao', isAce: s.view === 'aceite', isJun: s.view === 'juntada', isPrz: s.view === 'prazo', isAvo: s.view === 'avocacao',
+      isAssinView: s.view === 'assinaturas', redirTitulo: ri.titulo, redirRf: ri.rf, redirRfCurto: ri.curto, redirFluxo: ri.fluxo, redirBtn: ri.btn, assinRows: s.redirRows ? s.redirRows : (s.assinIds || []).map(id => byId[id]).filter(Boolean).map(p => ({ numero: p.numero, assunto: p.assunto, evento: p.evento, resp: p.resp })),
+      voltarPend: () => (s.assinFrom === 'pend' ? this.goPend() : this.goLista(false)), voltarLabel: s.assinFrom === 'pend' ? 'Voltar para Com Pendências' : 'Voltar para a Listagem de processos',
+      isLista: s.view === 'lista', isPend: inPend, showProc: s.view === 'lista' || !!ef, procTitle: ef ? tabDef.label : 'Processos', pTypes: pTypes, pItemsG: pItemsG, hasGroup: !!grp, noGroup: !grp, groupNoItem: !!grp && !s.pendTab, groupLabel: grp ? grp.label : '', showRevNote: !!grp && grp.id === 'pg-rev', goPend: () => this.goPend(), bellAria: 'Pendências: ' + (snap ? total : 'carregando'), pendSub: 'Setor: ' + u.setor + (snap ? ' · ' + total + ' pendência(s) no total do sino' : ''),
+      isAut: inPend && s.pendTab === 'P01', isAce: inPend && s.pendTab === 'P08', isJun: inPend && s.pendTab === 'P09', isPrz: inPend && s.pendTab === 'P10', isAvo: inPend && s.pendTab === 'P11',
       goLista: () => this.goLista(false), goListaRefresh: () => this.goLista(true),
 
+      /* casca */
+      sideCls: s.sideOpen ? 'side' : 'side mini', sideOpenStr: s.sideOpen ? 'true' : 'false',
+      toggleSide: () => this.setState({ sideOpen: !this.state.sideOpen }),
+      pautaOpen: s.pautaOpen, pautaOpenStr: s.pautaOpen ? 'true' : 'false', pautaChev: s.pautaOpen ? 'm6 15 6-6 6 6' : 'm6 9 6 6 6-6',
+      togglePauta: () => this.setState({ pautaOpen: !this.state.pautaOpen }),
+      distOpen: s.distOpen, distOpenStr: s.distOpen ? 'true' : 'false', distChev: s.distOpen ? 'm6 15 6-6 6 6' : 'm6 9 6 6 6-6',
+      toggleDist: () => this.setState({ distOpen: !this.state.distOpen }),
+      navOutro: outOfScope,
+      navListaCls: inPend ? 'nav' : 'nav on', navListaCur: inPend ? 'false' : 'page',
+      navPendCls: inPend ? 'nav sub2 on' : 'nav sub2', navPendCur: inPend ? 'page' : 'false',
+      navPendencias: () => this.goPend(),
+      navAnotacoes: () => this.toast('"Com Anotações" pertence ao RF-027 e não faz parte deste protótipo.', 'info'),
+      crumbs: crumbs, co: co, coStr: coStr, chev: chev, ct: ct,
+
       /* painel */
-      search: s.search, setSearch: e => this.setState({ search: e.target.value, page: 1 }),
+      search: s.search, setSearch: e => this.setState({ search: e.target.value, page: 1, view: 'lista' }),
       panelOpen: s.panelOpen, panelOpenStr: s.panelOpen ? 'true' : 'false',
       togglePanel: () => this.setState({ panelOpen: !this.state.panelOpen }), closePanel: () => this.setState({ panelOpen: false }),
-      bellColor: total > 0 ? '#C62828' : '#0F366D',
+      bellColor: total > 0 ? '#C62828' : '#1E78BE',
       showBadge: total > 0, badgeText: badgeText, badgeAria: total + ' pendências',
       lastUpdateText: s.lastUpdate ? 'Última atualização às ' + this.hhmmss(s.lastUpdate) : 'Consultando as pendências…',
       refreshNow: () => this.refresh(), refreshCls: s.loading ? 'spin' : '',
@@ -1293,38 +1775,69 @@ class Component extends DCLogic {
       totalText: snap ? String(total) : '–',
 
       /* lista */
-      listTitle: s.filter ? 'Processos filtrados' : 'Processos em andamento',
-      hasFilter: !!s.filter, filterLabel: filterDef ? filterDef.label : '',
-      clearFilter: () => this.setState({ filter: null, page: 1, listLoading: false }),
-      selText: selCount ? selCount + ' processo(s) marcado(s)' : '',
+      hasFilter: !!ef, noFilter: !ef, filterLabel: filterDef ? filterDef.label : '', filterVal: s.filter || '',
+      setFilterSel: e => { const v = e.target.value; if (v) this.openP(v); else this.setState({ filter: null, page: 1 }); },
+      clearFilter: () => this.setState({ view: 'lista', page: 1, listLoading: false }),
+      limparTudo: () => this.setState({ filter: null, search: '', page: 1, listLoading: false }),
+      selText: selCount ? this.plural(selCount, 'processo marcado', 'processos marcados') : '',
+      allPageChecked: allPageChecked,
+      toggleAllPage: () => this.setState(st => { const sel = Object.assign({}, st.sel); pageIds.forEach(id => { sel[id] = !allPageChecked; }); return { sel: sel }; }),
+      reloadList: () => { this.loadList(); this.refresh(); },
+      configTabela: () => this.toast('A configuração de colunas pertence ao RF-011 (Personalizar Listagem).', 'info'),
+      isAssin: ef === 'P02' || ef === 'P12', isEnviar: ['P03', 'P04', 'P05'].indexOf(ef) >= 0, notSingle: ['P02', 'P03', 'P04', 'P05', 'P06', 'P07', 'P12'].indexOf(ef) < 0, isRevOficial: ef === 'P06',
+      tramitarTitle: assinN ? 'Tramitar os processos selecionados (RF-013)' : 'Selecione ao menos um processo para tramitar',
+      revHint: assinN ? this.plural(assinN, 'processo selecionado', 'processos selecionados') + '.' : '',
+      enviarTitle: assinN ? 'Enviar os processos selecionados (RF-012)' : 'Selecione ao menos um processo para enviar',
+      enviarHint: assinN ? this.plural(assinN, 'processo selecionado', 'processos selecionados') + ' para envio.' : '',
+      assinDis: assinN === 0, tbDis: assinN === 0,
+      actTramitar: () => this.redirecionar('013', tops),
+      actNovoDoc: () => this.toast('Abrindo Novo documento (RF-015) com ' + this.plural(assinN, 'processo selecionado', 'processos selecionados') + '.', 'info'),
+      actAnexar: () => this.toast('Abrindo Anexar (RF-016) com ' + this.plural(assinN, 'processo selecionado', 'processos selecionados') + '.', 'info'),
+      actEnviar: () => this.redirecionar('012', tops),
+      actVisualizar: () => this.toast('Abrindo Visualizar documentos (RF-024) com ' + this.plural(assinN, 'processo selecionado', 'processos selecionados') + '.', 'info'), assinTitle: assinN ? 'Assinar os processos selecionados (RF-014)' : 'Selecione ao menos um processo para assinar',
+      assinHint: assinN ? this.plural(assinN, 'processo selecionado', 'processos selecionados') + ' para assinatura.' : '',
+      assinar: () => this.redirecionar('014', tops),
+      exportar: () => this.toast('Exportação para Excel simulada: ' + tops.length + ' processo(s).', 'info'),
       skelRows: [1, 2, 3, 4, 5, 6].map(n => ({ n: n })),
       listLoading: s.listLoading, listError: listError,
       listEmpty: !listError && !s.listLoading && tops.length === 0,
       listOk: !listError && !s.listLoading && tops.length > 0,
-      emptyText: s.filter ? 'Nenhum processo encontrado para a pendência selecionada.' : 'Nenhum processo encontrado.',
+      emptyText: ef ? 'Nenhum processo encontrado para a pendência selecionada.' : 'Nenhum processo encontrado.',
       rows: rows,
-      pageText: 'Página ' + page + ' de ' + pages + ' · ' + tops.length + ' processo(s)',
+      perStr: String(per), setPer: e => this.setState({ per: parseInt(e.target.value, 10) || 10, page: 1 }),
+      rangeText: from + '-' + to + ' de ' + tops.length,
       prevDis: page <= 1, nextDis: page >= pages,
+      firstPage: () => this.setState({ page: 1 }),
       prevPage: () => this.setState({ page: Math.max(1, page - 1) }), nextPage: () => this.setState({ page: Math.min(pages, page + 1) }),
 
       /* autuação */
       aut: A, autTgl: autTgl, autRows: autRows, autEmpty: autRows.length === 0,
-      autCountText: autRows.length + ' solicitação(ões) carregada(s)',
+      autCountText: 'Quantidade: ' + autRows.length + (autSelN ? ' · ' + this.plural(autSelN, 'selecionada', 'selecionadas') : ''),
+      autAllChecked: autAll, autToggleAll: () => { const m = {}; if (!autAll) this.visibleAut().forEach(a => { m[a.id] = true; }); this.upd('aut', { marks: m, modo: null }); },
       autUpdText: this.hhmmss(s.autUpd),
       autHasMsg: !!A.msg, autMsg: A.msg || { cls: '', text: '', items: [] },
       autModoEnvio: A.modo === 'envio', autModoAss: A.modo === 'assinatura',
-      autModoE: () => this.upd('aut', { modo: 'envio' }), autModoA: () => this.upd('aut', { modo: 'assinatura' }),
-      autMarcarTodas: () => this.autMarcarTodas(), autDesmarcar: () => this.upd('aut', { marks: {} }),
-      autLimpar: () => this.upd('aut', { fE: true, fA: isChefe, fS: false, fC: false, fR: false, msg: null }),
+      autModoE: () => this.autMarcar('envio'), autModoA: () => this.autMarcar('assinatura'),
+      autDesmarcar: () => this.upd('aut', { marks: {}, modo: null }),
+      autLimpar: () => this.upd('aut', { fE: false, fA: isChefe, fS: true, fC: false, fR: true, fila: 'destino', origemSetor: '', sei: false, msg: null }),
+      isProtocolo: pk === 'protocolo', autFilaDestino: A.fila === 'destino', autFilaOrigem: A.fila === 'origem',
+      autSetDestino: () => this.upd('aut', { fila: 'destino' }), autSetOrigem: () => this.upd('aut', { fila: 'origem' }),
+      autSetOrigemSetor: e => this.upd('aut', { origemSetor: e.target.value }), autTglSei: () => this.upd('aut', { sei: !this.state.aut.sei, origemSetor: '' }),
       autAtualizar: () => { this.setState({ autUpd: new Date() }); this.refresh(); },
-      autNova: () => this.toast('O cadastro de nova solicitação pertence ao RF-025 e não faz parte deste protótipo.', 'info'),
+      autNova: () => this.setState({ dialog: { kind: 'solicitacao', id: null, titulo: '', errs: [] } }),
       autProsseguir: () => this.autProsseguir(), autEnviarSel: () => this.autEnviarSel(), autEnviarCentral: () => this.autEnviarCentral(),
 
       /* aceite */
       aceRows: aceRows, aceEmpty: aceRows.length === 0, aceHasMsg: !!s.ace.msg, aceMsg: s.ace.msg || { cls: '', text: '', items: [] },
+      aceCountText: this.plural(aceTop, 'processo aguardando aceite', 'processos aguardando aceite'),
+      aceBlocked: !!aceBlk, aceBlockedText: aceBlk ? 'O processo ' + aceBlk.numero + ' tem documento de Atos de Pessoal sem setor de integração. Dê ciência a ele individualmente ou ajuste a integração.' : '',
+      aceAllChecked: aceAll, aceToggleAll: () => { const sel = {}; if (!aceAll) d.ace.forEach(c => { sel[c.id] = true; }); this.upd('ace', { sel: sel }); },
+      aceAceitarTodos: () => this.aceAceitarTodos(), aceDevolverSel: () => this.aceDevolverSel(),
+      aceFechar: () => { if (s.ace.done) this.loadList(); this.goLista(true); },
 
       /* juntada */
       jun: Jf, junFilters: junFilters, junRows: junRows, junEmpty: junRows.length === 0,
+      junCountText: this.plural(junRows.length, 'solicitação', 'solicitações'),
       junRespLabel: isGab ? 'De responsabilidade do Relator' : 'Sou responsável',
       junRespR: Jf.resp === 'resp', junRespS: Jf.resp === 'solic', junRespT: Jf.resp === 'setor',
       junSetR: () => this.upd('jun', { resp: 'resp' }), junSetS: () => this.upd('jun', { resp: 'solic' }), junSetT: () => this.upd('jun', { resp: 'setor' }),
@@ -1341,6 +1854,7 @@ class Component extends DCLogic {
 
       /* prazo */
       prz: Z, przRows: przRows, przEmpty: przRows.length === 0, przDenied: !isChefe, przAllowed: isChefe,
+      przCountText: this.plural(przRows.length, 'processo aguardando autorização', 'processos aguardando autorização'),
       przSetProc: e => this.upd('prz', { fProc: e.target.value }), przSetAn: e => this.upd('prz', { fAn: e.target.value }),
       przLimpar: () => this.upd('prz', { fProc: '', fAn: '', msg: null }),
       przAutorizar: () => this.przDecidir('A'), przNegar: () => this.przDecidir('N'),
@@ -1349,16 +1863,17 @@ class Component extends DCLogic {
 
       /* avocação */
       avo: Vv, avoRows: avoRows, avoEmpty: avoRows.length === 0,
-      avoTitle: isGab ? 'Avocar Processo' : 'Prazos a vencer/vencidos',
+      avoCountText: this.plural(avoRows.length, 'processo', 'processos'),
+      avoTitle: isGab ? 'Avocar Processo' : 'Prazos a vencer/vencido', avoGroupTitle: 'Processos (' + avoRows.length + ')',
       avoSetProc: e => this.upd('avo', { proc: e.target.value }),
       avoSetOrigem: e => this.upd('avo', { origem: e.target.value }), avoSetAssunto: e => this.upd('avo', { assunto: e.target.value }),
       avoSetRelator: e => this.upd('avo', { relator: e.target.value }), avoSetSetor: e => this.upd('avo', { setor: e.target.value }),
       avoTglVenc: () => this.upd('avo', { venc: !this.state.avo.venc }), avoTglMenos: () => this.upd('avo', { menos10: !this.state.avo.menos10 }),
-      avoLimpar: () => this.upd('avo', { proc: '', procApplied: '', origem: '', assunto: '', relator: '', setor: '', venc: false, menos10: false, msg: null, falhas: null }),
+      avoLimpar: () => this.setState({ avo: this.avoDefaults(pk) }),
       avoFiltrar: () => this.avoFiltrar(),
       avoHasMsg: !!Vv.msg, avoMsg: Vv.msg || { cls: '', text: '' },
       avoHasFalhas: !!Vv.falhas, avoFalhas: Vv.falhas || [],
-      canAvocar: isGab && !!u.claims.avocar, canRedistribuir: !isGab && !!u.claims.distribuir,
+      canAvocar: !!(isGab && u.claims.avocar), canRedistribuir: !isGab && !!u.claims.distribuir,
       avoAvocar: () => this.avoAvocar(), avoRedistribuir: () => this.avoRedistribuir(),
 
       /* diálogos */
@@ -1373,6 +1888,7 @@ class Component extends DCLogic {
       dlgSetJust: e => this.setDlg({ just: e.target.value.slice(0, 1000) }),
       dlgJustCount: String((dl.just || '').length),
       dlgDocs: jdocs.map(o => ({ nome: o.nome, fonte: o.fonte, checked: !!(dl.docs && dl.docs[o.id]), disabled: !!dl.readOnly || !!dl.saved,
+        rowCls: 'tr g-doc' + (dl.viewId === o.id ? ' sel' : ''), viewStr: dl.viewId === o.id ? 'true' : 'false', view: () => this.setDlg({ viewId: o.id }),
         toggle: () => this.setDlg({ docs: Object.assign({}, this.state.dialog.docs, { [o.id]: !this.state.dialog.docs[o.id] }) }) })),
       dlgShowDecision: k === 'juntada' && dl.mode !== 'consultar',
       dlgSetDesc: e => this.setDlg({ desc: e.target.value }),
@@ -1382,7 +1898,23 @@ class Component extends DCLogic {
       dlgTipoP: dl.tipo === 'P', dlgTipoS: dl.tipo === 'S',
       dlgSetTipoP: () => this.setDlg({ tipo: 'P', confirm: false }), dlgSetTipoS: () => this.setDlg({ tipo: 'S', confirm: false }),
       dlgSetMotivo: e => this.setDlg({ motivo: e.target.value, confirm: false }), dlgSetDias: e => this.setDlg({ dias: e.target.value, confirm: false }),
-      dlgItens: dlgItens,
+      dlgMaxW: k === 'juntada' ? '1160px' : '700px',
+      dlgDevText: k === 'devolver' ? (dl.numeros.length === 1 ? 'Processo ' + dl.numeros[0] + ' será devolvido ao setor de origem.' : dl.numeros.length + ' processos serão devolvidos ao setor de origem: ' + dl.numeros.join(', ') + '.') : '',
+      dlgSol: k === 'solicitacao', dlgSolEdit: !!solA, dlgSolOrigem: solA ? solA.origem : '', dlgSolSit: solA ? sitA[solA.sit][0] : '',
+      dlgSetTitulo: e => this.setDlg({ titulo: e.target.value.slice(0, 100) }), dlgTituloCount: String((dl.titulo || '').length),
+      dlgJustRest: String(1000 - (dl.just || '').length),
+      dlgDescSol: k === 'juntada' ? ((d.jun.find(x => x.id === dl.id) || {}).descSol || '') : '',
+      dlgViewDoc: jView ? jView.nome : 'Selecione um documento',
+      dlgViewNote: jView ? (/\.(rtf|docx?)$/i.test(jView.nome) ? 'Convertido em PDF para exibição' : 'PDF · somente leitura') : 'Visualizador (RF-024)',
+      dlgItens: dlgItens, dlgItensEmpty: k === 'alterar' && dlgItens.length === 0,
+      dlgArq: k === 'arquivos', dlgArqTitulo: arqSol ? arqSol.titulo : '', dlgArqOrigem: arqSol ? arqSol.origem : '',
+      dlgArqEmpty: !!arqSol && arqSol.arquivos.length === 0, dlgArqHas: !!arqSol && arqSol.arquivos.length > 0,
+      dlgArqs: arqSol ? arqSol.arquivos.map(f => ({ nome: f, fmt: (f.split('.').pop() || '').toUpperCase(), ver: () => this.toast('Abrindo "' + f + '" no visualizador de documentos (RF-024).', 'info') })) : [],
+      dlgArqNoReject: !!arqSol && !canReject,
+      dlgArqNoRejectText: arqSol && (arqSol.sit === 'C' || arqSol.sit === 'R') ? 'Solicitação já concluída ou rejeitada: não pode ser rejeitada.' : 'A rejeição só é permitida para solicitações de origem Atos de Pessoal ou LRF.',
+      dlgSetMotivoRej: e => this.setDlg({ motivo: e.target.value }),
+      dlgVerTermo: () => { const j = d.jun.find(x => x.id === dl.id); this.toast(j && (j.decisao || dl.saved) ? 'Abrindo o Termo de Deferimento de Juntada do processo ' + dl.processo + '.' : 'O termo é gerado depois que a decisão é salva.', 'info'); },
+      dlgConsultarProc: () => this.toast('Abrindo o processo ' + dl.processo + ' em Detalhar Processo (RF-003).', 'info'),
       dlgSep: (dl.sep || []).map(t => ({ t: t })),
       dlgAvoText: dl.ids ? (dl.ids.length ? 'Deseja avocar os demais ' + dl.ids.length + ' processo(s)?' : 'Não restaram processos para avocar.') : '',
       dlgRedistText: dl.ids ? dl.ids.length + ' processo(s) selecionado(s).' : '',

@@ -416,7 +416,7 @@ textarea.input{height:auto;min-height:92px;padding:10px 12px;resize:vertical;lin
 </div>
 </div>
 <div class="tfoot">
-<button type="button" class="btn" onClick="{{firstPage}}"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 3 2 12h3v8h5v-5h4v5h5v-8h3z"></path></svg>Início da tabela</button>
+<sc-if value="{{isLista}}" hint-placeholder-val="{{true}}"><button type="button" class="btn" onClick="{{firstPage}}"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 3 2 12h3v8h5v-5h4v5h5v-8h3z"></path></svg>Início da tabela</button></sc-if>
 <sc-if value="{{isLista}}" hint-placeholder-val="{{true}}"><button type="button" class="btn btn-g" onClick="{{configTabela}}"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M19.4 13a7.5 7.5 0 0 0 0-2l2.1-1.6-2-3.4-2.5 1a7.4 7.4 0 0 0-1.7-1L15 3.3h-4l-.4 2.7a7.4 7.4 0 0 0-1.7 1l-2.5-1-2 3.4L6.6 11a7.5 7.5 0 0 0 0 2l-2.1 1.6 2 3.4 2.5-1a7.4 7.4 0 0 0 1.7 1l.3 2.7h4l.4-2.7a7.4 7.4 0 0 0 1.7-1l2.5 1 2-3.4zM13 15.5a3.5 3.5 0 1 1 0-7 3.5 3.5 0 0 1 0 7z" transform="translate(-1 0)"></path></svg>Configurar tabela</button></sc-if>
 <label style="display: inline-flex; align-items: center; gap: 10px">Linhas por página
 <select class="perpage" value="{{perStr}}" onChange="{{setPer}}"><option value="5">5</option><option value="10">10</option><option value="20">20</option></select>

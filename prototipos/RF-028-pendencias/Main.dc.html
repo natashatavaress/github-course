@@ -70,6 +70,8 @@ a{color:#1E78BE}a:hover{color:#155A90}
 .lnk:disabled{color:#9AA1A6;cursor:not-allowed;text-decoration:none}
 .tb{width:40px;height:40px;border-radius:3px;border:0;background:#13855E;color:#FFFFFF;display:inline-flex;align-items:center;justify-content:center;cursor:pointer}
 .tb:hover{background:#0E6B4B}
+.tb-orange{background:#C2570C}
+.tb-orange:hover{background:#9A4509}
 .tb:disabled{background:#BFC4C8;cursor:not-allowed}
 .icon-btn{width:40px;height:40px;border-radius:20px;border:0;background:transparent;color:#3D4448;display:inline-flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0}
 .icon-btn:hover{background:#EEF1F3}
@@ -342,7 +344,7 @@ textarea.input{height:auto;min-height:92px;padding:10px 12px;resize:vertical;lin
 </sc-if>
 <sc-if value="{{isAssin}}" hint-placeholder-val="{{false}}">
 <div style="display: flex; align-items: center; gap: 12px; flex-wrap: wrap">
-<button type="button" class="tb" aria-label="Assinar (RF-014)" disabled="{{tbDis}}" title="{{assinTitle}}" onClick="{{assinar}}"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="m15 4 5 5-10 10H5v-5zM4 21h16v-1.6H4z"></path></svg></button>
+<button type="button" class="tb tb-orange" aria-label="Assinar (RF-014)" disabled="{{tbDis}}" title="{{assinTitle}}" onClick="{{assinar}}"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="m15 4 5 5-10 10H5v-5zM4 21h16v-1.6H4z"></path></svg></button>
 <span style="font-size: 14px; color: #5E676D">{{assinHint}}</span>
 </div>
 </sc-if>

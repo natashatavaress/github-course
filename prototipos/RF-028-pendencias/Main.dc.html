@@ -786,9 +786,9 @@ textarea.input{height:auto;min-height:92px;padding:10px 12px;resize:vertical;lin
 </div>
 <div class="tfoot"><span>{{avoCountText}}</span></div>
 </div>
-<div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px">
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px">
 <button type="button" class="btn btn-o btn-w" onClick="{{goListaRefresh}}">Fechar</button>
-<button type="button" class="btn btn-w" disabled="{{cannotAvocar}}" onClick="{{avoAvocar}}">Avocar Selecionados</button>
+<sc-if value="{{canAvocar}}" hint-placeholder-val="{{false}}"><button type="button" class="btn btn-w" onClick="{{avoAvocar}}">Avocar Selecionados</button></sc-if>
 </div>
 </div>
 </section>
@@ -1876,7 +1876,7 @@ class Component extends DCLogic {
       avoFiltrar: () => this.avoFiltrar(),
       avoHasMsg: !!Vv.msg, avoMsg: Vv.msg || { cls: '', text: '' },
       avoHasFalhas: !!Vv.falhas, avoFalhas: Vv.falhas || [],
-      cannotAvocar: !(isGab && u.claims.avocar), canRedistribuir: !isGab && !!u.claims.distribuir,
+      canAvocar: !!(isGab && u.claims.avocar), canRedistribuir: !isGab && !!u.claims.distribuir,
       avoAvocar: () => this.avoAvocar(), avoRedistribuir: () => this.avoRedistribuir(),
 
       /* diálogos */

@@ -722,8 +722,8 @@ textarea.input{height:auto;min-height:92px;padding:10px 12px;resize:vertical;lin
 <sc-for list="{{avoRows}}" as="v" hint-placeholder-count="5">
 <div role="row" class="tr g-avo {{v.cls}}">
 <span role="cell"><input type="checkbox" class="cb" aria-label="Selecionar processo {{v.numero}}" checked="{{v.checked}}" onChange="{{v.toggle}}"></span>
-<span role="cell"><span class="{{v.prazoCls}}">{{v.prazo}}</span></span>
-<span role="cell" class="{{v.stripCls}}" style="flex-direction: column; align-items: flex-start; justify-content: center; gap: 2px"><span class="num">{{v.numero}}</span><sc-if value="{{v.assinado}}" hint-placeholder-val="{{false}}"><span style="font-size: 12px; color: #7A4105; font-weight: 500; text-transform: none">Enviado para assinatura</span></sc-if></span>
+<span role="cell" class="{{v.stripCls}}"><span class="{{v.prazoCls}}">{{v.prazo}}</span></span>
+<span role="cell" style="flex-direction: column; align-items: flex-start; justify-content: center; gap: 2px"><span class="num">{{v.numero}}</span><sc-if value="{{v.assinado}}" hint-placeholder-val="{{false}}"><span style="font-size: 12px; color: #7A4105; font-weight: 500; text-transform: none">Enviado para assinatura</span></sc-if></span>
 <span role="cell">{{v.periodoSetor}}</span>
 <span role="cell">{{v.periodoTce}}</span>
 <span role="cell">{{v.assunto}}</span>

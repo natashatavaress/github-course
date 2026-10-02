@@ -43,7 +43,7 @@ padrão, salvo pedido explícito em contrário.
 - Linhas com no mínimo 64 px e padding de 12 × 16 px.
 - Cabeçalho: texto 15 px, peso 400, com ícone de funil à direita em colunas filtráveis (classe `nf` remove o funil).
 - Primeira coluna: checkbox de seleção. O cabeçalho dessa coluna seleciona todos os itens da página.
-- Coluna do processo: número sublinhado (aparência de link), com faixa de status de 6 px à esquerda da célula: cinza `#8E979C` no normal, vermelha `#C62828` quando há alerta (sigiloso, bloqueado, vencido, devolvido, rejeitado). Ícones de cadeado (sigilo) e estrela (favorito) ao lado do número.
+- Coluna do processo: número sublinhado (aparência de link), com faixa de status de 6 px à esquerda da célula (quando a tabela tem uma coluna de **Situação** antes do processo, como no aceite e na avocação, a faixa fica na célula da Situação): cinza `#8E979C` no normal, vermelha `#C62828` quando há alerta (sigiloso, bloqueado, vencido, devolvido, rejeitado). Ícones de cadeado (sigilo) e estrela (favorito) ao lado do número.
 - Linha em alerta: fundo rosado `#FDECEC`. Linha selecionada: `#EEF5FB`. Linha apensada: `#F6F8F9` com `↳`.
 - Valores das células em **CAIXA ALTA**. Botões, chips e números de processo ficam fora dessa regra.
 - Acima da tabela: barra de ações com botões quadrados cinza (`#8F969B`, 40 px, ícone branco; desabilitado `#B5BABE`) e, à direita, o link verde "Exportar para excel".

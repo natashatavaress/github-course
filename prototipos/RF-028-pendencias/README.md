@@ -28,7 +28,7 @@ pendências, volume 99+) e simulação de falha.
 | 07 — Decisão de Juntada | Diálogo aberto por "Decidir juntada", "Ver decisão" ou "Consultar": documentos a juntar com visualizador ao lado (RN80), descrição da solicitação em somente leitura, decisão, "Ver Termo de deferimento" e "Consultar Processo" |
 | 08 — Autorizar Prorrogação/Suspensão | Item "Prorrogação/Suspensão" (P10), só para o chefe de setor, com ação de linha "Abrir" e filtro de analista com pesquisa |
 | 09 — Prorrogar / Suspender | Diálogo "Prorrogar/Suspender", aberto pela ação de linha ou por "Alterar Prorrogação/Suspensão concedida": dias úteis e justificativa obrigatórios (contador de restantes) e "Excluir" por lançamento (RN61) |
-| 10 — Avocação de Processo | Item "A serem avocados" (P11): campos com pesquisa, colunas do PRD, título "Processos (N)", ação de linha "Abrir" e redistribuição que abre a distribuição de processos (RN83) |
+| 10 — Avocação de Processo | Item "A serem avocados" (P11): campos com pesquisa, colunas do PRD, título "Processos (N)", ação de linha "Abrir" e "Redistribuir Selecionados" que redireciona para Distribuição Manual (RF-022) com os selecionados (RN83) |
 | 11 — Visualização de arquivos da solicitação | Diálogo aberto pela ação de linha "Visualizar arquivos" (origens SEI, Atos de Pessoal, LRF e Tomada de Contas), com "Visualizar" e "Rejeitar Solicitação" (só Atos de Pessoal e LRF, RN76) |
 | 12 — Solicitação de Autuação | Diálogo aberto por "Abrir solicitação" ou "Nova Solicitação": Título/Resumo com limite de 100 caracteres e contador (RN85); demais campos aguardam a questão 20 |
 

@@ -1213,9 +1213,10 @@ class Component extends DCLogic {
   redirecionar(rf, tops) {
     const s = this.state, ids = [];
     tops.forEach(p => { if (s.sel[p.id]) ids.push(p.id); p.apensos.forEach(id => { if (s.sel[id]) ids.push(id); }); });
-    this.setState({ view: 'assinaturas', redirRf: rf, assinIds: ids, assinFrom: s.view === 'pendencias' ? 'pend' : 'lista' });
+    this.setState({ view: 'assinaturas', redirRf: rf, redirRows: null, assinIds: ids, assinFrom: s.view === 'pendencias' ? 'pend' : 'lista' });
   }
   redirInfo(rf) {
+    if (rf === '022') return { titulo: 'Distribuição Manual', rf: 'RF-022 (Distribuição Manual)', curto: 'RF-022', fluxo: 'a redistribuição em si', btn: 'Redistribuir' };
     if (rf === '013') return { titulo: 'Tramitar processo', rf: 'RF-013 (Gerenciar Trâmite)', curto: 'RF-013', fluxo: 'a tramitação em si', btn: 'Tramitar' };
     return rf === '012'
       ? { titulo: 'Enviar processo', rf: 'RF-012 (Enviar Processo)', curto: 'RF-012', fluxo: 'o envio (tramitação) em si', btn: 'Enviar' }
@@ -1495,10 +1496,10 @@ class Component extends DCLogic {
   }
   avoRedistribuir() {
     const s = this.state;
-    const ids = this.visibleAvo().filter(v => s.avo.sel[v.id]).map(v => v.id);
-    if (!ids.length) return this.upd('avo', { msg: this.msg('error', 'Nenhum processo foi selecionado, corrija e tente novamente.') });
+    const sel = this.visibleAvo().filter(v => s.avo.sel[v.id]);
+    if (!sel.length) return this.upd('avo', { msg: this.msg('error', 'Nenhum processo foi selecionado, corrija e tente novamente.') });
     this.upd('avo', { msg: null });
-    this.toast('Abrindo a distribuição de processos (RF-021) com ' + this.plural(ids.length, 'processo selecionado', 'processos selecionados') + ', no setor ' + this.user(s.pk).setor + '.', 'info');
+    this.setState({ view: 'assinaturas', redirRf: '022', assinFrom: 'pend', assinIds: [], redirRows: sel.map(v => ({ numero: v.numero, assunto: v.assunto, evento: v.situacao + ' · ' + v.dias + ' dias no setor', resp: v.analista })) });
   }
   avoConfirmRedist() {
     const dl = this.state.dialog;
@@ -1744,7 +1745,7 @@ class Component extends DCLogic {
     return {
       userNome: u.nome, userPerfil: u.perfil, userSetor: u.setor, userIni: u.ini,
       isChefe: isChefe, notChefe: !isChefe, isGab: isGab, notGab: !isGab,
-      isAssinView: s.view === 'assinaturas', redirTitulo: ri.titulo, redirRf: ri.rf, redirRfCurto: ri.curto, redirFluxo: ri.fluxo, redirBtn: ri.btn, assinRows: (s.assinIds || []).map(id => byId[id]).filter(Boolean).map(p => ({ numero: p.numero, assunto: p.assunto, evento: p.evento, resp: p.resp })),
+      isAssinView: s.view === 'assinaturas', redirTitulo: ri.titulo, redirRf: ri.rf, redirRfCurto: ri.curto, redirFluxo: ri.fluxo, redirBtn: ri.btn, assinRows: s.redirRows ? s.redirRows : (s.assinIds || []).map(id => byId[id]).filter(Boolean).map(p => ({ numero: p.numero, assunto: p.assunto, evento: p.evento, resp: p.resp })),
       voltarPend: () => (s.assinFrom === 'pend' ? this.goPend() : this.goLista(false)), voltarLabel: s.assinFrom === 'pend' ? 'Voltar para Com Pendências' : 'Voltar para a Listagem de processos',
       isLista: s.view === 'lista', isPend: inPend, showProc: s.view === 'lista' || !!ef, procTitle: ef ? tabDef.label : 'Processos', pTypes: pTypes, pItemsG: pItemsG, hasGroup: !!grp, noGroup: !grp, groupNoItem: !!grp && !s.pendTab, groupLabel: grp ? grp.label : '', showRevNote: !!grp && grp.id === 'pg-rev', goPend: () => this.goPend(), bellAria: 'Pendências: ' + (snap ? total : 'carregando'), pendSub: 'Setor: ' + u.setor + (snap ? ' · ' + total + ' pendência(s) no total do sino' : ''),
       isAut: inPend && s.pendTab === 'P01', isAce: inPend && s.pendTab === 'P08', isJun: inPend && s.pendTab === 'P09', isPrz: inPend && s.pendTab === 'P10', isAvo: inPend && s.pendTab === 'P11',

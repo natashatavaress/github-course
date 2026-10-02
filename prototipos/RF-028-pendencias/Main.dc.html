@@ -68,9 +68,9 @@ a{color:#1E78BE}a:hover{color:#155A90}
 .lnk.red{color:#C62828}
 .lnk.green{color:#13855E;font-weight:400;font-size:15px}
 .lnk:disabled{color:#9AA1A6;cursor:not-allowed;text-decoration:none}
-.tb{width:40px;height:40px;border-radius:3px;border:0;background:#8F969B;color:#FFFFFF;display:inline-flex;align-items:center;justify-content:center;cursor:pointer}
-.tb:hover{background:#6F767B}
-.tb:disabled{background:#B5BABE;cursor:not-allowed}
+.tb{width:40px;height:40px;border-radius:3px;border:0;background:#1E78BE;color:#FFFFFF;display:inline-flex;align-items:center;justify-content:center;cursor:pointer}
+.tb:hover{background:#155A90}
+.tb:disabled{background:#BFC4C8;cursor:not-allowed}
 .icon-btn{width:40px;height:40px;border-radius:20px;border:0;background:transparent;color:#3D4448;display:inline-flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0}
 .icon-btn:hover{background:#EEF1F3}
 .btn:focus-visible,.icon-btn:focus-visible,.pitem:focus-visible,.chip-x:focus-visible,.input:focus,.cb:focus-visible,.lnk:focus-visible,.tb:focus-visible,.nav:focus-visible,.hamb:focus-visible,.crumb-b:focus-visible{outline:2px solid #1E78BE;outline-offset:2px}
@@ -289,7 +289,7 @@ textarea.input{height:auto;min-height:92px;padding:10px 12px;resize:vertical;lin
 </sc-for>
 </div>
 <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px">
-<button type="button" class="btn btn-o btn-w" onClick="{{voltarPend}}">Voltar para Com Pendências</button>
+<button type="button" class="btn btn-o btn-w" onClick="{{voltarPend}}">{{voltarLabel}}</button>
 <button type="button" class="btn btn-w" disabled="{{true}}" title="Fluxo de assinatura do RF-014">Enviar para assinatura</button>
 </div>
 </div>
@@ -329,12 +329,12 @@ textarea.input{height:auto;min-height:92px;padding:10px 12px;resize:vertical;lin
 <sc-if value="{{notAssin}}" hint-placeholder-val="{{true}}">
 <div style="display: flex; align-items: center; gap: 4px; flex-wrap: wrap">
 <button type="button" class="tb" aria-label="Atualizar lista" title="Atualizar lista" onClick="{{reloadList}}"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M21 12a9 9 0 1 1-2.64-6.36"></path><path d="M21 3v6h-6"></path></svg></button>
-<button type="button" class="tb" aria-label="Tramitar (RF-013)" title="Tramitar (RF-013)" disabled="{{true}}"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M4 8h14l-3-3M20 16H6l3 3"></path></svg></button>
-<button type="button" class="tb" aria-label="Novo documento (RF-015)" title="Novo documento (RF-015)" disabled="{{true}}"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path d="M6 3h8l4 4v14H6z"></path><path d="M12 11v6M9 14h6"></path></svg></button>
-<button type="button" class="tb" aria-label="Anexar (RF-016)" title="Anexar (RF-016)" disabled="{{true}}"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M8 12V7a4 4 0 0 1 8 0v10a6 6 0 0 1-12 0V9"></path></svg></button>
-<button type="button" class="tb" aria-label="Assinar (RF-014)" title="Assinar (RF-014)" disabled="{{true}}"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="m15 4 5 5-10 10H5v-5zM4 21h16v-1.6H4z"></path></svg></button>
-<button type="button" class="tb" aria-label="Enviar processo (RF-012)" title="Enviar processo (RF-012)" disabled="{{true}}"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M2 21 23 12 2 3l3 9zm3-9h9"></path></svg></button>
-<button type="button" class="tb" aria-label="Visualizar documentos (RF-024)" title="Visualizar documentos (RF-024)" disabled="{{true}}"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path d="M2 12c3-5 6.5-7 10-7s7 2 10 7c-3 5-6.5 7-10 7S5 17 2 12z"></path><circle cx="12" cy="12" r="3"></circle></svg></button>
+<button type="button" class="tb" aria-label="Tramitar (RF-013)" title="Tramitar (RF-013)" disabled="{{tbDis}}" onClick="{{actTramitar}}"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M4 8h14l-3-3M20 16H6l3 3"></path></svg></button>
+<button type="button" class="tb" aria-label="Novo documento (RF-015)" title="Novo documento (RF-015)" disabled="{{tbDis}}" onClick="{{actNovoDoc}}"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path d="M6 3h8l4 4v14H6z"></path><path d="M12 11v6M9 14h6"></path></svg></button>
+<button type="button" class="tb" aria-label="Anexar (RF-016)" title="Anexar (RF-016)" disabled="{{tbDis}}" onClick="{{actAnexar}}"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M8 12V7a4 4 0 0 1 8 0v10a6 6 0 0 1-12 0V9"></path></svg></button>
+<button type="button" class="tb" aria-label="Assinar (RF-014)" title="{{assinTitle}}" disabled="{{tbDis}}" onClick="{{assinar}}"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="m15 4 5 5-10 10H5v-5zM4 21h16v-1.6H4z"></path></svg></button>
+<button type="button" class="tb" aria-label="Enviar processo (RF-012)" title="Enviar processo (RF-012)" disabled="{{tbDis}}" onClick="{{actEnviar}}"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M2 21 23 12 2 3l3 9zm3-9h9"></path></svg></button>
+<button type="button" class="tb" aria-label="Visualizar documentos (RF-024)" title="Visualizar documentos (RF-024)" disabled="{{tbDis}}" onClick="{{actVisualizar}}"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path d="M2 12c3-5 6.5-7 10-7s7 2 10 7c-3 5-6.5 7-10 7S5 17 2 12z"></path><circle cx="12" cy="12" r="3"></circle></svg></button>
 <div style="flex-grow: 1"></div>
 <span style="font-size: 14px; color: #5E676D; margin-right: 12px">{{selText}}</span>
 <button type="button" class="lnk green" onClick="{{exportar}}"><svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="13" height="18" rx="1" fill="#13855E"></rect><path d="M6.5 8.5l4 7M10.5 8.5l-4 7" stroke="#FFFFFF" stroke-width="1.8"></path><path d="M16 6h5v12h-5" fill="none" stroke="#13855E" stroke-width="1.8"></path></svg>Exportar para excel</button>
@@ -342,7 +342,7 @@ textarea.input{height:auto;min-height:92px;padding:10px 12px;resize:vertical;lin
 </sc-if>
 <sc-if value="{{isAssin}}" hint-placeholder-val="{{false}}">
 <div style="display: flex; align-items: center; gap: 12px; flex-wrap: wrap">
-<button type="button" class="tb" aria-label="Assinar (RF-014)" disabled="{{assinDis}}" title="{{assinTitle}}" onClick="{{assinar}}"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="m15 4 5 5-10 10H5v-5zM4 21h16v-1.6H4z"></path></svg></button>
+<button type="button" class="tb" aria-label="Assinar (RF-014)" disabled="{{tbDis}}" title="{{assinTitle}}" onClick="{{assinar}}"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="m15 4 5 5-10 10H5v-5zM4 21h16v-1.6H4z"></path></svg></button>
 <span style="font-size: 14px; color: #5E676D">{{assinHint}}</span>
 </div>
 </sc-if>
@@ -1499,7 +1499,7 @@ class Component extends DCLogic {
     const tabDef = inPend ? this.pdefs().find(p => p.id === s.pendTab) : null;
     const ef = tabDef && tabDef.kind === 'filtro' ? tabDef.id : null;
     const procCrumb = { t: 'Processos', link: true, last: false, go: () => this.goLista(true) };
-    const crumbs = s.view === 'assinaturas' ? [procCrumb, { t: 'Com Pendências', link: true, last: false, go: () => this.goPend() }, { t: 'Gerenciar assinatura (RF-014)', link: false, last: true }] : !inPend
+    const crumbs = s.view === 'assinaturas' ? (s.assinFrom === 'pend' ? [procCrumb, { t: 'Com Pendências', link: true, last: false, go: () => this.goPend() }, { t: 'Gerenciar assinatura (RF-014)', link: false, last: true }] : [procCrumb, { t: 'Listagem de processos', link: true, last: false, go: () => this.goLista(false) }, { t: 'Gerenciar assinatura (RF-014)', link: false, last: true }]) : !inPend
       ? [procCrumb, { t: 'Listagem de processos', link: false, last: true }]
       : (tabDef ? [procCrumb, { t: 'Com Pendências', link: true, last: false, go: () => this.setState({ pendGroup: null, pendTab: null }) }, { t: tabDef.label, link: false, last: true }] : [procCrumb, { t: 'Com Pendências', link: false, last: true }]);
 
@@ -1536,7 +1536,7 @@ class Component extends DCLogic {
     });
     const rows = [], pageIds = [];
     pageTops.forEach(p => { rows.push(mkRow(p, false)); pageIds.push(p.id); p.apensos.forEach(id => { if (byId[id]) { rows.push(mkRow(byId[id], true)); pageIds.push(id); } }); });
-    const assinN = ef === 'P02' ? tops.reduce((n, p) => n + (s.sel[p.id] ? 1 : 0) + p.apensos.filter(id => s.sel[id]).length, 0) : 0;
+    const assinN = tops.reduce((n, p) => n + (s.sel[p.id] ? 1 : 0) + p.apensos.filter(id => s.sel[id]).length, 0);
     const allPageChecked = pageIds.length > 0 && pageIds.every(id => s.sel[id]);
     const fail = !!(this.props && this.props.simularFalha);
     const listError = !!ef && fail && !s.listLoading;
@@ -1716,7 +1716,7 @@ class Component extends DCLogic {
       userNome: u.nome, userPerfil: u.perfil, userSetor: u.setor, userIni: u.ini,
       isChefe: isChefe, notChefe: !isChefe, isGab: isGab, notGab: !isGab,
       isAssinView: s.view === 'assinaturas', assinRows: (s.assinIds || []).map(id => byId[id]).filter(Boolean).map(p => ({ numero: p.numero, assunto: p.assunto, evento: p.evento, resp: p.resp })),
-      voltarPend: () => this.goPend(),
+      voltarPend: () => (s.assinFrom === 'pend' ? this.goPend() : this.goLista(false)), voltarLabel: s.assinFrom === 'pend' ? 'Voltar para Com Pendências' : 'Voltar para a Listagem de processos',
       isLista: s.view === 'lista', isPend: inPend, showProc: s.view === 'lista' || !!ef, procTitle: ef ? tabDef.label : 'Processos', pTypes: pTypes, pItemsG: pItemsG, hasGroup: !!grp, noGroup: !grp, groupNoItem: !!grp && !s.pendTab, groupLabel: grp ? grp.label : '', showRevNote: !!grp && grp.id === 'pg-rev', goPend: () => this.goPend(), bellAria: 'Pendências: ' + (snap ? total : 'carregando'), pendSub: 'Setor: ' + u.setor + (snap ? ' · ' + total + ' pendência(s) no total do sino' : ''),
       isAut: inPend && s.pendTab === 'P01', isAce: inPend && s.pendTab === 'P08', isJun: inPend && s.pendTab === 'P09', isPrz: inPend && s.pendTab === 'P10', isAvo: inPend && s.pendTab === 'P11',
       goLista: () => this.goLista(false), goListaRefresh: () => this.goLista(true),
@@ -1758,9 +1758,14 @@ class Component extends DCLogic {
       reloadList: () => { this.loadList(); this.refresh(); },
       configTabela: () => this.toast('A configuração de colunas pertence ao RF-011 (Personalizar Listagem).', 'info'),
       isAssin: ef === 'P02', notAssin: ef !== 'P02',
-      assinDis: assinN === 0, assinTitle: assinN ? 'Assinar os processos selecionados (RF-014)' : 'Selecione ao menos um processo para assinar',
+      assinDis: assinN === 0, tbDis: assinN === 0,
+      actTramitar: () => this.toast('Abrindo Tramitar (RF-013) com ' + this.plural(assinN, 'processo selecionado', 'processos selecionados') + '.', 'info'),
+      actNovoDoc: () => this.toast('Abrindo Novo documento (RF-015) com ' + this.plural(assinN, 'processo selecionado', 'processos selecionados') + '.', 'info'),
+      actAnexar: () => this.toast('Abrindo Anexar (RF-016) com ' + this.plural(assinN, 'processo selecionado', 'processos selecionados') + '.', 'info'),
+      actEnviar: () => this.toast('Abrindo Enviar processo (RF-012) com ' + this.plural(assinN, 'processo selecionado', 'processos selecionados') + '.', 'info'),
+      actVisualizar: () => this.toast('Abrindo Visualizar documentos (RF-024) com ' + this.plural(assinN, 'processo selecionado', 'processos selecionados') + '.', 'info'), assinTitle: assinN ? 'Assinar os processos selecionados (RF-014)' : 'Selecione ao menos um processo para assinar',
       assinHint: assinN ? this.plural(assinN, 'processo selecionado', 'processos selecionados') + ' para assinatura.' : 'Selecione os processos na tabela para habilitar a assinatura.',
-      assinar: () => { const ids = []; tops.forEach(p => { if (s.sel[p.id]) ids.push(p.id); p.apensos.forEach(id => { if (s.sel[id]) ids.push(id); }); }); this.setState({ view: 'assinaturas', assinIds: ids }); },
+      assinar: () => { const ids = []; tops.forEach(p => { if (s.sel[p.id]) ids.push(p.id); p.apensos.forEach(id => { if (s.sel[id]) ids.push(id); }); }); this.setState({ view: 'assinaturas', assinIds: ids, assinFrom: s.view === 'pendencias' ? 'pend' : 'lista' }); },
       exportar: () => this.toast('Exportação para Excel simulada: ' + tops.length + ' processo(s).', 'info'),
       skelRows: [1, 2, 3, 4, 5, 6].map(n => ({ n: n })),
       listLoading: s.listLoading, listError: listError,

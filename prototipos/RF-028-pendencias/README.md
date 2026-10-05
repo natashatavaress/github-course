@@ -4,7 +4,15 @@ Protótipo navegável com dados simulados do fluxo principal do RF-028: Painel d
 (Tela 01), lista filtrada por pendência (Tela 02) e telas de trabalho (autuação, aceite,
 juntada, autorização de prazo e avocação).
 
-Baseado no **PRD v1.3** do RF-028.
+Baseado no **PRD v1.5** do RF-028. Ajustes da v1.5 aplicados, nos pontos em que o PRD prevalece sobre o protótipo (seção 6):
+
+- P01 conta as solicitações em `S` e, para o chefe de setor, também em `A`; `E` não conta (`RN22`, CA110–CA112).
+- Marcação da fila de autuação por perfil e situação, sem "selecionar todas" (`RN27`). `C`, `X` e `R` não são marcáveis; `A` só para o chefe ou o criador da solicitação. Exceção mantida: `E` continua marcável, porque "Prosseguir com Autuação" exige `E` (`RN29`) — contradição a resolver no PRD.
+- "Habilitar sigilo" desabilitado quando o andamento é de outro setor e o usuário não tem a permissão de sigilo (`RN33`).
+- P11 conta toda a base da avocação (`RN69`).
+- Gravar a decisão de juntada não altera a situação; a linha recebe o chip "Decisão salva" (`RN53`, `RN54`).
+- Tela 12 exige título, histórico e ao menos um arquivo; a nova solicitação mostra "Solicitação gravada com situação “Sem assinatura” — envie os arquivos à Central de Assinatura." (`RN22`, `RN85`, CA113).
+- O envio à Central de Assinatura aceita o chefe de setor e o criador da solicitação (`RN22`, `RA86`).
 
 - Artefato publicado: https://claude.ai/artifact/KUDM1VHPeChCHSJVm2DzfV
 - `Main.dc.html` — fonte do artboard (formato Design Component do canvas de design)

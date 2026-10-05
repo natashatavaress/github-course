@@ -487,7 +487,7 @@ textarea.input{height:auto;min-height:92px;padding:10px 12px;resize:vertical;lin
 <div style="overflow-x: auto" class="tbl">
 <div role="table" aria-label="Solicitações de autuação" style="min-width: 1670px">
 <div role="row" class="tr th g-aut">
-<span role="columnheader" class="nf"><input type="checkbox" class="cb" aria-label="Selecionar todas as solicitações da fila" checked="{{autAllChecked}}" onChange="{{autToggleAll}}"></span>
+<span role="columnheader" class="nf"><span class="sr">Seleção</span></span>
 <span role="columnheader">Origem</span>
 <span role="columnheader">Data</span>
 <span role="columnheader">Solicitante</span>
@@ -502,7 +502,7 @@ textarea.input{height:auto;min-height:92px;padding:10px 12px;resize:vertical;lin
 <sc-if value="{{autEmpty}}" hint-placeholder-val="{{false}}"><div style="padding: 40px 24px; text-align: center; font-weight: 500">Nenhuma solicitação de autuação encontrada.</div></sc-if>
 <sc-for list="{{autRows}}" as="a" hint-placeholder-count="6">
 <div role="row" class="tr g-aut {{a.cls}}">
-<span role="cell"><input type="checkbox" class="cb" aria-label="Selecionar solicitação {{a.titulo}}" checked="{{a.marked}}" onChange="{{a.toggleMark}}"></span>
+<span role="cell"><input type="checkbox" class="cb" aria-label="Selecionar solicitação {{a.titulo}}" disabled="{{a.markDisabled}}" title="{{a.markTitle}}" checked="{{a.marked}}" onChange="{{a.toggleMark}}"></span>
 <span role="cell" class="{{a.stripCls}}">{{a.origem}}</span>
 <span role="cell">{{a.data}}</span>
 <span role="cell" style="flex-direction: column; align-items: flex-start; justify-content: center; gap: 2px"><span>{{a.setorSol}}</span><span class="muted" style="font-size: 12px">{{a.usuario}}</span></span>
@@ -630,7 +630,7 @@ textarea.input{height:auto;min-height:92px;padding:10px 12px;resize:vertical;lin
 <span role="cell">{{j.setorSol}}</span>
 <span role="cell">{{j.usuario}}</span>
 <span role="cell">{{j.aprov}}</span>
-<span role="cell"><span class="{{j.sitCls}}">{{j.sitText}}</span></span>
+<span role="cell" style="flex-wrap: wrap; gap: 4px"><span class="{{j.sitCls}}">{{j.sitText}}</span><sc-if value="{{j.decSalva}}" hint-placeholder-val="{{false}}"><span class="chip c-neutral">Decisão salva</span></sc-if></span>
 <span role="cell">{{j.qtd}}</span>
 <span role="cell"><button type="button" class="{{j.btnCls}}" onClick="{{j.act}}">{{j.actLabel}}</button></span>
 </div>
@@ -816,7 +816,8 @@ textarea.input{height:auto;min-height:92px;padding:10px 12px;resize:vertical;lin
 <label class="field">Assunto<input class="input" disabled="{{true}}" value="Conforme regras de autuação (RF-025)"></label>
 <label class="field">Relator<input class="input" disabled="{{true}}" value="Definido por sorteio (RF-025)"></label>
 </div>
-<label class="check"><input type="checkbox" class="cb" role="switch" checked="{{dlg.sigilo}}" onChange="{{dlgTglSigilo}}">Habilitar sigilo</label>
+<label class="check"><input type="checkbox" class="cb" role="switch" disabled="{{dlg.sigiloDis}}" checked="{{dlg.sigilo}}" onChange="{{dlgTglSigilo}}">Habilitar sigilo</label>
+<sc-if value="{{dlg.sigiloDis}}" hint-placeholder-val="{{false}}"><span class="muted" style="font-size: 13px; margin-top: -10px">O andamento não pertence ao seu setor: habilitar sigilo exige a permissão correspondente (RN33).</span></sc-if>
 <sc-if value="{{dlg.confirmShort}}" hint-placeholder-val="{{false}}"><div class="alert a-warn" role="alert"><span style="font-weight: 500">O número do processo tem menos de 15 caracteres.</span><span>Confirme para gravar mesmo assim.</span></div></sc-if>
 </sc-if>
 
@@ -910,7 +911,15 @@ textarea.input{height:auto;min-height:92px;padding:10px 12px;resize:vertical;lin
 <sc-if value="{{dlgSol}}" hint-placeholder-val="{{false}}">
 <sc-if value="{{dlgSolEdit}}" hint-placeholder-val="{{false}}"><span>Origem: {{dlgSolOrigem}} · Situação: {{dlgSolSit}}</span></sc-if>
 <label class="field">Título/Resumo<input class="input" maxlength="100" value="{{dlg.titulo}}" onChange="{{dlgSetTitulo}}"><span style="font-size: 13px; align-self: flex-end">{{dlgTituloCount}}/100</span></label>
-<div class="alert a-info"><span>Os demais campos da solicitação seguem o requisito dono do cadastro, ainda a definir (questão 20 do PRD).</span></div>
+<label class="field">Histórico (obrigatório)<textarea class="input" value="{{dlg.historico}}" onChange="{{dlgSetHistorico}}"></textarea></label>
+<div class="field">Arquivos (ao menos um)
+<div class="tbl">
+<sc-if value="{{dlgSolSemArq}}" hint-placeholder-val="{{true}}"><div style="padding: 12px 16px; color: #5E676D">Nenhum arquivo incluído.</div></sc-if>
+<sc-for list="{{dlgSolArqs}}" as="f" hint-placeholder-count="1"><div role="row" class="tr g-arq"><span role="cell" style="text-transform: none">{{f.nome}}</span><span role="cell"><span class="chip c-neutral">{{f.fmt}}</span></span><span role="cell"><button type="button" class="lnk red" onClick="{{f.remover}}">Remover</button></span></div></sc-for>
+</div>
+<div><button type="button" class="btn btn-o btn-s" onClick="{{dlgAddArq}}">Incluir arquivo</button></div>
+</div>
+<div class="alert a-info"><span>Os metadados dos arquivos (tipo, número, ano, origem e descrição) e os demais campos seguem o requisito dono do cadastro, ainda a definir (questão 20 do PRD).</span></div>
 </sc-if>
 
 <sc-if value="{{dlgArq}}" hint-placeholder-val="{{false}}">
@@ -984,7 +993,7 @@ class Component extends DCLogic {
   user(pk) {
     const setor = 'Serviço de Análise de Atos de Pessoal';
     const all = {
-      chefe: { nome: 'Marina Costa', ini: 'MC', perfil: 'Chefe de setor', setor: setor, claims: { chefia: true, distribuir: true } },
+      chefe: { nome: 'Marina Costa', ini: 'MC', perfil: 'Chefe de setor', setor: setor, claims: { chefia: true, distribuir: true, sigilo: true } },
       analista: { nome: 'Rafael Nunes', ini: 'RN', perfil: 'Analista de setor', setor: setor, claims: {} },
       gabinete: { nome: 'Helena Prado', ini: 'HP', perfil: 'Gabinete de conselheiro', setor: 'Gabinete do Conselheiro Relator I', claims: { avocar: true, autorizarJuntada: true } },
       protocolo: { nome: 'Lívia Moraes', ini: 'LM', perfil: 'Protocolo', setor: 'SERV-PROTOCOLO (Setor 41)', claims: {} }
@@ -1058,7 +1067,7 @@ class Component extends DCLogic {
     const A = (id, origem, data, setorSol, usuario, titulo, sit, extra) =>
       Object.assign({ id: id, origem: origem, data: data, setorSol: setorSol, usuario: usuario, titulo: titulo, sit: sit, processo: '', arquivos: ['peticao.pdf'], sorteado: '', bloq: '', sort: '', pauta: false, central: false }, extra || {});
     const aut = [
-      A('a1', 'SEI', '25/09/2026', 'Protocolo Geral', 'Joana Lima', 'Representação — admissões sem concurso público', 'E', { arquivos: ['representacao.pdf', 'anexo1.pdf', 'anexo2.pdf', 'oficio.pdf'] }),
+      A('a1', 'SEI', '25/09/2026', 'Protocolo Geral', 'Joana Lima', 'Representação — admissões sem concurso público', 'E', { andamentoOutroSetor: true, arquivos: ['representacao.pdf', 'anexo1.pdf', 'anexo2.pdf', 'oficio.pdf'] }),
       A('a2', 'TCE-HUB', '26/09/2026', 'Secretaria de Estado da Saúde', 'Carlos Viana', 'Registro de admissões — processo seletivo 2026', 'E', { bloq: 'Lucas Andrade', arquivos: ['lista.pdf', 'edital.pdf'] }),
       A('a3', 'TCE-HUB', '26/09/2026', IPE, 'Bruna Alves', 'Aposentadorias — lote de setembro', 'E', { sort: 'Paula Mendes', sorteado: 'Paula Mendes' }),
       A('a4', 'SEI', '27/09/2026', 'Polícia Militar', 'Diego Souza', 'Reformas — lote 14/2026', 'S'),
@@ -1153,12 +1162,12 @@ class Component extends DCLogic {
     const tag = t => d.procs.filter(p => !p.parent && p.tags.indexOf(t) >= 0).length;
     const junSits = st.pk === 'gabinete' ? ['E', 'S'] : ['E', 'N'];
     return {
-      P01: d.aut.filter(a => a.sit === 'E' || a.sit === 'S' || (a.sit === 'A' && chefe)).length,
+      P01: d.aut.filter(a => a.sit === 'S' || (a.sit === 'A' && chefe)).length,
       P02: tag('P02'), P03: tag('P03'), P04: tag('P04'), P05: tag('P05'), P06: d.procs.filter(p => !p.parent && p.tags.indexOf('P06') >= 0 && p.resp === this.user(st.pk).nome).length, P07: tag('P07'),
       P08: d.ace.filter(c => !c.parent).length,
       P09: d.jun.filter(j => junSits.indexOf(j.sit) >= 0).length,
       P10: chefe ? d.prz.length : 0,
-      P11: d.avo.filter(v => v.dias >= 20).length,
+      P11: d.avo.length,
       P12: tag('P12')
     };
   }
@@ -1243,7 +1252,8 @@ class Component extends DCLogic {
     const so = sel.find(a => a.sort);
     if (so) return this.upd('aut', { msg: this.msg('error', 'Solicitação sorteada para o usuário ' + so.sort + '. Somente esse usuário pode autuá-la.', [so.titulo]) });
     this.upd('aut', { msg: null });
-    this.setState({ dialog: { kind: 'autuar', ids: sel.map(a => a.id), numero: '202600047000' + String(640 + Math.floor(Math.random() * 300)), sigilo: false, confirmShort: false, errs: [] } });
+    const u = this.user(s.pk), outro = sel.some(a => a.andamentoOutroSetor);
+    this.setState({ dialog: { kind: 'autuar', ids: sel.map(a => a.id), numero: '202600047000' + String(640 + Math.floor(Math.random() * 300)), sigilo: false, sigiloDis: outro && !u.claims.sigilo, confirmShort: false, errs: [] } });
   }
   autSalvar() {
     const dl = this.state.dialog;
@@ -1267,22 +1277,30 @@ class Component extends DCLogic {
   autEnviarCentral() {
     const s = this.state, A = s.aut;
     const all = s.data.aut.filter(a => A.marks[a.id]);
-    const marked = all.filter(a => a.sit === 'A' && !a.central && s.pk === 'chefe');
+    const u = this.user(s.pk);
+    const marked = all.filter(a => a.sit === 'A' && !a.central && (s.pk === 'chefe' || a.usuario === u.nome));
     if (!all.length) return this.upd('aut', { msg: this.msg('warn', 'Nenhuma solicitação selecionada.') });
-    if (!marked.length) return this.upd('aut', { msg: this.msg('warn', 'Somente solicitações sem assinatura podem ser enviadas à Central de Assinatura, pelo chefe de setor.') });
+    if (!marked.length) return this.upd('aut', { msg: this.msg('warn', 'Somente solicitações sem assinatura podem ser enviadas à Central de Assinatura, pelo chefe de setor ou pelo criador da solicitação.') });
     if (this.props && this.props.simularFalha) return this.upd('aut', { msg: this.msg('error', 'Central de Assinatura indisponível (TCE Docs). O envio não ocorreu; a pendência permanece sem alteração.') });
     const naoPdf = [];
     marked.forEach(a => a.arquivos.forEach(f => { if (!/\.pdf$/i.test(f)) naoPdf.push(a.titulo + ': ' + f); }));
     this.mut(d => { d.aut.forEach(a => { if (marked.some(m => m.id === a.id)) a.central = true; }); });
     this.upd('aut', { marks: {}, msg: this.msg('info', marked.length + ' solicitação(ões) enviada(s) à Central de Assinatura. ' + (naoPdf.length ? 'Anexos não enviados (formato diferente de PDF):' : 'Todos os anexos estavam em PDF.'), naoPdf) });
   }
+  markable(a) {
+    const s = this.state, chefe = s.pk === 'chefe', u = this.user(s.pk);
+    if (a.central) return false;
+    if (a.sit === 'A') return chefe || a.usuario === u.nome;
+    if (a.sit === 'S') return true;
+    if (a.sit === 'E') return true;
+    return false;
+  }
   autMarcar(modo) {
-    const s = this.state, chefe = s.pk === 'chefe';
     const marks = {};
     this.visibleAut().forEach(a => {
-      if (a.central) return;
-      if (modo === 'assinatura' && a.sit === 'A' && chefe) marks[a.id] = true;
-      if (modo === 'envio' && (a.sit === 'S' || (a.sit === 'A' && chefe))) marks[a.id] = true;
+      if (!this.markable(a)) return;
+      if (modo === 'assinatura' && a.sit === 'A') marks[a.id] = true;
+      if (modo === 'envio' && a.sit !== 'E') marks[a.id] = true;
     });
     this.upd('aut', { modo: modo, marks: marks, msg: null });
   }
@@ -1298,13 +1316,16 @@ class Component extends DCLogic {
   }
   solSalvar() {
     const dl = this.state.dialog, u = this.user(this.state.pk);
-    const t = (dl.titulo || '').trim();
-    if (!t) return this.setDlg({ errs: ['Informe o título/resumo da solicitação.'] });
-    if (dl.id) this.mut(d => { d.aut.find(x => x.id === dl.id).titulo = t; }, () => this.refresh());
-    else this.mut(d => { d.aut.unshift({ id: 'n' + Date.now(), origem: 'eTCE', data: this.fmt(this.today()), setorSol: u.setor, usuario: u.nome, titulo: t, sit: 'A', processo: '', arquivos: [], sorteado: '', bloq: '', sort: '', pauta: false, central: false }); }, () => this.refresh());
+    const t = (dl.titulo || '').trim(), errs = [];
+    if (!t) errs.push('Informe o título/resumo da solicitação.');
+    if (!(dl.historico || '').trim()) errs.push('Informe o histórico da solicitação.');
+    if (!(dl.arquivos || []).length) errs.push('Inclua ao menos um arquivo.');
+    if (errs.length) return this.setDlg({ errs: errs });
+    if (dl.id) this.mut(d => { const x = d.aut.find(y => y.id === dl.id); x.titulo = t; x.historico = dl.historico; x.arquivos = dl.arquivos.slice(); }, () => this.refresh());
+    else this.mut(d => { d.aut.unshift({ id: 'n' + Date.now(), origem: 'eTCE', data: this.fmt(this.today()), setorSol: u.setor, usuario: u.nome, titulo: t, historico: dl.historico, sit: 'A', processo: '', arquivos: dl.arquivos.slice(), sorteado: '', bloq: '', sort: '', pauta: false, central: false }); }, () => this.refresh());
     if (!dl.id) this.upd('aut', { fA: true });
     this.setState({ dialog: null });
-    this.toast(dl.id ? 'Solicitação gravada.' : 'Solicitação gravada com situação "Sem assinatura" — aguarda a assinatura da chefia.');
+    this.toast(dl.id ? 'Solicitação gravada.' : 'Solicitação gravada com situação “Sem assinatura” — envie os arquivos à Central de Assinatura.');
   }
 
   rejeitarSolicitacao() {
@@ -1392,7 +1413,7 @@ class Component extends DCLogic {
     if (!dl.dec) errs.push('Escolha uma das ações ao lado…');
     if (errs.length) return this.setDlg({ errs: errs });
     if (this.props && this.props.simularFalha) return this.setDlg({ errs: ['Inconsistência devolvida pelo back-end: o termo de deferimento não pôde ser gerado (modelo indisponível).'] });
-    this.mut(d => { const j = d.jun.find(x => x.id === dl.id); j.sit = dl.dec === 'sim' ? 'A' : 'R'; j.decisao = { dec: dl.dec, desc: dl.desc, just: dl.just, docs: dl.docs }; }, () => this.refresh());
+    this.mut(d => { const j = d.jun.find(x => x.id === dl.id); j.decSalva = true; j.decisao = { dec: dl.dec, desc: dl.desc, just: dl.just, docs: dl.docs }; }, () => this.refresh());
     this.setDlg({ saved: true, errs: [] });
     this.toast('Decisão salva');
   }
@@ -1609,8 +1630,8 @@ class Component extends DCLogic {
         sitText: sitA[a.sit][0], sitCls: 'chip ' + sitA[a.sit][1], flags: flags, noFlags: flags.length === 0,
         processo: a.processo || '—', qtdArq: String(a.arquivos.length), sorteado: a.sorteado || '—',
         actLabel: ['SEI', 'Atos de Pessoal', 'LRF', 'Tomada de Contas'].indexOf(a.origem) >= 0 ? 'Visualizar arquivos' : 'Abrir solicitação',
-        act: ['SEI', 'Atos de Pessoal', 'LRF', 'Tomada de Contas'].indexOf(a.origem) >= 0 ? () => this.setState({ dialog: { kind: 'arquivos', id: a.id, rejecting: false, motivo: '', errs: [] } }) : () => this.setState({ dialog: { kind: 'solicitacao', id: a.id, titulo: a.titulo, errs: [] } }),
-        marked: !!A.marks[a.id],
+        act: ['SEI', 'Atos de Pessoal', 'LRF', 'Tomada de Contas'].indexOf(a.origem) >= 0 ? () => this.setState({ dialog: { kind: 'arquivos', id: a.id, rejecting: false, motivo: '', errs: [] } }) : () => this.setState({ dialog: { kind: 'solicitacao', id: a.id, titulo: a.titulo, historico: a.historico || 'Solicitação registrada pelo setor de origem para autuação.', arquivos: a.arquivos.slice(), errs: [] } }),
+        marked: !!A.marks[a.id], markDisabled: !this.markable(a), markTitle: this.markable(a) ? '' : 'Situação não marcável para o seu perfil (RN27)',
         cls: A.marks[a.id] ? 'sel' : (hot ? 'hot' : (a.sit === 'C' ? 'done' : '')),
         stripCls: hot ? 'strip-red' : 'strip-gray',
         toggleMark: () => this.upd('aut', { modo: null, marks: Object.assign({}, this.state.aut.marks, { [a.id]: !this.state.aut.marks[a.id] }) })
@@ -1658,7 +1679,7 @@ class Component extends DCLogic {
       const ver = j.sit === 'A' || j.sit === 'R';
       return {
         processo: j.processo, titulo: j.titulo, data: j.data, relator: j.relator, setorSol: j.setorSol, usuario: j.usuario, aprov: j.aprov,
-        sitText: sitJ[j.sit][0], sitCls: 'chip ' + sitJ[j.sit][1], qtd: String(j.docs.length),
+        sitText: sitJ[j.sit][0], sitCls: 'chip ' + sitJ[j.sit][1], qtd: String(j.docs.length), decSalva: !!j.decSalva,
         cls: j.sit === 'R' ? 'hot' : '', stripCls: j.sit === 'R' ? 'strip-red' : 'strip-gray',
         actLabel: decide ? 'Decidir juntada' : (ver ? 'Ver decisão' : 'Consultar'),
         btnCls: decide ? 'btn btn-s' : 'btn btn-o btn-s',
@@ -1824,7 +1845,7 @@ class Component extends DCLogic {
       autSetDestino: () => this.upd('aut', { fila: 'destino' }), autSetOrigem: () => this.upd('aut', { fila: 'origem' }),
       autSetOrigemSetor: e => this.upd('aut', { origemSetor: e.target.value }), autTglSei: () => this.upd('aut', { sei: !this.state.aut.sei, origemSetor: '' }),
       autAtualizar: () => { this.setState({ autUpd: new Date() }); this.refresh(); },
-      autNova: () => this.setState({ dialog: { kind: 'solicitacao', id: null, titulo: '', errs: [] } }),
+      autNova: () => this.setState({ dialog: { kind: 'solicitacao', id: null, titulo: '', historico: '', arquivos: [], errs: [] } }),
       autProsseguir: () => this.autProsseguir(), autEnviarSel: () => this.autEnviarSel(), autEnviarCentral: () => this.autEnviarCentral(),
 
       /* aceite */
@@ -1901,6 +1922,10 @@ class Component extends DCLogic {
       dlgMaxW: k === 'juntada' ? '1160px' : '700px',
       dlgDevText: k === 'devolver' ? (dl.numeros.length === 1 ? 'Processo ' + dl.numeros[0] + ' será devolvido ao setor de origem.' : dl.numeros.length + ' processos serão devolvidos ao setor de origem: ' + dl.numeros.join(', ') + '.') : '',
       dlgSol: k === 'solicitacao', dlgSolEdit: !!solA, dlgSolOrigem: solA ? solA.origem : '', dlgSolSit: solA ? sitA[solA.sit][0] : '',
+      dlgSetHistorico: e => this.setDlg({ historico: e.target.value }),
+      dlgSolSemArq: k === 'solicitacao' && !(dl.arquivos || []).length,
+      dlgSolArqs: k === 'solicitacao' ? (dl.arquivos || []).map((f, i) => ({ nome: f, fmt: (f.split('.').pop() || '').toUpperCase(), remover: () => this.setDlg({ arquivos: this.state.dialog.arquivos.filter((x, j) => j !== i) }) })) : [],
+      dlgAddArq: () => { const n = (this.state.dialog.arquivos || []).length + 1; this.setDlg({ arquivos: (this.state.dialog.arquivos || []).concat(['documento_' + n + '.pdf']) }); },
       dlgSetTitulo: e => this.setDlg({ titulo: e.target.value.slice(0, 100) }), dlgTituloCount: String((dl.titulo || '').length),
       dlgJustRest: String(1000 - (dl.just || '').length),
       dlgDescSol: k === 'juntada' ? ((d.jun.find(x => x.id === dl.id) || {}).descSol || '') : '',

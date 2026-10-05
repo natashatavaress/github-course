@@ -100,6 +100,7 @@ a{color:#1E78BE}a:hover{color:#155A90}
 .g-prz{grid-template-columns:56px 210px 140px 140px 120px 104px 100px 100px 124px 124px 140px 120px}
 .g-avo{grid-template-columns:56px 210px 210px 120px 120px 1.2fr 1.2fr 130px 1.3fr 140px 190px 110px}
 .g-ass{grid-template-columns:220px 1.5fr 1.3fr 160px}
+.g-solarq{grid-template-columns:48px 220px 1.3fr 1.3fr 110px 150px 90px 80px 150px 110px}
 .g-doc{grid-template-columns:48px 1fr 110px 76px}
 .g-pr2{grid-template-columns:1fr 80px 1.3fr 120px}
 .g-arq{grid-template-columns:1fr 110px 140px}
@@ -909,17 +910,65 @@ textarea.input{height:auto;min-height:92px;padding:10px 12px;resize:vertical;lin
 </sc-if>
 
 <sc-if value="{{dlgSol}}" hint-placeholder-val="{{false}}">
-<sc-if value="{{dlgSolEdit}}" hint-placeholder-val="{{false}}"><span>Origem: {{dlgSolOrigem}} · Situação: {{dlgSolSit}}</span></sc-if>
-<label class="field">Título/Resumo<input class="input" maxlength="100" value="{{dlg.titulo}}" onChange="{{dlgSetTitulo}}"><span style="font-size: 13px; align-self: flex-end">{{dlgTituloCount}}/100</span></label>
-<label class="field">Histórico (obrigatório)<textarea class="input" value="{{dlg.historico}}" onChange="{{dlgSetHistorico}}"></textarea></label>
-<div class="field">Arquivos (ao menos um)
-<div class="tbl">
-<sc-if value="{{dlgSolSemArq}}" hint-placeholder-val="{{true}}"><div style="padding: 12px 16px; color: #5E676D">Nenhum arquivo incluído.</div></sc-if>
-<sc-for list="{{dlgSolArqs}}" as="f" hint-placeholder-count="1"><div role="row" class="tr g-arq"><span role="cell" style="text-transform: none">{{f.nome}}</span><span role="cell"><span class="chip c-neutral">{{f.fmt}}</span></span><span role="cell"><button type="button" class="lnk red" onClick="{{f.remover}}">Remover</button></span></div></sc-for>
+<span style="font-size: 14px; color: #3D4448">{{solIdent}}</span>
+<sc-if value="{{solHasMsg}}" hint-placeholder-val="{{false}}"><div class="{{solMsg.cls}}" role="alert"><span style="font-weight: 500">{{solMsg.text}}</span><sc-for list="{{solMsg.items}}" as="m" hint-placeholder-count="0"><span>• {{m.t}}</span></sc-for></div></sc-if>
+<sc-if value="{{solShowSimular}}" hint-placeholder-val="{{false}}"><div class="alert a-info"><span>Há arquivos na Central de Assinatura aguardando assinatura. A situação passa a “Assinada” quando o Portal de Assinatura concluir a assinatura.</span><button type="button" class="lnk" style="align-self: flex-start; min-height: 32px; padding: 0" onClick="{{solSimularAss}}">Simular assinatura concluída no Portal (protótipo)</button></div></sc-if>
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 16px">
+<label class="field">Título/Resumo (obrigatório)<input class="input" maxlength="100" disabled="{{solRO}}" value="{{dlg.titulo}}" onChange="{{solSetTitulo}}"><span style="font-size: 13px; align-self: flex-end">{{solRestantes}} caracteres restantes</span></label>
+<label class="field">Histórico (obrigatório)<textarea class="input" disabled="{{solRO}}" value="{{dlg.historico}}" onChange="{{solSetHistorico}}"></textarea></label>
 </div>
-<div><button type="button" class="btn btn-o btn-s" onClick="{{dlgAddArq}}">Incluir arquivo</button></div>
+<div style="display: flex; align-items: center; gap: 8px 16px; flex-wrap: wrap">
+<span class="card-s">Arquivos</span>
+<div style="flex-grow: 1"></div>
+<sc-if value="{{solEditavel}}" hint-placeholder-val="{{true}}">
+<input id="sol-files" class="sr" type="file" multiple="{{true}}" onChange="{{solFilesPicked}}">
+<label for="sol-files" class="btn btn-o btn-s">Adicionar arquivos</label>
+<button type="button" class="btn btn-t btn-s" onClick="{{solExemplo}}">Incluir arquivos de exemplo (simulação)</button>
+<button type="button" class="lnk red" disabled="{{solRemDis}}" onClick="{{solRemover}}">Remover arquivo</button>
+</sc-if>
 </div>
-<div class="alert a-info"><span>Os metadados dos arquivos (tipo, número, ano, origem e descrição) e os demais campos seguem o requisito dono do cadastro, ainda a definir (questão 20 do PRD).</span></div>
+<div style="overflow-x: auto" class="tbl">
+<div role="table" aria-label="Arquivos da solicitação" style="min-width: 1240px">
+<div role="row" class="tr th g-solarq"><span role="columnheader" class="nf"><span class="sr">Seleção</span></span><span role="columnheader" class="nf">Assinatura</span><span role="columnheader" class="nf">Descrição</span><span role="columnheader" class="nf">Nome do arquivo</span><span role="columnheader" class="nf">Data do arquivo</span><span role="columnheader" class="nf">Tipo de documento</span><span role="columnheader" class="nf">Nº documento</span><span role="columnheader" class="nf">Ano documento</span><span role="columnheader" class="nf">Origem documento</span><span role="columnheader" class="nf"><span class="sr">Ação</span></span></div>
+<sc-if value="{{solSemArq}}" hint-placeholder-val="{{true}}"><div style="padding: 20px; text-align: center; color: #5E676D">Adicione ao menos um arquivo.</div></sc-if>
+<sc-for list="{{solFiles}}" as="f" hint-placeholder-count="2">
+<div role="row" class="tr g-solarq {{f.cls}}">
+<span role="cell"><input type="checkbox" class="cb" aria-label="Selecionar arquivo {{f.nome}}" disabled="{{solRO}}" checked="{{f.sel}}" onChange="{{f.toggle}}"></span>
+<span role="cell" style="flex-wrap: wrap; gap: 4px"><span class="{{f.assCls}}">{{f.ass}}</span><sc-for list="{{f.tags}}" as="t" hint-placeholder-count="0"><span class="{{t.cls}}">{{t.t}}</span></sc-for></span>
+<span role="cell" style="text-transform: none">{{f.desc}}</span>
+<span role="cell" style="text-transform: none">{{f.nome}}</span>
+<span role="cell">{{f.data}}</span>
+<span role="cell">{{f.tipo}}</span>
+<span role="cell">{{f.num}}</span>
+<span role="cell">{{f.ano}}</span>
+<span role="cell">{{f.origem}}</span>
+<span role="cell"><button type="button" class="btn btn-t btn-s" onClick="{{f.ver}}">Visualizar</button></span>
+</div>
+</sc-for>
+</div>
+</div>
+<fieldset disabled="{{solInfoDis}}" style="margin: 0; padding: 12px 16px 16px; border: 1px solid #D5DADE; border-radius: 4px; display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px 16px; align-items: end">
+<legend style="padding: 0 6px; font: 600 13px 'Poppins',sans-serif; color: #3D4448">{{solInfoTitulo}}</legend>
+<label class="field">Tipo do documento
+<select class="input" value="{{dlg.info.tipo}}" onChange="{{solInfoTipo}}">
+<option value="">Selecione</option>
+<option value="Ofício">Ofício</option>
+<option value="Petição">Petição</option>
+<option value="Relatório">Relatório</option>
+<option value="Planilha">Planilha</option>
+<option value="Certidão">Certidão</option>
+<option value="Documento diverso">Documento diverso</option>
+</select>
+</label>
+<sc-if value="{{solInfoSingle}}" hint-placeholder-val="{{true}}"><label class="field">Nº documento<input class="input" inputmode="numeric" value="{{dlg.info.num}}" onChange="{{solInfoNum}}"></label></sc-if>
+<sc-if value="{{solInfoSingle}}" hint-placeholder-val="{{true}}"><label class="field">Ano documento<input class="input" inputmode="numeric" maxlength="4" value="{{dlg.info.ano}}" onChange="{{solInfoAno}}"></label></sc-if>
+<label class="field">Origem documento<input class="input" list="dl-orig-doc" maxlength="25" placeholder="Pesquisar setor" value="{{dlg.info.origem}}" onChange="{{solInfoOrigem}}"></label>
+<label class="field" style="grid-column: span 2">Descrição do objetivo do documento<input class="input" maxlength="250" value="{{dlg.info.desc}}" onChange="{{solInfoDesc}}"></label>
+<sc-if value="{{solInfoSingle}}" hint-placeholder-val="{{true}}"><label class="field">Nome do arquivo<input class="input" disabled="{{true}}" value="{{solInfoNome}}"></label></sc-if>
+<div style="display: flex; gap: 8px; justify-content: flex-end"><button type="button" class="btn btn-t btn-s" onClick="{{solInfoLimpar}}">Limpar</button><button type="button" class="btn btn-o btn-s" onClick="{{solInfoAplicar}}">Aplicar ao arquivo</button></div>
+</fieldset>
+<datalist id="dl-orig-doc"><option value="SAAP"></option><option value="SERV-PROTOCOLO"></option><option value="GCR-I"></option><option value="SEC-SAUDE"></option><option value="IPE"></option></datalist>
+<sc-if value="{{dlg.rejeitando}}" hint-placeholder-val="{{false}}"><label class="field">Motivo da rejeição (obrigatório)<textarea class="input" value="{{dlg.motivo}}" onChange="{{solSetMotivo}}"></textarea></label></sc-if>
 </sc-if>
 
 <sc-if value="{{dlgArq}}" hint-placeholder-val="{{false}}">
@@ -948,12 +997,28 @@ textarea.input{height:auto;min-height:92px;padding:10px 12px;resize:vertical;lin
 </sc-if>
 
 </div>
+<sc-if value="{{dlgSol}}" hint-placeholder-val="{{false}}">
+<div style="display: flex; flex-wrap: wrap; gap: 12px; justify-content: flex-end; padding: 4px 24px 24px">
+<sc-for list="{{solBtns}}" as="b" hint-placeholder-count="3"><button type="button" class="{{b.cls}}" onClick="{{b.go}}">{{b.label}}</button></sc-for>
+</div>
+</sc-if>
+<sc-if value="{{dlgNotSol}}" hint-placeholder-val="{{true}}">
 <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 16px; padding: 4px 24px 24px">
 <button type="button" class="btn btn-o btn-w" onClick="{{closeDlg}}">{{dlgCancelLabel}}</button>
 <sc-if value="{{dlgShowSec}}" hint-placeholder-val="{{false}}"><button type="button" class="btn btn-o btn-w" disabled="{{dlgSecDis}}" onClick="{{dlgSec}}">{{dlgSecLabel}}</button></sc-if>
 <sc-if value="{{dlgShowPri}}" hint-placeholder-val="{{true}}"><button type="button" class="{{dlgPriCls}}" onClick="{{dlgPri}}">{{dlgPriLabel}}</button></sc-if>
 </div>
+</sc-if>
 </div>
+<sc-if value="{{solHasConfirm}}" hint-placeholder-val="{{false}}">
+<div style="position: fixed; inset: 0; background: rgba(20,28,36,.45); z-index: 70; display: flex; align-items: center; justify-content: center; padding: 16px">
+<div role="alertdialog" aria-modal="true" aria-label="Confirmação" class="card" style="width: 100%; max-width: 540px; padding: 20px 24px; display: flex; flex-direction: column; gap: 10px; box-shadow: 0 24px 60px rgba(10,20,30,.35)">
+<span style="font-weight: 500; font-size: 15px">{{solConfirm.texto}}</span>
+<sc-for list="{{solConfirm.itens}}" as="i" hint-placeholder-count="0"><span style="font-size: 14px">• {{i.t}}</span></sc-for>
+<div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; margin-top: 8px"><button type="button" class="btn btn-o btn-w" onClick="{{solConfirmNao}}">Não</button><button type="button" class="btn btn-w" onClick="{{solConfirmSim}}">Sim</button></div>
+</div>
+</div>
+</sc-if>
 </div>
 </sc-if>
 
@@ -993,10 +1058,10 @@ class Component extends DCLogic {
   user(pk) {
     const setor = 'Serviço de Análise de Atos de Pessoal';
     const all = {
-      chefe: { nome: 'Marina Costa', ini: 'MC', perfil: 'Chefe de setor', setor: setor, claims: { chefia: true, distribuir: true, sigilo: true } },
-      analista: { nome: 'Rafael Nunes', ini: 'RN', perfil: 'Analista de setor', setor: setor, claims: {} },
-      gabinete: { nome: 'Helena Prado', ini: 'HP', perfil: 'Gabinete de conselheiro', setor: 'Gabinete do Conselheiro Relator I', claims: { avocar: true, autorizarJuntada: true } },
-      protocolo: { nome: 'Lívia Moraes', ini: 'LM', perfil: 'Protocolo', setor: 'SERV-PROTOCOLO (Setor 41)', claims: {} }
+      chefe: { nome: 'Marina Costa', sigla: 'SAAP', ini: 'MC', perfil: 'Chefe de setor', setor: setor, claims: { chefia: true, distribuir: true, sigilo: true } },
+      analista: { nome: 'Rafael Nunes', sigla: 'SAAP', ini: 'RN', perfil: 'Analista de setor', setor: setor, claims: {} },
+      gabinete: { nome: 'Helena Prado', sigla: 'GCR-I', ini: 'HP', perfil: 'Gabinete de conselheiro', setor: 'Gabinete do Conselheiro Relator I', claims: { avocar: true, autorizarJuntada: true } },
+      protocolo: { nome: 'Lívia Moraes', sigla: 'SERV-PROTOCOLO', ini: 'LM', perfil: 'Protocolo', setor: 'SERV-PROTOCOLO (Setor 41)', claims: {} }
     };
     return all[pk];
   }
@@ -1314,18 +1379,197 @@ class Component extends DCLogic {
     }
     return v;
   }
+  /* ---------- Tela 12 · Solicitação de Autuação (RN89–RN102) ---------- */
+  solFilesOf(a) {
+    if (a.files) return JSON.parse(JSON.stringify(a.files));
+    const ass = ['S', 'E', 'C'].indexOf(a.sit) >= 0 ? 'Assinado' : 'Aguardando assinatura';
+    return (a.arquivos || []).map((n, i) => ({ id: a.id + '-f' + i, nome: n, desc: n, tipo: 'Ofício', num: '', ano: '2026', origem: 'SEC-SAUDE', data: a.data, ass: ass, central: !!a.central && /\.pdf$/i.test(n), novo: false, excluir: false, alterado: false }));
+  }
+  solBlank() { return { tipo: '', num: '', ano: '', origem: this.user(this.state.pk).sigla, desc: '' }; }
+  solNova() {
+    this.setState({ dialog: { kind: 'solicitacao', id: null, titulo: '', historico: '', files: [], sel: {}, info: this.solBlank(), msg: null, confirm: null, rejeitando: false, motivo: '', errs: [] } });
+  }
+  solAbrir(id) {
+    const a = this.state.data.aut.find(x => x.id === id);
+    this.setState({ dialog: { kind: 'solicitacao', id: id, titulo: a.titulo, historico: a.historico || 'Solicitação registrada pelo setor de origem para autuação.', files: this.solFilesOf(a), sel: {}, info: this.solBlank(), msg: null, confirm: null, rejeitando: false, motivo: '', errs: [] } });
+  }
+  solSit() { const dl = this.state.dialog; const a = dl.id ? this.state.data.aut.find(x => x.id === dl.id) : null; return a ? a.sit : 'N'; }
+  solDirty() { const dl = this.state.dialog; return !dl.id && !!((dl.titulo || '').trim() || (dl.historico || '').trim() || dl.files.length); }
+  solMsg(tone, text, items) { this.setDlg({ msg: this.msg(tone, text, items) }); }
+  solAsk(tipo, texto, itens) { this.setDlg({ confirm: { tipo: tipo, texto: texto, itens: (itens || []).map(t => ({ t: t })) } }); }
+  solFechar() { if (this.solDirty()) return this.solAsk('fechar', 'As informações não salvas serão perdidas. Deseja continuar?'); this.setState({ dialog: null }); this.refresh(); }
+  solNovaBtn() { if (this.solDirty()) return this.solAsk('nova', 'As informações não salvas serão perdidas. Deseja continuar?'); this.solNova(); }
+  solToggle(fid) {
+    const dl = this.state.dialog, sel = Object.assign({}, dl.sel, { [fid]: !dl.sel[fid] });
+    const ids = Object.keys(sel).filter(k => sel[k]);
+    let info = this.solBlank();
+    if (ids.length === 1) { const f = dl.files.find(x => x.id === ids[0]); info = { tipo: f.tipo, num: f.num, ano: f.ano, origem: f.origem, desc: f.desc }; }
+    else if (ids.length > 1) info = { tipo: '', num: '', ano: '', origem: '', desc: '' };
+    this.setDlg({ sel: sel, info: info });
+  }
+  solAdd(list) {
+    const dl = this.state.dialog;
+    for (const f of list) {
+      const ext = (f.name.split('.').pop() || '').toLowerCase();
+      let err = '';
+      if (['exe', 'bat', 'iso'].indexOf(ext) >= 0) err = 'O arquivo "' + f.name + '" não é permitido (extensões .exe, .bat e .iso).';
+      else if (f.name.length >= 200) err = 'O nome do arquivo "' + f.name.slice(0, 40) + '…" tem 200 caracteres ou mais.';
+      else if (ext === 'pdf' && f.size > 100 * 1024 * 1024) err = 'O arquivo PDF "' + f.name + '" tem mais de 100 MB.';
+      else if (dl.files.some(x => x.nome === f.name)) err = 'O arquivo "' + f.name + '" já está na solicitação.';
+      if (err) return this.solMsg('error', 'Nenhum arquivo foi incluído.', [err]);
+    }
+    const origem = dl.info.origem || this.user(this.state.pk).sigla, hoje = this.fmt(this.today());
+    const novos = list.map((f, i) => ({ id: 'nf' + Date.now() + i, nome: f.name, desc: f.name, tipo: '', num: '', ano: '', origem: origem, data: hoje, ass: 'Aguardando assinatura', central: false, novo: true, excluir: false, alterado: false }));
+    this.setDlg({ files: dl.files.concat(novos), msg: this.msg('info', this.plural(novos.length, 'arquivo incluído', 'arquivos incluídos') + '. Preencha o tipo do documento em “Informações do arquivo”.') });
+  }
+  solRemover() {
+    const dl = this.state.dialog, sel = dl.files.filter(f => dl.sel[f.id]);
+    if (!sel.length) return;
+    this.solAsk('remover', 'Remover os arquivos selecionados?', sel.map(f => f.nome + (f.excluir ? ' — desfazer a marcação de exclusão' : (f.central && f.ass !== 'Assinado' ? ' — será retirado da Central de Assinatura' : (f.novo ? '' : ' — será excluído ao salvar')))));
+  }
+  solDo_remover() {
+    const dl = this.state.dialog;
+    const files = dl.files.filter(f => !(dl.sel[f.id] && f.novo)).map(f => dl.sel[f.id] ? Object.assign({}, f, { excluir: !f.excluir, central: f.ass === 'Assinado' ? f.central : false }) : f);
+    this.setDlg({ files: files, sel: {}, info: this.solBlank(), msg: null });
+  }
+  solInfoAplicar() {
+    const dl = this.state.dialog, ids = Object.keys(dl.sel).filter(k => dl.sel[k]), I = dl.info;
+    if (!ids.length) return;
+    if (ids.length > 1) return this.solAsk('massa', 'Esta ação irá modificar as informações para todos os arquivos selecionados…', ids.map(id => dl.files.find(f => f.id === id).nome));
+    const errs = [];
+    if (!I.tipo) errs.push('Informe o tipo do documento.');
+    if (!(I.origem || '').trim()) errs.push('Informe a origem do documento.');
+    if (!(I.desc || '').trim()) errs.push('Informe a descrição do objetivo do documento.');
+    if (I.num && !/^\d+$/.test(I.num)) errs.push('O número do documento aceita só dígitos.');
+    if (I.ano && !/^\d{1,4}$/.test(I.ano)) errs.push('O ano do documento aceita até 4 dígitos.');
+    if (errs.length) return this.solMsg('error', 'As informações do arquivo não foram aplicadas.', errs);
+    this.setDlg({ files: dl.files.map(f => f.id === ids[0] ? Object.assign({}, f, { tipo: I.tipo, num: I.num, ano: I.ano, origem: I.origem.trim(), desc: I.desc.trim(), alterado: !f.novo }) : f), msg: this.msg('success', 'Informações aplicadas ao arquivo. Elas serão gravadas ao salvar a solicitação.') });
+  }
+  solDo_massa() {
+    const dl = this.state.dialog, I = dl.info;
+    this.setDlg({ files: dl.files.map(f => {
+      if (!dl.sel[f.id]) return f;
+      const ch = {};
+      if (I.tipo) ch.tipo = I.tipo;
+      if ((I.origem || '').trim()) ch.origem = I.origem.trim();
+      if ((I.desc || '').trim()) ch.desc = I.desc.trim();
+      return Object.assign({}, f, ch, { alterado: !f.novo });
+    }), msg: this.msg('success', 'Informações aplicadas aos arquivos selecionados.') });
+  }
   solSalvar() {
+    const dl = this.state.dialog, errs = [];
+    const ativos = dl.files.filter(f => !f.excluir);
+    if (!(dl.titulo || '').trim()) errs.push('O título da solicitação deve ser informado.');
+    if (!(dl.historico || '').trim()) errs.push('O histórico da solicitação deve ser informado.');
+    if (!ativos.length) errs.push('Pelo menos um documento deve ser inserido.');
+    if (ativos.some(f => !f.tipo || !f.origem || !f.nome || !f.desc)) errs.push('Um ou mais arquivos não estão com todas as informações preenchidas. Corrija antes de continuar!');
+    if (errs.length) return this.solMsg('error', 'A solicitação não foi gravada.', errs);
+    const itens = [];
+    dl.files.forEach(f => { if (f.excluir) itens.push('Exclusão: ' + f.nome); else if (f.novo) itens.push('Inclusão: ' + f.nome); else if (f.alterado) itens.push('Atualização: ' + f.nome); });
+    this.solAsk('salvar', 'Confirma a gravação da solicitação?', itens);
+  }
+  solDo_salvar() {
     const dl = this.state.dialog, u = this.user(this.state.pk);
-    const t = (dl.titulo || '').trim(), errs = [];
-    if (!t) errs.push('Informe o título/resumo da solicitação.');
-    if (!(dl.historico || '').trim()) errs.push('Informe o histórico da solicitação.');
-    if (!(dl.arquivos || []).length) errs.push('Inclua ao menos um arquivo.');
-    if (errs.length) return this.setDlg({ errs: errs });
-    if (dl.id) this.mut(d => { const x = d.aut.find(y => y.id === dl.id); x.titulo = t; x.historico = dl.historico; x.arquivos = dl.arquivos.slice(); }, () => this.refresh());
-    else this.mut(d => { d.aut.unshift({ id: 'n' + Date.now(), origem: 'eTCE', data: this.fmt(this.today()), setorSol: u.setor, usuario: u.nome, titulo: t, historico: dl.historico, sit: 'A', processo: '', arquivos: dl.arquivos.slice(), sorteado: '', bloq: '', sort: '', pauta: false, central: false }); }, () => this.refresh());
-    if (!dl.id) this.upd('aut', { fA: true });
-    this.setState({ dialog: null });
-    this.toast(dl.id ? 'Solicitação gravada.' : 'Solicitação gravada com situação “Sem assinatura” — envie os arquivos à Central de Assinatura.');
+    const files = dl.files.filter(f => !f.excluir).map(f => Object.assign({}, f, { novo: false, alterado: false }));
+    const novo = !dl.id, id = dl.id || 'n' + Date.now();
+    this.mut(d => {
+      if (novo) d.aut.unshift({ id: id, origem: 'Estação Digital', data: this.fmt(this.today()), setorSol: u.setor, usuario: u.nome, titulo: dl.titulo.trim(), historico: dl.historico.trim(), sit: 'A', processo: '', arquivos: files.map(f => f.nome), files: files, sorteado: '', bloq: '', sort: '', pauta: false, central: false });
+      else { const x = d.aut.find(y => y.id === id); x.titulo = dl.titulo.trim(); x.historico = dl.historico.trim(); x.files = files; x.arquivos = files.map(f => f.nome); x.central = files.some(f => f.central && f.ass !== 'Assinado'); }
+    }, () => this.refresh());
+    const sel = {}; files.forEach(f => { sel[f.id] = true; });
+    this.setDlg({ id: id, files: files, sel: sel, info: { tipo: '', num: '', ano: '', origem: '', desc: '' }, msg: null });
+    if (novo) this.upd('aut', { fA: true });
+    this.toast(novo ? 'Solicitação gravada com situação “Sem assinatura” — envie os arquivos à Central de Assinatura.' : 'Solicitação gravada.');
+  }
+  solSyncFiles(files, extra) {
+    const id = this.state.dialog.id;
+    this.mut(d => { const x = d.aut.find(y => y.id === id); x.files = files; x.arquivos = files.map(f => f.nome); x.central = files.some(f => f.central && f.ass !== 'Assinado'); if (extra) Object.assign(x, extra); }, () => this.refresh());
+  }
+  solCentral() {
+    const dl = this.state.dialog, s = this.state, u = this.user(s.pk), a = s.data.aut.find(x => x.id === dl.id);
+    if (!(s.pk === 'chefe' || a.usuario === u.nome)) return this.solMsg('error', 'Somente o usuário criador da solicitação ou o chefe de setor podem assinar documentos!');
+    if (!dl.files.some(f => dl.sel[f.id] && !f.excluir)) return this.solMsg('warn', 'Selecione os arquivos a enviar à Central de Assinatura.');
+    this.solAsk('central', 'Deseja enviar o(s) arquivo(s) da solicitação para assinatura na Central de Assinaturas?');
+  }
+  solDo_central() {
+    const dl = this.state.dialog;
+    if (this.props && this.props.simularFalha) return this.solMsg('error', 'Central de Assinatura indisponível (TCE Docs). O envio não ocorreu; a pendência permanece sem alteração.');
+    const ja = [], naoPdf = []; let n = 0;
+    const files = dl.files.map(f => {
+      if (!dl.sel[f.id] || f.excluir) return f;
+      if (f.central) { ja.push(f.nome + ' — já está na Central'); return f; }
+      if (!/\.pdf$/i.test(f.nome)) { naoPdf.push(f.nome + ' — não é PDF, não foi enviado'); return f; }
+      if (f.ass === 'Assinado') { ja.push(f.nome + ' — já assinado'); return f; }
+      n++; return Object.assign({}, f, { central: true });
+    });
+    if (!n) return this.setDlg({ files: files, msg: this.msg('warn', 'Nenhum arquivo PDF foi enviado; a situação não mudou.', ja.concat(naoPdf)) });
+    this.setDlg({ files: files, msg: this.msg('success', 'Arquivos .PDF enviados para assinatura pela Central de Assinaturas com sucesso!', ja.concat(naoPdf)) });
+    this.solSyncFiles(files);
+  }
+  solCancelarCentral() {
+    const dl = this.state.dialog;
+    const pend = dl.files.filter(f => f.central && f.ass !== 'Assinado').length, ass = dl.files.filter(f => f.central && f.ass === 'Assinado').length;
+    const files = dl.files.map(f => f.central && f.ass !== 'Assinado' ? Object.assign({}, f, { central: false }) : f);
+    this.setDlg({ files: files, msg: this.msg('info', this.plural(pend, 'arquivo retirado', 'arquivos retirados') + ' da Central de Assinatura; ' + this.plural(ass, 'assinado mantido', 'assinados mantidos') + '.') });
+    this.solSyncFiles(files);
+  }
+  solSimularAss() {
+    const dl = this.state.dialog;
+    const files = dl.files.map(f => f.central ? Object.assign({}, f, { central: false, ass: 'Assinado' }) : f);
+    this.setDlg({ files: files, msg: this.msg('info', 'Simulação: o Portal de Assinatura concluiu a assinatura e gravou a situação “Assinada”.') });
+    this.solSyncFiles(files, { sit: 'S' });
+  }
+  solEnviar() {
+    const dl = this.state.dialog, pdfs = dl.files.filter(f => !f.excluir && /\.pdf$/i.test(f.nome));
+    const pend = pdfs.filter(f => f.central && f.ass !== 'Assinado');
+    if (pend.length) return this.solMsg('error', 'Há arquivos PDF pendentes de assinatura na Central de Assinatura:', pend.map(f => f.nome));
+    if (!pdfs.some(f => f.ass === 'Assinado')) return this.solMsg('error', 'Pelo menos um arquivo deve ser assinado pelo criador da solicitação antes do envio poder ser efetuado.');
+    this.solAsk('protocolo', 'Tem certeza que deseja efetuar o envio da solicitação? A solicitação não poderá ser editada após esta ação.');
+  }
+  solDo_protocolo() {
+    const id = this.state.dialog.id;
+    this.mut(d => { d.aut.find(y => y.id === id).sit = 'E'; }, () => this.refresh());
+    this.toast('Solicitação enviada com sucesso!');
+    this.solNova();
+  }
+  solExcluir() {
+    if (['A', 'S', 'R'].indexOf(this.solSit()) < 0) return this.solMsg('error', 'Somente solicitações não enviadas ou rejeitadas podem ser canceladas!');
+    this.solAsk('excluir', 'Confirma a exclusão da solicitação? Os arquivos que estiverem na Central de Assinatura serão retirados dela.');
+  }
+  solDo_excluir() {
+    const dl = this.state.dialog, files = dl.files.map(f => Object.assign({}, f, { central: false }));
+    this.setDlg({ files: files, msg: this.msg('info', 'Solicitação cancelada.') });
+    this.solSyncFiles(files, { sit: 'X', motivoCanc: 'Solicitação cancelada.' });
+    this.toast('Solicitação cancelada.');
+  }
+  solProsseguir() {
+    const s = this.state, dl = s.dialog, a = s.data.aut.find(x => x.id === dl.id);
+    if (a.sit === 'C') return this.solMsg('error', 'Solicitação já Autuada no processo ' + a.processo + '. A autuação não foi aberta.');
+    if (a.sit !== 'E') return this.solMsg('error', 'Você só pode prosseguir com solicitações já enviadas e não concluídas');
+    if (a.bloq) return this.solMsg('error', 'Solicitação bloqueada pelo usuário ' + a.bloq + '. A autuação não foi aberta.');
+    if (a.sort) return this.solMsg('error', 'Solicitação sorteada para o usuário ' + a.sort + '. Somente esse usuário pode autuá-la.');
+    const u = this.user(s.pk);
+    this.setState({ dialog: { kind: 'autuar', ids: [a.id], numero: '202600047000' + String(640 + Math.floor(Math.random() * 300)), sigilo: false, sigiloDis: !!a.andamentoOutroSetor && !u.claims.sigilo, confirmShort: false, errs: [] } });
+  }
+  solRejeitar() {
+    const dl = this.state.dialog;
+    if (!dl.rejeitando) return this.setDlg({ rejeitando: true, msg: null });
+    if (!(dl.motivo || '').trim()) return this.solMsg('error', 'Informe o motivo da rejeição.');
+    this.mut(d => { const x = d.aut.find(y => y.id === dl.id); x.sit = 'R'; x.motivoRej = dl.motivo.trim(); }, () => this.refresh());
+    this.setDlg({ rejeitando: false, msg: this.msg('info', 'Solicitação rejeitada.') });
+    this.toast('Solicitação rejeitada.');
+  }
+  solMotivo() {
+    const a = this.state.data.aut.find(x => x.id === this.state.dialog.id);
+    this.solMsg('info', 'Motivo da rejeição: ' + (a.motivoRej || 'Documentação incompleta para a autuação.'));
+  }
+  solConfirmSim() {
+    const c = this.state.dialog.confirm;
+    this.setDlg({ confirm: null });
+    if (c.tipo === 'fechar') { this.setState({ dialog: null }); this.refresh(); return; }
+    if (c.tipo === 'nova') return this.solNova();
+    const fn = this['solDo_' + c.tipo];
+    if (fn) fn.call(this);
   }
 
   rejeitarSolicitacao() {
@@ -1630,7 +1874,7 @@ class Component extends DCLogic {
         sitText: sitA[a.sit][0], sitCls: 'chip ' + sitA[a.sit][1], flags: flags, noFlags: flags.length === 0,
         processo: a.processo || '—', qtdArq: String(a.arquivos.length), sorteado: a.sorteado || '—',
         actLabel: ['SEI', 'Atos de Pessoal', 'LRF', 'Tomada de Contas'].indexOf(a.origem) >= 0 ? 'Visualizar arquivos' : 'Abrir solicitação',
-        act: ['SEI', 'Atos de Pessoal', 'LRF', 'Tomada de Contas'].indexOf(a.origem) >= 0 ? () => this.setState({ dialog: { kind: 'arquivos', id: a.id, rejecting: false, motivo: '', errs: [] } }) : () => this.setState({ dialog: { kind: 'solicitacao', id: a.id, titulo: a.titulo, historico: a.historico || 'Solicitação registrada pelo setor de origem para autuação.', arquivos: a.arquivos.slice(), errs: [] } }),
+        act: ['SEI', 'Atos de Pessoal', 'LRF', 'Tomada de Contas'].indexOf(a.origem) >= 0 ? () => this.setState({ dialog: { kind: 'arquivos', id: a.id, rejecting: false, motivo: '', errs: [] } }) : () => this.solAbrir(a.id),
         marked: !!A.marks[a.id], markDisabled: !this.markable(a), markTitle: this.markable(a) ? '' : 'Situação não marcável para o seu perfil (RN27)',
         cls: A.marks[a.id] ? 'sel' : (hot ? 'hot' : (a.sit === 'C' ? 'done' : '')),
         stripCls: hot ? 'strip-red' : 'strip-gray',
@@ -1741,8 +1985,29 @@ class Component extends DCLogic {
     if (k === 'alterar') { pri = () => this.przSalvarAlt(); priLabel = dl.confirm ? 'Confirmar e salvar' : 'Salvar'; cancelLabel = 'Fechar'; }
     if (k === 'avoConf') { pri = () => this.doAvocar(dl.ids); priLabel = 'Avocar os demais'; }
     if (k === 'redist') { pri = () => this.avoConfirmRedist(); priLabel = 'Redistribuir'; }
-    if (k === 'solicitacao') { pri = () => this.solSalvar(); priLabel = 'Salvar'; }
     const solA = k === 'solicitacao' && dl.id ? d.aut.find(x => x.id === dl.id) : null;
+    const solSit = solA ? solA.sit : 'N';
+    const solRO = k === 'solicitacao' && (['E', 'C', 'X', 'R'].indexOf(solSit) >= 0 || !!(solA && solA.bloq));
+    const solSelN = k === 'solicitacao' ? dl.files.filter(f => dl.sel[f.id]).length : 0;
+    const solBtns = [];
+    if (k === 'solicitacao') {
+      const B = (label, go, cls) => solBtns.push({ label: label, go: go, cls: cls || 'btn btn-o' });
+      B('Fechar', () => this.solFechar());
+      B('Nova Solicitação', () => this.solNovaBtn());
+      const bloq = !!(solA && solA.bloq);
+      if (!bloq) {
+        if (solSit === 'N') B('Salvar Solicitação', () => this.solSalvar(), 'btn');
+        if (solSit === 'A') {
+          B('Excluir Solicitação', () => this.solExcluir(), 'btn btn-d');
+          if ((dl.files || []).some(f => f.central && f.ass !== 'Assinado')) B('Cancelar envio para a Central', () => this.solCancelarCentral());
+          else B('Enviar arquivos para a Central de Assinatura', () => this.solCentral());
+          B('Salvar Solicitação', () => this.solSalvar(), 'btn');
+        }
+        if (solSit === 'S') { B('Excluir Solicitação', () => this.solExcluir(), 'btn btn-d'); B('Salvar Solicitação', () => this.solSalvar()); B('Enviar Solicitação', () => this.solEnviar(), 'btn'); }
+        if (solSit === 'E' && pk === 'protocolo') { B(dl.rejeitando ? 'Confirmar rejeição' : 'Rejeitar Solicitação', () => this.solRejeitar(), 'btn btn-d'); B('Prosseguir com Autuação', () => this.solProsseguir(), 'btn'); }
+        if (solSit === 'R') { B('Motivo da rejeição', () => this.solMotivo()); B('Excluir Solicitação', () => this.solExcluir(), 'btn btn-d'); }
+      }
+    }
     const jView = k === 'juntada' ? (d.jun.find(x => x.id === dl.id) || { docs: [] }).docs.find(o => o.id === dl.viewId) : null;
     const arqSol = k === 'arquivos' ? d.aut.find(x => x.id === dl.id) : null;
     const canReject = !!arqSol && ['Atos de Pessoal', 'LRF'].indexOf(arqSol.origem) >= 0 && arqSol.sit !== 'C' && arqSol.sit !== 'R';
@@ -1845,7 +2110,7 @@ class Component extends DCLogic {
       autSetDestino: () => this.upd('aut', { fila: 'destino' }), autSetOrigem: () => this.upd('aut', { fila: 'origem' }),
       autSetOrigemSetor: e => this.upd('aut', { origemSetor: e.target.value }), autTglSei: () => this.upd('aut', { sei: !this.state.aut.sei, origemSetor: '' }),
       autAtualizar: () => { this.setState({ autUpd: new Date() }); this.refresh(); },
-      autNova: () => this.setState({ dialog: { kind: 'solicitacao', id: null, titulo: '', historico: '', arquivos: [], errs: [] } }),
+      autNova: () => this.solNova(),
       autProsseguir: () => this.autProsseguir(), autEnviarSel: () => this.autEnviarSel(), autEnviarCentral: () => this.autEnviarCentral(),
 
       /* aceite */
@@ -1899,7 +2164,7 @@ class Component extends DCLogic {
 
       /* diálogos */
       hasDlg: !!s.dialog, dlg: dl, dlgTitle: titles[k] || '',
-      closeDlg: () => this.setState({ dialog: null }),
+      closeDlg: () => (k === 'solicitacao' ? this.solFechar() : this.setState({ dialog: null })),
       dlgHasErrs: !!(dl.errs && dl.errs.length), dlgErrs: (dl.errs || []).map(t => ({ t: t })),
       dlgAutuar: k === 'autuar', dlgDevolver: k === 'devolver', dlgDevolvido: k === 'devolvido', dlgJun: k === 'juntada',
       dlgConfPrz: k === 'confPrz', dlgAlt: k === 'alterar', dlgAvoConf: k === 'avoConf', dlgRedist: k === 'redist',
@@ -1919,14 +2184,45 @@ class Component extends DCLogic {
       dlgTipoP: dl.tipo === 'P', dlgTipoS: dl.tipo === 'S',
       dlgSetTipoP: () => this.setDlg({ tipo: 'P', confirm: false }), dlgSetTipoS: () => this.setDlg({ tipo: 'S', confirm: false }),
       dlgSetMotivo: e => this.setDlg({ motivo: e.target.value, confirm: false }), dlgSetDias: e => this.setDlg({ dias: e.target.value, confirm: false }),
-      dlgMaxW: k === 'juntada' ? '1160px' : '700px',
+      dlgMaxW: k === 'juntada' ? '1160px' : (k === 'solicitacao' ? '1280px' : '700px'),
       dlgDevText: k === 'devolver' ? (dl.numeros.length === 1 ? 'Processo ' + dl.numeros[0] + ' será devolvido ao setor de origem.' : dl.numeros.length + ' processos serão devolvidos ao setor de origem: ' + dl.numeros.join(', ') + '.') : '',
-      dlgSol: k === 'solicitacao', dlgSolEdit: !!solA, dlgSolOrigem: solA ? solA.origem : '', dlgSolSit: solA ? sitA[solA.sit][0] : '',
-      dlgSetHistorico: e => this.setDlg({ historico: e.target.value }),
-      dlgSolSemArq: k === 'solicitacao' && !(dl.arquivos || []).length,
-      dlgSolArqs: k === 'solicitacao' ? (dl.arquivos || []).map((f, i) => ({ nome: f, fmt: (f.split('.').pop() || '').toUpperCase(), remover: () => this.setDlg({ arquivos: this.state.dialog.arquivos.filter((x, j) => j !== i) }) })) : [],
-      dlgAddArq: () => { const n = (this.state.dialog.arquivos || []).length + 1; this.setDlg({ arquivos: (this.state.dialog.arquivos || []).concat(['documento_' + n + '.pdf']) }); },
-      dlgSetTitulo: e => this.setDlg({ titulo: e.target.value.slice(0, 100) }), dlgTituloCount: String((dl.titulo || '').length),
+      dlgSol: k === 'solicitacao', dlgNotSol: k !== 'solicitacao',
+      solIdent: k === 'solicitacao' ? ('Solicitante: ' + (solA ? solA.usuario : u.nome) + ' · Setor: ' + (solA ? solA.setorSol : u.setor) + ' · Situação: ' + (solA ? (solA.sit === 'A' ? 'Aguardando Assinatura' : sitA[solA.sit][0]) : 'Nova')) : '',
+      solHasMsg: !!dl.msg, solMsg: dl.msg || { cls: '', text: '', items: [] },
+      solShowSimular: !!solA && solA.sit === 'A' && (dl.files || []).some(f => f.central),
+      solRO: solRO, solEditavel: !solRO,
+      solSetTitulo: e => this.setDlg({ titulo: e.target.value.slice(0, 100) }), solRestantes: String(100 - (dl.titulo || '').length),
+      solSetHistorico: e => this.setDlg({ historico: e.target.value }),
+      solFilesPicked: e => { const fl = Array.prototype.slice.call(e.target.files || []).map(f => ({ name: f.name, size: f.size })); e.target.value = ''; if (fl.length) this.solAdd(fl); },
+      solExemplo: () => this.solAdd([{ name: 'oficio_encaminhamento.pdf', size: 820000 }, { name: 'relacao_servidores.xlsx', size: 120000 }]),
+      solRemDis: !solSelN, solRemover: () => this.solRemover(),
+      solSemArq: k === 'solicitacao' && !(dl.files || []).length,
+      solFiles: k === 'solicitacao' ? dl.files.map(f => {
+        const tags = [];
+        if (f.novo) tags.push({ t: 'Novo', cls: 'chip c-info' });
+        if (f.excluir) tags.push({ t: 'Será excluído', cls: 'chip c-error' });
+        if (f.central && f.ass !== 'Assinado') tags.push({ t: 'Na Central', cls: 'chip c-primary' });
+        return { nome: f.nome, desc: f.desc, data: f.data, tipo: f.tipo || '—', num: f.num || '—', ano: f.ano || '—', origem: f.origem || '—',
+          ass: f.ass, assCls: 'chip ' + (f.ass === 'Assinado' ? 'c-success' : 'c-warn'), tags: tags,
+          sel: !!dl.sel[f.id], cls: (dl.sel[f.id] ? 'sel' : '') + (f.excluir ? ' hot' : ''),
+          toggle: () => this.solToggle(f.id),
+          ver: () => (f.novo || !dl.id ? this.solMsg('warn', 'Você deve salvar a solicitação antes de poder abrir os documentos anexados.') : this.toast('Abrindo "' + f.nome + '" no visualizador de documentos (RF-024).', 'info')) };
+      }) : [],
+      solInfoDis: solRO || !solSelN, solInfoSingle: solSelN <= 1,
+      solInfoTitulo: solSelN > 1 ? 'Informações do arquivo — alteração em massa (' + solSelN + ' arquivos)' : 'Informações do arquivo',
+      solInfoNome: solSelN === 1 ? (dl.files.find(f => dl.sel[f.id]) || {}).nome : '',
+      solInfoTipo: e => this.setDlg({ info: Object.assign({}, this.state.dialog.info, { tipo: e.target.value }) }),
+      solInfoNum: e => this.setDlg({ info: Object.assign({}, this.state.dialog.info, { num: e.target.value }) }),
+      solInfoAno: e => this.setDlg({ info: Object.assign({}, this.state.dialog.info, { ano: e.target.value.slice(0, 4) }) }),
+      solInfoOrigem: e => this.setDlg({ info: Object.assign({}, this.state.dialog.info, { origem: e.target.value.slice(0, 25) }) }),
+      solInfoDesc: e => this.setDlg({ info: Object.assign({}, this.state.dialog.info, { desc: e.target.value.slice(0, 250) }) }),
+      solInfoLimpar: () => this.setDlg({ info: { tipo: '', num: '', ano: '', origem: '', desc: '' } }),
+      solInfoAplicar: () => this.solInfoAplicar(),
+      solSetMotivo: e => this.setDlg({ motivo: e.target.value }),
+      solSimularAss: () => this.solSimularAss(),
+      solBtns: solBtns,
+      solHasConfirm: !!(k === 'solicitacao' && dl.confirm), solConfirm: dl.confirm || { texto: '', itens: [] },
+      solConfirmSim: () => this.solConfirmSim(), solConfirmNao: () => this.setDlg({ confirm: null }),
       dlgJustRest: String(1000 - (dl.just || '').length),
       dlgDescSol: k === 'juntada' ? ((d.jun.find(x => x.id === dl.id) || {}).descSol || '') : '',
       dlgViewDoc: jView ? jView.nome : 'Selecione um documento',

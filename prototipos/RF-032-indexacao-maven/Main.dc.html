@@ -721,7 +721,7 @@ class Component extends DCLogic {
   }
   executar(kind, acao, modoLabel, numero, lista, worker, extra) {
     const exec = Object.assign({ kind: kind, acao: acao, modoLabel: modoLabel, numero: numero, inicio: new Date(), fim: null, items: [], total: lista.length, isDocs: kind === 'doc' }, extra || {});
-    this.setState({ exec: exec, running: kind, validating: null, msg: null, fieldErr: null });
+    this.setState(Object.assign({ exec: exec, running: kind, validating: null, msg: null, fieldErr: null }, kind === 'proc' ? { numero: '', origemLista: false, sugOpen: false } : {}));
     const passo = (i) => {
       this.later(() => {
         const r = worker(lista[i], i);

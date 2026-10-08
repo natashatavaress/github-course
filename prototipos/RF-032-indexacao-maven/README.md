@@ -42,4 +42,5 @@ Processos simulados (digite no campo de busca): 202600047000118 (erro e não pro
 18. Ao acionar a ação, a tela abre com o número no campo e um aviso de que veio da listagem; o botão "×" do campo limpa o processo para escolher outro.
 19. "Processo a ser reindexado" é autocompletar: sugere a partir de 3 dígitos (até 6 processos, com o assunto); escolher a sugestão ou teclar Enter preenche o campo. A validação continua a das RN03/RN04 sobre o número do campo.
 20. Entrada pelo menu lateral: o campo abre vazio, mesmo que antes tenha vindo um processo da listagem.
-21. Dados, nomes de usuários, números de processo, ids e mensagens de erro técnicas (ORA-, HTTP) são fictícios.
+21. Ao registrar o pedido de "Reindexar Processo", o campo "Processo a ser reindexado" é limpo (e o aviso de origem na listagem some), deixando a tela pronta para o próximo processo; o processo pedido continua nos Resultados. Recusas e erros de validação mantêm o número no campo para correção.
+22. Dados, nomes de usuários, números de processo, ids e mensagens de erro técnicas (ORA-, HTTP) são fictícios.

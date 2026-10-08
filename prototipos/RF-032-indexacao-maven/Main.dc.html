@@ -9,326 +9,451 @@
 <x-dc>
 <helmet>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&amp;display=swap" rel="stylesheet">
 <style>
-body{margin:0;background:#EEF2F7}
-a{color:#0F366D}a:hover{color:#0B2A55}
+body{margin:0;background:#ECEFF1}
+a{color:#1E78BE}a:hover{color:#155A90}
 *{box-sizing:border-box}
-.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:44px;padding:0 18px;border-radius:8px;border:1px solid #0F366D;background:#0F366D;color:#FFFFFF;font:600 14px/1.1 'Figtree',system-ui,sans-serif;cursor:pointer;white-space:nowrap}
-.btn:hover{background:#0B2A55;border-color:#0B2A55}
-.btn:disabled{opacity:.45;cursor:not-allowed}
-.btn-o{background:#FFFFFF;color:#0F366D;border-color:#B9C6D8}
-.btn-o:hover{background:#EEF3FA;border-color:#8FA4C2}
-.btn-s{min-height:36px;padding:0 12px;font-size:13px}
-.btn:focus-visible,.nav-a:focus-visible,.ex:focus-visible,.input:focus,.rd:focus-visible{outline:2px solid #2F6FD0;outline-offset:2px}
-.nav-a{display:inline-flex;align-items:center;gap:8px;min-height:44px;padding:0 14px;border:0;border-bottom:3px solid transparent;background:transparent;color:#3A4558;font:600 14px 'Figtree',system-ui,sans-serif;cursor:pointer}
-.nav-a:hover{color:#0F366D;background:#F1F5FB}
-.nav-a.on{color:#0F366D;border-bottom-color:#0F366D}
-.chip{display:inline-flex;align-items:center;gap:6px;height:24px;padding:0 10px;border-radius:12px;font:600 12px/1 'Figtree',sans-serif;white-space:nowrap}
-.c-neutral{background:#E7EBF1;color:#3A4558}
-.c-primary{background:#DCE6F5;color:#0F366D}
-.c-success{background:#DDF1E3;color:#1E6B34}
-.c-warn{background:#FCEBD3;color:#7A4105}
-.c-error{background:#FBE1DE;color:#A3271C}
-.c-info{background:#E1EDFB;color:#1D4F91}
-.card{background:#FFFFFF;border:1px solid #DDE3EC;border-radius:12px}
-.card-h{display:flex;align-items:center;gap:12px;flex-wrap:wrap;padding:14px 20px;border-bottom:1px solid #E3E8EF}
-.card-t{margin:0;font-size:16px;font-weight:700;color:#0F366D}
-.tr{display:grid;align-items:center;column-gap:16px;padding:10px 20px;border-bottom:1px solid #E8ECF2;font-size:14px;line-height:1.4;user-select:text}
-.th{background:#F5F7FA;font-size:12px;font-weight:700;color:#4A5568;text-transform:uppercase;letter-spacing:.04em;padding-top:12px;padding-bottom:12px}
-.g-res{grid-template-columns:48px 180px 170px minmax(0,1fr)}
-.g-resd{grid-template-columns:48px 170px 220px 150px minmax(0,1fr)}
-.g-doc{grid-template-columns:minmax(0,1.6fr) 150px minmax(0,1.2fr)}
-.num{font-variant-numeric:tabular-nums;font-weight:600;color:#0F366D}
-.mono{font-variant-numeric:tabular-nums}
-.muted{color:#4F5A6B}
-.field{display:flex;flex-direction:column;gap:6px;font-size:13px;font-weight:600;color:#3A4558}
-.input{height:44px;border:1px solid #B9C6D8;border-radius:8px;padding:0 12px;font:400 15px 'Figtree',system-ui,sans-serif;color:#1B2433;background:#FFFFFF;width:100%}
-.input.bad{border-color:#B42318;box-shadow:0 0 0 1px #B42318}
-.rdl{display:inline-flex;align-items:center;gap:10px;min-height:44px;padding:0 14px;border:1px solid #CBD5E3;border-radius:8px;font-size:14px;font-weight:500;color:#1B2433;cursor:pointer;background:#FFFFFF}
-.rdl.on{border-color:#0F366D;background:#EEF3FA}
-.rd{width:18px;height:18px;accent-color:#0F366D;margin:0;cursor:pointer}
-.alert{display:flex;gap:10px;align-items:flex-start;padding:12px 16px;border-radius:8px;font-size:14px;line-height:1.45}
-.a-error{background:#FDECEA;color:#7A1F16;border:1px solid #F3C1BB}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+/* ---------- casca: cabeçalho, menu lateral, trilha ---------- */
+.hdr{height:82px;background:#FFFFFF;border-bottom:1px solid #DDE1E4;display:flex;align-items:center;gap:16px;padding:0 24px}
+.hamb{width:40px;height:40px;border-radius:4px;border:1px solid #B9BFC4;background:#DADDE0;color:#2F3437;display:inline-flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0}
+.hamb:hover{background:#CDD1D5}
+.gsearch{display:flex;align-items:center;width:500px;max-width:40vw;height:50px;border:1px solid #C9CED2;border-radius:4px;background:#FFFFFF;padding:0 8px 0 16px}
+.gsearch input{flex-grow:1;border:0;outline:0;font:400 15px 'Poppins',sans-serif;color:#3D4448;background:transparent;min-width:0}
+.gsearch:focus-within{outline:2px solid #1E78BE;outline-offset:1px}
+.side{width:250px;background:#FFFFFF;flex-shrink:0;padding:16px 0;display:flex;flex-direction:column;gap:2px;transition:width .15s}
+.side.mini{width:58px}
+.side.mini .lbl,.side.mini .sub,.side.mini .caret{display:none}
+.nav{display:flex;align-items:center;gap:14px;width:100%;min-height:48px;padding:0 18px;border:0;background:transparent;font:400 14px 'Poppins',sans-serif;color:#5A6268;text-align:left;cursor:pointer}
+.nav:hover{background:#F2F5F7}
+.nav.on{color:#2F3437;font-weight:500;background:#E8F1FA}
+.nav.sub2{padding-left:38px;margin:0 8px;width:calc(100% - 16px);border-radius:4px;padding-right:12px;line-height:1.3}
+.side.mini .nav.sub2{padding-left:10px}
+.nbadge{margin-left:auto;min-width:22px;height:22px;padding:0 6px;border-radius:11px;background:#C62828;color:#FFFFFF;font:600 12px/22px 'Poppins',sans-serif;text-align:center;flex-shrink:0}
+.side.mini .nbadge{display:none}
+.nav.sub{padding-left:38px}
+.nav svg{flex-shrink:0}
+.caret{margin-left:auto}
+.crumbs{height:50px;background:#FFFFFF;display:flex;align-items:center;gap:6px;padding:0 20px;flex-wrap:wrap}
+.crumb-b{border:0;background:transparent;font:400 16px 'Poppins',sans-serif;color:#3D4448;cursor:pointer;padding:4px 6px;border-radius:4px}
+.crumb-b:hover{background:#F2F5F7}
+.crumb-c{font:400 16px 'Poppins',sans-serif;color:#3D4448;padding:4px 6px}
+/* ---------- cartões ---------- */
+.card{background:#FFFFFF;border-radius:4px;box-shadow:0 1px 3px rgba(30,40,50,.16)}
+.card-h{display:flex;align-items:center;gap:14px;padding:22px 24px 14px}
+.card-t{margin:0;font:400 22px/1.3 'Poppins',sans-serif;color:#3D4448}
+.card-s{margin:0;font:600 15px 'Poppins',sans-serif;color:#6B7378}
+.card-b{padding:4px 24px 24px;display:flex;flex-direction:column;gap:16px}
+.chev{transition:transform .15s}
+.chev.down{transform:rotate(180deg)}
+.vbar{width:1px;height:20px;background:#C9CED2}
+/* ---------- botões ---------- */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:40px;padding:0 18px;border-radius:4px;border:1px solid #1E78BE;background:#1E78BE;color:#FFFFFF;font:500 14px/1.1 'Poppins',sans-serif;cursor:pointer;white-space:nowrap;text-transform:none}
+.btn:hover{background:#155A90;border-color:#155A90}
+.btn:disabled{background:#C2C7CB;border-color:#C2C7CB;color:#FFFFFF;cursor:not-allowed}
+.btn-o{background:#FFFFFF;color:#1E78BE;border-color:#1E78BE}
+.btn-o:hover{background:#EEF5FB;border-color:#155A90;color:#155A90}
+.btn-o:disabled{background:#FFFFFF;color:#9AA1A6;border-color:#C9CED2}
+.btn-g{background:#13855E;border-color:#13855E}
+.btn-g:hover{background:#0E6B4B;border-color:#0E6B4B}
+.btn-d{background:#C62828;border-color:#C62828}
+.btn-d:hover{background:#A21F1F;border-color:#A21F1F}
+.btn-t{background:transparent;color:#1E78BE;border-color:transparent;padding:0 10px}
+.btn-t:hover{background:#EEF5FB;border-color:transparent}
+.btn-s{min-height:34px;padding:0 12px;font-size:13px}
+.btn-w{width:100%}
+.lnk{display:inline-flex;align-items:center;gap:8px;min-height:40px;padding:0 6px;border:0;background:transparent;font:500 14px 'Poppins',sans-serif;color:#1E78BE;cursor:pointer;white-space:nowrap}
+.lnk:hover{text-decoration:underline}
+.lnk.red{color:#C62828}
+.lnk.green{color:#13855E;font-weight:400;font-size:15px}
+.lnk:disabled{color:#9AA1A6;cursor:not-allowed;text-decoration:none}
+.tb{width:40px;height:40px;border-radius:3px;border:0;background:#13855E;color:#FFFFFF;display:inline-flex;align-items:center;justify-content:center;cursor:pointer}
+.tb:hover{background:#0E6B4B}
+.tb-lgreen{background:#2E9E5B}
+.tb-lgreen:hover{background:#24804A}
+.tb-orange{background:#C2570C}
+.tb-orange:hover{background:#9A4509}
+.tb:disabled{background:#BFC4C8;cursor:not-allowed}
+.icon-btn{width:40px;height:40px;border-radius:20px;border:0;background:transparent;color:#3D4448;display:inline-flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0}
+.icon-btn:hover{background:#EEF1F3}
+.btn:focus-visible,.icon-btn:focus-visible,.pitem:focus-visible,.chip-x:focus-visible,.input:focus,.cb:focus-visible,.lnk:focus-visible,.tb:focus-visible,.nav:focus-visible,.hamb:focus-visible,.crumb-b:focus-visible{outline:2px solid #1E78BE;outline-offset:2px}
+/* ---------- tabela ---------- */
+.tbl{border:1px solid #A7AEB3}
+.tr{display:grid;column-gap:0;border-bottom:1px solid #A7AEB3;font:400 14px/1.4 'Poppins',sans-serif;color:#3D4448}
+.tr:last-child{border-bottom:0}
+.tr>*{padding:12px 16px;border-right:1px solid #A7AEB3;min-height:64px;display:flex;align-items:center;gap:8px;min-width:0}
+.tr>*:last-child{border-right:0}
+.tr:not(.th)>[role=cell]{text-transform:uppercase}
+.th>*{font-size:15px;justify-content:space-between;background:#FFFFFF}
+.th>[role=columnheader]:not(.nf)::after{content:"";flex-shrink:0;width:0;height:0;border-left:8px solid transparent;border-right:8px solid transparent;border-top:10px solid #3D4448}
+.tr.child>*{background:#F6F8F9}
+.tr.sel>*{background:#EEF5FB}
+.tr.hot>*{background:#FDECEC}
+.tr.done>*{background:#F1F9F4}
+.strip-gray{box-shadow:inset 6px 0 0 #8E979C}
+.strip-red{box-shadow:inset 6px 0 0 #C62828}
+.g-lista{grid-template-columns:56px 260px 1.4fr 1.3fr 1.2fr 116px 150px}
+.g-aut{grid-template-columns:56px 130px 116px 1.3fr 1.6fr 140px 1.4fr 180px 64px 140px 190px}
+.g-ace{grid-template-columns:56px 170px 200px 150px 170px 180px 150px 1.3fr 140px 1.3fr 130px 1.2fr 220px}
+.g-jun{grid-template-columns:210px 1.4fr 116px 1fr 1fr 140px 116px 200px 64px 180px}
+.g-prz{grid-template-columns:56px 210px 140px 140px 120px 104px 100px 100px 124px 124px 140px 120px}
+.g-avo{grid-template-columns:56px 210px 210px 120px 120px 1.2fr 1.2fr 130px 1.3fr 140px 190px 110px}
+.g-ass{grid-template-columns:220px 1.5fr 1.3fr 160px}
+.g-solarq{grid-template-columns:48px 220px 1.3fr 1.3fr 110px 150px 90px 80px 150px 110px}
+.g-doc{grid-template-columns:48px 1fr 110px 76px}
+.g-pr2{grid-template-columns:1fr 80px 1.3fr 120px}
+.g-arq{grid-template-columns:1fr 110px 140px}
+.tfoot{display:flex;align-items:center;gap:16px;flex-wrap:wrap;padding:14px 16px;border:1px solid #A7AEB3;border-top:0;font:400 15px 'Poppins',sans-serif;color:#3D4448}
+.pager{border:0;background:transparent;width:32px;height:32px;border-radius:16px;display:inline-flex;align-items:center;justify-content:center;color:#3D4448;cursor:pointer}
+.pager:hover{background:#EEF1F3}
+.pager:disabled{color:#B5BABE;cursor:not-allowed;background:transparent}
+.perpage{border:0;background:transparent;font:400 15px 'Poppins',sans-serif;color:#3D4448;cursor:pointer}
+.num{font-variant-numeric:tabular-nums;color:#3D4448;text-decoration:underline;text-underline-offset:3px;text-transform:none}
+.muted{color:#5E676D}
+/* ---------- formulários ---------- */
+.field{display:flex;flex-direction:column;gap:6px;font:400 15px 'Poppins',sans-serif;color:#5E676D}
+.input{height:42px;border:1px solid #A7AEB3;border-radius:4px;padding:0 12px;font:400 15px 'Poppins',sans-serif;color:#3D4448;background:#FFFFFF;width:100%}
+.input:disabled{background:#F2F4F5;color:#6B7378}
+textarea.input{height:auto;min-height:92px;padding:10px 12px;resize:vertical;line-height:1.45}
+.check{display:inline-flex;align-items:center;gap:10px;font:400 15px 'Poppins',sans-serif;color:#5E676D;min-height:36px;cursor:pointer}
+.cb{width:20px;height:20px;accent-color:#3D4448;cursor:pointer;margin:0;flex-shrink:0}
+.cb:disabled{cursor:not-allowed;opacity:.35}
+/* ---------- avisos, chips, badge ---------- */
+.chip{display:inline-flex;align-items:center;gap:6px;height:26px;padding:0 10px;border-radius:13px;font:500 12px/1 'Poppins',sans-serif;white-space:nowrap;text-transform:none}
+.c-neutral{background:#E6E9EB;color:#3D4448}
+.c-primary{background:#DCEBF7;color:#155A90}
+.c-success{background:#DDF1E7;color:#0E6B4B}
+.c-warn{background:#FDEBD3;color:#7A4105}
+.c-error{background:#FBE0DE;color:#A21F1F}
+.c-info{background:#E3EEF8;color:#1D4F7A}
+.chip-x{width:24px;height:24px;border-radius:12px;border:0;background:transparent;color:#3D4448;display:inline-flex;align-items:center;justify-content:center;cursor:pointer}
+.chip-x:hover{background:#E6E9EB}
+.alert{display:flex;flex-direction:column;gap:6px;padding:12px 16px;border-radius:4px;font:400 14px/1.5 'Poppins',sans-serif}
+.a-error{background:#FDECEC;color:#7A1F16;border:1px solid #F3C1BB}
 .a-warn{background:#FFF4E2;color:#6B3A06;border:1px solid #F2D2A0}
-.a-info{background:#EAF2FC;color:#173F73;border:1px solid #BCD3F0}
-.ex{display:inline-flex;flex-direction:column;align-items:flex-start;gap:2px;min-height:44px;padding:6px 10px;border:1px dashed #C9A54A;border-radius:8px;background:#FFFBEF;color:#3B2A05;font:600 12px/1.25 'Figtree',sans-serif;cursor:pointer;text-align:left}
-.ex:hover{background:#FFF3D1}
-.ex small{font-weight:500;color:#6B5418;font-size:11px}
-.skel{display:inline-block;height:12px;border-radius:6px;background:linear-gradient(90deg,#E3E8F0 0%,#F1F4F8 50%,#E3E8F0 100%);background-size:200% 100%;animation:sk 1.2s ease-in-out infinite}
+.a-info{background:#EEF5FB;color:#173F63;border:1px solid #C3DAEE}
+.a-success{background:#E9F6EF;color:#0E5A3F;border:1px solid #BDE2CE}
+.badge{position:absolute;top:-9px;right:-9px;min-width:22px;height:22px;padding:0 6px;border-radius:11px;background:#C62828;color:#FFFFFF;font:600 12px/22px 'Poppins',sans-serif;text-align:center;box-shadow:0 0 0 2px #FFFFFF}
+.skel{display:inline-block;height:12px;border-radius:6px;background:linear-gradient(90deg,#E3E7EA 0%,#F2F4F6 50%,#E3E7EA 100%);background-size:200% 100%;animation:sk 1.2s ease-in-out infinite}
 @keyframes sk{0%{background-position:100% 0}100%{background-position:-100% 0}}
+.pitem{display:flex;align-items:center;gap:12px;width:100%;min-height:46px;padding:8px 16px;border:0;background:transparent;text-align:left;font:400 14px/1.35 'Poppins',sans-serif;color:#3D4448;cursor:pointer}
+.pitem:hover{background:#F2F5F7}
+.pitem.dim{color:#6B7378}
+.dest{font-size:11px;font-weight:500;color:#5E676D;white-space:nowrap}
+.count{min-width:30px;height:24px;padding:0 8px;border-radius:12px;background:#1E78BE;color:#FFFFFF;font:600 12px/24px 'Poppins',sans-serif;text-align:center}
+.count.zero{background:#E6E9EB;color:#5E676D}
 .spin{animation:rot .8s linear infinite}
 @keyframes rot{to{transform:rotate(360deg)}}
-.bar{height:6px;border-radius:3px;background:#E3E8F0;overflow:hidden}
-.bar>span{display:block;height:100%;background:#0F366D;transition:width .4s}
-.crumb{font-size:13px;color:#4F5A6B;display:flex;gap:6px;align-items:center;flex-wrap:wrap}
-.h1{margin:0;font-size:26px;font-weight:700;color:#0F366D;line-height:1.2}
-.toast{position:fixed;left:24px;bottom:24px;z-index:80;max-width:560px;padding:14px 18px;border-radius:10px;color:#FFFFFF;font:500 14px/1.45 'Figtree',sans-serif;box-shadow:0 12px 32px rgba(10,25,50,.28);display:flex;gap:12px;align-items:flex-start}
-.t-success{background:#1E5B32}
-.t-info{background:#0F366D}
-.t-error{background:#8E1F17}
+.ptypes{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px}
+.ptype{display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:56px;padding:0 16px;border:1px solid #D5DADE;border-radius:4px;background:#FFFFFF;font:500 15px/1.3 'Poppins',sans-serif;color:#2F3437;cursor:pointer;text-align:left}
+.ptype:hover{border-color:#1E78BE;background:#F7FAFD}
+.ptype.on{background:#1E78BE;border-color:#1E78BE;color:#FFFFFF}
+.ptype:focus-visible,.pchip:focus-visible{outline:2px solid #1E78BE;outline-offset:2px}
+.ptc{min-width:28px;height:24px;padding:0 8px;border-radius:12px;background:#E6E9EB;color:#2F3437;font:600 13px/24px 'Poppins',sans-serif;text-align:center;flex-shrink:0}
+.ptc.hot{background:#C62828;color:#FFFFFF}
+.ptc.zero{background:#EEF0F2;color:#6B7378}
+.ptype.on .ptc{background:#FFFFFF;color:#155A90}
+.pitems-box{margin-top:12px;padding:14px 16px;background:#F6F8F9;border-radius:4px;display:flex;flex-direction:column;gap:8px}
+.pitems{display:flex;flex-wrap:wrap;gap:8px}
+.pchip{display:inline-flex;align-items:center;gap:10px;min-height:40px;padding:0 6px 0 16px;border:1px solid #D5DADE;border-radius:20px;background:#FFFFFF;font:400 14px 'Poppins',sans-serif;color:#2F3437;cursor:pointer}
+.pchip:hover{border-color:#1E78BE}
+.pchip.on{border-color:#1E78BE;background:#EEF5FB;color:#155A90;font-weight:500}
+.pchip.dim{color:#6B7378}
+.pic{min-width:28px;height:28px;padding:0 8px;border-radius:14px;background:#E6E9EB;color:#2F3437;font:600 12px/28px 'Poppins',sans-serif;text-align:center}
+.pic.hot{background:#C62828;color:#FFFFFF}
+.pic.zero{background:#EEF0F2;color:#6B7378}
+.pchip.on .pic{background:#1E78BE;color:#FFFFFF}
+.phint{margin:0;font:400 14px 'Poppins',sans-serif;color:#5E676D}
+.viewer{border:1px solid #A7AEB3;border-radius:4px;background:#ECEFF1;display:flex;flex-direction:column;min-height:440px}
+.viewer-h{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:10px 12px;background:#FFFFFF;border-bottom:1px solid #DDE1E4;font:500 13px 'Poppins',sans-serif;color:#3D4448;border-radius:4px 4px 0 0}
+.viewer-page{margin:16px;background:#FFFFFF;flex-grow:1;box-shadow:0 1px 3px rgba(0,0,0,.15);padding:28px 24px;display:flex;flex-direction:column;gap:10px}
+.vl{height:8px;background:#E3E6E8;border-radius:4px}
+.ro{margin:0;padding:10px 12px;background:#F6F8F9;border-radius:4px;color:#3D4448;font:400 14px/1.5 'Poppins',sans-serif}
+.toast{position:fixed;left:24px;bottom:24px;z-index:80;max-width:520px;padding:14px 18px;border-radius:4px;color:#FFFFFF;font:400 14px/1.5 'Poppins',sans-serif;box-shadow:0 12px 32px rgba(10,25,40,.28)}
+.t-success{background:#0E6B4B}
+.t-info{background:#155A90}
+.t-error{background:#A21F1F}
+/* ---------- RF-032 ---------- */
+.toast{display:flex;gap:12px;align-items:flex-start}
 .t-x{border:0;background:transparent;color:#FFFFFF;width:28px;height:28px;border-radius:14px;cursor:pointer;flex-shrink:0;display:inline-flex;align-items:center;justify-content:center}
 .t-x:hover{background:rgba(255,255,255,.18)}
-.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+.input.bad{border-color:#C62828;box-shadow:0 0 0 1px #C62828}
+.rdl{display:inline-flex;align-items:center;gap:10px;min-height:42px;padding:0 14px;border:1px solid #A7AEB3;border-radius:4px;font:400 15px 'Poppins',sans-serif;color:#3D4448;cursor:pointer;background:#FFFFFF}
+.rdl.on{border-color:#1E78BE;background:#EEF5FB;color:#155A90}
+.rd{width:18px;height:18px;accent-color:#1E78BE;margin:0;cursor:pointer}
+.ex{display:inline-flex;flex-direction:column;align-items:flex-start;gap:2px;min-height:44px;padding:6px 12px;border:1px dashed #C9A54A;border-radius:4px;background:#FFFBEF;color:#3B2A05;font:500 13px/1.25 'Poppins',sans-serif;cursor:pointer;text-align:left}
+.ex:hover{background:#FFF3D1}
+.ex small{font-weight:400;color:#6B5418;font-size:11px}
+.rd:focus-visible,.ex:focus-visible,.t-x:focus-visible{outline:2px solid #1E78BE;outline-offset:2px}
+.bar{height:6px;border-radius:3px;background:#E3E7EA;overflow:hidden}
+.bar>span{display:block;height:100%;background:#1E78BE;transition:width .4s}
+.tr.nu>[role=cell]{text-transform:none}
+.g-res{grid-template-columns:72px 230px 190px minmax(0,1fr)}
+.g-resd{grid-template-columns:72px 220px 250px 180px minmax(0,1fr)}
+.g-mdoc{grid-template-columns:minmax(0,1.6fr) 180px minmax(0,1.2fr)}
+.mono{font-variant-numeric:tabular-nums}
 </style>
 </helmet>
-<div style="min-height: 100vh; display: flex; flex-direction: column; background: #EEF2F7; color: #1B2433; font-family: 'Figtree', system-ui, sans-serif">
+<div style="min-height: 100vh; display: flex; flex-direction: column; background: #ECEFF1; color: #3D4448; font-family: 'Poppins', system-ui, sans-serif">
 
-<header style="background: #0F366D; color: #FFFFFF">
-<div style="max-width: 1360px; margin: 0 auto; padding: 12px 32px; display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap">
-<div style="display: flex; align-items: center; gap: 12px; flex-wrap: wrap">
-<div aria-hidden="true" style="width: 38px; height: 38px; border-radius: 8px; background: #FFFFFF; color: #0F366D; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 13px">TCE</div>
-<div style="display: flex; flex-direction: column; gap: 2px">
-<span style="font-weight: 700; font-size: 18px">eTCE Web</span>
-<span style="font-size: 12px; color: #C9D6EA">Tribunal de Contas do Estado de Goiás</span>
-</div>
-<span class="chip" style="background: #F2B84B; color: #3B2A05; margin-left: 8px">Protótipo · dados simulados</span>
-</div>
-<div style="display: flex; align-items: center; gap: 12px">
-<div style="display: flex; flex-direction: column; align-items: flex-end; gap: 2px">
-<span style="font-weight: 600; font-size: 14px">{{userNome}}</span>
-<span style="font-size: 12px; color: #C9D6EA">{{userSetor}}</span>
-</div>
-<div aria-hidden="true" style="width: 38px; height: 38px; border-radius: 19px; background: #2A5597; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 13px">{{userIni}}</div>
+<!-- ================= CABEÇALHO ================= -->
+<header class="hdr">
+<button type="button" class="hamb" aria-label="Recolher ou expandir o menu" aria-expanded="{{sideOpenStr}}" onClick="{{toggleSide}}"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"></path></svg></button>
+<div style="display: flex; align-items: center; gap: 8px; flex-shrink: 0" aria-label="Tribunal de Contas do Estado de Goiás">
+<svg width="46" height="30" viewBox="0 0 46 30" fill="none" stroke="#2F3437" stroke-width="2" aria-hidden="true"><path d="M2 15c6-9 14-12 21-12s15 3 21 12c-6 9-14 12-21 12S8 24 2 15z"></path><circle cx="23" cy="15" r="7"></circle><circle cx="23" cy="15" r="2.5" fill="#2F3437"></circle></svg>
+<div style="display: flex; flex-direction: column; line-height: 1.05; color: #2F3437">
+<span style="font-size: 12px; font-weight: 600; letter-spacing: .02em">TRIBUNAL DE CONTAS</span>
+<span style="font-size: 12px; font-weight: 400; letter-spacing: .02em">DO ESTADO DE GOIÁS</span>
 </div>
 </div>
+<label class="gsearch">
+<span class="sr">Buscar processo</span>
+<input type="search" placeholder="Buscar processo..." value="{{search}}" onChange="{{setSearch}}">
+<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#2F3437" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-3.5-3.5"></path></svg>
+</label>
+<span class="chip c-warn" style="margin-left: 4px">Protótipo · dados simulados</span>
+<div style="flex-grow: 1"></div>
+<button type="button" class="icon-btn" style="position: relative" aria-label="Pendências: 31" onClick="{{goPend}}">
+<svg width="24" height="24" viewBox="0 0 24 24" fill="#C62828" aria-hidden="true"><path d="M12 22a2.5 2.5 0 0 0 2.45-2h-4.9A2.5 2.5 0 0 0 12 22zm7-6V11a7 7 0 0 0-5.5-6.84V3.5a1.5 1.5 0 0 0-3 0v.66A7 7 0 0 0 5 11v5l-2 2v1h18v-1z"></path></svg>
+<span class="badge" style="top: -2px; right: -4px" aria-hidden="true">31</span>
+</button>
+<div style="display: flex; flex-direction: column; gap: 2px; font-size: 15px; max-width: 320px; min-width: 0">
+<span style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis"><strong style="font-weight: 600">Usuário:</strong> {{userNome}}</span>
+<span style="display: flex; align-items: center; gap: 8px; min-width: 0"><span style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis"><strong style="font-weight: 600">Órgão/Setor:</strong> {{userSetor}}</span><svg width="12" height="12" viewBox="0 0 24 24" fill="#3D4448" aria-hidden="true" style="flex-shrink: 0"><path d="M4 8h16l-8 9z"></path></svg></span>
+</div>
+<div aria-hidden="true" style="width: 50px; height: 50px; border-radius: 25px; background: #E3E6E8; color: #2F3437; display: flex; align-items: center; justify-content: center; font-weight: 600; font-size: 16px; flex-shrink: 0">{{userIni}}</div>
 </header>
 
-<nav aria-label="Menu principal" style="background: #FFFFFF; border-bottom: 1px solid #DDE3EC">
-<div style="max-width: 1360px; margin: 0 auto; padding: 0 20px; display: flex; flex-wrap: wrap; gap: 4px">
-<button type="button" class="{{navProcCls}}" onClick="{{goProcessos}}">Processos</button>
-<button type="button" class="nav-a" onClick="{{goProcessos}}">Pautas</button>
-<button type="button" class="nav-a" onClick="{{goProcessos}}">Dashboard</button>
+<div style="display: flex; flex-grow: 1; min-height: 0">
+
+<!-- ================= MENU LATERAL ================= -->
+<nav class="{{sideCls}}" aria-label="Menu principal">
+<button type="button" class="nav" onClick="{{goDash}}" title="Dashboard"><svg width="20" height="20" viewBox="0 0 24 24" fill="#1E78BE" aria-hidden="true"><rect x="3" y="14" width="4" height="7"></rect><rect x="9.5" y="10" width="4" height="11"></rect><rect x="16" y="4" width="4" height="17"></rect></svg><span class="lbl">Dashboard</span></button>
+<button type="button" class="nav" onClick="{{goLista}}" title="Listagem de processos"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#13855E" stroke-width="2" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="1"></rect><path d="M3 9h18M3 14h18M9 9v11M15 9v11"></path></svg><span class="lbl">Listagem de processos</span></button>
+<button type="button" class="nav sub2" onClick="{{goAnot}}" title="Com Anotações"><svg width="20" height="20" viewBox="0 0 24 24" fill="#F2A33A" aria-hidden="true"><path d="M4 4h16v12H8l-4 4z"></path><path d="M8 8h8M8 11.5h6" stroke="#FFFFFF" stroke-width="1.6"></path></svg><span class="lbl">Com Anotações</span><span class="nbadge">17</span></button>
+<button type="button" class="nav sub2" onClick="{{goPend}}" title="Com Pendências"><svg width="20" height="20" viewBox="0 0 24 24" fill="#F2A33A" aria-hidden="true"><path d="M12 22a2.5 2.5 0 0 0 2.45-2h-4.9A2.5 2.5 0 0 0 12 22zm7-6V11a7 7 0 0 0-5.5-6.84V3.5a1.5 1.5 0 0 0-3 0v.66A7 7 0 0 0 5 11v5l-2 2v1h18v-1z"></path></svg><span class="lbl">Com Pendências</span><span class="nbadge">31</span></button>
+<button type="button" class="nav" onClick="{{goPauta}}" title="Pauta"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#8E44AD" stroke-width="2" aria-hidden="true"><path d="M6 3h9l4 4v14H6z"></path><path d="M9 11h7M9 15h7M9 19h4"></path></svg><span class="lbl">Pauta</span><svg class="caret" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#5A6268" stroke-width="2" aria-hidden="true"><path d="m6 9 6 6 6-6"></path></svg></button>
+<button type="button" class="nav" onClick="{{goDist}}" title="Distribuir processos"><svg width="20" height="20" viewBox="0 0 24 24" fill="#E74C3C" aria-hidden="true"><circle cx="8" cy="8" r="3"></circle><circle cx="16" cy="8" r="3"></circle><path d="M2 19c0-3.3 2.7-5 6-5s6 1.7 6 5zM12 19c.2-2.4 1.3-4 4-4 3.3 0 6 1.7 6 4z"></path></svg><span class="lbl">Distribuir processos</span><svg class="caret" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#5A6268" stroke-width="2" aria-hidden="true"><path d="m6 9 6 6 6-6"></path></svg></button>
 <sc-if value="{{hasFuncao}}" hint-placeholder-val="{{true}}">
-<button type="button" class="{{navTelaCls}}" onClick="{{goTela}}">
-<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a9 9 0 1 1-2.64-6.36"></path><path d="M21 3v6h-6"></path></svg>
-Forçar Indexação Maven
-<sc-if value="{{navRunning}}" hint-placeholder-val="{{false}}"><span class="chip c-warn" style="height: 20px; font-size: 11px">em execução</span></sc-if>
-</button>
+<button type="button" class="{{navTelaCls}}" aria-current="{{navTelaCur}}" onClick="{{goTela}}" title="Forçar Indexação Maven"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1E78BE" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a9 9 0 1 1-2.64-6.36"></path><path d="M21 3v6h-6"></path></svg><span class="lbl">Forçar Indexação Maven</span><sc-if value="{{navRunning}}" hint-placeholder-val="{{false}}"><svg class="spin" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#C2570C" stroke-width="2.5" stroke-linecap="round" style="margin-left: auto" aria-label="Execução em andamento"><path d="M21 12a9 9 0 1 1-9-9"></path></svg></sc-if></button>
 </sc-if>
-</div>
 </nav>
 
-<main style="flex-grow: 1; width: 100%; max-width: 1360px; margin: 0 auto; padding: 24px 32px 96px; display: flex; flex-direction: column; gap: 16px">
+<div style="flex-grow: 1; min-width: 0; display: flex; flex-direction: column">
 
-<!-- ============ Acesso negado (Fluxo 08) ============ -->
+<!-- ================= TRILHA ================= -->
+<nav class="crumbs" aria-label="Trilha de navegação">
+<button type="button" class="crumb-b" aria-label="Início" onClick="{{goLista}}"><svg width="20" height="20" viewBox="0 0 24 24" fill="#3D4448" aria-hidden="true"><path d="M12 3 2 12h3v8h5v-5h4v5h5v-8h3z"></path></svg></button>
+<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#3D4448" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="m9 5 7 7-7 7"></path></svg>
+<span class="crumb-c" aria-current="page">{{crumbAtual}}</span>
+</nav>
+
+<main style="flex-grow: 1; padding: 24px; display: flex; flex-direction: column; gap: 12px">
+
+<!-- ================= Acesso negado (Fluxo 08) ================= -->
 <sc-if value="{{showDenied}}" hint-placeholder-val="{{false}}">
-<section class="card" style="padding: 56px 24px; display: flex; flex-direction: column; align-items: center; gap: 12px; text-align: center">
-<svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="#B42318" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="10" width="16" height="11" rx="2"></rect><path d="M8 10V7a4 4 0 0 1 8 0v3"></path></svg>
-<h1 class="h1" style="font-size: 22px">Acesso negado</h1>
-<p class="muted" style="margin: 0; max-width: 560px; line-height: 1.5">Você não tem permissão para acessar esta página. Se precisa deste acesso, procure o responsável pelo controle de acessos do seu setor.</p>
-<span class="chip c-neutral mono">/forcar-indexacao-maven</span>
-</section>
+<section class="card"><div class="card-b" style="padding-top: 24px"><div class="alert a-error" role="alert"><span style="font-weight: 500">Acesso negado.</span><span>Você não tem permissão para acessar esta página (/forcar-indexacao-maven). Se precisa deste acesso, procure o responsável pelo controle de acessos do seu setor.</span></div></div></section>
 </sc-if>
 
-<!-- ============ Outra tela (fora do escopo) ============ -->
+<!-- ================= Outra tela (fora do escopo) ================= -->
 <sc-if value="{{showOutra}}" hint-placeholder-val="{{false}}">
-<section class="card" style="padding: 48px 24px; display: flex; flex-direction: column; align-items: center; gap: 12px; text-align: center">
-<h1 class="h1" style="font-size: 22px">Processos</h1>
-<p class="muted" style="margin: 0; max-width: 620px; line-height: 1.5">Tela fora do escopo deste protótipo. A execução de reindexação continua em segundo plano enquanto você está aqui; ao voltar, os itens já concluídos aparecem nos Resultados.</p>
-<sc-if value="{{hasFuncao}}" hint-placeholder-val="{{true}}"><button type="button" class="btn btn-o" onClick="{{goTela}}">Voltar a Forçar Indexação Maven</button></sc-if>
+<section class="card">
+<div class="card-h"><h1 class="card-t">{{crumbAtual}}</h1></div>
+<div class="card-b">
+<p class="phint">Tela fora do escopo deste protótipo. A execução de reindexação continua em segundo plano enquanto você está aqui; ao voltar, os itens já concluídos aparecem nos Resultados.</p>
+<sc-if value="{{hasFuncao}}" hint-placeholder-val="{{true}}"><div><button type="button" class="btn btn-o" onClick="{{goTela}}">Voltar a Forçar Indexação Maven</button></div></sc-if>
+</div>
 </section>
 </sc-if>
 
-<!-- ============ TELA 01 — Reindexação Maven ============ -->
+<!-- ================= TELA 01 — Reindexação Maven ================= -->
 <sc-if value="{{showTela}}" hint-placeholder-val="{{true}}">
-<section style="display: flex; flex-direction: column; gap: 16px">
-<div style="display: flex; flex-direction: column; gap: 4px">
-<span class="crumb">eTCE Web <span aria-hidden="true">›</span> Forçar Indexação Maven</span>
-<h1 class="h1">Reindexação Maven</h1>
-<p class="muted" style="margin: 4px 0 0; font-size: 14px; max-width: 860px; line-height: 1.5">Peça de novo a indexação dos documentos de um processo no Maven Docs e acompanhe a situação de cada documento. O eTCE registra o pedido e grava a fila; a indexação acontece depois, no Maven.</p>
-</div>
 
-<div style="display: flex; flex-wrap: wrap; gap: 16px; align-items: stretch">
+<section class="card" aria-label="Forçar Indexação Maven">
+<div class="card-h" style="padding-bottom: 22px; align-items: flex-start; flex-wrap: wrap">
+<div style="display: flex; flex-direction: column; gap: 6px; flex: 1 1 420px; min-width: 0">
+<h1 class="card-t">Forçar Indexação Maven</h1>
+<p class="phint">Setor: {{userSetor}} · Reindexação dos documentos do processo no Maven Docs. O eTCE registra o pedido e grava a fila; a indexação acontece depois, no Maven.</p>
+</div>
+<sc-if value="{{navRunningAny}}" hint-placeholder-val="{{false}}"><span class="chip c-warn"><svg class="spin" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" aria-hidden="true"><path d="M21 12a9 9 0 1 1-9-9"></path></svg>Execução em andamento no servidor</span></sc-if>
+</div>
+</section>
 
 <!-- Reindexar -->
-<div class="card" style="flex: 2 1 560px; min-width: 0; display: flex; flex-direction: column">
+<section class="card" aria-label="Reindexar processo">
 <div class="card-h"><h2 class="card-t">Reindexar processo</h2></div>
-<div style="padding: 20px; display: flex; flex-direction: column; gap: 18px">
-<label class="field" style="max-width: 460px">
-Processo a ser reindexado
-<input class="{{inputCls}}" type="text" inputmode="numeric" placeholder="Ex.: 202600047000118" value="{{numero}}" onChange="{{setNumero}}" aria-invalid="{{ariaInvalid}}" aria-describedby="num-err">
-<sc-if value="{{hasFieldErr}}" hint-placeholder-val="{{false}}"><span id="num-err" role="alert" style="color: #A3271C; font-weight: 600; font-size: 13px; display: flex; gap: 6px; align-items: center"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><path d="M12 7v6M12 16.5v.5"></path></svg>{{fieldErr}}</span></sc-if>
+<div class="card-b">
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 16px; align-items: start">
+<label class="field">Processo a ser reindexado
+<input class="{{inputCls}}" type="text" inputmode="numeric" placeholder="Número do processo" value="{{numero}}" onChange="{{setNumero}}" aria-invalid="{{ariaInvalid}}" aria-describedby="num-err">
+<sc-if value="{{hasFieldErr}}" hint-placeholder-val="{{false}}"><span id="num-err" role="alert" style="color: #A21F1F; font-weight: 500; font-size: 14px">{{fieldErr}}</span></sc-if>
 </label>
-
-<fieldset style="border: 0; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 8px">
-<legend style="font-size: 13px; font-weight: 600; color: #3A4558; padding: 0; margin-bottom: 8px">Quais documentos reindexar?</legend>
+<fieldset style="border: 0; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 6px; min-width: 0">
+<legend class="field" style="padding: 0; margin-bottom: 6px">Quais documentos reindexar?</legend>
 <div style="display: flex; gap: 10px; flex-wrap: wrap">
 <label class="{{rdAusCls}}"><input class="rd" type="radio" name="modo" value="aus" checked="{{modoAus}}" onChange="{{setAus}}">Só documentos ausentes</label>
 <label class="{{rdTodCls}}"><input class="rd" type="radio" name="modo" value="todos" checked="{{modoTodos}}" onChange="{{setTodos}}">Todos os documentos</label>
 </div>
-<span class="muted" style="font-size: 13px; line-height: 1.45">{{modoHint}}</span>
 </fieldset>
-
-<div style="display: flex; gap: 12px; flex-wrap: wrap; align-items: center">
-<button type="button" class="btn" disabled="{{dReind}}" onClick="{{reindexar}}">
+</div>
+<p class="phint" style="font-size: 13px">{{modoHint}}</p>
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px">
+<button type="button" class="btn btn-o btn-w" disabled="{{dCons}}" onClick="{{consultar}}">
+<sc-if value="{{spinCons}}" hint-placeholder-val="{{false}}"><svg class="spin" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><path d="M21 12a9 9 0 1 1-9-9"></path></svg></sc-if>
+Consultar situação
+</button>
+<button type="button" class="btn btn-w" disabled="{{dReind}}" onClick="{{reindexar}}">
 <sc-if value="{{spinProc}}" hint-placeholder-val="{{false}}"><svg class="spin" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><path d="M21 12a9 9 0 1 1-9-9"></path></svg></sc-if>
 Reindexar Processo
 </button>
-<button type="button" class="btn btn-o" disabled="{{dCons}}" onClick="{{consultar}}">
-<sc-if value="{{spinCons}}" hint-placeholder-val="{{false}}"><svg class="spin" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><path d="M21 12a9 9 0 1 1-9-9"></path></svg></sc-if>
-<sc-if value="{{noSpinCons}}" hint-placeholder-val="{{true}}"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-3.5-3.5"></path></svg></sc-if>
-Consultar situação
-</button>
 </div>
-
-<div style="border-top: 1px dashed #E0D3AE; padding-top: 14px; display: flex; flex-direction: column; gap: 8px">
-<span style="font-size: 11px; font-weight: 700; color: #6B5418; text-transform: uppercase; letter-spacing: .05em">Processos simulados (preenchem o campo)</span>
-<div style="display: flex; gap: 8px; flex-wrap: wrap">
+<div class="pitems-box" style="margin-top: 0; background: #FFFBEF; border: 1px dashed #E0D3AE">
+<span style="font-size: 11px; font-weight: 600; color: #6B5418; text-transform: uppercase; letter-spacing: .05em">Processos simulados (preenchem o campo)</span>
+<div class="pitems">
 <sc-for list="{{exemplos}}" as="ex" hint-placeholder-count="7">
 <button type="button" class="ex" onClick="{{ex.pick}}"><span class="mono">{{ex.num}}</span><small>{{ex.desc}}</small></button>
 </sc-for>
 </div>
 </div>
 </div>
-</div>
+</section>
 
 <!-- Lotes -->
 <sc-if value="{{showLotes}}" hint-placeholder-val="{{true}}">
-<div class="card" style="flex: 1 1 380px; min-width: 0; display: flex; flex-direction: column">
+<section class="card" aria-label="Lotes">
 <div class="card-h"><h2 class="card-t">Lotes</h2><span class="chip c-primary">SERV-SISTEMAS</span></div>
-<div style="padding: 20px; display: flex; flex-direction: column; gap: 18px">
+<div class="card-b">
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 16px">
 <div style="display: flex; flex-direction: column; gap: 8px">
-<button type="button" class="btn btn-o" style="justify-content: flex-start" disabled="{{dReind}}" onClick="{{loteAut}}">
+<button type="button" class="btn btn-o btn-w" disabled="{{dReind}}" onClick="{{loteAut}}">
 <sc-if value="{{spinAut}}" hint-placeholder-val="{{false}}"><svg class="spin" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><path d="M21 12a9 9 0 1 1-9-9"></path></svg></sc-if>
-<sc-if value="{{noSpinAut}}" hint-placeholder-val="{{true}}"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 3 9 5-9 5-9-5 9-5Z"></path><path d="m3 13 9 5 9-5"></path></svg></sc-if>
 Reprocessar Todas Autuações Em Andamento
 </button>
-<span class="muted" style="font-size: 13px; line-height: 1.45">Autuações digitais em andamento ainda não reindexadas, da mais antiga para a mais recente. Usa o modo escolhido ao lado ({{modoLabel}}).</span>
+<p class="phint" style="font-size: 13px">Autuações digitais em andamento ainda não reindexadas, da mais antiga para a mais recente. Usa o modo escolhido acima ({{modoLabel}}).</p>
 </div>
 <div style="display: flex; flex-direction: column; gap: 8px">
-<button type="button" class="btn btn-o" style="justify-content: flex-start" disabled="{{dReind}}" onClick="{{loteDoc}}">
+<button type="button" class="btn btn-o btn-w" disabled="{{dReind}}" onClick="{{loteDoc}}">
 <sc-if value="{{spinDoc}}" hint-placeholder-val="{{false}}"><svg class="spin" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><path d="M21 12a9 9 0 1 1-9-9"></path></svg></sc-if>
-<sc-if value="{{noSpinDoc}}" hint-placeholder-val="{{true}}"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8Z"></path><path d="M14 3v5h5"></path><path d="M12 12v3M12 18v.5"></path></svg></sc-if>
 Reindexar Documentos com Erro
 </button>
-<span class="muted" style="font-size: 13px; line-height: 1.45">Documentos com situação "Erro" no índice, de processos em andamento. Não usa o modo escolhido. Hoje: {{docsErroText}}.</span>
+<p class="phint" style="font-size: 13px">Documentos com situação "Erro" no índice, de processos em andamento. Não usa o modo escolhido. Hoje: {{docsErroText}}.</p>
 </div>
 </div>
 </div>
+</section>
 </sc-if>
-</div>
 
 <sc-if value="{{hasMsg}}" hint-placeholder-val="{{false}}">
-<div class="{{msgCls}}" role="alert">
-<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" style="flex-shrink: 0; margin-top: 1px" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><path d="M12 7v6M12 16.5v.5"></path></svg>
-<span style="flex-grow: 1">{{msgText}}</span>
-</div>
+<div class="{{msgCls}}" role="alert"><span style="font-weight: 500">{{msgText}}</span></div>
 </sc-if>
 
 <!-- Resultados -->
-<div class="card" style="overflow: hidden">
-<div class="card-h">
+<section class="card" aria-label="Resultados">
+<div class="card-h" style="flex-wrap: wrap">
 <h2 class="card-t">Resultados</h2>
-<sc-if value="{{hasExec}}" hint-placeholder-val="{{false}}"><span class="muted" style="font-size: 13px">{{execMeta}}</span></sc-if>
 <div style="flex-grow: 1"></div>
-<sc-if value="{{execRunning}}" hint-placeholder-val="{{false}}"><span class="chip c-warn"><svg class="spin" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" aria-hidden="true"><path d="M21 12a9 9 0 1 1-9-9"></path></svg>Em execução no servidor</span></sc-if>
+<sc-if value="{{execRunning}}" hint-placeholder-val="{{false}}"><span class="chip c-warn"><svg class="spin" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" aria-hidden="true"><path d="M21 12a9 9 0 1 1-9-9"></path></svg>Em execução</span></sc-if>
 <sc-if value="{{execDone}}" hint-placeholder-val="{{false}}"><span class="{{execDoneCls}}">{{execDoneLabel}}</span></sc-if>
 </div>
+<div class="card-b">
 <sc-if value="{{hasExec}}" hint-placeholder-val="{{false}}">
-<div style="padding: 12px 20px; display: flex; flex-direction: column; gap: 8px; border-bottom: 1px solid #E3E8EF; background: #FAFBFD">
-<div style="display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; font-size: 14px" aria-live="polite">
-<strong>{{resumo}}</strong>
-<sc-if value="{{hasExcluded}}" hint-placeholder-val="{{false}}"><span class="muted" style="font-size: 13px">{{excludedText}}</span></sc-if>
-</div>
+<div style="display: flex; flex-direction: column; gap: 8px">
+<p class="phint">{{execMeta}}</p>
 <div class="bar" aria-hidden="true"><span style="width: {{progressPct}}"></span></div>
+<sc-if value="{{hasExcluded}}" hint-placeholder-val="{{false}}"><p class="phint" style="font-size: 13px">{{excludedText}}</p></sc-if>
 </div>
 </sc-if>
-<div style="overflow-x: auto">
-<div role="table" aria-label="Resultados da execução" style="min-width: 860px">
+<div>
+<div style="overflow-x: auto" class="tbl">
+<div role="table" aria-label="Resultados da execução" style="min-width: 900px">
 <div role="row" class="{{resHeadCls}}">
-<span role="columnheader">Nº</span>
-<span role="columnheader">Processo</span>
-<sc-if value="{{resIsDocs}}" hint-placeholder-val="{{false}}"><span role="columnheader">Documento (origem · Maven)</span></sc-if>
-<span role="columnheader">Situação</span>
-<span role="columnheader">Mensagem</span>
+<span role="columnheader" class="nf">Nº</span>
+<span role="columnheader" class="nf">Processo</span>
+<sc-if value="{{resIsDocs}}" hint-placeholder-val="{{false}}"><span role="columnheader" class="nf">Documento (origem · Maven)</span></sc-if>
+<span role="columnheader" class="nf">Situação</span>
+<span role="columnheader" class="nf">Mensagem</span>
 </div>
 <sc-for list="{{resRows}}" as="r" hint-placeholder-count="0">
 <div role="row" class="{{r.cls}}">
-<span role="cell" class="mono muted">{{r.n}}</span>
-<span role="cell" class="num">{{r.numero}}</span>
-<sc-if value="{{r.isDoc}}" hint-placeholder-val="{{false}}"><span role="cell" class="mono" style="font-size: 13px">{{r.doc}}</span></sc-if>
+<span role="cell" class="mono">{{r.n}}</span>
+<span role="cell"><span class="num">{{r.numero}}</span></span>
+<sc-if value="{{r.isDoc}}" hint-placeholder-val="{{false}}"><span role="cell" class="mono">{{r.doc}}</span></sc-if>
 <span role="cell"><span class="{{r.sitCls}}">{{r.sit}}</span></span>
-<span role="cell" style="font-size: 13px; color: #3A4558">{{r.msg}}</span>
+<span role="cell" style="font-size: 13px; user-select: text">{{r.msg}}</span>
 </div>
 </sc-for>
 <sc-if value="{{showResSkel}}" hint-placeholder-val="{{false}}">
-<div class="{{resSkelCls}}"><span class="skel" style="width: 20px"></span><span class="skel" style="width: 140px"></span><span class="skel" style="width: 110px"></span><span class="skel" style="width: 60%"></span></div>
+<div class="{{resSkelCls}}"><span><span class="skel" style="width: 20px"></span></span><span><span class="skel" style="width: 140px"></span></span><span><span class="skel" style="width: 110px"></span></span><span><span class="skel" style="width: 60%"></span></span></div>
 </sc-if>
 <sc-if value="{{resEmpty}}" hint-placeholder-val="{{true}}">
 <div style="padding: 36px 24px; text-align: center; display: flex; flex-direction: column; gap: 6px; align-items: center">
-<span style="font-weight: 600">Nenhuma execução nesta sessão</span>
-<span class="muted" style="font-size: 14px; max-width: 560px; line-height: 1.5">Ao acionar uma reindexação, cada processo ou documento aparece aqui à medida que é concluído. A lista é somente leitura e o texto pode ser selecionado e copiado.</span>
+<span style="font-weight: 500">Nenhuma execução nesta sessão</span>
+<span class="muted" style="font-size: 14px; max-width: 600px; line-height: 1.5">Ao acionar uma reindexação, cada processo ou documento aparece aqui à medida que é concluído. A lista é somente leitura e o texto pode ser selecionado e copiado.</span>
 </div>
 </sc-if>
 </div>
 </div>
+<div class="tfoot" aria-live="polite"><span>{{resumo}}</span></div>
 </div>
+</div>
+</section>
 
 <!-- Acompanhamento -->
-<div class="card" style="overflow: hidden">
-<div class="card-h">
+<section class="card" aria-label="Acompanhamento da indexação">
+<div class="card-h" style="flex-wrap: wrap">
 <h2 class="card-t">Acompanhamento da indexação</h2>
-<sc-if value="{{hasConsult}}" hint-placeholder-val="{{false}}">
-<span class="num">{{cNumero}}</span>
-<sc-if value="{{cShowSit}}" hint-placeholder-val="{{true}}"><span class="{{cSitCls}}">{{cSit}}</span></sc-if>
-</sc-if>
 <div style="flex-grow: 1"></div>
 <sc-if value="{{hasConsult}}" hint-placeholder-val="{{false}}">
-<span class="muted" style="font-size: 13px">Consultado às {{cAt}}</span>
-<button type="button" class="btn btn-o btn-s" disabled="{{dCons}}" onClick="{{atualizar}}">
-<svg class="{{refreshCls}}" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a9 9 0 1 1-2.64-6.36"></path><path d="M21 3v6h-6"></path></svg>
+<span class="muted" style="font-size: 14px">Última atualização às {{cAt}}</span>
+<button type="button" class="lnk" disabled="{{dCons}}" onClick="{{atualizar}}">
+<svg class="{{refreshCls}}" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a9 9 0 1 1-2.64-6.36"></path><path d="M21 3v6h-6"></path></svg>
 Atualizar
 </button>
 </sc-if>
 </div>
-
+<div class="card-b">
 <sc-if value="{{consEmpty}}" hint-placeholder-val="{{true}}">
-<div style="padding: 32px 24px; text-align: center; display: flex; flex-direction: column; gap: 6px; align-items: center">
-<span style="font-weight: 600">Nenhum processo consultado</span>
-<span class="muted" style="font-size: 14px; max-width: 560px; line-height: 1.5">Informe o número em "Processo a ser reindexado" e acione "Consultar situação" para ver cada documento do sumário e a sua situação no Maven. A consulta só é refeita quando você aciona "Atualizar".</span>
-</div>
+<p class="phint">Informe o número em "Processo a ser reindexado" e acione "Consultar situação" para ver cada documento do sumário e a sua situação no Maven. A consulta só é refeita quando você aciona "Atualizar".</p>
 </sc-if>
-
 <sc-if value="{{consLoading}}" hint-placeholder-val="{{false}}">
-<div style="padding: 16px 20px; display: flex; flex-direction: column; gap: 14px">
+<div style="display: flex; flex-direction: column; gap: 14px">
 <span class="skel" style="width: 320px; height: 14px"></span>
 <span class="skel" style="width: 70%"></span><span class="skel" style="width: 60%"></span><span class="skel" style="width: 66%"></span>
 </div>
 </sc-if>
-
 <sc-if value="{{showConsult}}" hint-placeholder-val="{{false}}">
-<div style="padding: 16px 20px; display: flex; flex-direction: column; gap: 14px; border-bottom: 1px solid #E3E8EF">
+<div style="display: flex; align-items: center; gap: 12px; flex-wrap: wrap">
+<span class="num" style="font-size: 16px">{{cNumero}}</span>
+<sc-if value="{{cShowSit}}" hint-placeholder-val="{{true}}"><span class="{{cSitCls}}">{{cSit}}</span></sc-if>
 <span class="muted" style="font-size: 14px">{{cAssunto}}</span>
+</div>
 <sc-if value="{{cHasPend}}" hint-placeholder-val="{{false}}">
 <div class="{{cPendCls}}" role="status">
-<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0; margin-top: 1px" aria-hidden="true"><path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0Z"></path><path d="M12 9v4M12 17v.5"></path></svg>
-<div style="display: flex; flex-direction: column; gap: 4px">
-<strong>{{cPendTitle}}</strong>
+<span style="font-weight: 500">{{cPendTitle}}</span>
 <span>Etapa da última falha: {{cPendEtapa}} — {{cPendMsg}}</span>
 <span>{{cPendInfo}}</span>
 </div>
-</div>
 </sc-if>
-<div style="display: flex; gap: 8px; flex-wrap: wrap; align-items: center">
-<span style="font-size: 13px; font-weight: 600; color: #3A4558; margin-right: 4px">Resumo por situação:</span>
+<div class="pitems" style="align-items: center">
+<span class="phint" style="font-size: 14px; margin-right: 4px">Resumo por situação:</span>
 <sc-for list="{{cResumo}}" as="c" hint-placeholder-count="3">
 <span class="{{c.cls}}">{{c.label}}: {{c.qtd}}</span>
 </sc-for>
 <sc-if value="{{cNoDocs}}" hint-placeholder-val="{{false}}"><span class="chip c-neutral">Sem documentos no sumário</span></sc-if>
 </div>
-</div>
-<div style="overflow-x: auto">
-<div role="table" aria-label="Documentos do processo" style="min-width: 720px">
-<div role="row" class="tr th g-doc">
-<span role="columnheader">Documento</span>
-<span role="columnheader">Tipo</span>
-<span role="columnheader">Situação no Maven</span>
+<div>
+<div style="overflow-x: auto" class="tbl">
+<div role="table" aria-label="Documentos do processo" style="min-width: 760px">
+<div role="row" class="tr th g-mdoc">
+<span role="columnheader" class="nf">Documento</span>
+<span role="columnheader" class="nf">Tipo</span>
+<span role="columnheader" class="nf">Situação no Maven</span>
 </div>
 <sc-for list="{{cDocs}}" as="d" hint-placeholder-count="4">
-<div role="row" class="tr g-doc">
-<span role="cell" style="display: flex; flex-direction: column; gap: 2px"><span style="font-weight: 600">{{d.nome}}</span><span class="muted mono" style="font-size: 12px">Id {{d.id}} · Maven {{d.mvn}}</span></span>
-<span role="cell" class="muted">{{d.tipo}}</span>
+<div role="row" class="tr nu g-mdoc">
+<span role="cell" style="flex-direction: column; align-items: flex-start; justify-content: center; gap: 2px"><span style="font-weight: 500">{{d.nome}}</span><span class="muted mono" style="font-size: 12px">Id {{d.id}} · Maven {{d.mvn}}</span></span>
+<span role="cell">{{d.tipo}}</span>
 <span role="cell"><span class="{{d.cls}}">{{d.label}}</span></span>
 </div>
 </sc-for>
@@ -337,12 +462,16 @@ Atualizar
 </sc-if>
 </div>
 </div>
+<div class="tfoot"><span>{{cCountText}}</span></div>
+</div>
 </sc-if>
 </div>
-
 </section>
+
 </sc-if>
 </main>
+</div>
+</div>
 
 <sc-if value="{{hasToast}}" hint-placeholder-val="{{false}}">
 <div class="{{toastCls}}" role="status" aria-live="polite">
@@ -383,7 +512,7 @@ class Component extends DCLogic {
   }
   init() {
     return {
-      view: 'tela', numero: '', modo: 'aus', fieldErr: null, msg: null,
+      view: 'tela', outra: '', sideOpen: true, search: '', numero: '', modo: 'aus', fieldErr: null, msg: null,
       exec: null, running: null, validating: null, consulting: false, consult: null,
       db: this.buildDb(), toast: null
     };
@@ -645,7 +774,7 @@ class Component extends DCLogic {
       N: ['Não Processado', 'chip c-neutral']
     };
     const isDocs = !!(exec && exec.isDocs);
-    const rowCls = isDocs ? 'tr g-resd' : 'tr g-res';
+    const rowCls = isDocs ? 'tr nu g-resd' : 'tr nu g-res';
     const resRows = exec ? exec.items.map((it) => ({
       n: it.n, numero: it.numero, isDoc: isDocs, doc: it.doc || '',
       sit: SIT[it.sit][0], sitCls: SIT[it.sit][1], msg: it.msg || '—', cls: rowCls
@@ -657,6 +786,8 @@ class Component extends DCLogic {
       resumo = done
         ? exec.total + ' item(ns) processado(s) · ' + exec.falhas + ' com falha ou pendente'
         : 'Processando — ' + nItems + ' de ' + exec.total + ' item(ns) concluído(s)';
+    } else {
+      resumo = 'Nenhum item processado';
     }
     const execMeta = exec
       ? exec.acao + (exec.numero ? ' ' + exec.numero : '') + ' · ' + exec.modoLabel + ' · início ' + this.fmtT(exec.inicio) + (done ? ' · fim ' + this.fmtT(exec.fim) : '')
@@ -686,11 +817,23 @@ class Component extends DCLogic {
     return {
       userNome: u.nome, userIni: u.ini, userSetor: u.setor,
       hasFuncao: hasFuncao,
-      navTelaCls: view === 'tela' ? 'nav-a on' : 'nav-a',
-      navProcCls: view === 'outra' ? 'nav-a on' : 'nav-a',
-      navRunning: running && view !== 'tela',
+      sideCls: s.sideOpen ? 'side' : 'side mini',
+      sideOpenStr: s.sideOpen ? 'true' : 'false',
+      toggleSide: () => this.setState({ sideOpen: !s.sideOpen }),
+      search: s.search,
+      setSearch: (e) => this.setState({ search: e.target.value }),
+      navTelaCls: view === 'tela' ? 'nav on' : 'nav',
+      navTelaCur: view === 'tela' ? 'page' : 'false',
+      navRunning: running,
+      navRunningAny: running,
+      crumbAtual: view === 'outra' ? s.outra : 'Forçar Indexação Maven',
       goTela: () => this.setState({ view: 'tela' }),
-      goProcessos: () => this.setState({ view: 'outra' }),
+      goDash: () => this.setState({ view: 'outra', outra: 'Dashboard' }),
+      goLista: () => this.setState({ view: 'outra', outra: 'Listagem de processos' }),
+      goAnot: () => this.setState({ view: 'outra', outra: 'Com Anotações' }),
+      goPend: () => this.setState({ view: 'outra', outra: 'Com Pendências' }),
+      goPauta: () => this.setState({ view: 'outra', outra: 'Pauta' }),
+      goDist: () => this.setState({ view: 'outra', outra: 'Distribuir processos' }),
       showDenied: view === 'negado', showOutra: view === 'outra', showTela: view === 'tela',
       showLotes: pk === 'sis',
 
@@ -744,7 +887,8 @@ class Component extends DCLogic {
       showConsult: !!c,
       cNumero: c ? c.numero : '', cAssunto: c ? c.assunto : '', cAt: c ? this.fmtT(c.at) : '',
       cShowSit: !!c && c.docs.length > 0, cSit: cSit, cSitCls: cSitCls,
-      cResumo: cResumo, cDocs: cDocs, cNoDocs: !!c && c.docs.length === 0,
+      cResumo: cResumo, cDocs: cDocs,
+      cCountText: c ? c.docs.length + ' documento(s) no sumário' : '', cNoDocs: !!c && c.docs.length === 0,
       cHasPend: !!pend,
       cPendCls: esg ? 'alert a-error' : 'alert a-warn',
       cPendTitle: esg ? 'Retomada automática esgotada. Peça a reindexação completa do processo novamente.' : 'Reindexação completa pendente — retomada automática em andamento.',

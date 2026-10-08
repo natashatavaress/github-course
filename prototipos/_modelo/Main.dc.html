@@ -1,0 +1,336 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<title>eTCE Web — [Funcionalidade]</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#ECEFF1}
+a{color:#1E78BE}a:hover{color:#155A90}
+*{box-sizing:border-box}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+/* ---------- casca: cabeçalho, menu lateral, trilha ---------- */
+.hdr{height:82px;background:#FFFFFF;border-bottom:1px solid #DDE1E4;display:flex;align-items:center;gap:16px;padding:0 24px}
+.hamb{width:40px;height:40px;border-radius:4px;border:1px solid #B9BFC4;background:#DADDE0;color:#2F3437;display:inline-flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0}
+.hamb:hover{background:#CDD1D5}
+.gsearch{display:flex;align-items:center;width:500px;max-width:40vw;height:50px;border:1px solid #C9CED2;border-radius:4px;background:#FFFFFF;padding:0 8px 0 16px}
+.gsearch input{flex-grow:1;border:0;outline:0;font:400 15px 'Poppins',sans-serif;color:#3D4448;background:transparent;min-width:0}
+.gsearch:focus-within{outline:2px solid #1E78BE;outline-offset:1px}
+.side{width:250px;background:#FFFFFF;flex-shrink:0;padding:16px 0;display:flex;flex-direction:column;gap:2px;transition:width .15s}
+.side.mini{width:58px}
+.side.mini .lbl,.side.mini .sub,.side.mini .caret{display:none}
+.nav{display:flex;align-items:center;gap:14px;width:100%;min-height:48px;padding:0 18px;border:0;background:transparent;font:400 14px 'Poppins',sans-serif;color:#5A6268;text-align:left;cursor:pointer}
+.nav:hover{background:#F2F5F7}
+.nav.on{color:#2F3437;font-weight:500;background:#E8F1FA}
+.nav.sub2{padding-left:38px;margin:0 8px;width:calc(100% - 16px);border-radius:4px;padding-right:12px;line-height:1.3}
+.side.mini .nav.sub2{padding-left:10px}
+.nbadge{margin-left:auto;min-width:22px;height:22px;padding:0 6px;border-radius:11px;background:#C62828;color:#FFFFFF;font:600 12px/22px 'Poppins',sans-serif;text-align:center;flex-shrink:0}
+.side.mini .nbadge{display:none}
+.nav.sub{padding-left:38px}
+.nav svg{flex-shrink:0}
+.caret{margin-left:auto}
+.crumbs{height:50px;background:#FFFFFF;display:flex;align-items:center;gap:6px;padding:0 20px;flex-wrap:wrap}
+.crumb-b{border:0;background:transparent;font:400 16px 'Poppins',sans-serif;color:#3D4448;cursor:pointer;padding:4px 6px;border-radius:4px}
+.crumb-b:hover{background:#F2F5F7}
+.crumb-c{font:400 16px 'Poppins',sans-serif;color:#3D4448;padding:4px 6px}
+/* ---------- cartões ---------- */
+.card{background:#FFFFFF;border-radius:4px;box-shadow:0 1px 3px rgba(30,40,50,.16)}
+.card-h{display:flex;align-items:center;gap:14px;padding:22px 24px 14px}
+.card-t{margin:0;font:400 22px/1.3 'Poppins',sans-serif;color:#3D4448}
+.card-s{margin:0;font:600 15px 'Poppins',sans-serif;color:#6B7378}
+.card-b{padding:4px 24px 24px;display:flex;flex-direction:column;gap:16px}
+.chev{transition:transform .15s}
+.chev.down{transform:rotate(180deg)}
+.vbar{width:1px;height:20px;background:#C9CED2}
+/* ---------- botões ---------- */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:40px;padding:0 18px;border-radius:4px;border:1px solid #1E78BE;background:#1E78BE;color:#FFFFFF;font:500 14px/1.1 'Poppins',sans-serif;cursor:pointer;white-space:nowrap;text-transform:none}
+.btn:hover{background:#155A90;border-color:#155A90}
+.btn:disabled{background:#C2C7CB;border-color:#C2C7CB;color:#FFFFFF;cursor:not-allowed}
+.btn-o{background:#FFFFFF;color:#1E78BE;border-color:#1E78BE}
+.btn-o:hover{background:#EEF5FB;border-color:#155A90;color:#155A90}
+.btn-o:disabled{background:#FFFFFF;color:#9AA1A6;border-color:#C9CED2}
+.btn-g{background:#13855E;border-color:#13855E}
+.btn-g:hover{background:#0E6B4B;border-color:#0E6B4B}
+.btn-d{background:#C62828;border-color:#C62828}
+.btn-d:hover{background:#A21F1F;border-color:#A21F1F}
+.btn-t{background:transparent;color:#1E78BE;border-color:transparent;padding:0 10px}
+.btn-t:hover{background:#EEF5FB;border-color:transparent}
+.btn-s{min-height:34px;padding:0 12px;font-size:13px}
+.btn-w{width:100%}
+.lnk{display:inline-flex;align-items:center;gap:8px;min-height:40px;padding:0 6px;border:0;background:transparent;font:500 14px 'Poppins',sans-serif;color:#1E78BE;cursor:pointer;white-space:nowrap}
+.lnk:hover{text-decoration:underline}
+.lnk.red{color:#C62828}
+.lnk.green{color:#13855E;font-weight:400;font-size:15px}
+.lnk:disabled{color:#9AA1A6;cursor:not-allowed;text-decoration:none}
+.tb{width:40px;height:40px;border-radius:3px;border:0;background:#13855E;color:#FFFFFF;display:inline-flex;align-items:center;justify-content:center;cursor:pointer}
+.tb:hover{background:#0E6B4B}
+.tb-lgreen{background:#2E9E5B}
+.tb-lgreen:hover{background:#24804A}
+.tb-orange{background:#C2570C}
+.tb-orange:hover{background:#9A4509}
+.tb:disabled{background:#BFC4C8;cursor:not-allowed}
+.icon-btn{width:40px;height:40px;border-radius:20px;border:0;background:transparent;color:#3D4448;display:inline-flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0}
+.icon-btn:hover{background:#EEF1F3}
+.btn:focus-visible,.icon-btn:focus-visible,.pitem:focus-visible,.chip-x:focus-visible,.input:focus,.cb:focus-visible,.lnk:focus-visible,.tb:focus-visible,.nav:focus-visible,.hamb:focus-visible,.crumb-b:focus-visible{outline:2px solid #1E78BE;outline-offset:2px}
+/* ---------- tabela ---------- */
+.tbl{border:1px solid #A7AEB3}
+.tr{display:grid;column-gap:0;border-bottom:1px solid #A7AEB3;font:400 14px/1.4 'Poppins',sans-serif;color:#3D4448}
+.tr:last-child{border-bottom:0}
+.tr>*{padding:12px 16px;border-right:1px solid #A7AEB3;min-height:64px;display:flex;align-items:center;gap:8px;min-width:0}
+.tr>*:last-child{border-right:0}
+.tr:not(.th)>[role=cell]{text-transform:uppercase}
+.th>*{font-size:15px;justify-content:space-between;background:#FFFFFF}
+.th>[role=columnheader]:not(.nf)::after{content:"";flex-shrink:0;width:0;height:0;border-left:8px solid transparent;border-right:8px solid transparent;border-top:10px solid #3D4448}
+.tr.child>*{background:#F6F8F9}
+.tr.sel>*{background:#EEF5FB}
+.tr.hot>*{background:#FDECEC}
+.tr.done>*{background:#F1F9F4}
+.strip-gray{box-shadow:inset 6px 0 0 #8E979C}
+.strip-red{box-shadow:inset 6px 0 0 #C62828}
+.g-lista{grid-template-columns:56px 260px 1.4fr 1.3fr 1.2fr 116px 150px}
+.g-aut{grid-template-columns:56px 130px 116px 1.3fr 1.6fr 140px 1.4fr 180px 64px 140px 190px}
+.g-ace{grid-template-columns:56px 170px 200px 150px 170px 180px 150px 1.3fr 140px 1.3fr 130px 1.2fr 220px}
+.g-jun{grid-template-columns:210px 1.4fr 116px 1fr 1fr 140px 116px 200px 64px 180px}
+.g-prz{grid-template-columns:56px 210px 140px 140px 120px 104px 100px 100px 124px 124px 140px 120px}
+.g-avo{grid-template-columns:56px 210px 210px 120px 120px 1.2fr 1.2fr 130px 1.3fr 140px 190px 110px}
+.g-ass{grid-template-columns:220px 1.5fr 1.3fr 160px}
+.g-solarq{grid-template-columns:48px 220px 1.3fr 1.3fr 110px 150px 90px 80px 150px 110px}
+.g-doc{grid-template-columns:48px 1fr 110px 76px}
+.g-pr2{grid-template-columns:1fr 80px 1.3fr 120px}
+.g-arq{grid-template-columns:1fr 110px 140px}
+.tfoot{display:flex;align-items:center;gap:16px;flex-wrap:wrap;padding:14px 16px;border:1px solid #A7AEB3;border-top:0;font:400 15px 'Poppins',sans-serif;color:#3D4448}
+.pager{border:0;background:transparent;width:32px;height:32px;border-radius:16px;display:inline-flex;align-items:center;justify-content:center;color:#3D4448;cursor:pointer}
+.pager:hover{background:#EEF1F3}
+.pager:disabled{color:#B5BABE;cursor:not-allowed;background:transparent}
+.perpage{border:0;background:transparent;font:400 15px 'Poppins',sans-serif;color:#3D4448;cursor:pointer}
+.num{font-variant-numeric:tabular-nums;color:#3D4448;text-decoration:underline;text-underline-offset:3px;text-transform:none}
+.muted{color:#5E676D}
+/* ---------- formulários ---------- */
+.field{display:flex;flex-direction:column;gap:6px;font:400 15px 'Poppins',sans-serif;color:#5E676D}
+.input{height:42px;border:1px solid #A7AEB3;border-radius:4px;padding:0 12px;font:400 15px 'Poppins',sans-serif;color:#3D4448;background:#FFFFFF;width:100%}
+.input:disabled{background:#F2F4F5;color:#6B7378}
+textarea.input{height:auto;min-height:92px;padding:10px 12px;resize:vertical;line-height:1.45}
+.check{display:inline-flex;align-items:center;gap:10px;font:400 15px 'Poppins',sans-serif;color:#5E676D;min-height:36px;cursor:pointer}
+.cb{width:20px;height:20px;accent-color:#3D4448;cursor:pointer;margin:0;flex-shrink:0}
+.cb:disabled{cursor:not-allowed;opacity:.35}
+/* ---------- avisos, chips, badge ---------- */
+.chip{display:inline-flex;align-items:center;gap:6px;height:26px;padding:0 10px;border-radius:13px;font:500 12px/1 'Poppins',sans-serif;white-space:nowrap;text-transform:none}
+.c-neutral{background:#E6E9EB;color:#3D4448}
+.c-primary{background:#DCEBF7;color:#155A90}
+.c-success{background:#DDF1E7;color:#0E6B4B}
+.c-warn{background:#FDEBD3;color:#7A4105}
+.c-error{background:#FBE0DE;color:#A21F1F}
+.c-info{background:#E3EEF8;color:#1D4F7A}
+.chip-x{width:24px;height:24px;border-radius:12px;border:0;background:transparent;color:#3D4448;display:inline-flex;align-items:center;justify-content:center;cursor:pointer}
+.chip-x:hover{background:#E6E9EB}
+.alert{display:flex;flex-direction:column;gap:6px;padding:12px 16px;border-radius:4px;font:400 14px/1.5 'Poppins',sans-serif}
+.a-error{background:#FDECEC;color:#7A1F16;border:1px solid #F3C1BB}
+.a-warn{background:#FFF4E2;color:#6B3A06;border:1px solid #F2D2A0}
+.a-info{background:#EEF5FB;color:#173F63;border:1px solid #C3DAEE}
+.a-success{background:#E9F6EF;color:#0E5A3F;border:1px solid #BDE2CE}
+.badge{position:absolute;top:-9px;right:-9px;min-width:22px;height:22px;padding:0 6px;border-radius:11px;background:#C62828;color:#FFFFFF;font:600 12px/22px 'Poppins',sans-serif;text-align:center;box-shadow:0 0 0 2px #FFFFFF}
+.skel{display:inline-block;height:12px;border-radius:6px;background:linear-gradient(90deg,#E3E7EA 0%,#F2F4F6 50%,#E3E7EA 100%);background-size:200% 100%;animation:sk 1.2s ease-in-out infinite}
+@keyframes sk{0%{background-position:100% 0}100%{background-position:-100% 0}}
+.pitem{display:flex;align-items:center;gap:12px;width:100%;min-height:46px;padding:8px 16px;border:0;background:transparent;text-align:left;font:400 14px/1.35 'Poppins',sans-serif;color:#3D4448;cursor:pointer}
+.pitem:hover{background:#F2F5F7}
+.pitem.dim{color:#6B7378}
+.dest{font-size:11px;font-weight:500;color:#5E676D;white-space:nowrap}
+.count{min-width:30px;height:24px;padding:0 8px;border-radius:12px;background:#1E78BE;color:#FFFFFF;font:600 12px/24px 'Poppins',sans-serif;text-align:center}
+.count.zero{background:#E6E9EB;color:#5E676D}
+.spin{animation:rot .8s linear infinite}
+@keyframes rot{to{transform:rotate(360deg)}}
+.ptypes{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px}
+.ptype{display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:56px;padding:0 16px;border:1px solid #D5DADE;border-radius:4px;background:#FFFFFF;font:500 15px/1.3 'Poppins',sans-serif;color:#2F3437;cursor:pointer;text-align:left}
+.ptype:hover{border-color:#1E78BE;background:#F7FAFD}
+.ptype.on{background:#1E78BE;border-color:#1E78BE;color:#FFFFFF}
+.ptype:focus-visible,.pchip:focus-visible{outline:2px solid #1E78BE;outline-offset:2px}
+.ptc{min-width:28px;height:24px;padding:0 8px;border-radius:12px;background:#E6E9EB;color:#2F3437;font:600 13px/24px 'Poppins',sans-serif;text-align:center;flex-shrink:0}
+.ptc.hot{background:#C62828;color:#FFFFFF}
+.ptc.zero{background:#EEF0F2;color:#6B7378}
+.ptype.on .ptc{background:#FFFFFF;color:#155A90}
+.pitems-box{margin-top:12px;padding:14px 16px;background:#F6F8F9;border-radius:4px;display:flex;flex-direction:column;gap:8px}
+.pitems{display:flex;flex-wrap:wrap;gap:8px}
+.pchip{display:inline-flex;align-items:center;gap:10px;min-height:40px;padding:0 6px 0 16px;border:1px solid #D5DADE;border-radius:20px;background:#FFFFFF;font:400 14px 'Poppins',sans-serif;color:#2F3437;cursor:pointer}
+.pchip:hover{border-color:#1E78BE}
+.pchip.on{border-color:#1E78BE;background:#EEF5FB;color:#155A90;font-weight:500}
+.pchip.dim{color:#6B7378}
+.pic{min-width:28px;height:28px;padding:0 8px;border-radius:14px;background:#E6E9EB;color:#2F3437;font:600 12px/28px 'Poppins',sans-serif;text-align:center}
+.pic.hot{background:#C62828;color:#FFFFFF}
+.pic.zero{background:#EEF0F2;color:#6B7378}
+.pchip.on .pic{background:#1E78BE;color:#FFFFFF}
+.phint{margin:0;font:400 14px 'Poppins',sans-serif;color:#5E676D}
+.viewer{border:1px solid #A7AEB3;border-radius:4px;background:#ECEFF1;display:flex;flex-direction:column;min-height:440px}
+.viewer-h{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:10px 12px;background:#FFFFFF;border-bottom:1px solid #DDE1E4;font:500 13px 'Poppins',sans-serif;color:#3D4448;border-radius:4px 4px 0 0}
+.viewer-page{margin:16px;background:#FFFFFF;flex-grow:1;box-shadow:0 1px 3px rgba(0,0,0,.15);padding:28px 24px;display:flex;flex-direction:column;gap:10px}
+.vl{height:8px;background:#E3E6E8;border-radius:4px}
+.ro{margin:0;padding:10px 12px;background:#F6F8F9;border-radius:4px;color:#3D4448;font:400 14px/1.5 'Poppins',sans-serif}
+.toast{position:fixed;left:24px;bottom:24px;z-index:80;max-width:520px;padding:14px 18px;border-radius:4px;color:#FFFFFF;font:400 14px/1.5 'Poppins',sans-serif;box-shadow:0 12px 32px rgba(10,25,40,.28)}
+.t-success{background:#0E6B4B}
+.t-info{background:#155A90}
+.t-error{background:#A21F1F}
+/* ---------- grade da tabela do modelo: um g-<nome> por tabela ---------- */
+.g-modelo{grid-template-columns:56px 230px 160px 1fr 140px 140px}
+</style>
+</helmet>
+<div style="min-height: 100vh; display: flex; flex-direction: column; background: #ECEFF1; color: #3D4448; font-family: 'Poppins', system-ui, sans-serif">
+
+<!-- ================= CABEÇALHO (não alterar) ================= -->
+<header class="hdr">
+<button type="button" class="hamb" aria-label="Recolher ou expandir o menu" aria-expanded="{{sideOpenStr}}" onClick="{{toggleSide}}"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"></path></svg></button>
+<div style="display: flex; align-items: center; gap: 8px; flex-shrink: 0" aria-label="Tribunal de Contas do Estado de Goiás">
+<svg width="46" height="30" viewBox="0 0 46 30" fill="none" stroke="#2F3437" stroke-width="2" aria-hidden="true"><path d="M2 15c6-9 14-12 21-12s15 3 21 12c-6 9-14 12-21 12S8 24 2 15z"></path><circle cx="23" cy="15" r="7"></circle><circle cx="23" cy="15" r="2.5" fill="#2F3437"></circle></svg>
+<div style="display: flex; flex-direction: column; line-height: 1.05; color: #2F3437">
+<span style="font-size: 12px; font-weight: 600; letter-spacing: .02em">TRIBUNAL DE CONTAS</span>
+<span style="font-size: 12px; font-weight: 400; letter-spacing: .02em">DO ESTADO DE GOIÁS</span>
+</div>
+</div>
+<label class="gsearch">
+<span class="sr">Buscar processo</span>
+<input type="search" placeholder="Buscar processo..." value="{{search}}" onChange="{{setSearch}}">
+<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#2F3437" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-3.5-3.5"></path></svg>
+</label>
+<span class="chip c-warn" style="margin-left: 4px">Protótipo · dados simulados</span>
+<div style="flex-grow: 1"></div>
+<button type="button" class="icon-btn" style="position: relative" aria-label="Pendências: 31" onClick="{{goOutra}}">
+<svg width="24" height="24" viewBox="0 0 24 24" fill="#C62828" aria-hidden="true"><path d="M12 22a2.5 2.5 0 0 0 2.45-2h-4.9A2.5 2.5 0 0 0 12 22zm7-6V11a7 7 0 0 0-5.5-6.84V3.5a1.5 1.5 0 0 0-3 0v.66A7 7 0 0 0 5 11v5l-2 2v1h18v-1z"></path></svg>
+<span class="badge" style="top: -2px; right: -4px" aria-hidden="true">31</span>
+</button>
+<div style="display: flex; flex-direction: column; gap: 2px; font-size: 15px; max-width: 320px; min-width: 0">
+<span style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis"><strong style="font-weight: 600">Usuário:</strong> {{userNome}}</span>
+<span style="display: flex; align-items: center; gap: 8px; min-width: 0"><span style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis"><strong style="font-weight: 600">Órgão/Setor:</strong> {{userSetor}}</span><svg width="12" height="12" viewBox="0 0 24 24" fill="#3D4448" aria-hidden="true" style="flex-shrink: 0"><path d="M4 8h16l-8 9z"></path></svg></span>
+</div>
+<div aria-hidden="true" style="width: 50px; height: 50px; border-radius: 25px; background: #E3E6E8; color: #2F3437; display: flex; align-items: center; justify-content: center; font-weight: 600; font-size: 16px; flex-shrink: 0">{{userIni}}</div>
+</header>
+
+<div style="display: flex; flex-grow: 1; min-height: 0">
+
+<!-- ================= MENU LATERAL (acrescentar o item da funcionalidade) ================= -->
+<nav class="{{sideCls}}" aria-label="Menu principal">
+<button type="button" class="nav" onClick="{{goOutra}}" title="Dashboard"><svg width="20" height="20" viewBox="0 0 24 24" fill="#1E78BE" aria-hidden="true"><rect x="3" y="14" width="4" height="7"></rect><rect x="9.5" y="10" width="4" height="11"></rect><rect x="16" y="4" width="4" height="17"></rect></svg><span class="lbl">Dashboard</span></button>
+<button type="button" class="nav" onClick="{{goOutra}}" title="Listagem de processos"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#13855E" stroke-width="2" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="1"></rect><path d="M3 9h18M3 14h18M9 9v11M15 9v11"></path></svg><span class="lbl">Listagem de processos</span></button>
+<button type="button" class="nav sub2" onClick="{{goOutra}}" title="Com Anotações"><svg width="20" height="20" viewBox="0 0 24 24" fill="#F2A33A" aria-hidden="true"><path d="M4 4h16v12H8l-4 4z"></path><path d="M8 8h8M8 11.5h6" stroke="#FFFFFF" stroke-width="1.6"></path></svg><span class="lbl">Com Anotações</span><span class="nbadge">17</span></button>
+<button type="button" class="nav sub2" onClick="{{goOutra}}" title="Com Pendências"><svg width="20" height="20" viewBox="0 0 24 24" fill="#F2A33A" aria-hidden="true"><path d="M12 22a2.5 2.5 0 0 0 2.45-2h-4.9A2.5 2.5 0 0 0 12 22zm7-6V11a7 7 0 0 0-5.5-6.84V3.5a1.5 1.5 0 0 0-3 0v.66A7 7 0 0 0 5 11v5l-2 2v1h18v-1z"></path></svg><span class="lbl">Com Pendências</span><span class="nbadge">31</span></button>
+<button type="button" class="nav" onClick="{{goOutra}}" title="Pauta"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#8E44AD" stroke-width="2" aria-hidden="true"><path d="M6 3h9l4 4v14H6z"></path><path d="M9 11h7M9 15h7M9 19h4"></path></svg><span class="lbl">Pauta</span><svg class="caret" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#5A6268" stroke-width="2" aria-hidden="true"><path d="m6 9 6 6 6-6"></path></svg></button>
+<button type="button" class="nav" onClick="{{goOutra}}" title="Distribuir processos"><svg width="20" height="20" viewBox="0 0 24 24" fill="#E74C3C" aria-hidden="true"><circle cx="8" cy="8" r="3"></circle><circle cx="16" cy="8" r="3"></circle><path d="M2 19c0-3.3 2.7-5 6-5s6 1.7 6 5zM12 19c.2-2.4 1.3-4 4-4 3.3 0 6 1.7 6 4z"></path></svg><span class="lbl">Distribuir processos</span><svg class="caret" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#5A6268" stroke-width="2" aria-hidden="true"><path d="m6 9 6 6 6-6"></path></svg></button>
+<button type="button" class="{{navTelaCls}}" aria-current="{{navTelaCur}}" onClick="{{goTela}}" title="[Nome da funcionalidade]"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1E78BE" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="8"></circle></svg><span class="lbl">[Nome da funcionalidade]</span></button>
+</nav>
+
+<div style="flex-grow: 1; min-width: 0; display: flex; flex-direction: column">
+
+<!-- ================= TRILHA ================= -->
+<nav class="crumbs" aria-label="Trilha de navegação">
+<button type="button" class="crumb-b" aria-label="Início" onClick="{{goOutra}}"><svg width="20" height="20" viewBox="0 0 24 24" fill="#3D4448" aria-hidden="true"><path d="M12 3 2 12h3v8h5v-5h4v5h5v-8h3z"></path></svg></button>
+<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#3D4448" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="m9 5 7 7-7 7"></path></svg>
+<span class="crumb-c" aria-current="page">{{crumbAtual}}</span>
+</nav>
+
+<main style="flex-grow: 1; padding: 24px; display: flex; flex-direction: column; gap: 12px">
+
+<sc-if value="{{showOutra}}" hint-placeholder-val="{{false}}">
+<section class="card">
+<div class="card-h"><h1 class="card-t">Fora do escopo</h1></div>
+<div class="card-b"><p class="phint">Tela fora do escopo deste protótipo.</p><div><button type="button" class="btn btn-o" onClick="{{goTela}}">Voltar</button></div></div>
+</section>
+</sc-if>
+
+<sc-if value="{{showTela}}" hint-placeholder-val="{{true}}">
+<!-- 1. Cartão de título -->
+<section class="card" aria-label="[Título da tela]">
+<div class="card-h" style="padding-bottom: 22px; flex-direction: column; align-items: flex-start; gap: 6px">
+<h1 class="card-t">[Título da tela]</h1>
+<p class="phint">Setor: {{userSetor}} · [subtítulo]</p>
+</div>
+</section>
+
+<!-- 2. Cartão de filtros (recolhível) -->
+<section class="card" aria-label="Filtros">
+<div class="card-h" style="padding-bottom: 22px">
+<h2 class="card-t">Filtros</h2>
+<div style="flex-grow: 1"></div>
+<button type="button" class="icon-btn" aria-label="Mostrar ou ocultar filtros" aria-expanded="{{filtrosStr}}" onClick="{{toggleFiltros}}"><svg class="{{chevCls}}" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="m6 15 6-6 6 6"></path></svg></button>
+</div>
+<sc-if value="{{filtrosOpen}}" hint-placeholder-val="{{true}}">
+<div class="card-b" style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; align-items: end">
+<label class="field">Processo<input class="input" inputmode="numeric" placeholder="Número do processo"></label>
+<label class="field">Analista<input class="input" placeholder="Pesquisar analista"></label>
+<div style="display: flex; justify-content: flex-end"><button type="button" class="btn btn-o">Limpar filtros</button></div>
+</div>
+</sc-if>
+</section>
+
+<!-- 3. Cartão de lista: tabela com bordas, rodapé de contagem e ações em grade -->
+<section class="card" aria-label="[Título da lista]">
+<div class="card-h"><h2 class="card-t">[Título da lista]</h2></div>
+<div class="card-b">
+<div>
+<div style="overflow-x: auto" class="tbl">
+<div role="table" aria-label="[Título da lista]" style="min-width: 900px">
+<div role="row" class="tr th g-modelo">
+<span role="columnheader" class="nf"><span class="sr">Seleção</span></span>
+<span role="columnheader">Processos</span><span role="columnheader">Tipo</span><span role="columnheader">Analista</span><span role="columnheader">Início</span><span role="columnheader">Data final</span>
+</div>
+<sc-for list="{{rows}}" as="r" hint-placeholder-count="3">
+<div role="row" class="tr g-modelo">
+<span role="cell"><input type="checkbox" class="cb" aria-label="Selecionar processo {{r.numero}}"></span>
+<span role="cell" class="strip-gray"><span class="num">{{r.numero}}</span></span>
+<span role="cell"><span class="chip c-primary">{{r.tipo}}</span></span>
+<span role="cell">{{r.analista}}</span>
+<span role="cell">{{r.inicio}}</span>
+<span role="cell">{{r.fim}}</span>
+</div>
+</sc-for>
+</div>
+</div>
+<div class="tfoot"><span>{{countText}}</span></div>
+</div>
+<div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px">
+<button type="button" class="btn btn-o btn-w" onClick="{{goOutra}}">Fechar</button>
+<button type="button" class="btn btn-o btn-w">Ação secundária</button>
+<button type="button" class="btn btn-w">Ação principal</button>
+</div>
+</div>
+</section>
+</sc-if>
+</main>
+</div>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":1000}}'>
+class Component extends DCLogic {
+  constructor(...args) {
+    super(...args);
+    this.state = { view: 'tela', sideOpen: true, search: '', filtrosOpen: true };
+  }
+  renderVals() {
+    const s = this.state;
+    const rows = [
+      { numero: '202600047000611', tipo: 'Prorrogação', analista: 'Rafael Nunes', inicio: '01/09/2026', fim: '13/10/2026' },
+      { numero: '202600047000624', tipo: 'Suspensão', analista: 'Joana Lima', inicio: '08/09/2026', fim: '20/10/2026' },
+      { numero: '202600047000637', tipo: 'Prorrogação', analista: 'Rafael Nunes', inicio: '15/09/2026', fim: '13/10/2026' }
+    ];
+    return {
+      userNome: 'Marina Costa', userIni: 'MC', userSetor: 'Serviço de Análise de Atos de Pessoal',
+      sideCls: s.sideOpen ? 'side' : 'side mini', sideOpenStr: s.sideOpen ? 'true' : 'false',
+      toggleSide: () => this.setState({ sideOpen: !s.sideOpen }),
+      search: s.search, setSearch: (e) => this.setState({ search: e.target.value }),
+      navTelaCls: s.view === 'tela' ? 'nav on' : 'nav', navTelaCur: s.view === 'tela' ? 'page' : 'false',
+      goTela: () => this.setState({ view: 'tela' }), goOutra: () => this.setState({ view: 'outra' }),
+      showTela: s.view === 'tela', showOutra: s.view === 'outra',
+      crumbAtual: s.view === 'tela' ? '[Nome da funcionalidade]' : 'Fora do escopo',
+      filtrosOpen: s.filtrosOpen, filtrosStr: s.filtrosOpen ? 'true' : 'false',
+      chevCls: s.filtrosOpen ? 'chev' : 'chev down',
+      toggleFiltros: () => this.setState({ filtrosOpen: !s.filtrosOpen }),
+      rows: rows, countText: rows.length + ' processos'
+    };
+  }
+}
+</script>
+</body>
+</html>

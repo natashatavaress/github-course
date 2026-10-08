@@ -18,9 +18,9 @@ Processos simulados (botões abaixo do campo): 202600047000118 (erro e não proc
 
 ## Decisões tomadas onde o PRD é ambíguo
 
-1. Fonte Figtree no lugar de Product Sans (indisponível na web), como no RF-028.
-2. Menu (dúvida 03): "Forçar Indexação Maven" como item de primeiro nível do menu principal; rota `/forcar-indexacao-maven`.
-3. Layout (dúvida 12): "Reindexar" e "Lotes" lado a lado; "Resultados" e "Acompanhamento" abaixo, em largura total. "Consultar situação" fica junto de "Reindexar Processo", pois usa o mesmo campo.
+1. Layout padrão do eTCE Web ([`../PADRAO_LAYOUT.md`](../PADRAO_LAYOUT.md)), com fonte Poppins no lugar de Product Sans (indisponível na web).
+2. Menu (dúvida 03): "Forçar Indexação Maven" como item de primeiro nível do menu lateral, depois de "Distribuir processos"; rota `/forcar-indexacao-maven`.
+3. Layout (dúvida 12): cartões empilhados — título, "Reindexar processo", "Lotes", "Resultados" e "Acompanhamento da indexação". "Consultar situação" fica junto de "Reindexar Processo", pois usa o mesmo campo.
 4. Resultados mostram só a execução mais recente; um novo disparo substitui a lista (no legado o texto acumulava).
 5. "Consultar situação" continua habilitado durante uma execução (a RN12 só desabilita os três botões de reindexação); durante a consulta, todos os botões de ação ficam desabilitados.
 6. Recusas (RN17, RN18) e falha ao registrar (RN13) aparecem como alerta abaixo das ações; mensagem final e lote vazio aparecem em Snackbar.
@@ -32,6 +32,6 @@ Processos simulados (botões abaixo do campo): 202600047000118 (erro e não proc
 12. Lote de autuações: as autuações excluídas por pendência em retomada (RN09/CA47) são informadas no resumo da execução.
 13. "Atualizar" simula o avanço da indexação externa (fila → conversão → pronto → publicado) para demonstrar o CA37; sem o acionamento, a lista não muda.
 14. Retomada automática (Fluxo 06, passo 04) não é simulada: é processamento do back-end, sem tela. A pendência gerada aparece no acompanhamento, com 1 tentativa e próxima tentativa em 15 min (RN19).
-15. Execução em segundo plano (RN12/CA49–CA50) simulada pela troca de tela: ao ir para "Processos" e voltar, a execução continua e mostra os itens concluídos; o menu indica "em execução".
+15. Execução em segundo plano (RN12/CA49–CA50) simulada pela troca de tela: ao ir para "Processos" e voltar, a execução continua e mostra os itens concluídos; o item do menu lateral mostra um indicador de execução.
 16. Usuário sem a função: o item não aparece no menu e a tela exibe "Acesso negado" (simulando acesso direto pelo endereço).
 17. Dados, nomes de usuários, números de processo, ids e mensagens de erro técnicas (ORA-, HTTP) são fictícios.

@@ -15,7 +15,7 @@ Entrada pela listagem: em "Listagem de processos" (menu lateral), com **um** pro
 a ação vermelha "Forçar indexação Maven" fica habilitada e abre a tela com o número já no campo
 "Processo a ser reindexado" (autocompletar). Pelo menu lateral, a tela abre com o campo vazio.
 
-Processos simulados (botões abaixo do campo): 202600047000118 (erro e não processados),
+Processos simulados (digite no campo de busca): 202600047000118 (erro e não processados),
 202500047001842 (todos publicados), 202600047000233 (pendente em retomada — RN18),
 202500047002010 (retomada esgotada), 202600047000301 (falha no modo ausentes),
 202600047000412 (sem documentos no sumário) e 20260004700011 (trecho de número — CA10).

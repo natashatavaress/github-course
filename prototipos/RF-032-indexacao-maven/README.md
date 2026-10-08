@@ -11,6 +11,10 @@ Tweaks disponíveis no artefato: perfil (com a função · SERV-SISTEMAS, com a 
 setor, sem a função), falha do Maven Docs (nenhuma, falha em um item, HTTP 503, tempo
 esgotado), falha ao registrar o pedido, lotes vazios e lote em execução por outro usuário.
 
+Entrada pela listagem: em "Listagem de processos" (menu lateral), com **um** processo selecionado
+a ação vermelha "Forçar indexação Maven" fica habilitada e abre a tela com o número já no campo
+"Processo a ser reindexado" (autocompletar). Pelo menu lateral, a tela abre com o campo vazio.
+
 Processos simulados (botões abaixo do campo): 202600047000118 (erro e não processados),
 202500047001842 (todos publicados), 202600047000233 (pendente em retomada — RN18),
 202500047002010 (retomada esgotada), 202600047000301 (falha no modo ausentes),
@@ -34,4 +38,8 @@ Processos simulados (botões abaixo do campo): 202600047000118 (erro e não proc
 14. Retomada automática (Fluxo 06, passo 04) não é simulada: é processamento do back-end, sem tela. A pendência gerada aparece no acompanhamento, com 1 tentativa e próxima tentativa em 15 min (RN19).
 15. Execução em segundo plano (RN12/CA49–CA50) simulada pela troca de tela: ao ir para "Processos" e voltar, a execução continua e mostra os itens concluídos; o item do menu lateral mostra um indicador de execução.
 16. Usuário sem a função: o item não aparece no menu e a tela exibe "Acesso negado" (simulando acesso direto pelo endereço).
-17. Dados, nomes de usuários, números de processo, ids e mensagens de erro técnicas (ORA-, HTTP) são fictícios.
+17. Listagem: a ação "Forçar indexação Maven" é um botão de ícone vermelho (`#C62828`) ao fim da barra de ações, visível só com a função `funReindexarProcessoMaven` (RN01). Como a reindexação é de um processo por vez (RN02), ela só fica habilitada com exatamente um processo selecionado; com mais de um, a dica explica a regra. As demais ações da barra são ilustrativas.
+18. Ao acionar a ação, a tela abre com o número no campo e um aviso de que veio da listagem; o botão "×" do campo limpa o processo para escolher outro.
+19. "Processo a ser reindexado" é autocompletar: sugere a partir de 3 dígitos (até 6 processos, com o assunto); escolher a sugestão ou teclar Enter preenche o campo. A validação continua a das RN03/RN04 sobre o número do campo.
+20. Entrada pelo menu lateral: o campo abre vazio, mesmo que antes tenha vindo um processo da listagem.
+21. Dados, nomes de usuários, números de processo, ids e mensagens de erro técnicas (ORA-, HTTP) são fictícios.

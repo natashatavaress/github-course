@@ -193,6 +193,16 @@ textarea.input{height:auto;min-height:92px;padding:10px 12px;resize:vertical;lin
 .g-resd{grid-template-columns:72px 220px 250px 180px minmax(0,1fr)}
 .g-mdoc{grid-template-columns:minmax(0,1.6fr) 180px minmax(0,1.2fr)}
 .mono{font-variant-numeric:tabular-nums}
+.tb-red{background:#C62828}
+.tb-red:hover{background:#A21F1F}
+.ac{position:relative}
+.ac-list{position:absolute;left:0;right:0;top:calc(100% + 4px);z-index:40;background:#FFFFFF;border:1px solid #A7AEB3;border-radius:4px;box-shadow:0 10px 28px rgba(20,30,40,.18);padding:4px 0;max-height:300px;overflow-y:auto}
+.ac-opt{display:flex;flex-direction:column;align-items:flex-start;gap:2px;width:100%;min-height:48px;padding:6px 14px;border:0;background:transparent;text-align:left;font:400 15px 'Poppins',sans-serif;color:#3D4448;cursor:pointer}
+.ac-opt:hover,.ac-opt:focus-visible{background:#EEF5FB;outline:0}
+.ac-opt small{font-size:12px;color:#5E676D}
+.ac-none{padding:12px 14px;font:400 14px 'Poppins',sans-serif;color:#5E676D}
+.sel-box{display:flex;flex-direction:column;gap:10px;padding:14px 16px;background:#F6F8F9;border-radius:4px}
+.pchip .chip-x{flex-shrink:0}
 </style>
 </helmet>
 <div style="min-height: 100vh; display: flex; flex-direction: column; background: #ECEFF1; color: #3D4448; font-family: 'Poppins', system-ui, sans-serif">
@@ -230,7 +240,7 @@ textarea.input{height:auto;min-height:92px;padding:10px 12px;resize:vertical;lin
 <!-- ================= MENU LATERAL ================= -->
 <nav class="{{sideCls}}" aria-label="Menu principal">
 <button type="button" class="nav" onClick="{{goDash}}" title="Dashboard"><svg width="20" height="20" viewBox="0 0 24 24" fill="#1E78BE" aria-hidden="true"><rect x="3" y="14" width="4" height="7"></rect><rect x="9.5" y="10" width="4" height="11"></rect><rect x="16" y="4" width="4" height="17"></rect></svg><span class="lbl">Dashboard</span></button>
-<button type="button" class="nav" onClick="{{goLista}}" title="Listagem de processos"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#13855E" stroke-width="2" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="1"></rect><path d="M3 9h18M3 14h18M9 9v11M15 9v11"></path></svg><span class="lbl">Listagem de processos</span></button>
+<button type="button" class="{{navListaCls}}" aria-current="{{navListaCur}}" onClick="{{goLista}}" title="Listagem de processos"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#13855E" stroke-width="2" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="1"></rect><path d="M3 9h18M3 14h18M9 9v11M15 9v11"></path></svg><span class="lbl">Listagem de processos</span></button>
 <button type="button" class="nav sub2" onClick="{{goAnot}}" title="Com Anotações"><svg width="20" height="20" viewBox="0 0 24 24" fill="#F2A33A" aria-hidden="true"><path d="M4 4h16v12H8l-4 4z"></path><path d="M8 8h8M8 11.5h6" stroke="#FFFFFF" stroke-width="1.6"></path></svg><span class="lbl">Com Anotações</span><span class="nbadge">17</span></button>
 <button type="button" class="nav sub2" onClick="{{goPend}}" title="Com Pendências"><svg width="20" height="20" viewBox="0 0 24 24" fill="#F2A33A" aria-hidden="true"><path d="M12 22a2.5 2.5 0 0 0 2.45-2h-4.9A2.5 2.5 0 0 0 12 22zm7-6V11a7 7 0 0 0-5.5-6.84V3.5a1.5 1.5 0 0 0-3 0v.66A7 7 0 0 0 5 11v5l-2 2v1h18v-1z"></path></svg><span class="lbl">Com Pendências</span><span class="nbadge">31</span></button>
 <button type="button" class="nav" onClick="{{goPauta}}" title="Pauta"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#8E44AD" stroke-width="2" aria-hidden="true"><path d="M6 3h9l4 4v14H6z"></path><path d="M9 11h7M9 15h7M9 19h4"></path></svg><span class="lbl">Pauta</span><svg class="caret" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#5A6268" stroke-width="2" aria-hidden="true"><path d="m6 9 6 6 6-6"></path></svg></button>
@@ -246,6 +256,10 @@ textarea.input{height:auto;min-height:92px;padding:10px 12px;resize:vertical;lin
 <nav class="crumbs" aria-label="Trilha de navegação">
 <button type="button" class="crumb-b" aria-label="Início" onClick="{{goLista}}"><svg width="20" height="20" viewBox="0 0 24 24" fill="#3D4448" aria-hidden="true"><path d="M12 3 2 12h3v8h5v-5h4v5h5v-8h3z"></path></svg></button>
 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#3D4448" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="m9 5 7 7-7 7"></path></svg>
+<sc-if value="{{crumbViaLista}}" hint-placeholder-val="{{false}}">
+<button type="button" class="crumb-b" onClick="{{goLista}}">Listagem de processos</button>
+<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#3D4448" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="m9 5 7 7-7 7"></path></svg>
+</sc-if>
 <span class="crumb-c" aria-current="page">{{crumbAtual}}</span>
 </nav>
 
@@ -263,6 +277,63 @@ textarea.input{height:auto;min-height:92px;padding:10px 12px;resize:vertical;lin
 <div class="card-b">
 <p class="phint">Tela fora do escopo deste protótipo. A execução de reindexação continua em segundo plano enquanto você está aqui; ao voltar, os itens já concluídos aparecem nos Resultados.</p>
 <sc-if value="{{hasFuncao}}" hint-placeholder-val="{{true}}"><div><button type="button" class="btn btn-o" onClick="{{goTela}}">Voltar a Forçar Indexação Maven</button></div></sc-if>
+</div>
+</section>
+</sc-if>
+
+<!-- ================= LISTAGEM DE PROCESSOS (ação Forçar indexação) ================= -->
+<sc-if value="{{showLista}}" hint-placeholder-val="{{false}}">
+<section class="card" aria-label="Filtros">
+<div class="card-h" style="padding-bottom: 22px; flex-wrap: wrap">
+<h2 class="card-t">Filtros</h2>
+<span class="vbar" aria-hidden="true"></span>
+<span style="font-size: 16px; color: #6B7378">Nenhum filtro aplicado</span>
+</div>
+</section>
+<section class="card" aria-label="Processos">
+<div class="card-h"><h2 class="card-t">Processos do setor</h2></div>
+<div class="card-b" style="gap: 20px">
+<div style="display: flex; align-items: center; gap: 4px; flex-wrap: wrap">
+<button type="button" class="tb" aria-label="Atualizar lista" title="Atualizar lista" onClick="{{foraEscopo}}"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M21 12a9 9 0 1 1-2.64-6.36"></path><path d="M21 3v6h-6"></path></svg></button>
+<button type="button" class="tb" aria-label="Tramitar (RF-013)" title="Tramitar (RF-013)" disabled="{{tbDis}}" onClick="{{foraEscopo}}"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M4 8h14l-3-3M20 16H6l3 3"></path></svg></button>
+<button type="button" class="tb" aria-label="Novo documento (RF-015)" title="Novo documento (RF-015)" disabled="{{tbDis}}" onClick="{{foraEscopo}}"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path d="M6 3h8l4 4v14H6z"></path><path d="M12 11v6M9 14h6"></path></svg></button>
+<button type="button" class="tb" aria-label="Anexar (RF-016)" title="Anexar (RF-016)" disabled="{{tbDis}}" onClick="{{foraEscopo}}"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M8 12V7a4 4 0 0 1 8 0v10a6 6 0 0 1-12 0V9"></path></svg></button>
+<button type="button" class="tb" aria-label="Assinar (RF-014)" title="Assinar (RF-014)" disabled="{{tbDis}}" onClick="{{foraEscopo}}"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="m15 4 5 5-10 10H5v-5zM4 21h16v-1.6H4z"></path></svg></button>
+<button type="button" class="tb" aria-label="Enviar processo (RF-012)" title="Enviar processo (RF-012)" disabled="{{tbDis}}" onClick="{{foraEscopo}}"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M2 21 23 12 2 3l3 9zm3-9h9"></path></svg></button>
+<button type="button" class="tb" aria-label="Visualizar documentos (RF-024)" title="Visualizar documentos (RF-024)" disabled="{{tbDis}}" onClick="{{foraEscopo}}"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path d="M2 12c3-5 6.5-7 10-7s7 2 10 7c-3 5-6.5 7-10 7S5 17 2 12z"></path><circle cx="12" cy="12" r="3"></circle></svg></button>
+<sc-if value="{{hasFuncao}}" hint-placeholder-val="{{true}}">
+<button type="button" class="tb tb-red" aria-label="Forçar indexação Maven dos processos selecionados" title="{{forcarTitle}}" disabled="{{tbDis}}" onClick="{{forcarIndexacao}}"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h4"></path><path d="M14 3v5h5v3"></path><path d="M21 17a4 4 0 1 1-1.2-2.85"></path><path d="M21 13v2.5h-2.5"></path></svg></button>
+</sc-if>
+<div style="flex-grow: 1"></div>
+<span style="font-size: 14px; color: #5E676D">{{selText}}</span>
+</div>
+<div>
+<div style="overflow-x: auto" class="tbl">
+<div role="table" aria-label="Processos" style="min-width: 1180px">
+<div role="row" class="tr th g-lista">
+<span role="columnheader" class="nf"><input type="checkbox" class="cb" aria-label="Selecionar todos os processos" checked="{{allChecked}}" onChange="{{toggleAll}}"></span>
+<span role="columnheader">Processos</span>
+<span role="columnheader">Assunto</span>
+<span role="columnheader">Interessado</span>
+<span role="columnheader">Andamento atual</span>
+<span role="columnheader">Data</span>
+<span role="columnheader">Responsável</span>
+</div>
+<sc-for list="{{listaRows}}" as="r" hint-placeholder-count="8">
+<div role="row" class="{{r.cls}}">
+<span role="cell"><input type="checkbox" class="cb" aria-label="Selecionar processo {{r.numero}}" checked="{{r.checked}}" onChange="{{r.toggle}}"></span>
+<span role="cell" class="strip-gray"><span class="num">{{r.numero}}</span></span>
+<span role="cell">{{r.assunto}}</span>
+<span role="cell">{{r.interessado}}</span>
+<span role="cell">{{r.evento}}</span>
+<span role="cell">{{r.data}}</span>
+<span role="cell">{{r.resp}}</span>
+</div>
+</sc-for>
+</div>
+</div>
+<div class="tfoot"><span>{{listaCountText}}</span></div>
+</div>
 </div>
 </section>
 </sc-if>
@@ -285,10 +356,21 @@ textarea.input{height:auto;min-height:92px;padding:10px 12px;resize:vertical;lin
 <div class="card-h"><h2 class="card-t">Reindexar processo</h2></div>
 <div class="card-b">
 <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 16px; align-items: start">
-<label class="field">Processo a ser reindexado
-<input class="{{inputCls}}" type="text" inputmode="numeric" placeholder="Número do processo" value="{{numero}}" onChange="{{setNumero}}" aria-invalid="{{ariaInvalid}}" aria-describedby="num-err">
+<div class="field">
+<label for="num-proc">Processo a ser reindexado</label>
+<div class="ac">
+<input id="num-proc" class="{{inputCls}}" type="text" inputmode="numeric" autocomplete="off" role="combobox" aria-autocomplete="list" aria-expanded="{{sugOpenStr}}" aria-controls="num-sug" placeholder="Digite ao menos 3 dígitos do número" value="{{numero}}" onChange="{{setNumero}}" onKeyDown="{{numKey}}" onFocus="{{numFocus}}" onBlur="{{numBlur}}" aria-invalid="{{ariaInvalid}}" aria-describedby="num-err">
+<sc-if value="{{showSug}}" hint-placeholder-val="{{false}}">
+<div id="num-sug" class="ac-list" role="listbox" aria-label="Processos encontrados">
+<sc-for list="{{sugestoes}}" as="g" hint-placeholder-count="3">
+<button type="button" class="ac-opt" role="option" aria-selected="false" onMouseDown="{{g.pick}}" onClick="{{g.pick}}"><span class="mono" style="font-weight: 500">{{g.num}}</span><small>{{g.assunto}}</small></button>
+</sc-for>
+<sc-if value="{{sugNone}}" hint-placeholder-val="{{false}}"><div class="ac-none">Nenhum processo encontrado com "{{numeroTrim}}".</div></sc-if>
+</div>
+</sc-if>
+</div>
 <sc-if value="{{hasFieldErr}}" hint-placeholder-val="{{false}}"><span id="num-err" role="alert" style="color: #A21F1F; font-weight: 500; font-size: 14px">{{fieldErr}}</span></sc-if>
-</label>
+</div>
 <fieldset style="border: 0; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 6px; min-width: 0">
 <legend class="field" style="padding: 0; margin-bottom: 6px">Quais documentos reindexar?</legend>
 <div style="display: flex; gap: 10px; flex-wrap: wrap">
@@ -298,6 +380,29 @@ textarea.input{height:auto;min-height:92px;padding:10px 12px;resize:vertical;lin
 </fieldset>
 </div>
 <p class="phint" style="font-size: 13px">{{modoHint}}</p>
+<sc-if value="{{noSel}}" hint-placeholder-val="{{true}}">
+<div class="sel-box"><span class="phint">Nenhum processo selecionado. Busque o processo no campo acima (autocompletar) ou consulte a sua situação e inclua-o na reindexação.</span></div>
+</sc-if>
+<sc-if value="{{hasSel}}" hint-placeholder-val="{{false}}">
+<div class="sel-box" aria-label="Processos a reindexar">
+<div style="display: flex; align-items: center; gap: 12px; flex-wrap: wrap">
+<span style="font: 500 15px 'Poppins', sans-serif; color: #2F3437">Processos a reindexar ({{selQtd}})</span>
+<sc-if value="{{selViaLista}}" hint-placeholder-val="{{false}}"><span class="chip c-info">Vindos da listagem de processos</span></sc-if>
+<div style="flex-grow: 1"></div>
+<button type="button" class="lnk red" disabled="{{dReind}}" onClick="{{limparSel}}">Remover todos</button>
+</div>
+<div class="pitems">
+<sc-for list="{{selChips}}" as="c" hint-placeholder-count="2">
+<span class="pchip on" style="padding-right: 4px; cursor: default">
+<span class="mono">{{c.num}}</span>
+<button type="button" class="chip-x" aria-label="Consultar a situação do processo {{c.num}}" title="Consultar situação" onClick="{{c.consultar}}"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-3.5-3.5"></path></svg></button>
+<button type="button" class="chip-x" aria-label="Remover o processo {{c.num}} da lista" title="Remover" disabled="{{dReind}}" onClick="{{c.remover}}"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"></path></svg></button>
+</span>
+</sc-for>
+</div>
+<p class="phint" style="font-size: 13px">Para incluir outro processo, digite no campo acima e escolha na lista. "Reindexar Processo" pede a reindexação de todos os processos desta lista, um item por processo nos Resultados.</p>
+</div>
+</sc-if>
 <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px">
 <button type="button" class="btn btn-o btn-w" disabled="{{dCons}}" onClick="{{consultar}}">
 <sc-if value="{{spinCons}}" hint-placeholder-val="{{false}}"><svg class="spin" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><path d="M21 12a9 9 0 1 1-9-9"></path></svg></sc-if>
@@ -309,7 +414,7 @@ Reindexar Processo
 </button>
 </div>
 <div class="pitems-box" style="margin-top: 0; background: #FFFBEF; border: 1px dashed #E0D3AE">
-<span style="font-size: 11px; font-weight: 600; color: #6B5418; text-transform: uppercase; letter-spacing: .05em">Processos simulados (preenchem o campo)</span>
+<span style="font-size: 11px; font-weight: 600; color: #6B5418; text-transform: uppercase; letter-spacing: .05em">Processos simulados (preenchem o campo de busca)</span>
 <div class="pitems">
 <sc-for list="{{exemplos}}" as="ex" hint-placeholder-count="7">
 <button type="button" class="ex" onClick="{{ex.pick}}"><span class="mono">{{ex.num}}</span><small>{{ex.desc}}</small></button>
@@ -427,6 +532,9 @@ Atualizar
 <span class="num" style="font-size: 16px">{{cNumero}}</span>
 <sc-if value="{{cShowSit}}" hint-placeholder-val="{{true}}"><span class="{{cSitCls}}">{{cSit}}</span></sc-if>
 <span class="muted" style="font-size: 14px">{{cAssunto}}</span>
+<div style="flex-grow: 1"></div>
+<sc-if value="{{cPodeIncluir}}" hint-placeholder-val="{{false}}"><button type="button" class="btn btn-o btn-s" disabled="{{dReind}}" onClick="{{cIncluir}}">Incluir na reindexação</button></sc-if>
+<sc-if value="{{cJaIncluido}}" hint-placeholder-val="{{false}}"><span class="chip c-primary">Na lista de reindexação</span></sc-if>
 </div>
 <sc-if value="{{cHasPend}}" hint-placeholder-val="{{false}}">
 <div class="{{cPendCls}}" role="status">
@@ -512,7 +620,7 @@ class Component extends DCLogic {
   }
   init() {
     return {
-      view: 'tela', outra: '', sideOpen: true, search: '', numero: '', modo: 'aus', fieldErr: null, msg: null,
+      view: 'tela', outra: '', sideOpen: true, search: '', sel: {}, selecionados: [], selViaLista: false, origemLista: false, sugOpen: false, numero: '', modo: 'aus', fieldErr: null, msg: null,
       exec: null, running: null, validating: null, consulting: false, consult: null,
       db: this.buildDb(), toast: null
     };
@@ -678,23 +786,72 @@ class Component extends DCLogic {
   ocupado() { return !!(this.state.running || this.state.validating); }
 
   /* ---------- ações ---------- */
+  /* ---------- listagem e lista de processos a reindexar ---------- */
+  ordemLista() {
+    const db = this.state.db;
+    return Object.keys(db).sort((a, b) => (db[a].autuadoEm < db[b].autuadoEm ? 1 : -1));
+  }
+  forcarIndexacao() {
+    const sel = this.state.sel;
+    const nums = this.ordemLista().filter((n) => sel[n]);
+    if (!nums.length) return;
+    this.setState({ view: 'tela', selecionados: nums, selViaLista: true, origemLista: true, sel: {}, numero: '', fieldErr: null, msg: null, sugOpen: false });
+  }
+  incluir(n) {
+    const lista = this.state.selecionados;
+    this.setState({ selecionados: lista.indexOf(n) >= 0 ? lista : lista.concat([n]), numero: '', fieldErr: null, msg: null, sugOpen: false });
+  }
+  remover(n) {
+    const lista = this.state.selecionados.filter((x) => x !== n);
+    this.setState({ selecionados: lista, selViaLista: lista.length ? this.state.selViaLista : false, msg: null });
+  }
+  sugestoes() {
+    const t = (this.state.numero || '').trim();
+    if (t.length < 3) return [];
+    const db = this.state.db;
+    const ja = this.state.selecionados;
+    return this.ordemLista().filter((n) => n.indexOf(t) >= 0 && ja.indexOf(n) < 0).slice(0, 6);
+  }
+  numKey(e) {
+    if (e.key === 'Escape') { this.setState({ sugOpen: false }); return; }
+    if (e.key !== 'Enter') return;
+    e.preventDefault();
+    const t = (this.state.numero || '').trim();
+    if (!t) return;
+    if (this.state.db[t]) { this.incluir(t); return; }
+    const sg = this.sugestoes();
+    if (sg.length) { this.incluir(sg[0]); return; }
+    this.setState({ fieldErr: 'Processo inválido ou não existe!', sugOpen: false });
+  }
+
   reindexar() {
     if (this.ocupado()) return;
-    const n = (this.state.numero || '').trim();
-    if (!n) { this.setState({ fieldErr: 'Digite o número do processo!', msg: null }); return; }
+    const typed = (this.state.numero || '').trim();
+    const lista = this.state.selecionados.slice();
+    if (typed) {
+      if (!this.state.db[typed]) { this.setState({ fieldErr: 'Processo inválido ou não existe!', msg: null, sugOpen: false }); return; }
+      if (lista.indexOf(typed) < 0) { this.setState({ fieldErr: 'Inclua o processo na lista antes de reindexar: escolha-o nas sugestões ou tecle Enter.', msg: null }); return; }
+    }
+    if (!lista.length) { this.setState({ fieldErr: 'Digite o número do processo!', msg: null }); return; }
     const modo = this.state.modo;
+    this.setState({ selecionados: lista, numero: '', sugOpen: false });
     this.validar('proc', () => {
-      const p = this.state.db[n];
-      if (!p) { this.setState({ validating: null, fieldErr: 'Processo inválido ou não existe!' }); return; }
-      if (modo === 'todos' && p.pend && p.pend.status === 'pendente') {
-        this.setState({ validating: null, msg: { kind: 'warn', text: 'Este processo já tem reindexação pendente, que está sendo retomada automaticamente. Acompanhe pela consulta de situação.' } });
-        return;
+      const procs = lista.map((n) => this.state.db[n]);
+      if (modo === 'todos') {
+        const pend = procs.filter((p) => p.pend && p.pend.status === 'pendente').map((p) => p.numero);
+        if (pend.length) {
+          const text = lista.length === 1
+            ? 'Este processo já tem reindexação pendente, que está sendo retomada automaticamente. Acompanhe pela consulta de situação.'
+            : 'O processo ' + pend.join(', ') + ' já tem reindexação pendente, que está sendo retomada automaticamente. Remova-o da lista para pedir a reindexação dos demais, ou acompanhe pela consulta de situação.';
+          this.setState({ validating: null, msg: { kind: 'warn', text: text } });
+          return;
+        }
       }
       if (this.props && this.props.falhaRegistro) {
         this.setState({ validating: null, msg: { kind: 'error', text: 'Não foi possível registrar o pedido de reindexação. Tente novamente.' } });
         return;
       }
-      this.executar('proc', 'Reindexar processo', modo === 'aus' ? 'Só documentos ausentes' : 'Todos os documentos', n, [p], (x, i) => this.processarProcesso(x, modo, i, 0));
+      this.executar('proc', 'Reindexar processo', modo === 'aus' ? 'Só documentos ausentes' : 'Todos os documentos', lista.length === 1 ? lista[0] : null, procs, (x, i) => this.processarProcesso(x, modo, i, lista.length === 1 ? 0 : 1), { qtdProc: lista.length });
     });
   }
   loteAut() {
@@ -728,11 +885,11 @@ class Component extends DCLogic {
       pend: p.pend ? Object.assign({}, p.pend) : null
     };
   }
-  consultar() {
+  consultar(alvo) {
     if (this.state.consulting || this.state.validating) return;
-    const n = (this.state.numero || '').trim();
+    const n = alvo || (this.state.numero || '').trim() || this.state.selecionados[0] || '';
     if (!n) { this.setState({ fieldErr: 'Digite o número do processo!' }); return; }
-    this.setState({ consulting: true, fieldErr: null, consult: null });
+    this.setState({ consulting: true, fieldErr: null, consult: null, sugOpen: false });
     this.later(() => {
       const p = this.state.db[n];
       if (!p) { this.setState({ consulting: false, fieldErr: 'Processo inválido ou não existe!' }); return; }
@@ -790,7 +947,7 @@ class Component extends DCLogic {
       resumo = 'Nenhum item processado';
     }
     const execMeta = exec
-      ? exec.acao + (exec.numero ? ' ' + exec.numero : '') + ' · ' + exec.modoLabel + ' · início ' + this.fmtT(exec.inicio) + (done ? ' · fim ' + this.fmtT(exec.fim) : '')
+      ? exec.acao + (exec.numero ? ' ' + exec.numero : exec.qtdProc ? ' — ' + exec.qtdProc + ' processos' : '') + ' · ' + exec.modoLabel + ' · início ' + this.fmtT(exec.inicio) + (done ? ' · fim ' + this.fmtT(exec.fim) : '')
       : '';
     const fora = exec && exec.fora ? exec.fora : [];
 
@@ -810,6 +967,22 @@ class Component extends DCLogic {
     const esg = pend && pend.status === 'esgotada';
 
     const nErr = this.docsErro().length;
+    const listaNums = this.ordemLista();
+    const nSel = listaNums.filter((n) => s.sel[n]).length;
+    const EVT = ['Em análise', 'Aguardando assinatura', 'Instrução técnica', 'Em análise', 'Aguardando parecer do MPC', 'Distribuído', 'Em análise', 'Aguardando assinatura', 'Instrução técnica'];
+    const RESP = ['Rafael Nunes', 'Joana Lima', 'Marina Costa'];
+    const listaRows = listaNums.map((n, i) => {
+      const p = s.db[n];
+      const parts = p.assunto.split(' · ');
+      const d = p.autuadoEm.split('-');
+      return {
+        numero: n, assunto: parts[0], interessado: parts[1] || '', evento: EVT[i % EVT.length],
+        data: d[2] + '/' + d[1] + '/' + d[0], resp: RESP[i % RESP.length],
+        checked: !!s.sel[n], cls: s.sel[n] ? 'tr g-lista sel' : 'tr g-lista',
+        toggle: () => { const m = Object.assign({}, s.sel); if (m[n]) delete m[n]; else m[n] = true; this.setState({ sel: m }); }
+      };
+    });
+    const sug = this.sugestoes();
     const t = s.toast;
     const modo = s.modo;
     const msg = s.msg;
@@ -826,10 +999,34 @@ class Component extends DCLogic {
       navTelaCur: view === 'tela' ? 'page' : 'false',
       navRunning: running,
       navRunningAny: running,
-      crumbAtual: view === 'outra' ? s.outra : 'Forçar Indexação Maven',
-      goTela: () => this.setState({ view: 'tela' }),
+      crumbAtual: view === 'outra' ? s.outra : view === 'lista' ? 'Listagem de processos' : 'Forçar Indexação Maven',
+      crumbViaLista: view === 'tela' && s.origemLista,
+      navListaCls: view === 'lista' ? 'nav on' : 'nav',
+      navListaCur: view === 'lista' ? 'page' : 'false',
+      showLista: view === 'lista',
+      listaRows: listaRows,
+      listaCountText: listaNums.length + ' processos',
+      selText: nSel ? nSel + ' selecionado(s)' : 'Selecione processos para habilitar as ações',
+      tbDis: nSel === 0,
+      forcarTitle: nSel ? 'Forçar indexação Maven (' + nSel + ' processo(s))' : 'Forçar indexação Maven — selecione ao menos um processo',
+      allChecked: nSel > 0 && nSel === listaNums.length,
+      toggleAll: () => { const all = !(nSel === listaNums.length); const m = {}; if (all) listaNums.forEach((n) => { m[n] = true; }); this.setState({ sel: m }); },
+      forcarIndexacao: () => this.forcarIndexacao(),
+      foraEscopo: () => this.toast('info', 'Ação fora do escopo deste protótipo.'),
+      numeroTrim: (s.numero || '').trim(),
+      sugestoes: sug.map((n) => ({ num: n, assunto: s.db[n].assunto, pick: () => this.incluir(n) })),
+      showSug: s.sugOpen && (s.numero || '').trim().length >= 3,
+      sugNone: sug.length === 0,
+      sugOpenStr: s.sugOpen && (s.numero || '').trim().length >= 3 ? 'true' : 'false',
+      numKey: (e) => this.numKey(e),
+      numFocus: () => this.setState({ sugOpen: true }),
+      numBlur: () => { this.later(() => this.setState({ sugOpen: false }), 180); },
+      hasSel: s.selecionados.length > 0, noSel: s.selecionados.length === 0, selQtd: s.selecionados.length, selViaLista: s.selViaLista,
+      selChips: s.selecionados.map((n) => ({ num: n, remover: () => this.remover(n), consultar: () => this.consultar(n) })),
+      limparSel: () => this.setState({ selecionados: [], selViaLista: false, msg: null }),
+      goTela: () => this.setState({ view: 'tela', origemLista: false, selecionados: [], selViaLista: false, numero: '', fieldErr: null, msg: null, sugOpen: false }),
       goDash: () => this.setState({ view: 'outra', outra: 'Dashboard' }),
-      goLista: () => this.setState({ view: 'outra', outra: 'Listagem de processos' }),
+      goLista: () => this.setState({ view: 'lista' }),
       goAnot: () => this.setState({ view: 'outra', outra: 'Com Anotações' }),
       goPend: () => this.setState({ view: 'outra', outra: 'Com Pendências' }),
       goPauta: () => this.setState({ view: 'outra', outra: 'Pauta' }),
@@ -838,7 +1035,6 @@ class Component extends DCLogic {
       showLotes: pk === 'sis',
 
       numero: s.numero,
-      setNumero: (e) => this.setState({ numero: e.target.value, fieldErr: null }),
       inputCls: s.fieldErr ? 'input bad' : 'input',
       ariaInvalid: s.fieldErr ? 'true' : 'false',
       hasFieldErr: !!s.fieldErr, fieldErr: s.fieldErr || '',
@@ -850,7 +1046,7 @@ class Component extends DCLogic {
       modoHint: modo === 'aus'
         ? 'Reprocessa só os documentos que faltam no índice, pelo critério vigente. Não marca o processo como reindexado.'
         : 'Exclui o processo do índice Maven e coloca todos os documentos do sumário de volta na fila. Se uma etapa falhar, o pedido fica pendente e é retomado automaticamente.',
-      exemplos: this.exemplos().map((x) => ({ num: x[0], desc: x[1], pick: () => this.setState({ numero: x[0], fieldErr: null, msg: null }) })),
+      exemplos: this.exemplos().map((x) => ({ num: x[0], desc: x[1], pick: () => this.setState({ numero: x[0], fieldErr: null, msg: null, sugOpen: true }) })),
 
       dReind: running || !!s.validating || !!s.consulting,
       dCons: !!s.consulting || !!s.validating,
@@ -863,6 +1059,7 @@ class Component extends DCLogic {
       refreshCls: s.consulting === 'refresh' ? 'spin' : '',
       reindexar: () => this.reindexar(),
       consultar: () => this.consultar(),
+      setNumero: (e) => this.setState({ numero: e.target.value, fieldErr: null, sugOpen: true }),
       atualizar: () => this.atualizar(),
       loteAut: () => this.loteAut(),
       loteDoc: () => this.loteDoc(),
@@ -888,6 +1085,9 @@ class Component extends DCLogic {
       cNumero: c ? c.numero : '', cAssunto: c ? c.assunto : '', cAt: c ? this.fmtT(c.at) : '',
       cShowSit: !!c && c.docs.length > 0, cSit: cSit, cSitCls: cSitCls,
       cResumo: cResumo, cDocs: cDocs,
+      cPodeIncluir: !!c && s.selecionados.indexOf(c.numero) < 0,
+      cJaIncluido: !!c && s.selecionados.indexOf(c.numero) >= 0,
+      cIncluir: () => { if (c) this.incluir(c.numero); },
       cCountText: c ? c.docs.length + ' documento(s) no sumário' : '', cNoDocs: !!c && c.docs.length === 0,
       cHasPend: !!pend,
       cPendCls: esg ? 'alert a-error' : 'alert a-warn',

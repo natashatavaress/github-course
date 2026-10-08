@@ -189,7 +189,7 @@ textarea.input{height:auto;min-height:92px;padding:10px 12px;resize:vertical;lin
 .bar{height:6px;border-radius:3px;background:#E3E7EA;overflow:hidden}
 .bar>span{display:block;height:100%;background:#1E78BE;transition:width .4s}
 .tr.nu>[role=cell]{text-transform:none}
-.g-res{grid-template-columns:72px 230px 190px minmax(0,1fr)}
+.g-res{grid-template-columns:72px 210px 200px 180px minmax(0,1fr)}
 .g-resd{grid-template-columns:72px 220px 250px 180px minmax(0,1fr)}
 .g-mdoc{grid-template-columns:minmax(0,1.6fr) 180px minmax(0,1.2fr)}
 .mono{font-variant-numeric:tabular-nums}
@@ -374,8 +374,8 @@ textarea.input{height:auto;min-height:92px;padding:10px 12px;resize:vertical;lin
 <fieldset style="border: 0; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 6px; min-width: 0">
 <legend class="field" style="padding: 0; margin-bottom: 6px">Quais documentos reindexar?</legend>
 <div style="display: flex; gap: 10px; flex-wrap: wrap">
-<label class="{{rdAusCls}}"><input class="rd" type="radio" name="modo" value="aus" checked="{{modoAus}}" onChange="{{setAus}}">Só documentos ausentes</label>
-<label class="{{rdTodCls}}"><input class="rd" type="radio" name="modo" value="todos" checked="{{modoTodos}}" onChange="{{setTodos}}">Todos os documentos</label>
+<label class="{{rdAusCls}}"><input class="rd" type="radio" name="modo" value="aus" checked="{{modoAus}}" onChange="{{setAus}}" onClick="{{setAus}}">Só documentos ausentes</label>
+<label class="{{rdTodCls}}"><input class="rd" type="radio" name="modo" value="todos" checked="{{modoTodos}}" onChange="{{setTodos}}" onClick="{{setTodos}}">Todos os documentos</label>
 </div>
 </fieldset>
 </div>
@@ -422,6 +422,7 @@ Reindexar Processo
 <span role="columnheader" class="nf">Nº</span>
 <span role="columnheader" class="nf">Processo</span>
 <sc-if value="{{resIsDocs}}" hint-placeholder-val="{{false}}"><span role="columnheader" class="nf">Documento (origem · Maven)</span></sc-if>
+<sc-if value="{{resNotDocs}}" hint-placeholder-val="{{true}}"><span role="columnheader" class="nf">Documentos reindexados</span></sc-if>
 <span role="columnheader" class="nf">Situação</span>
 <span role="columnheader" class="nf">Mensagem</span>
 </div>
@@ -430,6 +431,7 @@ Reindexar Processo
 <span role="cell" class="mono">{{r.n}}</span>
 <span role="cell"><span class="num">{{r.numero}}</span></span>
 <sc-if value="{{r.isDoc}}" hint-placeholder-val="{{false}}"><span role="cell" class="mono">{{r.doc}}</span></sc-if>
+<sc-if value="{{r.notDoc}}" hint-placeholder-val="{{true}}"><span role="cell"><span class="chip c-info">{{r.modo}}</span></span></sc-if>
 <span role="cell"><span class="{{r.sitCls}}">{{r.sit}}</span></span>
 <span role="cell" style="font-size: 13px; user-select: text">{{r.msg}}</span>
 </div>
@@ -695,8 +697,9 @@ class Component extends DCLogic {
     if (modo === 'aus') {
       const falhou = p.failAus || (this.falha() === 'Falha em um item' && idx === failIdx);
       if (falhou) return { numero: p.numero, sit: 'F', msg: 'ORA-20010: erro em TCE_GO.PRO_REPROCESSA_DOCMAVEN — documento sem arquivo físico no repositório.' };
-      p.docs.forEach((d) => { if (d.st === 'N') { d.st = 'D'; if (d.mvn === '—') d.mvn = 'MVN-01' + String(d.id).slice(-5); } });
-      return { numero: p.numero, sit: 'R', msg: '' };
+      let k = 0;
+      p.docs.forEach((d) => { if (d.st === 'N') { k++; d.st = 'D'; if (d.mvn === '—') d.mvn = 'MVN-01' + String(d.id).slice(-5); } });
+      return { numero: p.numero, sit: 'R', msg: k ? k + ' documento(s) ausente(s) do índice colocado(s) na fila de indexação; os demais documentos não foram alterados.' : 'Nenhum documento ausente do índice; nada foi colocado na fila.' };
     }
     if (this.mavenFails(idx, failIdx)) {
       const msg = this.mavenErr('Exclusão do processo no Maven Docs');
@@ -705,7 +708,7 @@ class Component extends DCLogic {
     }
     p.docs.forEach((d) => { d.st = 'D'; d.notFound = false; if (d.mvn === '—') d.mvn = 'MVN-01' + String(d.id).slice(-5); });
     p.pend = null; p.reindexado = true;
-    return { numero: p.numero, sit: 'R', msg: '' };
+    return { numero: p.numero, sit: 'R', msg: p.docs.length ? 'Processo excluído do índice Maven; todos os ' + p.docs.length + ' documento(s) do sumário colocados na fila de indexação.' : 'Processo excluído do índice Maven; o sumário não tem documentos.' };
   }
   processarDocumento(it, idx) {
     const d = it.d;
@@ -869,7 +872,7 @@ class Component extends DCLogic {
     const isDocs = !!(exec && exec.isDocs);
     const rowCls = isDocs ? 'tr nu g-resd' : 'tr nu g-res';
     const resRows = exec ? exec.items.map((it) => ({
-      n: it.n, numero: it.numero, isDoc: isDocs, doc: it.doc || '',
+      n: it.n, numero: it.numero, isDoc: isDocs, notDoc: !isDocs, modo: exec.modoLabel, doc: it.doc || '',
       sit: SIT[it.sit][0], sitCls: SIT[it.sit][1], msg: it.msg || '—', cls: rowCls
     })) : [];
     const done = exec && exec.fim;
@@ -1013,7 +1016,7 @@ class Component extends DCLogic {
       progressPct: exec ? Math.round((nItems / Math.max(exec.total, 1)) * 100) + '%' : '0%',
       hasExcluded: fora.length > 0,
       excludedText: fora.length ? fora.length + ' autuação(ões) com reindexação pendente em retomada ficaram fora do lote: ' + fora.join(', ') + '.' : '',
-      resIsDocs: isDocs, resHeadCls: rowCls + ' th', resRows: resRows,
+      resIsDocs: isDocs, resNotDocs: !isDocs, resHeadCls: rowCls + ' th', resRows: resRows,
       showResSkel: !!exec && !done, resSkelCls: rowCls,
       resEmpty: !exec,
 

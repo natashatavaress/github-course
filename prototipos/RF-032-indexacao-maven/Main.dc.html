@@ -270,6 +270,13 @@ textarea.input{height:auto;min-height:92px;padding:10px 12px;resize:vertical;lin
 <div class="card-b">
 <p class="phint">Tela fora do escopo deste protótipo. A execução de reindexação continua em segundo plano enquanto você está aqui; ao voltar, os itens já concluídos aparecem nos Resultados.</p>
 <sc-if value="{{hasFuncao}}" hint-placeholder-val="{{true}}"><div><button type="button" class="btn btn-o" onClick="{{goTela}}">Voltar a Forçar Indexação Maven</button></div></sc-if>
+<sc-if value="{{semFuncao}}" hint-placeholder-val="{{false}}">
+<div class="pitems-box" style="margin-top: 0; background: #FFFBEF; border: 1px dashed #E0D3AE">
+<span style="font-size: 11px; font-weight: 600; color: #6B5418; text-transform: uppercase; letter-spacing: .05em">Simulação</span>
+<p class="phint">Este usuário não tem a função funReindexarProcessoMaven, por isso "Forçar Indexação Maven" não aparece no menu lateral.</p>
+<div><button type="button" class="btn btn-o btn-s" onClick="{{goTela}}">Simular acesso direto pelo endereço /forcar-indexacao-maven</button></div>
+</div>
+</sc-if>
 </div>
 </section>
 </sc-if>
@@ -519,7 +526,7 @@ class Component extends DCLogic {
   }
   init() {
     return {
-      view: 'tela', outra: '', sideOpen: true, search: '', sugOpen: false, numero: '', modo: 'aus', fieldErr: null, msg: null,
+      view: this.pk() === 'sem' ? 'outra' : 'tela', outra: this.pk() === 'sem' ? 'Listagem de processos' : '', sideOpen: true, search: '', sugOpen: false, numero: '', modo: 'aus', fieldErr: null, msg: null,
       exec: null, running: null, validating: null, consulting: false, consult: null,
       db: this.buildDb(), toast: null
     };
@@ -844,7 +851,7 @@ class Component extends DCLogic {
 
     return {
       userNome: u.nome, userIni: u.ini, userSetor: u.setor,
-      hasFuncao: hasFuncao,
+      hasFuncao: hasFuncao, semFuncao: !hasFuncao,
       sideCls: s.sideOpen ? 'side' : 'side mini',
       sideOpenStr: s.sideOpen ? 'true' : 'false',
       toggleSide: () => this.setState({ sideOpen: !s.sideOpen }),

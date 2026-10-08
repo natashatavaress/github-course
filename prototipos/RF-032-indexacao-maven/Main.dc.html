@@ -193,8 +193,6 @@ textarea.input{height:auto;min-height:92px;padding:10px 12px;resize:vertical;lin
 .g-resd{grid-template-columns:72px 220px 250px 180px minmax(0,1fr)}
 .g-mdoc{grid-template-columns:minmax(0,1.6fr) 180px minmax(0,1.2fr)}
 .mono{font-variant-numeric:tabular-nums}
-.tb-red{background:#C62828}
-.tb-red:hover{background:#A21F1F}
 .ac{position:relative}
 .ac-list{position:absolute;left:0;right:0;top:calc(100% + 4px);z-index:40;background:#FFFFFF;border:1px solid #A7AEB3;border-radius:4px;box-shadow:0 10px 28px rgba(20,30,40,.18);padding:4px 0;max-height:300px;overflow-y:auto}
 .ac-opt{display:flex;flex-direction:column;align-items:flex-start;gap:2px;width:100%;min-height:48px;padding:6px 14px;border:0;background:transparent;text-align:left;font:400 15px 'Poppins',sans-serif;color:#3D4448;cursor:pointer}
@@ -239,7 +237,7 @@ textarea.input{height:auto;min-height:92px;padding:10px 12px;resize:vertical;lin
 <!-- ================= MENU LATERAL ================= -->
 <nav class="{{sideCls}}" aria-label="Menu principal">
 <button type="button" class="nav" onClick="{{goDash}}" title="Dashboard"><svg width="20" height="20" viewBox="0 0 24 24" fill="#1E78BE" aria-hidden="true"><rect x="3" y="14" width="4" height="7"></rect><rect x="9.5" y="10" width="4" height="11"></rect><rect x="16" y="4" width="4" height="17"></rect></svg><span class="lbl">Dashboard</span></button>
-<button type="button" class="{{navListaCls}}" aria-current="{{navListaCur}}" onClick="{{goLista}}" title="Listagem de processos"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#13855E" stroke-width="2" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="1"></rect><path d="M3 9h18M3 14h18M9 9v11M15 9v11"></path></svg><span class="lbl">Listagem de processos</span></button>
+<button type="button" class="nav" onClick="{{goLista}}" title="Listagem de processos"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#13855E" stroke-width="2" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="1"></rect><path d="M3 9h18M3 14h18M9 9v11M15 9v11"></path></svg><span class="lbl">Listagem de processos</span></button>
 <button type="button" class="nav sub2" onClick="{{goAnot}}" title="Com Anotações"><svg width="20" height="20" viewBox="0 0 24 24" fill="#F2A33A" aria-hidden="true"><path d="M4 4h16v12H8l-4 4z"></path><path d="M8 8h8M8 11.5h6" stroke="#FFFFFF" stroke-width="1.6"></path></svg><span class="lbl">Com Anotações</span><span class="nbadge">17</span></button>
 <button type="button" class="nav sub2" onClick="{{goPend}}" title="Com Pendências"><svg width="20" height="20" viewBox="0 0 24 24" fill="#F2A33A" aria-hidden="true"><path d="M12 22a2.5 2.5 0 0 0 2.45-2h-4.9A2.5 2.5 0 0 0 12 22zm7-6V11a7 7 0 0 0-5.5-6.84V3.5a1.5 1.5 0 0 0-3 0v.66A7 7 0 0 0 5 11v5l-2 2v1h18v-1z"></path></svg><span class="lbl">Com Pendências</span><span class="nbadge">31</span></button>
 <button type="button" class="nav" onClick="{{goPauta}}" title="Pauta"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#8E44AD" stroke-width="2" aria-hidden="true"><path d="M6 3h9l4 4v14H6z"></path><path d="M9 11h7M9 15h7M9 19h4"></path></svg><span class="lbl">Pauta</span><svg class="caret" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#5A6268" stroke-width="2" aria-hidden="true"><path d="m6 9 6 6 6-6"></path></svg></button>
@@ -255,10 +253,6 @@ textarea.input{height:auto;min-height:92px;padding:10px 12px;resize:vertical;lin
 <nav class="crumbs" aria-label="Trilha de navegação">
 <button type="button" class="crumb-b" aria-label="Início" onClick="{{goLista}}"><svg width="20" height="20" viewBox="0 0 24 24" fill="#3D4448" aria-hidden="true"><path d="M12 3 2 12h3v8h5v-5h4v5h5v-8h3z"></path></svg></button>
 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#3D4448" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="m9 5 7 7-7 7"></path></svg>
-<sc-if value="{{crumbViaLista}}" hint-placeholder-val="{{false}}">
-<button type="button" class="crumb-b" onClick="{{goLista}}">Listagem de processos</button>
-<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#3D4448" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="m9 5 7 7-7 7"></path></svg>
-</sc-if>
 <span class="crumb-c" aria-current="page">{{crumbAtual}}</span>
 </nav>
 
@@ -276,63 +270,6 @@ textarea.input{height:auto;min-height:92px;padding:10px 12px;resize:vertical;lin
 <div class="card-b">
 <p class="phint">Tela fora do escopo deste protótipo. A execução de reindexação continua em segundo plano enquanto você está aqui; ao voltar, os itens já concluídos aparecem nos Resultados.</p>
 <sc-if value="{{hasFuncao}}" hint-placeholder-val="{{true}}"><div><button type="button" class="btn btn-o" onClick="{{goTela}}">Voltar a Forçar Indexação Maven</button></div></sc-if>
-</div>
-</section>
-</sc-if>
-
-<!-- ================= LISTAGEM DE PROCESSOS (ação Forçar indexação) ================= -->
-<sc-if value="{{showLista}}" hint-placeholder-val="{{false}}">
-<section class="card" aria-label="Filtros">
-<div class="card-h" style="padding-bottom: 22px; flex-wrap: wrap">
-<h2 class="card-t">Filtros</h2>
-<span class="vbar" aria-hidden="true"></span>
-<span style="font-size: 16px; color: #6B7378">Nenhum filtro aplicado</span>
-</div>
-</section>
-<section class="card" aria-label="Processos">
-<div class="card-h"><h2 class="card-t">Processos do setor</h2></div>
-<div class="card-b" style="gap: 20px">
-<div style="display: flex; align-items: center; gap: 4px; flex-wrap: wrap">
-<button type="button" class="tb" aria-label="Atualizar lista" title="Atualizar lista" onClick="{{foraEscopo}}"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M21 12a9 9 0 1 1-2.64-6.36"></path><path d="M21 3v6h-6"></path></svg></button>
-<button type="button" class="tb" aria-label="Tramitar (RF-013)" title="Tramitar (RF-013)" disabled="{{tbDis}}" onClick="{{foraEscopo}}"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M4 8h14l-3-3M20 16H6l3 3"></path></svg></button>
-<button type="button" class="tb" aria-label="Novo documento (RF-015)" title="Novo documento (RF-015)" disabled="{{tbDis}}" onClick="{{foraEscopo}}"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path d="M6 3h8l4 4v14H6z"></path><path d="M12 11v6M9 14h6"></path></svg></button>
-<button type="button" class="tb" aria-label="Anexar (RF-016)" title="Anexar (RF-016)" disabled="{{tbDis}}" onClick="{{foraEscopo}}"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M8 12V7a4 4 0 0 1 8 0v10a6 6 0 0 1-12 0V9"></path></svg></button>
-<button type="button" class="tb" aria-label="Assinar (RF-014)" title="Assinar (RF-014)" disabled="{{tbDis}}" onClick="{{foraEscopo}}"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="m15 4 5 5-10 10H5v-5zM4 21h16v-1.6H4z"></path></svg></button>
-<button type="button" class="tb" aria-label="Enviar processo (RF-012)" title="Enviar processo (RF-012)" disabled="{{tbDis}}" onClick="{{foraEscopo}}"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M2 21 23 12 2 3l3 9zm3-9h9"></path></svg></button>
-<button type="button" class="tb" aria-label="Visualizar documentos (RF-024)" title="Visualizar documentos (RF-024)" disabled="{{tbDis}}" onClick="{{foraEscopo}}"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path d="M2 12c3-5 6.5-7 10-7s7 2 10 7c-3 5-6.5 7-10 7S5 17 2 12z"></path><circle cx="12" cy="12" r="3"></circle></svg></button>
-<sc-if value="{{hasFuncao}}" hint-placeholder-val="{{true}}">
-<button type="button" class="tb tb-red" aria-label="Forçar indexação Maven do processo selecionado" title="{{forcarTitle}}" disabled="{{forcarDis}}" onClick="{{forcarIndexacao}}"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h4"></path><path d="M14 3v5h5v3"></path><path d="M21 17a4 4 0 1 1-1.2-2.85"></path><path d="M21 13v2.5h-2.5"></path></svg></button>
-</sc-if>
-<div style="flex-grow: 1"></div>
-<span style="font-size: 14px; color: #5E676D">{{selText}}</span>
-</div>
-<div>
-<div style="overflow-x: auto" class="tbl">
-<div role="table" aria-label="Processos" style="min-width: 1180px">
-<div role="row" class="tr th g-lista">
-<span role="columnheader" class="nf"><input type="checkbox" class="cb" aria-label="Selecionar todos os processos" checked="{{allChecked}}" onChange="{{toggleAll}}"></span>
-<span role="columnheader">Processos</span>
-<span role="columnheader">Assunto</span>
-<span role="columnheader">Interessado</span>
-<span role="columnheader">Andamento atual</span>
-<span role="columnheader">Data</span>
-<span role="columnheader">Responsável</span>
-</div>
-<sc-for list="{{listaRows}}" as="r" hint-placeholder-count="8">
-<div role="row" class="{{r.cls}}">
-<span role="cell"><input type="checkbox" class="cb" aria-label="Selecionar processo {{r.numero}}" checked="{{r.checked}}" onChange="{{r.toggle}}"></span>
-<span role="cell" class="strip-gray"><span class="num">{{r.numero}}</span></span>
-<span role="cell">{{r.assunto}}</span>
-<span role="cell">{{r.interessado}}</span>
-<span role="cell">{{r.evento}}</span>
-<span role="cell">{{r.data}}</span>
-<span role="cell">{{r.resp}}</span>
-</div>
-</sc-for>
-</div>
-</div>
-<div class="tfoot"><span>{{listaCountText}}</span></div>
-</div>
 </div>
 </section>
 </sc-if>
@@ -379,7 +316,6 @@ textarea.input{height:auto;min-height:92px;padding:10px 12px;resize:vertical;lin
 </div>
 </fieldset>
 </div>
-<sc-if value="{{viaLista}}" hint-placeholder-val="{{false}}"><div class="alert a-info"><span>Processo trazido da listagem de processos. Para reindexar outro, limpe o campo ou busque outro número.</span></div></sc-if>
 <p class="phint" style="font-size: 13px">{{modoHint}}</p>
 <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px">
 <button type="button" class="btn btn-o btn-w" disabled="{{dCons}}" onClick="{{consultar}}">
@@ -583,7 +519,7 @@ class Component extends DCLogic {
   }
   init() {
     return {
-      view: 'tela', outra: '', sideOpen: true, search: '', sel: {}, origemLista: false, sugOpen: false, numero: '', modo: 'aus', fieldErr: null, msg: null,
+      view: 'tela', outra: '', sideOpen: true, search: '', sugOpen: false, numero: '', modo: 'aus', fieldErr: null, msg: null,
       exec: null, running: null, validating: null, consulting: false, consult: null,
       db: this.buildDb(), toast: null
     };
@@ -724,7 +660,7 @@ class Component extends DCLogic {
   }
   executar(kind, acao, modoLabel, numero, lista, worker, extra) {
     const exec = Object.assign({ kind: kind, acao: acao, modoLabel: modoLabel, numero: numero, inicio: new Date(), fim: null, items: [], total: lista.length, isDocs: kind === 'doc' }, extra || {});
-    this.setState(Object.assign({ exec: exec, running: kind, validating: null, msg: null, fieldErr: null }, kind === 'proc' ? { numero: '', origemLista: false, sugOpen: false } : {}));
+    this.setState(Object.assign({ exec: exec, running: kind, validating: null, msg: null, fieldErr: null }, kind === 'proc' ? { numero: '', sugOpen: false } : {}));
     const passo = (i) => {
       this.later(() => {
         const r = worker(lista[i], i);
@@ -753,11 +689,6 @@ class Component extends DCLogic {
   ordemLista() {
     const db = this.state.db;
     return Object.keys(db).sort((a, b) => (db[a].autuadoEm < db[b].autuadoEm ? 1 : -1));
-  }
-  forcarIndexacao() {
-    const nums = this.ordemLista().filter((n) => this.state.sel[n]);
-    if (nums.length !== 1) return;
-    this.setState({ view: 'tela', numero: nums[0], origemLista: true, sel: {}, fieldErr: null, msg: null, sugOpen: false });
   }
   escolher(n) { this.setState({ numero: n, fieldErr: null, msg: null, sugOpen: false }); }
   sugestoes() {
@@ -906,21 +837,6 @@ class Component extends DCLogic {
     const esg = pend && pend.status === 'esgotada';
 
     const nErr = this.docsErro().length;
-    const listaNums = this.ordemLista();
-    const nSel = listaNums.filter((n) => s.sel[n]).length;
-    const EVT = ['Em análise', 'Aguardando assinatura', 'Instrução técnica', 'Em análise', 'Aguardando parecer do MPC', 'Distribuído', 'Em análise', 'Aguardando assinatura', 'Instrução técnica'];
-    const RESP = ['Rafael Nunes', 'Joana Lima', 'Marina Costa'];
-    const listaRows = listaNums.map((n, i) => {
-      const p = s.db[n];
-      const parts = p.assunto.split(' · ');
-      const d = p.autuadoEm.split('-');
-      return {
-        numero: n, assunto: parts[0], interessado: parts[1] || '', evento: EVT[i % EVT.length],
-        data: d[2] + '/' + d[1] + '/' + d[0], resp: RESP[i % RESP.length],
-        checked: !!s.sel[n], cls: s.sel[n] ? 'tr g-lista sel' : 'tr g-lista',
-        toggle: () => { const m = Object.assign({}, s.sel); if (m[n]) delete m[n]; else m[n] = true; this.setState({ sel: m }); }
-      };
-    });
     const sug = this.sugestoes();
     const t = s.toast;
     const modo = s.modo;
@@ -938,25 +854,10 @@ class Component extends DCLogic {
       navTelaCur: view === 'tela' ? 'page' : 'false',
       navRunning: running,
       navRunningAny: running,
-      crumbAtual: view === 'outra' ? s.outra : view === 'lista' ? 'Listagem de processos' : 'Forçar Indexação Maven',
-      crumbViaLista: view === 'tela' && s.origemLista,
-      viaLista: s.origemLista && !!s.numero,
-      navListaCls: view === 'lista' ? 'nav on' : 'nav',
-      navListaCur: view === 'lista' ? 'page' : 'false',
-      showLista: view === 'lista',
-      listaRows: listaRows,
-      listaCountText: listaNums.length + ' processos',
-      selText: nSel ? nSel + ' selecionado(s)' : 'Selecione processos para habilitar as ações',
-      tbDis: nSel === 0,
-      forcarDis: nSel !== 1,
-      forcarTitle: nSel === 1 ? 'Forçar indexação Maven' : nSel > 1 ? 'Forçar indexação Maven — selecione um único processo (a reindexação é feita um processo por vez)' : 'Forçar indexação Maven — selecione um processo',
-      allChecked: nSel > 0 && nSel === listaNums.length,
-      toggleAll: () => { const all = !(nSel === listaNums.length); const m = {}; if (all) listaNums.forEach((n) => { m[n] = true; }); this.setState({ sel: m }); },
-      forcarIndexacao: () => this.forcarIndexacao(),
-      foraEscopo: () => this.toast('info', 'Ação fora do escopo deste protótipo.'),
+      crumbAtual: view === 'outra' ? s.outra : 'Forçar Indexação Maven',
       numeroTrim: (s.numero || '').trim(),
       hasNumero: !!s.numero,
-      limparNumero: () => this.setState({ numero: '', origemLista: false, fieldErr: null, msg: null, sugOpen: false }),
+      limparNumero: () => this.setState({ numero: '', fieldErr: null, msg: null, sugOpen: false }),
       sugestoes: sug.map((n) => ({ num: n, assunto: s.db[n].assunto, pick: () => this.escolher(n) })),
       showSug: s.sugOpen && (s.numero || '').trim().length >= 3 && !s.db[(s.numero || '').trim()],
       sugNone: sug.length === 0,
@@ -964,9 +865,9 @@ class Component extends DCLogic {
       numKey: (e) => this.numKey(e),
       numFocus: () => this.setState({ sugOpen: true }),
       numBlur: () => { this.later(() => this.setState({ sugOpen: false }), 180); },
-      goTela: () => this.setState({ view: 'tela', origemLista: false, numero: '', fieldErr: null, msg: null, sugOpen: false }),
+      goTela: () => this.setState({ view: 'tela', numero: '', fieldErr: null, msg: null, sugOpen: false }),
       goDash: () => this.setState({ view: 'outra', outra: 'Dashboard' }),
-      goLista: () => this.setState({ view: 'lista' }),
+      goLista: () => this.setState({ view: 'outra', outra: 'Listagem de processos' }),
       goAnot: () => this.setState({ view: 'outra', outra: 'Com Anotações' }),
       goPend: () => this.setState({ view: 'outra', outra: 'Com Pendências' }),
       goPauta: () => this.setState({ view: 'outra', outra: 'Pauta' }),
@@ -975,7 +876,7 @@ class Component extends DCLogic {
       showLotes: pk === 'sis',
 
       numero: s.numero,
-      setNumero: (e) => this.setState({ numero: e.target.value, fieldErr: null, sugOpen: true, origemLista: false }),
+      setNumero: (e) => this.setState({ numero: e.target.value, fieldErr: null, sugOpen: true }),
       inputCls: s.fieldErr ? 'input bad' : 'input',
       ariaInvalid: s.fieldErr ? 'true' : 'false',
       hasFieldErr: !!s.fieldErr, fieldErr: s.fieldErr || '',
@@ -987,7 +888,7 @@ class Component extends DCLogic {
       modoHint: modo === 'aus'
         ? 'Reprocessa só os documentos que faltam no índice, pelo critério vigente. Não marca o processo como reindexado.'
         : 'Exclui o processo do índice Maven e coloca todos os documentos do sumário de volta na fila. Se uma etapa falhar, o pedido fica pendente e é retomado automaticamente.',
-      exemplos: this.exemplos().map((x) => ({ num: x[0], desc: x[1], pick: () => this.setState({ numero: x[0], fieldErr: null, msg: null, sugOpen: true, origemLista: false }) })),
+      exemplos: this.exemplos().map((x) => ({ num: x[0], desc: x[1], pick: () => this.setState({ numero: x[0], fieldErr: null, msg: null, sugOpen: true }) })),
 
       dReind: running || !!s.validating || !!s.consulting,
       dCons: !!s.consulting || !!s.validating,

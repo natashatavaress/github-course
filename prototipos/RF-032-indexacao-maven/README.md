@@ -11,11 +11,6 @@ Tweaks disponíveis no artefato: perfil (com a função · SERV-SISTEMAS, com a 
 setor, sem a função), falha do Maven Docs (nenhuma, falha em um item, HTTP 503, tempo
 esgotado), falha ao registrar o pedido, lotes vazios e lote em execução por outro usuário.
 
-Entrada pela listagem: em "Listagem de processos" (menu lateral), selecionar processos habilita a
-ação "Forçar indexação Maven" (vermelha, na barra de ações), que abre a tela com os processos
-selecionados; ali é possível removê-los ou incluir outros pelo campo com autocompletar. Pelo menu
-lateral, a tela abre sem processos: é preciso buscá-los para incluí-los.
-
 Processos simulados (botões abaixo do campo): 202600047000118 (erro e não processados),
 202500047001842 (todos publicados), 202600047000233 (pendente em retomada — RN18),
 202500047002010 (retomada esgotada), 202600047000301 (falha no modo ausentes),
@@ -39,12 +34,4 @@ Processos simulados (botões abaixo do campo): 202600047000118 (erro e não proc
 14. Retomada automática (Fluxo 06, passo 04) não é simulada: é processamento do back-end, sem tela. A pendência gerada aparece no acompanhamento, com 1 tentativa e próxima tentativa em 15 min (RN19).
 15. Execução em segundo plano (RN12/CA49–CA50) simulada pela troca de tela: ao ir para "Processos" e voltar, a execução continua e mostra os itens concluídos; o item do menu lateral mostra um indicador de execução.
 16. Usuário sem a função: o item não aparece no menu e a tela exibe "Acesso negado" (simulando acesso direto pelo endereço).
-17. Listagem: a ação "Forçar indexação Maven" é um botão de ícone vermelho (`#C62828`, o vermelho de alerta do padrão) ao fim da barra de ações, com dica de texto; fica desabilitada sem seleção e só aparece para quem tem a função `funReindexarProcessoMaven` (RN01). As demais ações da barra são ilustrativas (fora do escopo).
-18. Ao acionar a ação, a lista da tela é substituída pelos processos selecionados, e a seleção da listagem é limpa. A trilha mostra "Listagem de processos" como nível anterior.
-19. "Processo a ser reindexado" vira autocompletar: sugere a partir de 3 dígitos (até 6 processos, com o assunto); escolher uma sugestão ou teclar Enter inclui o processo na lista e limpa o campo. Número digitado e não incluído não entra no pedido: "Reindexar Processo" pede que seja incluído antes; número inexistente recebe "Processo inválido ou não existe!".
-20. "Reindexar Processo" pede a reindexação de todos os processos da lista, uma execução com um item por processo (o PRD prevê um processo por vez; a lista é extensão desta demanda). A falha de um processo não interrompe os demais.
-21. Modo "Todos os documentos" com processo da lista em retomada (RN18): o pedido inteiro é recusado, com a mensagem indicando o processo a remover; nada é registrado.
-22. "Consultar situação" usa o número digitado ou, com o campo vazio, o primeiro processo da lista; cada processo da lista também tem um botão de consulta próprio. Processo consultado que não está na lista pode ser incluído pelo botão "Incluir na reindexação" do acompanhamento.
-23. Entrada pelo menu lateral: a lista começa vazia (com orientação para buscar o processo); a lista vinda da listagem também é descartada ao reabrir a tela pelo menu. Os processos simulados abaixo do campo apenas preenchem a busca.
-24. Os botões de remover ficam desabilitados durante a execução.
-25. Dados, nomes de usuários, números de processo, ids e mensagens de erro técnicas (ORA-, HTTP) são fictícios.
+17. Dados, nomes de usuários, números de processo, ids e mensagens de erro técnicas (ORA-, HTTP) são fictícios.

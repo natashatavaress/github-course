@@ -1,0 +1,762 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<title>eTCE Web — Forçar Indexação Maven</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#EEF2F7}
+a{color:#0F366D}a:hover{color:#0B2A55}
+*{box-sizing:border-box}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:44px;padding:0 18px;border-radius:8px;border:1px solid #0F366D;background:#0F366D;color:#FFFFFF;font:600 14px/1.1 'Figtree',system-ui,sans-serif;cursor:pointer;white-space:nowrap}
+.btn:hover{background:#0B2A55;border-color:#0B2A55}
+.btn:disabled{opacity:.45;cursor:not-allowed}
+.btn-o{background:#FFFFFF;color:#0F366D;border-color:#B9C6D8}
+.btn-o:hover{background:#EEF3FA;border-color:#8FA4C2}
+.btn-s{min-height:36px;padding:0 12px;font-size:13px}
+.btn:focus-visible,.nav-a:focus-visible,.ex:focus-visible,.input:focus,.rd:focus-visible{outline:2px solid #2F6FD0;outline-offset:2px}
+.nav-a{display:inline-flex;align-items:center;gap:8px;min-height:44px;padding:0 14px;border:0;border-bottom:3px solid transparent;background:transparent;color:#3A4558;font:600 14px 'Figtree',system-ui,sans-serif;cursor:pointer}
+.nav-a:hover{color:#0F366D;background:#F1F5FB}
+.nav-a.on{color:#0F366D;border-bottom-color:#0F366D}
+.chip{display:inline-flex;align-items:center;gap:6px;height:24px;padding:0 10px;border-radius:12px;font:600 12px/1 'Figtree',sans-serif;white-space:nowrap}
+.c-neutral{background:#E7EBF1;color:#3A4558}
+.c-primary{background:#DCE6F5;color:#0F366D}
+.c-success{background:#DDF1E3;color:#1E6B34}
+.c-warn{background:#FCEBD3;color:#7A4105}
+.c-error{background:#FBE1DE;color:#A3271C}
+.c-info{background:#E1EDFB;color:#1D4F91}
+.card{background:#FFFFFF;border:1px solid #DDE3EC;border-radius:12px}
+.card-h{display:flex;align-items:center;gap:12px;flex-wrap:wrap;padding:14px 20px;border-bottom:1px solid #E3E8EF}
+.card-t{margin:0;font-size:16px;font-weight:700;color:#0F366D}
+.tr{display:grid;align-items:center;column-gap:16px;padding:10px 20px;border-bottom:1px solid #E8ECF2;font-size:14px;line-height:1.4;user-select:text}
+.th{background:#F5F7FA;font-size:12px;font-weight:700;color:#4A5568;text-transform:uppercase;letter-spacing:.04em;padding-top:12px;padding-bottom:12px}
+.g-res{grid-template-columns:48px 180px 170px minmax(0,1fr)}
+.g-resd{grid-template-columns:48px 170px 220px 150px minmax(0,1fr)}
+.g-doc{grid-template-columns:minmax(0,1.6fr) 150px minmax(0,1.2fr)}
+.num{font-variant-numeric:tabular-nums;font-weight:600;color:#0F366D}
+.mono{font-variant-numeric:tabular-nums}
+.muted{color:#4F5A6B}
+.field{display:flex;flex-direction:column;gap:6px;font-size:13px;font-weight:600;color:#3A4558}
+.input{height:44px;border:1px solid #B9C6D8;border-radius:8px;padding:0 12px;font:400 15px 'Figtree',system-ui,sans-serif;color:#1B2433;background:#FFFFFF;width:100%}
+.input.bad{border-color:#B42318;box-shadow:0 0 0 1px #B42318}
+.rdl{display:inline-flex;align-items:center;gap:10px;min-height:44px;padding:0 14px;border:1px solid #CBD5E3;border-radius:8px;font-size:14px;font-weight:500;color:#1B2433;cursor:pointer;background:#FFFFFF}
+.rdl.on{border-color:#0F366D;background:#EEF3FA}
+.rd{width:18px;height:18px;accent-color:#0F366D;margin:0;cursor:pointer}
+.alert{display:flex;gap:10px;align-items:flex-start;padding:12px 16px;border-radius:8px;font-size:14px;line-height:1.45}
+.a-error{background:#FDECEA;color:#7A1F16;border:1px solid #F3C1BB}
+.a-warn{background:#FFF4E2;color:#6B3A06;border:1px solid #F2D2A0}
+.a-info{background:#EAF2FC;color:#173F73;border:1px solid #BCD3F0}
+.ex{display:inline-flex;flex-direction:column;align-items:flex-start;gap:2px;min-height:44px;padding:6px 10px;border:1px dashed #C9A54A;border-radius:8px;background:#FFFBEF;color:#3B2A05;font:600 12px/1.25 'Figtree',sans-serif;cursor:pointer;text-align:left}
+.ex:hover{background:#FFF3D1}
+.ex small{font-weight:500;color:#6B5418;font-size:11px}
+.skel{display:inline-block;height:12px;border-radius:6px;background:linear-gradient(90deg,#E3E8F0 0%,#F1F4F8 50%,#E3E8F0 100%);background-size:200% 100%;animation:sk 1.2s ease-in-out infinite}
+@keyframes sk{0%{background-position:100% 0}100%{background-position:-100% 0}}
+.spin{animation:rot .8s linear infinite}
+@keyframes rot{to{transform:rotate(360deg)}}
+.bar{height:6px;border-radius:3px;background:#E3E8F0;overflow:hidden}
+.bar>span{display:block;height:100%;background:#0F366D;transition:width .4s}
+.crumb{font-size:13px;color:#4F5A6B;display:flex;gap:6px;align-items:center;flex-wrap:wrap}
+.h1{margin:0;font-size:26px;font-weight:700;color:#0F366D;line-height:1.2}
+.toast{position:fixed;left:24px;bottom:24px;z-index:80;max-width:560px;padding:14px 18px;border-radius:10px;color:#FFFFFF;font:500 14px/1.45 'Figtree',sans-serif;box-shadow:0 12px 32px rgba(10,25,50,.28);display:flex;gap:12px;align-items:flex-start}
+.t-success{background:#1E5B32}
+.t-info{background:#0F366D}
+.t-error{background:#8E1F17}
+.t-x{border:0;background:transparent;color:#FFFFFF;width:28px;height:28px;border-radius:14px;cursor:pointer;flex-shrink:0;display:inline-flex;align-items:center;justify-content:center}
+.t-x:hover{background:rgba(255,255,255,.18)}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+</style>
+</helmet>
+<div style="min-height: 100vh; display: flex; flex-direction: column; background: #EEF2F7; color: #1B2433; font-family: 'Figtree', system-ui, sans-serif">
+
+<header style="background: #0F366D; color: #FFFFFF">
+<div style="max-width: 1360px; margin: 0 auto; padding: 12px 32px; display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap">
+<div style="display: flex; align-items: center; gap: 12px; flex-wrap: wrap">
+<div aria-hidden="true" style="width: 38px; height: 38px; border-radius: 8px; background: #FFFFFF; color: #0F366D; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 13px">TCE</div>
+<div style="display: flex; flex-direction: column; gap: 2px">
+<span style="font-weight: 700; font-size: 18px">eTCE Web</span>
+<span style="font-size: 12px; color: #C9D6EA">Tribunal de Contas do Estado de Goiás</span>
+</div>
+<span class="chip" style="background: #F2B84B; color: #3B2A05; margin-left: 8px">Protótipo · dados simulados</span>
+</div>
+<div style="display: flex; align-items: center; gap: 12px">
+<div style="display: flex; flex-direction: column; align-items: flex-end; gap: 2px">
+<span style="font-weight: 600; font-size: 14px">{{userNome}}</span>
+<span style="font-size: 12px; color: #C9D6EA">{{userSetor}}</span>
+</div>
+<div aria-hidden="true" style="width: 38px; height: 38px; border-radius: 19px; background: #2A5597; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 13px">{{userIni}}</div>
+</div>
+</div>
+</header>
+
+<nav aria-label="Menu principal" style="background: #FFFFFF; border-bottom: 1px solid #DDE3EC">
+<div style="max-width: 1360px; margin: 0 auto; padding: 0 20px; display: flex; flex-wrap: wrap; gap: 4px">
+<button type="button" class="{{navProcCls}}" onClick="{{goProcessos}}">Processos</button>
+<button type="button" class="nav-a" onClick="{{goProcessos}}">Pautas</button>
+<button type="button" class="nav-a" onClick="{{goProcessos}}">Dashboard</button>
+<sc-if value="{{hasFuncao}}" hint-placeholder-val="{{true}}">
+<button type="button" class="{{navTelaCls}}" onClick="{{goTela}}">
+<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a9 9 0 1 1-2.64-6.36"></path><path d="M21 3v6h-6"></path></svg>
+Forçar Indexação Maven
+<sc-if value="{{navRunning}}" hint-placeholder-val="{{false}}"><span class="chip c-warn" style="height: 20px; font-size: 11px">em execução</span></sc-if>
+</button>
+</sc-if>
+</div>
+</nav>
+
+<main style="flex-grow: 1; width: 100%; max-width: 1360px; margin: 0 auto; padding: 24px 32px 96px; display: flex; flex-direction: column; gap: 16px">
+
+<!-- ============ Acesso negado (Fluxo 08) ============ -->
+<sc-if value="{{showDenied}}" hint-placeholder-val="{{false}}">
+<section class="card" style="padding: 56px 24px; display: flex; flex-direction: column; align-items: center; gap: 12px; text-align: center">
+<svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="#B42318" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="10" width="16" height="11" rx="2"></rect><path d="M8 10V7a4 4 0 0 1 8 0v3"></path></svg>
+<h1 class="h1" style="font-size: 22px">Acesso negado</h1>
+<p class="muted" style="margin: 0; max-width: 560px; line-height: 1.5">Você não tem permissão para acessar esta página. Se precisa deste acesso, procure o responsável pelo controle de acessos do seu setor.</p>
+<span class="chip c-neutral mono">/forcar-indexacao-maven</span>
+</section>
+</sc-if>
+
+<!-- ============ Outra tela (fora do escopo) ============ -->
+<sc-if value="{{showOutra}}" hint-placeholder-val="{{false}}">
+<section class="card" style="padding: 48px 24px; display: flex; flex-direction: column; align-items: center; gap: 12px; text-align: center">
+<h1 class="h1" style="font-size: 22px">Processos</h1>
+<p class="muted" style="margin: 0; max-width: 620px; line-height: 1.5">Tela fora do escopo deste protótipo. A execução de reindexação continua em segundo plano enquanto você está aqui; ao voltar, os itens já concluídos aparecem nos Resultados.</p>
+<sc-if value="{{hasFuncao}}" hint-placeholder-val="{{true}}"><button type="button" class="btn btn-o" onClick="{{goTela}}">Voltar a Forçar Indexação Maven</button></sc-if>
+</section>
+</sc-if>
+
+<!-- ============ TELA 01 — Reindexação Maven ============ -->
+<sc-if value="{{showTela}}" hint-placeholder-val="{{true}}">
+<section style="display: flex; flex-direction: column; gap: 16px">
+<div style="display: flex; flex-direction: column; gap: 4px">
+<span class="crumb">eTCE Web <span aria-hidden="true">›</span> Forçar Indexação Maven</span>
+<h1 class="h1">Reindexação Maven</h1>
+<p class="muted" style="margin: 4px 0 0; font-size: 14px; max-width: 860px; line-height: 1.5">Peça de novo a indexação dos documentos de um processo no Maven Docs e acompanhe a situação de cada documento. O eTCE registra o pedido e grava a fila; a indexação acontece depois, no Maven.</p>
+</div>
+
+<div style="display: flex; flex-wrap: wrap; gap: 16px; align-items: stretch">
+
+<!-- Reindexar -->
+<div class="card" style="flex: 2 1 560px; min-width: 0; display: flex; flex-direction: column">
+<div class="card-h"><h2 class="card-t">Reindexar processo</h2></div>
+<div style="padding: 20px; display: flex; flex-direction: column; gap: 18px">
+<label class="field" style="max-width: 460px">
+Processo a ser reindexado
+<input class="{{inputCls}}" type="text" inputmode="numeric" placeholder="Ex.: 202600047000118" value="{{numero}}" onChange="{{setNumero}}" aria-invalid="{{ariaInvalid}}" aria-describedby="num-err">
+<sc-if value="{{hasFieldErr}}" hint-placeholder-val="{{false}}"><span id="num-err" role="alert" style="color: #A3271C; font-weight: 600; font-size: 13px; display: flex; gap: 6px; align-items: center"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><path d="M12 7v6M12 16.5v.5"></path></svg>{{fieldErr}}</span></sc-if>
+</label>
+
+<fieldset style="border: 0; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 8px">
+<legend style="font-size: 13px; font-weight: 600; color: #3A4558; padding: 0; margin-bottom: 8px">Quais documentos reindexar?</legend>
+<div style="display: flex; gap: 10px; flex-wrap: wrap">
+<label class="{{rdAusCls}}"><input class="rd" type="radio" name="modo" value="aus" checked="{{modoAus}}" onChange="{{setAus}}">Só documentos ausentes</label>
+<label class="{{rdTodCls}}"><input class="rd" type="radio" name="modo" value="todos" checked="{{modoTodos}}" onChange="{{setTodos}}">Todos os documentos</label>
+</div>
+<span class="muted" style="font-size: 13px; line-height: 1.45">{{modoHint}}</span>
+</fieldset>
+
+<div style="display: flex; gap: 12px; flex-wrap: wrap; align-items: center">
+<button type="button" class="btn" disabled="{{dReind}}" onClick="{{reindexar}}">
+<sc-if value="{{spinProc}}" hint-placeholder-val="{{false}}"><svg class="spin" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><path d="M21 12a9 9 0 1 1-9-9"></path></svg></sc-if>
+Reindexar Processo
+</button>
+<button type="button" class="btn btn-o" disabled="{{dCons}}" onClick="{{consultar}}">
+<sc-if value="{{spinCons}}" hint-placeholder-val="{{false}}"><svg class="spin" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><path d="M21 12a9 9 0 1 1-9-9"></path></svg></sc-if>
+<sc-if value="{{noSpinCons}}" hint-placeholder-val="{{true}}"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-3.5-3.5"></path></svg></sc-if>
+Consultar situação
+</button>
+</div>
+
+<div style="border-top: 1px dashed #E0D3AE; padding-top: 14px; display: flex; flex-direction: column; gap: 8px">
+<span style="font-size: 11px; font-weight: 700; color: #6B5418; text-transform: uppercase; letter-spacing: .05em">Processos simulados (preenchem o campo)</span>
+<div style="display: flex; gap: 8px; flex-wrap: wrap">
+<sc-for list="{{exemplos}}" as="ex" hint-placeholder-count="7">
+<button type="button" class="ex" onClick="{{ex.pick}}"><span class="mono">{{ex.num}}</span><small>{{ex.desc}}</small></button>
+</sc-for>
+</div>
+</div>
+</div>
+</div>
+
+<!-- Lotes -->
+<sc-if value="{{showLotes}}" hint-placeholder-val="{{true}}">
+<div class="card" style="flex: 1 1 380px; min-width: 0; display: flex; flex-direction: column">
+<div class="card-h"><h2 class="card-t">Lotes</h2><span class="chip c-primary">SERV-SISTEMAS</span></div>
+<div style="padding: 20px; display: flex; flex-direction: column; gap: 18px">
+<div style="display: flex; flex-direction: column; gap: 8px">
+<button type="button" class="btn btn-o" style="justify-content: flex-start" disabled="{{dReind}}" onClick="{{loteAut}}">
+<sc-if value="{{spinAut}}" hint-placeholder-val="{{false}}"><svg class="spin" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><path d="M21 12a9 9 0 1 1-9-9"></path></svg></sc-if>
+<sc-if value="{{noSpinAut}}" hint-placeholder-val="{{true}}"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 3 9 5-9 5-9-5 9-5Z"></path><path d="m3 13 9 5 9-5"></path></svg></sc-if>
+Reprocessar Todas Autuações Em Andamento
+</button>
+<span class="muted" style="font-size: 13px; line-height: 1.45">Autuações digitais em andamento ainda não reindexadas, da mais antiga para a mais recente. Usa o modo escolhido ao lado ({{modoLabel}}).</span>
+</div>
+<div style="display: flex; flex-direction: column; gap: 8px">
+<button type="button" class="btn btn-o" style="justify-content: flex-start" disabled="{{dReind}}" onClick="{{loteDoc}}">
+<sc-if value="{{spinDoc}}" hint-placeholder-val="{{false}}"><svg class="spin" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><path d="M21 12a9 9 0 1 1-9-9"></path></svg></sc-if>
+<sc-if value="{{noSpinDoc}}" hint-placeholder-val="{{true}}"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8Z"></path><path d="M14 3v5h5"></path><path d="M12 12v3M12 18v.5"></path></svg></sc-if>
+Reindexar Documentos com Erro
+</button>
+<span class="muted" style="font-size: 13px; line-height: 1.45">Documentos com situação "Erro" no índice, de processos em andamento. Não usa o modo escolhido. Hoje: {{docsErroText}}.</span>
+</div>
+</div>
+</div>
+</sc-if>
+</div>
+
+<sc-if value="{{hasMsg}}" hint-placeholder-val="{{false}}">
+<div class="{{msgCls}}" role="alert">
+<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" style="flex-shrink: 0; margin-top: 1px" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><path d="M12 7v6M12 16.5v.5"></path></svg>
+<span style="flex-grow: 1">{{msgText}}</span>
+</div>
+</sc-if>
+
+<!-- Resultados -->
+<div class="card" style="overflow: hidden">
+<div class="card-h">
+<h2 class="card-t">Resultados</h2>
+<sc-if value="{{hasExec}}" hint-placeholder-val="{{false}}"><span class="muted" style="font-size: 13px">{{execMeta}}</span></sc-if>
+<div style="flex-grow: 1"></div>
+<sc-if value="{{execRunning}}" hint-placeholder-val="{{false}}"><span class="chip c-warn"><svg class="spin" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" aria-hidden="true"><path d="M21 12a9 9 0 1 1-9-9"></path></svg>Em execução no servidor</span></sc-if>
+<sc-if value="{{execDone}}" hint-placeholder-val="{{false}}"><span class="{{execDoneCls}}">{{execDoneLabel}}</span></sc-if>
+</div>
+<sc-if value="{{hasExec}}" hint-placeholder-val="{{false}}">
+<div style="padding: 12px 20px; display: flex; flex-direction: column; gap: 8px; border-bottom: 1px solid #E3E8EF; background: #FAFBFD">
+<div style="display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; font-size: 14px" aria-live="polite">
+<strong>{{resumo}}</strong>
+<sc-if value="{{hasExcluded}}" hint-placeholder-val="{{false}}"><span class="muted" style="font-size: 13px">{{excludedText}}</span></sc-if>
+</div>
+<div class="bar" aria-hidden="true"><span style="width: {{progressPct}}"></span></div>
+</div>
+</sc-if>
+<div style="overflow-x: auto">
+<div role="table" aria-label="Resultados da execução" style="min-width: 860px">
+<div role="row" class="{{resHeadCls}}">
+<span role="columnheader">Nº</span>
+<span role="columnheader">Processo</span>
+<sc-if value="{{resIsDocs}}" hint-placeholder-val="{{false}}"><span role="columnheader">Documento (origem · Maven)</span></sc-if>
+<span role="columnheader">Situação</span>
+<span role="columnheader">Mensagem</span>
+</div>
+<sc-for list="{{resRows}}" as="r" hint-placeholder-count="0">
+<div role="row" class="{{r.cls}}">
+<span role="cell" class="mono muted">{{r.n}}</span>
+<span role="cell" class="num">{{r.numero}}</span>
+<sc-if value="{{r.isDoc}}" hint-placeholder-val="{{false}}"><span role="cell" class="mono" style="font-size: 13px">{{r.doc}}</span></sc-if>
+<span role="cell"><span class="{{r.sitCls}}">{{r.sit}}</span></span>
+<span role="cell" style="font-size: 13px; color: #3A4558">{{r.msg}}</span>
+</div>
+</sc-for>
+<sc-if value="{{showResSkel}}" hint-placeholder-val="{{false}}">
+<div class="{{resSkelCls}}"><span class="skel" style="width: 20px"></span><span class="skel" style="width: 140px"></span><span class="skel" style="width: 110px"></span><span class="skel" style="width: 60%"></span></div>
+</sc-if>
+<sc-if value="{{resEmpty}}" hint-placeholder-val="{{true}}">
+<div style="padding: 36px 24px; text-align: center; display: flex; flex-direction: column; gap: 6px; align-items: center">
+<span style="font-weight: 600">Nenhuma execução nesta sessão</span>
+<span class="muted" style="font-size: 14px; max-width: 560px; line-height: 1.5">Ao acionar uma reindexação, cada processo ou documento aparece aqui à medida que é concluído. A lista é somente leitura e o texto pode ser selecionado e copiado.</span>
+</div>
+</sc-if>
+</div>
+</div>
+</div>
+
+<!-- Acompanhamento -->
+<div class="card" style="overflow: hidden">
+<div class="card-h">
+<h2 class="card-t">Acompanhamento da indexação</h2>
+<sc-if value="{{hasConsult}}" hint-placeholder-val="{{false}}">
+<span class="num">{{cNumero}}</span>
+<sc-if value="{{cShowSit}}" hint-placeholder-val="{{true}}"><span class="{{cSitCls}}">{{cSit}}</span></sc-if>
+</sc-if>
+<div style="flex-grow: 1"></div>
+<sc-if value="{{hasConsult}}" hint-placeholder-val="{{false}}">
+<span class="muted" style="font-size: 13px">Consultado às {{cAt}}</span>
+<button type="button" class="btn btn-o btn-s" disabled="{{dCons}}" onClick="{{atualizar}}">
+<svg class="{{refreshCls}}" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a9 9 0 1 1-2.64-6.36"></path><path d="M21 3v6h-6"></path></svg>
+Atualizar
+</button>
+</sc-if>
+</div>
+
+<sc-if value="{{consEmpty}}" hint-placeholder-val="{{true}}">
+<div style="padding: 32px 24px; text-align: center; display: flex; flex-direction: column; gap: 6px; align-items: center">
+<span style="font-weight: 600">Nenhum processo consultado</span>
+<span class="muted" style="font-size: 14px; max-width: 560px; line-height: 1.5">Informe o número em "Processo a ser reindexado" e acione "Consultar situação" para ver cada documento do sumário e a sua situação no Maven. A consulta só é refeita quando você aciona "Atualizar".</span>
+</div>
+</sc-if>
+
+<sc-if value="{{consLoading}}" hint-placeholder-val="{{false}}">
+<div style="padding: 16px 20px; display: flex; flex-direction: column; gap: 14px">
+<span class="skel" style="width: 320px; height: 14px"></span>
+<span class="skel" style="width: 70%"></span><span class="skel" style="width: 60%"></span><span class="skel" style="width: 66%"></span>
+</div>
+</sc-if>
+
+<sc-if value="{{showConsult}}" hint-placeholder-val="{{false}}">
+<div style="padding: 16px 20px; display: flex; flex-direction: column; gap: 14px; border-bottom: 1px solid #E3E8EF">
+<span class="muted" style="font-size: 14px">{{cAssunto}}</span>
+<sc-if value="{{cHasPend}}" hint-placeholder-val="{{false}}">
+<div class="{{cPendCls}}" role="status">
+<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0; margin-top: 1px" aria-hidden="true"><path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0Z"></path><path d="M12 9v4M12 17v.5"></path></svg>
+<div style="display: flex; flex-direction: column; gap: 4px">
+<strong>{{cPendTitle}}</strong>
+<span>Etapa da última falha: {{cPendEtapa}} — {{cPendMsg}}</span>
+<span>{{cPendInfo}}</span>
+</div>
+</div>
+</sc-if>
+<div style="display: flex; gap: 8px; flex-wrap: wrap; align-items: center">
+<span style="font-size: 13px; font-weight: 600; color: #3A4558; margin-right: 4px">Resumo por situação:</span>
+<sc-for list="{{cResumo}}" as="c" hint-placeholder-count="3">
+<span class="{{c.cls}}">{{c.label}}: {{c.qtd}}</span>
+</sc-for>
+<sc-if value="{{cNoDocs}}" hint-placeholder-val="{{false}}"><span class="chip c-neutral">Sem documentos no sumário</span></sc-if>
+</div>
+</div>
+<div style="overflow-x: auto">
+<div role="table" aria-label="Documentos do processo" style="min-width: 720px">
+<div role="row" class="tr th g-doc">
+<span role="columnheader">Documento</span>
+<span role="columnheader">Tipo</span>
+<span role="columnheader">Situação no Maven</span>
+</div>
+<sc-for list="{{cDocs}}" as="d" hint-placeholder-count="4">
+<div role="row" class="tr g-doc">
+<span role="cell" style="display: flex; flex-direction: column; gap: 2px"><span style="font-weight: 600">{{d.nome}}</span><span class="muted mono" style="font-size: 12px">Id {{d.id}} · Maven {{d.mvn}}</span></span>
+<span role="cell" class="muted">{{d.tipo}}</span>
+<span role="cell"><span class="{{d.cls}}">{{d.label}}</span></span>
+</div>
+</sc-for>
+<sc-if value="{{cNoDocs}}" hint-placeholder-val="{{false}}">
+<div style="padding: 28px 24px; text-align: center" class="muted">Este processo não tem documentos no sumário. Não há situação de indexação a exibir.</div>
+</sc-if>
+</div>
+</div>
+</sc-if>
+</div>
+
+</section>
+</sc-if>
+</main>
+
+<sc-if value="{{hasToast}}" hint-placeholder-val="{{false}}">
+<div class="{{toastCls}}" role="status" aria-live="polite">
+<span style="flex-grow: 1">{{toastText}}</span>
+<button type="button" class="t-x" aria-label="Fechar aviso" onClick="{{closeToast}}"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"></path></svg></button>
+</div>
+</sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"perfil":{"editor":"enum","options":["Com a função · SERV-SISTEMAS","Com a função · outro setor","Sem a função"],"default":"Com a função · SERV-SISTEMAS","section":"Simulação"},"falhaMaven":{"editor":"enum","options":["Nenhuma","Falha em um item","Indisponível (HTTP 503)","Tempo esgotado (5 min)"],"default":"Nenhuma","section":"Simulação"},"falhaRegistro":{"editor":"boolean","default":false,"section":"Simulação"},"lotesVazios":{"editor":"boolean","default":false,"section":"Simulação"},"loteEmExecucao":{"editor":"boolean","default":false,"section":"Simulação"},"$preview":{"width":1440,"height":1000}}'>
+class Component extends DCLogic {
+  constructor(...args) {
+    super(...args);
+    this._tm = [];
+    this.state = this.init();
+  }
+  componentWillUnmount() { this.clearTimers(); }
+  componentDidUpdate(prev) {
+    const p = this.props || {};
+    if (prev && prev.perfil !== p.perfil) { this.clearTimers(); this.setState(this.init()); }
+  }
+  clearTimers() { this._tm.forEach((t) => clearTimeout(t)); this._tm = []; clearTimeout(this._toastT); }
+  later(fn, ms) { this._tm.push(setTimeout(fn, ms)); }
+
+  /* ---------- perfil e dados simulados ---------- */
+  pk() {
+    const v = (this.props && this.props.perfil) || 'Com a função · SERV-SISTEMAS';
+    if (v.indexOf('Sem') === 0) return 'sem';
+    if (v.indexOf('outro') >= 0) return 'outro';
+    return 'sis';
+  }
+  user(pk) {
+    return {
+      sis: { nome: 'Carla Mendes', ini: 'CM', setor: 'Serviço de Sistemas · SERV-SISTEMAS (ID 26)' },
+      outro: { nome: 'Rafael Nunes', ini: 'RN', setor: 'Serviço de Análise de Atos de Pessoal · SAAP' },
+      sem: { nome: 'Helena Prado', ini: 'HP', setor: 'Gabinete do Conselheiro Relator · GAB-CR' }
+    }[pk];
+  }
+  init() {
+    return {
+      view: 'tela', numero: '', modo: 'aus', fieldErr: null, msg: null,
+      exec: null, running: null, validating: null, consulting: false, consult: null,
+      db: this.buildDb(), toast: null
+    };
+  }
+  buildDb() {
+    const D = (id, nome, tipo, st, mvn, extra) => Object.assign({ id: id, nome: nome, tipo: tipo, st: st, mvn: mvn }, extra || {});
+    const P = (numero, assunto, autuadoEm, flags, docs, pend) => Object.assign({ numero: numero, assunto: assunto, autuadoEm: autuadoEm, digital: true, andamento: true, reindexado: false, failAus: false, docs: docs, pend: pend || null }, flags || {});
+    const agora = Date.now();
+    const procs = [
+      P('202600047000118', 'Aposentadoria por invalidez — registro · Instituto de Previdência Estadual', '2026-01-14', {}, [
+        D(81231, 'Requerimento de aposentadoria', 'Requerimento', 'F', 'MVN-0094410'),
+        D(81232, 'Laudo médico pericial', 'Laudo', 'F', 'MVN-0094411'),
+        D(81240, 'Ato concessório nº 1.118/2025', 'Ato', 'E', 'MVN-0094437'),
+        D(81251, 'Instrução técnica — SAAP', 'Instrução', 'N', '—'),
+        D(81260, 'Parecer do Ministério Público de Contas', 'Parecer', 'N', '—')
+      ]),
+      P('202500047001842', 'Aposentadoria voluntária — registro · Instituto de Previdência Estadual', '2025-10-02', { reindexado: true }, [
+        D(77102, 'Requerimento de aposentadoria', 'Requerimento', 'F', 'MVN-0081205'),
+        D(77110, 'Certidão de tempo de contribuição', 'Certidão', 'F', 'MVN-0081206'),
+        D(77125, 'Instrução técnica — SAAP', 'Instrução', 'F', 'MVN-0081240'),
+        D(77140, 'Acórdão nº 2.204/2026', 'Acórdão', 'F', 'MVN-0081302')
+      ]),
+      P('202600047000233', 'Admissão de pessoal — concurso público · Secretaria de Estado da Educação', '2026-02-20', {}, [
+        D(82014, 'Edital de concurso nº 03/2025', 'Edital', 'F', 'MVN-0095120'),
+        D(82020, 'Relação de nomeados', 'Relação', 'E', 'MVN-0095121'),
+        D(82031, 'Despacho de distribuição', 'Despacho', 'T', 'MVN-0095188')
+      ], { status: 'pendente', etapa: 'Exclusão do processo no Maven Docs', msg: 'HTTP 503 Service Unavailable.', tent: 3, prox: new Date(agora + 9 * 60000) }),
+      P('202500047002010', 'Pensão por morte — registro · Instituto de Previdência Estadual', '2025-12-02', {}, [
+        D(79810, 'Requerimento de pensão', 'Requerimento', 'N', '—'),
+        D(79815, 'Certidão de óbito', 'Certidão', 'N', '—'),
+        D(79822, 'Instrução técnica — SAAP', 'Instrução', 'N', '—')
+      ], { status: 'esgotada', etapa: 'Gravação da fila de indexação', msg: 'ORA-00060: deadlock detectado ao gravar PRO_NOTIFMAVEN.', tent: 5, prox: null }),
+      P('202600047000301', 'Reforma de militar — registro · Polícia Militar', '2026-05-06', { failAus: true }, [
+        D(84402, 'Requerimento de reforma', 'Requerimento', 'E', 'MVN-0099010'),
+        D(84410, 'Ata de inspeção de saúde', 'Ata', 'E', 'MVN-0099011'),
+        D(84415, 'Despacho de encaminhamento', 'Despacho', 'F', 'MVN-0099030')
+      ]),
+      P('202600047000412', 'Representação — licitação · Prefeitura de Anápolis', '2026-06-11', { digital: false }, []),
+      P('202500047001977', 'Tomada de contas especial · Secretaria de Estado da Saúde', '2025-11-03', {}, [
+        D(78501, 'Relatório da comissão de TCE', 'Relatório', 'N', '—'),
+        D(78510, 'Notificação do responsável', 'Ofício', 'F', 'MVN-0083390')
+      ]),
+      P('202600047000140', 'Aposentadoria compulsória — registro · Instituto de Previdência Estadual', '2026-02-09', {}, [
+        D(81490, 'Requerimento de aposentadoria', 'Requerimento', 'F', 'MVN-0094902'),
+        D(81502, 'Despacho de instrução', 'Despacho', 'E', 'MVN-0098812', { notFound: true })
+      ]),
+      P('202600047000188', 'Admissão de pessoal — processo seletivo · Agência Goiana de Habitação', '2026-03-21', {}, [
+        D(83011, 'Edital de processo seletivo nº 01/2026', 'Edital', 'D', 'MVN-0097001'),
+        D(83020, 'Relação de contratados', 'Relação', 'N', '—')
+      ])
+    ];
+    const map = {};
+    procs.forEach((p) => { map[p.numero] = p; });
+    return map;
+  }
+  exemplos() {
+    return [
+      ['202600047000118', 'erro e não processados'],
+      ['202500047001842', 'todos publicados'],
+      ['202600047000233', 'pendente em retomada'],
+      ['202500047002010', 'retomada esgotada'],
+      ['202600047000301', 'falha no modo ausentes'],
+      ['202600047000412', 'sem documentos no sumário'],
+      ['20260004700011', 'trecho de número (não existe)']
+    ];
+  }
+
+  /* ---------- utilitários ---------- */
+  pad(n) { return (n < 10 ? '0' : '') + n; }
+  fmtT(d) { return this.pad(d.getHours()) + ':' + this.pad(d.getMinutes()) + ':' + this.pad(d.getSeconds()); }
+  fmtDH(d) { return this.pad(d.getDate()) + '/' + this.pad(d.getMonth() + 1) + '/' + d.getFullYear() + ' ' + this.pad(d.getHours()) + ':' + this.pad(d.getMinutes()); }
+  falha() { return (this.props && this.props.falhaMaven) || 'Nenhuma'; }
+  mavenErr(escopo) {
+    const f = this.falha();
+    if (f.indexOf('Tempo') === 0) return escopo + ': tempo esgotado — o Maven Docs não respondeu em 5 minutos.';
+    return escopo + ': HTTP 503 Service Unavailable.';
+  }
+  mavenFails(idx, failIdx) {
+    const f = this.falha();
+    if (f === 'Nenhuma') return false;
+    if (f === 'Falha em um item') return idx === failIdx;
+    return true;
+  }
+  toast(kind, text) {
+    clearTimeout(this._toastT);
+    this.setState({ toast: { kind: kind, text: text } });
+    this._toastT = setTimeout(() => this.setState({ toast: null }), 7000);
+  }
+  docsErro() {
+    const out = [];
+    const db = this.state.db;
+    Object.keys(db).forEach((k) => {
+      const p = db[k];
+      if (!p.andamento) return;
+      p.docs.forEach((d) => { if (d.st === 'E') out.push({ p: p, d: d }); });
+    });
+    return out;
+  }
+  elegiveisAut() {
+    const db = this.state.db;
+    const all = Object.keys(db).map((k) => db[k]).filter((p) => p.digital && p.andamento && !p.reindexado);
+    all.sort((a, b) => (a.autuadoEm < b.autuadoEm ? -1 : 1));
+    return {
+      lista: all.filter((p) => !(p.pend && p.pend.status === 'pendente')),
+      fora: all.filter((p) => p.pend && p.pend.status === 'pendente')
+    };
+  }
+
+  /* ---------- processamento simulado (back-end em segundo plano) ---------- */
+  processarProcesso(p, modo, idx, failIdx) {
+    if (modo === 'aus') {
+      const falhou = p.failAus || (this.falha() === 'Falha em um item' && idx === failIdx);
+      if (falhou) return { numero: p.numero, sit: 'F', msg: 'ORA-20010: erro em TCE_GO.PRO_REPROCESSA_DOCMAVEN — documento sem arquivo físico no repositório.' };
+      p.docs.forEach((d) => { if (d.st === 'N') { d.st = 'D'; if (d.mvn === '—') d.mvn = 'MVN-01' + String(d.id).slice(-5); } });
+      return { numero: p.numero, sit: 'R', msg: '' };
+    }
+    if (this.mavenFails(idx, failIdx)) {
+      const msg = this.mavenErr('Exclusão do processo no Maven Docs');
+      p.pend = { status: 'pendente', etapa: 'Exclusão do processo no Maven Docs', msg: msg.split(': ').slice(1).join(': '), tent: 1, prox: new Date(Date.now() + 15 * 60000) };
+      return { numero: p.numero, sit: 'P', msg: msg + ' O índice anterior continua valendo; retomada automática em 15 min.' };
+    }
+    p.docs.forEach((d) => { d.st = 'D'; d.notFound = false; if (d.mvn === '—') d.mvn = 'MVN-01' + String(d.id).slice(-5); });
+    p.pend = null; p.reindexado = true;
+    return { numero: p.numero, sit: 'R', msg: '' };
+  }
+  processarDocumento(it, idx) {
+    const d = it.d;
+    if (d.notFound) {
+      d.st = 'N'; d.notFound = false;
+      return { numero: it.p.numero, doc: d.id + ' · ' + d.mvn, sit: 'R', msg: 'Documento não encontrado na tabela de indexação MAVEN. Documento salvo na tabela de excluídos.' };
+    }
+    if (this.mavenFails(idx, 1)) {
+      return { numero: it.p.numero, doc: d.id + ' · ' + d.mvn, sit: 'F', msg: this.mavenErr('Exclusão do documento no Maven Docs') + ' Transação desfeita; o documento continua com erro.' };
+    }
+    d.st = 'D';
+    return { numero: it.p.numero, doc: d.id + ' · ' + d.mvn, sit: 'R', msg: '' };
+  }
+  executar(kind, acao, modoLabel, numero, lista, worker, extra) {
+    const exec = Object.assign({ kind: kind, acao: acao, modoLabel: modoLabel, numero: numero, inicio: new Date(), fim: null, items: [], total: lista.length, isDocs: kind === 'doc' }, extra || {});
+    this.setState({ exec: exec, running: kind, validating: null, msg: null, fieldErr: null });
+    const passo = (i) => {
+      this.later(() => {
+        const r = worker(lista[i], i);
+        const cur = this.state.exec;
+        const items = cur.items.concat([Object.assign({ n: i + 1 }, r)]);
+        if (i + 1 < lista.length) {
+          this.setState({ exec: Object.assign({}, cur, { items: items }), db: this.state.db });
+          passo(i + 1);
+        } else {
+          const falhas = items.filter((x) => x.sit !== 'R').length;
+          this.setState({ exec: Object.assign({}, cur, { items: items, fim: new Date(), falhas: falhas }), running: null, db: this.state.db });
+          if (falhas === 0) this.toast('success', 'Pedido registrado e a indexação em andamento.');
+          else this.toast('error', 'Pedido registrado com falha em ' + falhas + ' item(ns). Os itens com falha estão nos Resultados.');
+        }
+      }, i === 0 ? 1300 : 950);
+    };
+    passo(0);
+  }
+  validar(kind, fn) {
+    this.setState({ validating: kind, msg: null, fieldErr: null });
+    this.later(() => fn(), 450);
+  }
+  ocupado() { return !!(this.state.running || this.state.validating); }
+
+  /* ---------- ações ---------- */
+  reindexar() {
+    if (this.ocupado()) return;
+    const n = (this.state.numero || '').trim();
+    if (!n) { this.setState({ fieldErr: 'Digite o número do processo!', msg: null }); return; }
+    const modo = this.state.modo;
+    this.validar('proc', () => {
+      const p = this.state.db[n];
+      if (!p) { this.setState({ validating: null, fieldErr: 'Processo inválido ou não existe!' }); return; }
+      if (modo === 'todos' && p.pend && p.pend.status === 'pendente') {
+        this.setState({ validating: null, msg: { kind: 'warn', text: 'Este processo já tem reindexação pendente, que está sendo retomada automaticamente. Acompanhe pela consulta de situação.' } });
+        return;
+      }
+      if (this.props && this.props.falhaRegistro) {
+        this.setState({ validating: null, msg: { kind: 'error', text: 'Não foi possível registrar o pedido de reindexação. Tente novamente.' } });
+        return;
+      }
+      this.executar('proc', 'Reindexar processo', modo === 'aus' ? 'Só documentos ausentes' : 'Todos os documentos', n, [p], (x, i) => this.processarProcesso(x, modo, i, 0));
+    });
+  }
+  loteAut() {
+    if (this.ocupado() || this.pk() !== 'sis') return;
+    const modo = this.state.modo;
+    this.validar('aut', () => {
+      const pr = this.props || {};
+      if (pr.loteEmExecucao) { this.setState({ validating: null, msg: { kind: 'error', text: 'Já existe uma execução deste lote em andamento, iniciada por Carlos Menezes em 08/10/2026 09:12.' } }); return; }
+      const el = this.elegiveisAut();
+      if (pr.lotesVazios || el.lista.length === 0) { this.setState({ validating: null }); this.toast('info', 'Nenhuma autuação em andamento a reprocessar.'); return; }
+      if (pr.falhaRegistro) { this.setState({ validating: null, msg: { kind: 'error', text: 'Não foi possível registrar o pedido de reindexação. Tente novamente.' } }); return; }
+      const fora = el.fora.map((p) => p.numero);
+      this.executar('aut', 'Reprocessar Todas Autuações Em Andamento', modo === 'aus' ? 'Só documentos ausentes' : 'Todos os documentos', null, el.lista, (x, i) => this.processarProcesso(x, modo, i, 2), { fora: fora });
+    });
+  }
+  loteDoc() {
+    if (this.ocupado() || this.pk() !== 'sis') return;
+    this.validar('doc', () => {
+      const pr = this.props || {};
+      if (pr.loteEmExecucao) { this.setState({ validating: null, msg: { kind: 'error', text: 'Já existe uma execução deste lote em andamento, iniciada por Carlos Menezes em 08/10/2026 09:12.' } }); return; }
+      const lista = this.docsErro();
+      if (pr.lotesVazios || lista.length === 0) { this.setState({ validating: null }); this.toast('info', 'Nenhum documento com erro a reindexar.'); return; }
+      if (pr.falhaRegistro) { this.setState({ validating: null, msg: { kind: 'error', text: 'Não foi possível registrar o pedido de reindexação. Tente novamente.' } }); return; }
+      this.executar('doc', 'Reindexar Documentos com Erro', 'modo não se aplica', null, lista, (x, i) => this.processarDocumento(x, i));
+    });
+  }
+  snapshot(p) {
+    return {
+      numero: p.numero, assunto: p.assunto, at: new Date(),
+      docs: p.docs.map((d) => Object.assign({}, d)),
+      pend: p.pend ? Object.assign({}, p.pend) : null
+    };
+  }
+  consultar() {
+    if (this.state.consulting || this.state.validating) return;
+    const n = (this.state.numero || '').trim();
+    if (!n) { this.setState({ fieldErr: 'Digite o número do processo!' }); return; }
+    this.setState({ consulting: true, fieldErr: null, consult: null });
+    this.later(() => {
+      const p = this.state.db[n];
+      if (!p) { this.setState({ consulting: false, fieldErr: 'Processo inválido ou não existe!' }); return; }
+      this.setState({ consulting: false, consult: this.snapshot(p) });
+    }, 700);
+  }
+  atualizar() {
+    const c = this.state.consult;
+    if (!c || this.state.consulting) return;
+    this.setState({ consulting: 'refresh' });
+    this.later(() => {
+      const p = this.state.db[c.numero];
+      /* a indexação externa (Maven) avança entre uma consulta e outra */
+      p.docs.forEach((d) => {
+        if (d.st === 'C') d.st = 'F';
+        else if (d.st === 'T') d.st = 'C';
+        else if (d.st === 'D') d.st = 'T';
+      });
+      this.setState({ consulting: false, consult: this.snapshot(p), db: this.state.db });
+    }, 700);
+  }
+
+  /* ---------- render ---------- */
+  renderVals() {
+    const s = this.state;
+    const pk = this.pk();
+    const u = this.user(pk);
+    const hasFuncao = pk !== 'sem';
+    const view = !hasFuncao && s.view === 'tela' ? 'negado' : s.view;
+    const exec = s.exec;
+    const running = !!s.running;
+    const SIT = { R: ['Pedido registrado', 'chip c-success'], P: ['Pendente', 'chip c-warn'], F: ['Falha', 'chip c-error'] };
+    const DOC = {
+      F: ['Documento publicado', 'chip c-success'],
+      E: ['Erro', 'chip c-error'],
+      D: ['Documento baixado, na fila de conversão', 'chip c-info'],
+      T: ['Documento sendo convertido e indexado', 'chip c-warn'],
+      C: ['Documento pronto para conclusão', 'chip c-primary'],
+      N: ['Não Processado', 'chip c-neutral']
+    };
+    const isDocs = !!(exec && exec.isDocs);
+    const rowCls = isDocs ? 'tr g-resd' : 'tr g-res';
+    const resRows = exec ? exec.items.map((it) => ({
+      n: it.n, numero: it.numero, isDoc: isDocs, doc: it.doc || '',
+      sit: SIT[it.sit][0], sitCls: SIT[it.sit][1], msg: it.msg || '—', cls: rowCls
+    })) : [];
+    const done = exec && exec.fim;
+    const nItems = exec ? exec.items.length : 0;
+    let resumo = '';
+    if (exec) {
+      resumo = done
+        ? exec.total + ' item(ns) processado(s) · ' + exec.falhas + ' com falha ou pendente'
+        : 'Processando — ' + nItems + ' de ' + exec.total + ' item(ns) concluído(s)';
+    }
+    const execMeta = exec
+      ? exec.acao + (exec.numero ? ' ' + exec.numero : '') + ' · ' + exec.modoLabel + ' · início ' + this.fmtT(exec.inicio) + (done ? ' · fim ' + this.fmtT(exec.fim) : '')
+      : '';
+    const fora = exec && exec.fora ? exec.fora : [];
+
+    const c = s.consult;
+    let cResumo = [], cDocs = [], cSit = '', cSitCls = 'chip c-neutral';
+    if (c) {
+      const order = ['F', 'T', 'C', 'D', 'E', 'N'];
+      const cnt = {};
+      c.docs.forEach((d) => { cnt[d.st] = (cnt[d.st] || 0) + 1; });
+      cResumo = order.filter((k) => cnt[k]).map((k) => ({ label: DOC[k][0], qtd: cnt[k], cls: DOC[k][1] }));
+      cDocs = c.docs.map((d) => ({ id: d.id, nome: d.nome, tipo: d.tipo, mvn: d.mvn, label: DOC[d.st][0], cls: DOC[d.st][1] }));
+      const all = c.docs.length > 0 && c.docs.every((d) => d.st === 'F');
+      cSit = all ? 'Processo indexado' : 'Indexação em andamento';
+      cSitCls = all ? 'chip c-success' : 'chip c-warn';
+    }
+    const pend = c && c.pend;
+    const esg = pend && pend.status === 'esgotada';
+
+    const nErr = this.docsErro().length;
+    const t = s.toast;
+    const modo = s.modo;
+    const msg = s.msg;
+
+    return {
+      userNome: u.nome, userIni: u.ini, userSetor: u.setor,
+      hasFuncao: hasFuncao,
+      navTelaCls: view === 'tela' ? 'nav-a on' : 'nav-a',
+      navProcCls: view === 'outra' ? 'nav-a on' : 'nav-a',
+      navRunning: running && view !== 'tela',
+      goTela: () => this.setState({ view: 'tela' }),
+      goProcessos: () => this.setState({ view: 'outra' }),
+      showDenied: view === 'negado', showOutra: view === 'outra', showTela: view === 'tela',
+      showLotes: pk === 'sis',
+
+      numero: s.numero,
+      setNumero: (e) => this.setState({ numero: e.target.value, fieldErr: null }),
+      inputCls: s.fieldErr ? 'input bad' : 'input',
+      ariaInvalid: s.fieldErr ? 'true' : 'false',
+      hasFieldErr: !!s.fieldErr, fieldErr: s.fieldErr || '',
+      modoAus: modo === 'aus', modoTodos: modo === 'todos',
+      rdAusCls: modo === 'aus' ? 'rdl on' : 'rdl', rdTodCls: modo === 'todos' ? 'rdl on' : 'rdl',
+      setAus: () => this.setState({ modo: 'aus', msg: null }),
+      setTodos: () => this.setState({ modo: 'todos', msg: null }),
+      modoLabel: modo === 'aus' ? 'Só documentos ausentes' : 'Todos os documentos',
+      modoHint: modo === 'aus'
+        ? 'Reprocessa só os documentos que faltam no índice, pelo critério vigente. Não marca o processo como reindexado.'
+        : 'Exclui o processo do índice Maven e coloca todos os documentos do sumário de volta na fila. Se uma etapa falhar, o pedido fica pendente e é retomado automaticamente.',
+      exemplos: this.exemplos().map((x) => ({ num: x[0], desc: x[1], pick: () => this.setState({ numero: x[0], fieldErr: null, msg: null }) })),
+
+      dReind: running || !!s.validating || !!s.consulting,
+      dCons: !!s.consulting || !!s.validating,
+      spinProc: s.validating === 'proc' || s.running === 'proc',
+      spinAut: s.validating === 'aut' || s.running === 'aut',
+      noSpinAut: !(s.validating === 'aut' || s.running === 'aut'),
+      spinDoc: s.validating === 'doc' || s.running === 'doc',
+      noSpinDoc: !(s.validating === 'doc' || s.running === 'doc'),
+      spinCons: s.consulting === true, noSpinCons: s.consulting !== true,
+      refreshCls: s.consulting === 'refresh' ? 'spin' : '',
+      reindexar: () => this.reindexar(),
+      consultar: () => this.consultar(),
+      atualizar: () => this.atualizar(),
+      loteAut: () => this.loteAut(),
+      loteDoc: () => this.loteDoc(),
+      docsErroText: nErr === 0 ? 'nenhum documento com erro' : nErr + ' documento(s) com erro',
+
+      hasMsg: !!msg, msgText: msg ? msg.text : '',
+      msgCls: msg && msg.kind === 'warn' ? 'alert a-warn' : 'alert a-error',
+
+      hasExec: !!exec, execMeta: execMeta,
+      execRunning: !!exec && !done, execDone: !!done,
+      execDoneLabel: done ? (exec.falhas ? 'Concluída com falhas' : 'Concluída') : '',
+      execDoneCls: done && exec.falhas ? 'chip c-error' : 'chip c-success',
+      resumo: resumo,
+      progressPct: exec ? Math.round((nItems / Math.max(exec.total, 1)) * 100) + '%' : '0%',
+      hasExcluded: fora.length > 0,
+      excludedText: fora.length ? fora.length + ' autuação(ões) com reindexação pendente em retomada ficaram fora do lote: ' + fora.join(', ') + '.' : '',
+      resIsDocs: isDocs, resHeadCls: rowCls + ' th', resRows: resRows,
+      showResSkel: !!exec && !done, resSkelCls: rowCls,
+      resEmpty: !exec,
+
+      hasConsult: !!c, consEmpty: !c && !s.consulting, consLoading: s.consulting === true,
+      showConsult: !!c,
+      cNumero: c ? c.numero : '', cAssunto: c ? c.assunto : '', cAt: c ? this.fmtT(c.at) : '',
+      cShowSit: !!c && c.docs.length > 0, cSit: cSit, cSitCls: cSitCls,
+      cResumo: cResumo, cDocs: cDocs, cNoDocs: !!c && c.docs.length === 0,
+      cHasPend: !!pend,
+      cPendCls: esg ? 'alert a-error' : 'alert a-warn',
+      cPendTitle: esg ? 'Retomada automática esgotada. Peça a reindexação completa do processo novamente.' : 'Reindexação completa pendente — retomada automática em andamento.',
+      cPendEtapa: pend ? pend.etapa : '', cPendMsg: pend ? pend.msg : '',
+      cPendInfo: pend ? ('Tentativas: ' + pend.tent + (pend.prox ? ' · Próxima tentativa: ' + this.fmtDH(pend.prox) : '')) : '',
+
+      hasToast: !!t, toastText: t ? t.text : '',
+      toastCls: t ? 'toast t-' + t.kind : 'toast',
+      closeToast: () => this.setState({ toast: null })
+    };
+  }
+}
+</script>
+</body>
+</html>

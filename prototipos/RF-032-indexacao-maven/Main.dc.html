@@ -291,7 +291,7 @@ textarea.input{height:auto;min-height:92px;padding:10px 12px;resize:vertical;lin
 <section class="card" aria-label="Reindexar processo">
 <div class="card-h"><h2 class="card-t">Reindexar processo</h2></div>
 <div class="card-b">
-<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(460px, 100%), 1fr)); gap: 16px; align-items: start">
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(320px, 100%), 1fr)); gap: 24px; align-items: start">
 <div class="field">
 <label for="num-proc">Processo a ser reindexado</label>
 <div class="ac">
@@ -310,9 +310,9 @@ textarea.input{height:auto;min-height:92px;padding:10px 12px;resize:vertical;lin
 </div>
 <fieldset style="border: 0; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 6px; min-width: 0">
 <legend class="field" style="padding: 0; margin-bottom: 6px">Quais documentos reindexar?</legend>
-<div style="display: flex; flex-direction: row; flex-wrap: nowrap; align-items: stretch; gap: 10px">
-<label class="{{rdAusCls}}" style="flex: 1 1 0; min-width: 0; white-space: nowrap"><input class="rd" type="radio" name="modo" value="aus" checked="{{modoAus}}" onChange="{{setAus}}" onClick="{{setAus}}">Só documentos ausentes</label>
-<label class="{{rdTodCls}}" style="flex: 1 1 0; min-width: 0; white-space: nowrap"><input class="rd" type="radio" name="modo" value="todos" checked="{{modoTodos}}" onChange="{{setTodos}}" onClick="{{setTodos}}">Todos os documentos</label>
+<div style="display: flex; flex-direction: row; flex-wrap: wrap; align-items: center; column-gap: 28px; row-gap: 4px; min-height: 42px">
+<label class="check" style="white-space: nowrap; color: #3D4448"><input class="rd" type="radio" name="modo" value="aus" checked="{{modoAus}}" onChange="{{setAus}}" onClick="{{setAus}}">Só documentos ausentes</label>
+<label class="check" style="white-space: nowrap; color: #3D4448"><input class="rd" type="radio" name="modo" value="todos" checked="{{modoTodos}}" onChange="{{setTodos}}" onClick="{{setTodos}}">Todos os documentos</label>
 </div>
 </fieldset>
 </div>

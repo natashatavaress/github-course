@@ -1,7 +1,7 @@
 # Protótipo funcional — RF-032 Forçar Indexação Maven (eTCE Web)
 
 Protótipo navegável com dados simulados do fluxo principal do RF-032 (Fluxo 01 — Reindexar
-processo) e das demais áreas da Tela 01: Resultados e Acompanhamento (com as ações de reprocessamento abaixo da tabela).
+processo) e das demais áreas da Tela 01: Resultados, Reprocessamento e Acompanhamento.
 
 - Artefato publicado: https://claude.ai/artifact/MySLubB3dNxaqUfx1pQ2ef
 - `Main.dc.html` — fonte do artboard (formato Design Component do canvas de design)
@@ -23,7 +23,7 @@ Processos simulados (digite no campo de busca): 202600047000118 (erro e não pro
 
 1. Layout padrão do eTCE Web ([`../PADRAO_LAYOUT.md`](../PADRAO_LAYOUT.md)), com fonte Poppins no lugar de Product Sans (indisponível na web).
 2. Menu (dúvida 03): "Forçar Indexação Maven" como item de primeiro nível do menu lateral, depois de "Distribuir processos"; rota `/forcar-indexacao-maven`.
-3. Layout (dúvida 12): cartões empilhados — título, "Reindexar processo", "Resultados" e "Acompanhamento da indexação". Não há área "Lotes": "Reprocessar Todas Autuações Em Andamento" e "Reindexar Documentos com Erro" ficam no fim do cartão "Acompanhamento da indexação", abaixo da tabela, visíveis só ao setor autorizado (RN11). "Consultar situação" fica junto de "Reindexar Processo", pois usa o mesmo campo.
+3. Layout (dúvida 12): cartões empilhados — título, "Reindexar processo", "Resultados", "Reprocessamento" e "Acompanhamento da indexação". "Reprocessar Todas Autuações Em Andamento" e "Reindexar Documentos com Erro" ficam no cartão próprio "Reprocessamento", entre Resultados e Acompanhamento, visível só ao setor autorizado (RN11). "Consultar situação" fica junto de "Reindexar Processo", pois usa o mesmo campo.
 4. Resultados mostram só a execução mais recente; um novo disparo substitui a lista (no legado o texto acumulava).
 5. "Consultar situação" continua habilitado durante uma execução (a RN12 só desabilita os três botões de reindexação); durante a consulta, todos os botões de ação ficam desabilitados.
 6. Recusas (RN17, RN18) e falha ao registrar (RN13) aparecem como alerta abaixo das ações; mensagem final e lote vazio aparecem em Snackbar.

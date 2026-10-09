@@ -394,6 +394,31 @@ Reindexar Processo
 </div>
 </section>
 
+<!-- Reprocessamento -->
+<sc-if value="{{showLotes}}" hint-placeholder-val="{{true}}">
+<section class="card" aria-label="Reprocessamento">
+<div class="card-h"><h2 class="card-t">Reprocessamento</h2></div>
+<div class="card-b">
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 16px">
+<div style="display: flex; flex-direction: column; gap: 6px">
+<button type="button" class="btn btn-o btn-w" disabled="{{dReind}}" onClick="{{loteAut}}">
+<sc-if value="{{spinAut}}" hint-placeholder-val="{{false}}"><svg class="spin" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><path d="M21 12a9 9 0 1 1-9-9"></path></svg></sc-if>
+Reprocessar Todas Autuações Em Andamento
+</button>
+<p class="phint" style="font-size: 13px">Autuações digitais em andamento ainda não reindexadas, da mais antiga para a mais recente, pelo modo escolhido ({{modoLabel}}).</p>
+</div>
+<div style="display: flex; flex-direction: column; gap: 6px">
+<button type="button" class="btn btn-o btn-w" disabled="{{dReind}}" onClick="{{loteDoc}}">
+<sc-if value="{{spinDoc}}" hint-placeholder-val="{{false}}"><svg class="spin" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><path d="M21 12a9 9 0 1 1-9-9"></path></svg></sc-if>
+Reindexar Documentos com Erro
+</button>
+<p class="phint" style="font-size: 13px">Documentos com situação "Erro" no índice, de processos em andamento; não usa o modo escolhido. Hoje: {{docsErroText}}.</p>
+</div>
+</div>
+</div>
+</section>
+</sc-if>
+
 <!-- Acompanhamento -->
 <section class="card" aria-label="Acompanhamento da indexação">
 <div class="card-h" style="flex-wrap: wrap">
@@ -458,24 +483,6 @@ Atualizar
 </div>
 </div>
 <div class="tfoot"><span>{{cCountText}}</span></div>
-</div>
-</sc-if>
-<sc-if value="{{showLotes}}" hint-placeholder-val="{{true}}">
-<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 16px">
-<div style="display: flex; flex-direction: column; gap: 6px">
-<button type="button" class="btn btn-o btn-w" disabled="{{dReind}}" onClick="{{loteAut}}">
-<sc-if value="{{spinAut}}" hint-placeholder-val="{{false}}"><svg class="spin" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><path d="M21 12a9 9 0 1 1-9-9"></path></svg></sc-if>
-Reprocessar Todas Autuações Em Andamento
-</button>
-<p class="phint" style="font-size: 13px">Autuações digitais em andamento ainda não reindexadas, da mais antiga para a mais recente, pelo modo escolhido ({{modoLabel}}).</p>
-</div>
-<div style="display: flex; flex-direction: column; gap: 6px">
-<button type="button" class="btn btn-o btn-w" disabled="{{dReind}}" onClick="{{loteDoc}}">
-<sc-if value="{{spinDoc}}" hint-placeholder-val="{{false}}"><svg class="spin" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><path d="M21 12a9 9 0 1 1-9-9"></path></svg></sc-if>
-Reindexar Documentos com Erro
-</button>
-<p class="phint" style="font-size: 13px">Documentos com situação "Erro" no índice, de processos em andamento; não usa o modo escolhido. Hoje: {{docsErroText}}.</p>
-</div>
 </div>
 </sc-if>
 </div>

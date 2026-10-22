@@ -700,3 +700,632 @@ erDiagram
 - [ ] **Integração SATE:** prazo e requisitos para transmitir o DAR real.
 - [ ] **Malhas 001–007, 009 e 010:** priorização para implementação.
 - [ ] **Telas:** layout e componentes não constam da fonte; os tipos de campo da seção 7 são inferidos.
+
+---
+
+## 12. Critérios de aceite
+
+Os critérios usam o formato **Dado / Quando / Então** e citam o requisito (RF) e as regras (RN) que verificam. Os valores dos exemplos vêm da fonte. Os critérios de itens ainda em aberto na seção 11 estão marcados com **(depende de validação)**.
+
+### CA-RF001 — Carga das tabelas
+
+```gherkin
+Cenário: Tabelas carregadas antes da análise
+  Dado que existem documentos nas coleções T1, T2, T3 e T4
+  Quando o analista abre uma DUIMP no SIMEX1
+  Então o sistema carrega as 4 tabelas antes de executar os motores
+  E nenhum motor é executado com tabela ainda não carregada
+
+Cenário: Alteração visível na próxima análise
+  Dado que o ADM publicou uma nova regra ST
+  Quando uma DUIMP é analisada após a publicação
+  Então a nova regra é considerada sem recarregar a aplicação
+```
+
+### CA-RF002 — Candidatos a regime especial (RN002, RN035–RN037)
+
+```gherkin
+Cenário: Regime aparece como candidato
+  Dado o regime "re-mofashi-corredor-2024" com situação ATIVO, CNPJ "13.117.356/0001-32",
+    vigência de 01/01/2024 a 31/12/2025, finalidades ["REVENDA"], ncmPrefixos ["9603", "9615"]
+    e modalidade CONTA_E_ORDEM
+  E uma DUIMP do CNPJ "13117356000132" com data de análise 10/06/2025
+  E um item com NCM "96032900", finalidade REVENDA e modalidade CONTA_E_ORDEM
+  Quando o Motor de Regras avalia o item
+  Então o regime aparece como candidato
+  E o retorno do item é RTI001
+
+Esquema do Cenário: Regime não aparece quando um filtro falha
+  Dado o mesmo regime do cenário anterior
+  E um item em que <campo> é <valor>
+  Quando o Motor de Regras avalia o item
+  Então o regime não aparece como candidato
+
+  Exemplos:
+    | campo                   | valor                       |
+    | situação do regime      | SUSPENSO                    |
+    | CNPJ da DUIMP           | 11111111000111              |
+    | data de análise         | 01/01/2026 (após o fim)     |
+    | data de análise         | 31/12/2023 (antes do início)|
+    | finalidade do item      | INDUSTRIALIZACAO            |
+    | NCM do item             | 33021000                    |
+    | modalidade do item      | CONTA_PROPRIA               |
+    | modalidade do item      | não informada               |
+    | tipo do regime          | valor fora do enum          |
+
+Cenário: Listas vazias não restringem
+  Dado um regime ATIVO e vigente com finalidades, ncmPrefixos e cnaesAutorizados vazios
+  Quando o Motor de Regras avalia qualquer item do mesmo CNPJ
+  Então o regime aparece como candidato
+
+Cenário: Fim de vigência nulo
+  Dado um regime ATIVO com fimVigencia nulo e início no passado
+  Quando o Motor de Regras avalia um item compatível
+  Então o regime aparece como candidato
+
+Cenário: CNAE fora da lista
+  Dado um regime com cnaesAutorizados ["4771701"]
+  E uma DUIMP com CNAE "4711302"
+  Quando o Motor de Regras avalia o item
+  Então o regime não aparece como candidato
+
+Cenário: Nenhum candidato
+  Dado que nenhum regime passa nos filtros
+  Quando o Motor de Regras avalia o item
+  Então o retorno do item é RTI002
+```
+
+### CA-RF003 — Escolha manual do regime (RN001)
+
+```gherkin
+Cenário: Candidato não é aplicado automaticamente
+  Dado um item com um regime candidato
+  E regimeEspecialEscolhidoId vazio
+  Quando o Motor de Cálculo processa o item
+  Então o cálculo usa o tratamento padrão, sem regime especial
+
+Cenário: Analista aplica o regime
+  Dado um item com um regime candidato
+  Quando o analista seleciona o regime no item
+  Então regimeEspecialEscolhidoId recebe o id do regime
+  E o Motor de Cálculo passa a aplicar esse regime
+
+Cenário: Só candidatos podem ser escolhidos
+  Quando o analista abre a seleção de regime de um item
+  Então a lista mostra somente os candidatos daquele item
+```
+
+### CA-RF004 — Cálculo por item (RN003–RN012, RN017, RN018)
+
+```gherkin
+Cenário: Base inicial
+  Dado um item com valor aduaneiro, II, IPI, PIS, COFINS, despesas e outros acréscimos
+  Quando o Motor de Cálculo processa o item
+  Então a base inicial é a soma desses 7 valores
+
+Cenário: ICMS por dentro
+  Dado uma base tributável de R$ 1.000,00 e alíquota de 18%
+  Quando o ICMS bruto é calculado
+  Então a base do ICMS é R$ 1.219,51 (1.000 ÷ 0,82)
+  E o ICMS bruto é R$ 219,51
+
+Esquema do Cenário: Código por finalidade sem antecipação
+  Dado um item com finalidade <finalidade> e NCM coberto por regra ST
+  Quando o Motor de Cálculo processa o item
+  Então o código de cálculo é <codigo>
+  E não há ICMS Antecipação
+
+  Exemplos:
+    | finalidade            | codigo |
+    | USO_CONSUMO           | CAL005 |
+    | ATIVO_IMOBILIZADO     | CAL006 |
+    | INSTALACAO_INDUSTRIAL | CAL007 |
+
+Cenário: Industrialização não gera antecipação
+  Dado um item com finalidade INDUSTRIALIZACAO e NCM coberto por regra ST
+  Quando o Motor de Cálculo processa o item
+  Então não há ICMS Antecipação
+
+Cenário: Corredor encerra o item
+  Dado um item com regime escolhido do tipo CORREDOR_IMPORTACAO
+  Quando o Motor de Cálculo processa o item
+  Então o código é CAL008
+  E o ICMS a recolher é 0
+  E o status é ICMS_DIFERIDO
+  E ST, Art. 139 e ALCMS não são avaliados
+
+Esquema do Cenário: ALCMS/ZF
+  Dado um item sem regime, com possuiBeneficioAlcmsZf verdadeiro e NCM <ncm>
+  E sem percentualCreditoPresumidoAlcms informado
+  Quando o Motor de Cálculo processa o item
+  Então a alíquota é <aliquota>
+  E o crédito presumido é <credito> da base do ICMS
+
+  Exemplos:
+    | ncm      | aliquota | credito |
+    | 22021000 | 17%      | 0%      |
+    | 33021000 | 17%      | 0%      |
+    | 96032900 | 12%      | 8%      |
+
+Cenário: Crédito presumido explícito em item de 17%
+  Dado um item ALCMS com NCM "33021000" e percentualCreditoPresumidoAlcms 5
+  Quando o Motor de Cálculo processa o item
+  Então o crédito presumido é 5% da base do ICMS
+
+Esquema do Cenário: Efeito do regime sobre o ICMS bruto de R$ 100,00
+  Dado um item sem ALCMS, com regime escolhido <tipo> e percentual <perc>
+  Quando o Motor de Cálculo processa o item
+  Então o ICMS é <icms>
+  E o status é <status>
+
+  Exemplos:
+    | tipo              | perc | icms                          | status                |
+    | DISPENSA_INTEGRAL | —    | 0                             | —                     |
+    | REDUCAO_IMPOSTO   | 40   | 60,00                         | —                     |
+    | CREDITO_PRESUMIDO | 8    | 100,00 − (base do ICMS × 8%)  | —                     |
+    | DIFERIMENTO       | —    | 0                             | ICMS_DIFERIDO         |
+    | SUSPENSAO         | —    | 0                             | SUSPENSO_SOB_CONDICAO |
+
+Cenário: Redução de base
+  Dado um item com regime REDUCAO_BASE
+  Quando o Motor de Cálculo processa o item
+  Então a base é reduzida antes do cálculo do ICMS bruto
+
+Esquema do Cenário: Código de cálculo
+  Dado um item com finalidade REVENDA, ALCMS <alcms> e regra ST <st>
+  Quando o Motor de Cálculo processa o item
+  Então o código é <codigo>
+
+  Exemplos:
+    | alcms | st          | codigo |
+    | não   | não         | CAL001 |
+    | não   | encontrada  | CAL002 |
+    | sim   | não         | CAL003 |
+    | sim   | encontrada  | CAL004 |
+
+Cenário: FCP e total
+  Dado um item com base do ICMS, ICMS, antecipação e alíquota de FCP
+  Quando o Motor de Cálculo processa o item
+  Então o FCP é base do ICMS × alíquota de FCP
+  E o total é ICMS + antecipação + FCP
+```
+
+### CA-RF005 — Busca ICMS-ST (RN014)
+
+```gherkin
+Cenário: Regra ST encontrada
+  Dado a regra ST ativa e vigente com ncms ["87089990", "87089100"] e MVA 71,78
+  E um item REVENDA com NCM "87089990"
+  Quando o Motor de Cálculo processa o item
+  Então origemMargem é "ICMS_ST"
+  E margemPercentual é 71,78
+
+Cenário: Regra inativa ou fora da vigência
+  Dado uma regra ST com ativo falso ou vigência expirada
+  Quando um item do mesmo NCM é processado
+  Então a regra não é usada
+
+Cenário: Regra com lista de NCMs vazia
+  Dado uma regra ST com ncms vazio
+  Quando qualquer item é processado
+  Então a regra nunca é usada
+
+Cenário: Base por pauta
+  Dado uma regra ST com tipoBase PAUTA
+  Quando o ADM tenta salvar sem valorPauta
+  Então o sistema impede o cadastro e informa que valorPauta é obrigatório
+
+Cenário: Duas regras ST para o mesmo NCM (depende de validação)
+  Dado duas regras ST ativas que casam com o mesmo NCM
+  Quando o item é processado
+  Então o sistema aplica o critério de desempate definido na seção 11
+```
+
+### CA-RF006 — Busca Art. 139 (RN013, RN015, RN016)
+
+```gherkin
+Cenário: Regra específica vence a geral
+  Dado as regras ART139-C (prioridade 10, prefixos 3301/3302, MVA 30)
+    e ART139-E (prioridade 999, sem prefixos, MVA 15)
+  E um item ALCMS, REVENDA, sem ST, com NCM "33021000"
+  Quando o Motor de Cálculo processa o item
+  Então a margem usada é 30%
+
+Cenário: Regra geral como fallback
+  Dado as mesmas regras
+  E um item ALCMS, REVENDA, sem ST, com NCM "96032900"
+  Quando o Motor de Cálculo processa o item
+  Então a margem usada é 15%
+
+Cenário: ST prevalece sobre Art. 139
+  Dado um item REVENDA cujo NCM casa com uma regra ST e uma regra Art. 139
+  Quando o Motor de Cálculo processa o item
+  Então é usada a regra ST
+  E a regra Art. 139 não é consultada
+
+Cenário: Art. 139 sem ALCMS
+  Dado um item REVENDA sem ALCMS, sem ST e com NCM coberto pelo Art. 139
+  Quando o Motor de Cálculo processa o item
+  Então não há ICMS Antecipação
+  E o sistema registra um alerta
+  E somente o ICMS-Importação é recolhido
+```
+
+### CA-RF007 — Discriminação de receitas (RN019)
+
+```gherkin
+Cenário: Soma por código de receita
+  Dado o código 1113 ativo para componente NORMAL e codigoCalculo "*"
+  E dois itens com ICMS normal de R$ 100,00 (CAL001) e R$ 50,00 (CAL002)
+  Quando a guia é discriminada
+  Então existe uma única linha 1113 com R$ 150,00
+
+Cenário: Código específico tem efeito
+  Dado um código ativo com componente NORMAL e codigoCalculo "CAL008"
+  Quando um item CAL008 gera valor NORMAL
+  Então o valor é lançado nesse código
+
+Cenário: Valor sem código
+  Dado que não há código ativo para o componente FCP
+  Quando a guia é discriminada com valor de FCP
+  Então o valor aparece em "semCodigo"
+  E a guia é gerada mesmo assim
+
+Cenário: Código inativo
+  Dado o código 1828 com ativo falso
+  Quando a guia é discriminada com valor de ANTECIPACAO
+  Então o valor aparece em "semCodigo"
+```
+
+### CA-RF008 — DAR simulado (RN020, RN021)
+
+```gherkin
+Cenário: Um DAR por código de receita
+  Dado uma guia com linhas 1113, 1828 e 1413
+  Quando os DARs avulsos são gerados
+  Então são gerados 3 DARs
+  E 1113 fica no grupo IMPORTACAO
+  E 1828 e 1413 ficam no grupo ANTECIPACAO
+
+Cenário: FCP no grupo OUTROS
+  Dado uma linha de FCP com código cadastrado
+  Quando os DARs são gerados
+  Então o DAR de FCP fica no grupo OUTROS
+
+Cenário: DAR identificado como simulado
+  Quando um DAR é gerado
+  Então ele exibe "SIMULADO_NAO_TRANSMITIR"
+  E número de controle, código de barras e linha digitável são provisórios
+  E sate.vinculado é falso
+  E nada é enviado ao SATE
+```
+
+### CA-RF009 — Vencimento e prazo (RN007, RN022)
+
+```gherkin
+Esquema do Cenário: Modalidade de vencimento padrão
+  Quando o vencimento do componente <componente> é resolvido sem cadastro específico
+  Então a modalidade é <modalidade>
+
+  Exemplos:
+    | componente               | modalidade |
+    | NORMAL                   | ENTRADA    |
+    | ANTECIPACAO              | ENTRADA    |
+    | ST                       | ENTRADA    |
+    | FCP                      | ENTRADA    |
+    | CORREDOR_IMPORTACAO      | DIFERIDO   |
+    | ENCERRAMENTO_DIFERIMENTO | DIFERIDO   |
+
+Esquema do Cenário: Prazo do Corredor
+  Dado um Ato com prazoRecolhimentoDias <ato>
+  E prazoPadraoDias <regra> na regra de vencimento do Corredor
+  Quando o prazo é resolvido
+  Então o prazo é <prazo> dias
+
+  Exemplos:
+    | ato   | regra        | prazo |
+    | 90    | 45           | 90    |
+    | vazio | 45           | 45    |
+    | vazio | sem cadastro | 60    |
+```
+
+### CA-RF010 a RF013 — Malha do Corredor (RN008, RN023–RN025)
+
+```gherkin
+Cenário: Malha criada para item com Corredor
+  Dado uma DUIMP com item CAL008 e ICMS diferido de R$ 18.500,00
+  E o motor malhasSimex ligado
+  Quando o cálculo é retornado ao PCCE
+  Então é montada uma malha MAL-SIMEX-008
+  E status GERADA, gravidade MEDIA
+  E valorCalculado 18.500,00, valorDeclarado 0 e valorDivergencia 18.500,00
+  E chaveDocumento no formato número-versão da DUIMP
+
+Cenário: Malha não é duplicada
+  Dado uma malha já gravada para a mesma chave única com status EM_ANALISE
+  Quando a mesma DUIMP é recalculada
+  Então a malha existente não é sobrescrita
+  E o status continua EM_ANALISE
+
+Esquema do Cenário: Situação do prazo
+  Dado uma malha com vencimento em <dias> dias a partir de hoje
+  Quando o prazo é classificado
+  Então a situação é <situacao>
+
+  Exemplos:
+    | dias | situacao        |
+    | 30   | DENTRO_DO_PRAZO |
+    | 10   | ALERTA          |
+    | 5    | ALERTA          |
+    | -1   | VENCIDO         |
+
+Cenário: Consulta à EFD
+  Dado uma malha do Corredor
+  Quando o auditor abre a malha
+  Então o sistema exibe as notas de saída encontradas na EFD para a operação
+
+Cenário: Somente o auditor encerra
+  Dado uma malha em análise
+  Quando o motor reprocessa a DUIMP
+  Então o status da malha não é alterado para ENCERRADA automaticamente
+  E apenas o auditor consegue mudar o status para ENCERRADA
+```
+
+> O limite exato do ALERTA (10 dias inclusive ou exclusive) não está na fonte. O exemplo acima assume inclusive **(inferido)**.
+
+### CA-RF014 — Publicação versionada de regimes (RN026)
+
+```gherkin
+Cenário: Publicação NOVA
+  Dado a versão ativa "01" e um rascunho com 47 regimes
+  Quando o ADM publica como NOVA
+  Então a versão ativa passa a ser "02"
+  E a coleção ativa contém exatamente os 47 regimes do rascunho
+  E existe snapshot "v02" com quantidadeRegistros 47 e resumo de incluídos, excluídos e alterados
+  E é gravado o log SIMEX_REGIME_ESPECIAL_VERSAO_PUBLICADA
+
+Cenário: Publicação COMPLEMENTAR
+  Dado a versão ativa "02" sem complementos
+  Quando o ADM publica um rascunho como COMPLEMENTAR
+  Então a versão passa a ser "02-C1"
+  E o rascunho é aplicado sobre os regimes atuais
+  E complementosDaBase passa a 1
+
+Cenário: Lotes acima de 450 documentos
+  Dado um rascunho com 1.000 regimes
+  Quando o ADM publica
+  Então todos os 1.000 regimes são gravados
+
+Cenário: Sem edição avulsa
+  Quando o ADM consulta um regime publicado
+  Então a tela não oferece edição isolada daquele regime fora de uma publicação
+```
+
+### CA-RF015, RF016, RF019 — Cadastros com auditoria
+
+```gherkin
+Esquema do Cenário: Log em toda operação
+  Quando o ADM <operacao> um registro de <tabela>
+  Então a operação é gravada no log de auditoria com usuário e data
+
+  Exemplos:
+    | operacao | tabela                         |
+    | cria     | Art. 139                       |
+    | altera   | Art. 139                       |
+    | remove   | Art. 139                       |
+    | cria     | códigos de receita             |
+    | altera   | regras de vencimento           |
+
+Cenário: Código Art. 139 único
+  Dado a regra "ART139-COSMETICOS" já cadastrada
+  Quando o ADM tenta cadastrar outra regra com o mesmo código
+  Então o sistema recusa e informa que o código já existe
+
+Cenário: Acesso restrito
+  Dado um usuário sem perfil ADM
+  Quando ele tenta alterar regras de vencimento ou o status dos motores
+  Então a gravação é recusada
+```
+
+### CA-RF017, RF018 — Itens de segmento e Tabelas Vigentes (RN032)
+
+```gherkin
+Cenário: Vários NCMs na mesma célula
+  Dado um item de segmento com NCM "8708.99.90; 8708.91.00 / 39"
+  Quando o item é convertido em regra ST
+  Então ncms é ["87089990", "87089100"]
+  E o código "39" é descartado
+
+Cenário: MVA em fração
+  Dado um item de segmento com MVA 0.7178
+  Quando o item é convertido em regra ST
+  Então o MVA da regra é 71,78
+
+Cenário: Regra ativa e vigente
+  Quando um item de segmento é convertido em regra ST
+  Então a regra fica ativa e sem fim de vigência
+
+Cenário: Tabelas Vigentes reflete os itens
+  Dado um novo item de segmento cadastrado
+  Quando o ADM abre Tabelas Vigentes
+  Então a regra convertida aparece na lista, sem edição na própria tela
+```
+
+### CA-RF020 — CSV genérico de regimes (RN030)
+
+```gherkin
+Cenário: Importação válida
+  Dado um CSV com separador ";", codificação Windows-1252 e a linha
+    "13.117.356/0001-32;CORREDOR_IMPORTACAO;ATIVO;01/01/2024;31/12/2025;REVENDA;9603,9615;;CONTA_E_ORDEM;AD-COTRI-042/2024;Emitir GLME,Manter EFD;4;MOFASHI COM. DE PRODUTOS;Lei 400/97"
+  Quando o ADM importa o arquivo
+  Então o rascunho contém um regime com ncmPrefixos ["9603", "9615"], cnaesAutorizados vazio e percentual 4
+  E os acentos são preservados
+
+Cenário: Linha sem CNPJ
+  Dado uma linha com o campo cnpj vazio
+  Quando o ADM importa o arquivo
+  Então a linha é ignorada
+
+Esquema do Cenário: Conversão de campos
+  Quando o campo <campo> chega como "<entrada>"
+  Então é gravado como <saida>
+
+  Exemplos:
+    | campo      | entrada | saida      |
+    | exigeGlme  | sim     | verdadeiro |
+    | exigeGlme  | 1       | verdadeiro |
+    | exigeGlme  | não     | falso      |
+    | percentual | 4,5     | 4.5        |
+    | percentual |         | indefinido |
+
+Cenário: Separador inválido
+  Dado um CSV separado por vírgula
+  Quando o ADM importa o arquivo
+  Então o sistema não reconhece as colunas e não grava registros
+```
+
+### CA-RF021 — Planilha COTRI (RN027–RN029)
+
+```gherkin
+Esquema do Cenário: Situação pelo STATUS
+  Dado uma linha da planilha COTRI com STATUS "<status>"
+  Quando o ADM importa a planilha
+  Então a situação do regime é <situacao>
+
+  Exemplos:
+    | status    | situacao  |
+    | VIGENTE   | ATIVO     |
+    | SUSPENSO  | SUSPENSO  |
+    | CANCELADO | CANCELADO |
+    | EXPIRADO  | VENCIDO   |
+
+Esquema do Cenário: Tipo pelo código do regime
+  Dado uma linha com CÓDIGO DO REGIME "<codigo>"
+  Quando o ADM importa a planilha
+  Então o tipo é <tipo> e revisar é <revisar>
+
+  Exemplos:
+    | codigo    | tipo                | revisar    |
+    | CP-001    | CREDITO_PRESUMIDO   | falso      |
+    | RBC-002   | REDUCAO_BASE        | falso      |
+    | PD-003    | DIFERIMENTO         | falso      |
+    | IS-004    | DISPENSA_INTEGRAL   | falso      |
+    | DH-005    | DIFERIMENTO         | verdadeiro |
+    | MD-006    | a definir           | verdadeiro |
+
+Cenário: Corredor pelo decreto (depende de validação)
+  Dado uma linha com código contendo "DEC4098"
+  Quando o ADM importa a planilha
+  Então o tipo é CORREDOR_IMPORTACAO com o percentual definido na seção 11
+
+Cenário: Colunas em outra ordem
+  Dado uma planilha com as mesmas colunas em ordem diferente
+  Quando o ADM importa a planilha
+  Então os campos são lidos pelo nome da coluna
+
+Cenário: Aviso de campos não entregues
+  Quando a importação COTRI termina
+  Então finalidades, ncmPrefixos e cnaesAutorizados ficam vazios
+  E a tela avisa que precisam ser preenchidos antes de publicar
+  E os registros com revisar verdadeiro aparecem destacados
+```
+
+### CA-RF022 — JSON do Art. 139 (RN031)
+
+```gherkin
+Cenário: Nomes alternativos e valores padrão
+  Dado o JSON [{"Código": "ART139-X", "NCM": "9603, 9615", "MVA": 25}]
+  Quando o ADM importa o arquivo
+  Então a regra tem codigo "ART139-X", prefixosNcm ["9603", "9615"] e mva 25
+  E prioridade 999, ativo verdadeiro, vigenciaInicio igual à data da importação e vigenciaFim nulo
+
+Esquema do Cenário: Valor de ativo
+  Quando o campo ativo chega como <entrada>
+  Então ativo é <saida>
+
+  Exemplos:
+    | entrada | saida      |
+    | "S"     | verdadeiro |
+    | "Sim"   | verdadeiro |
+    | true    | verdadeiro |
+    | "N"     | falso      |
+```
+
+### CA-RF023 — Painel de status dos motores (RN034)
+
+```gherkin
+Cenário: Desligar motor que afeta o cálculo
+  Dado a chave regrasSt desligada
+  Quando um item com NCM coberto por regra ST é processado
+  Então a regra ST não é aplicada
+
+Cenário: Desligar motor só de exibição
+  Dado a chave motorAliquotas desligada
+  Quando uma DUIMP é calculada
+  Então o resultado é igual ao obtido com a chave ligada
+  E a tela do motor de alíquotas fica oculta
+
+Cenário: Malhas desligadas
+  Dado a chave malhasSimex desligada
+  Quando uma DUIMP com Corredor é retornada ao PCCE
+  Então nenhuma malha MAL-SIMEX-008 é montada
+```
+
+### CA-RF024 — Consulta NCM (RN033)
+
+```gherkin
+Esquema do Cenário: Elegibilidade ALCMS
+  Dado o NCM <ncm>, CFOP de amostra grátis <amostra> e finalidade <finalidade>
+  Quando o contribuinte consulta
+  Então o resultado é <resultado>
+
+  Exemplos:
+    | ncm             | amostra | finalidade       | resultado    |
+    | fora da lista   | não     | REVENDA          | elegível     |
+    | fora da lista   | não     | INDUSTRIALIZACAO | elegível     |
+    | na lista vedada | não     | REVENDA          | não elegível |
+    | fora da lista   | sim     | REVENDA          | não elegível |
+    | fora da lista   | não     | USO_CONSUMO      | não elegível |
+
+Cenário: Consulta não altera o cálculo
+  Dado um item da DUIMP com possuiBeneficioAlcmsZf falso
+  E NCM considerado elegível na Consulta NCM
+  Quando a DUIMP é calculada
+  Então o item é calculado sem ALCMS
+```
+
+### CA-RF025 — Alíquotas internas (rascunho)
+
+```gherkin
+Cenário: Rascunho não afeta o cálculo
+  Dado uma alteração na tabela simex_motor_aliquotas
+  Quando uma DUIMP é calculada
+  Então o resultado não muda
+  E a tela da tabela indica que o conteúdo está em rascunho
+```
+
+### CA-RF026 — Memorial de cálculo
+
+```gherkin
+Cenário: Memorial completo
+  Dado um item calculado com regra ST
+  Quando o analista abre o resultado do item
+  Então o memorial mostra o código CAL, a base, o ICMS, a antecipação, o FCP e o total
+  E mostra origemMargem, margemPercentual e o fundamento legal da regra usada
+  E mostra os alertas gerados para o item
+```
+
+### CA-RNF — Requisitos não funcionais
+
+| ID | Critério de aceite |
+| --- | --- |
+| RNF001 | O cálculo de uma DUIMP não faz chamadas a API própria do SIMEX; usa apenas dados já carregados do Firestore |
+| RNF002 | Uma regra ST, Art. 139, código de receita ou regime novo passa a valer só com cadastro, sem deploy |
+| RNF003 | Uma alteração publicada é usada na próxima análise sem recarregar a aplicação |
+| RNF004 | Toda criação, alteração, remoção e publicação tem registro de log com usuário e data |
+| RNF005 | Cada publicação de regimes tem snapshot recuperável com todos os itens da versão |
+| RNF006 | Publicações com mais de 450 regimes são gravadas por completo, em lotes |
+| RNF007 | Usuários sem perfil ADM não conseguem gravar status dos motores nem regras de vencimento |
+| RNF008 | Nenhuma malha existente tem status ou análise sobrescritos por reprocessamento |
+| RNF009 | Arquivos CSV com `;` e Windows-1252 são importados com acentuação correta |
+| RNF010 | Todas as datas das tabelas seguem um único formato, definido na seção 11 **(depende de validação)** |

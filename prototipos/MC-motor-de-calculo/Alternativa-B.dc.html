@@ -1,0 +1,601 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<title>SIMEX/AP — Bancada de cálculo do ICMS</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#F4F6F9}
+*{box-sizing:border-box}
+a{color:#0B4F6C}a:hover{color:#083A50}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:36px;padding:0 14px;border-radius:6px;border:1px solid #0B4F6C;background:#0B4F6C;color:#FFFFFF;font:600 13px/1 'Inter',system-ui,sans-serif;cursor:pointer;white-space:nowrap}
+.btn:hover{background:#083A50;border-color:#083A50}
+.btn:disabled{opacity:.45;cursor:not-allowed}
+.btn-o{background:#FFFFFF;color:#0B4F6C;border-color:#0B4F6C}
+.btn-o:hover{background:#EAF2F7}
+.icon-btn{width:36px;height:36px;border-radius:6px;border:0;background:transparent;color:#0B4F6C;display:inline-flex;align-items:center;justify-content:center;cursor:pointer}
+.icon-btn:hover{background:#E3EEF5}
+.btn:focus-visible,.icon-btn:focus-visible,.nav:focus-visible,.item-card:focus-visible,.step:focus-visible,.opt:focus-visible,.link-btn:focus-visible{outline:2px solid #2E7FB0;outline-offset:2px}
+.label{font-size:12px;font-weight:500;color:#56616F}
+.nav{display:flex;align-items:flex-start;gap:10px;width:100%;padding:8px 12px;border:0;border-radius:6px;background:transparent;color:#2B3440;font:400 13px/1.35 'Inter',sans-serif;text-align:left;cursor:pointer}
+.nav:hover{background:#EEF3F7;color:#0B4F6C}
+.nav-on{background:#E3EEF5;color:#0B4F6C;font-weight:600}
+.tag{display:inline-flex;align-items:center;height:22px;padding:0 8px;border-radius:11px;font:600 12px/1 'Inter',sans-serif;white-space:nowrap}
+.card{background:#FFFFFF;border:1px solid #E1E6EC;border-radius:10px}
+.h2{margin:0;font-size:15px;font-weight:600;color:#0B5274}
+.item-card{display:flex;flex-direction:column;gap:6px;width:100%;padding:10px 12px;border-radius:8px;border:1px solid #E1E6EC;background:#FFFFFF;text-align:left;font:400 13px 'Inter',sans-serif;color:#1F2933;cursor:pointer}
+.item-card:hover{border-color:#9DB8CC}
+.step{display:flex;flex-direction:column;align-items:flex-start;gap:4px;min-width:104px;padding:8px 10px;border-radius:8px;border:1px solid #DCE2E8;background:#FFFFFF;text-align:left;font:400 12px 'Inter',sans-serif;color:#1F2933;cursor:pointer}
+.opt{display:grid;grid-template-columns:24px minmax(170px,1.6fr) 74px 100px 100px 104px 104px;align-items:center;column-gap:10px;width:100%;padding:10px 12px;border:0;border-bottom:1px solid #EDF0F3;background:#FFFFFF;text-align:left;font:400 13px 'Inter',sans-serif;color:#1F2933;cursor:pointer}
+.opt:hover{background:#F5F9FC}
+.opt-h{background:#F7F9FB;font-size:12px;font-weight:600;color:#4A5563;cursor:default}
+.opt-h:hover{background:#F7F9FB}
+.r{text-align:right}
+.num{font-variant-numeric:tabular-nums}
+.muted{color:#56616F}
+.link-btn{border:0;background:transparent;padding:4px 6px;border-radius:4px;color:#0B4F6C;font:600 13px 'Inter',sans-serif;text-decoration:underline;cursor:pointer}
+.wf{display:grid;grid-template-columns:22px minmax(0,1fr) auto;column-gap:10px;padding:7px 0;border-bottom:1px solid #EDF0F3;font-size:13px;align-items:center}
+</style>
+</helmet>
+<div style="min-height: 1400px; display: flex; flex-direction: column; font-family: 'Inter', system-ui, sans-serif; color: #1F2933; background: #F4F6F9;">
+
+<header style="height: 52px; flex: 0 0 52px; display: flex; align-items: center; gap: 16px; padding: 0 20px; background: #0B5274; color: #FFFFFF;">
+<button class="icon-btn" style="color: #FFFFFF;" aria-label="Mostrar ou ocultar menu" onClick="{{toggleMenu}}">
+<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"></path></svg>
+</button>
+<div style="display: flex; align-items: center; gap: 10px;">
+<svg width="58" height="30" viewBox="0 0 58 30" fill="none" aria-hidden="true"><path d="M3 26C14 10 34 4 55 6" stroke="#2E9E4F" stroke-width="5" stroke-linecap="round"></path><path d="M8 28C18 15 35 10 55 12" stroke="#F2C230" stroke-width="4" stroke-linecap="round"></path><path d="M14 29C23 20 38 16 55 18" stroke="#3B8FD1" stroke-width="3" stroke-linecap="round"></path></svg>
+<div style="display: flex; flex-direction: column; gap: 2px;">
+<span style="font-size: 19px; font-weight: 700; letter-spacing: .01em; line-height: 1;">SIMEX/AP</span>
+<span style="font-size: 8px; line-height: 1; opacity: .9;">Sistema de Importação e Comércio Exterior do Estado do Amapá</span>
+</div>
+</div>
+<div style="flex: 1 1 auto;"></div>
+<button class="icon-btn" style="color: #FFFFFF; position: relative;" aria-label="Notificações: 5 não lidas">
+<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"></path><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"></path></svg>
+<span style="position: absolute; top: 2px; right: 2px; min-width: 15px; height: 15px; padding: 0 4px; border-radius: 8px; background: #D93025; color: #FFFFFF; font-size: 10px; font-weight: 700; line-height: 15px; text-align: center;">5</span>
+</button>
+<span style="width: 28px; height: 28px; border-radius: 14px; background: #FFFFFF; color: #0B5274; display: inline-flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 700;" aria-label="Usuário MA">MA</span>
+</header>
+
+<div style="flex: 1 1 auto; display: flex; flex-wrap: wrap; align-items: stretch;">
+
+<sc-if value="{{menuAberto}}" hint-placeholder-val="{{ true }}">
+<nav aria-label="Menu principal" style="flex: 1 1 205px; max-width: 205px; min-width: 205px; background: #FFFFFF; border-right: 1px solid #E1E6EC; padding: 14px 6px; display: flex; flex-direction: column; gap: 2px;">
+<button class="nav" style="font-weight: 600; justify-content: space-between; align-items: center;">
+<span style="display: inline-flex; align-items: center; gap: 10px;">
+<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" aria-hidden="true"><path d="M3 6a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path></svg>
+Parâmetros Fiscais</span>
+<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 9l6 6 6-6"></path></svg>
+</button>
+<button class="nav">
+<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" aria-hidden="true"><path d="M6 3h8l4 4v14H6z"></path><path d="M14 3v4h4"></path></svg>
+Consultar DUIMPs do Estado</button>
+<button class="nav">
+<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="6"></circle><path d="M20 20l-4.5-4.5"></path></svg>
+Consultar Processos de Importação</button>
+<button class="nav nav-on" aria-current="page">
+<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12h12M11 8l4 4-4 4"></path><path d="M19 4v16"></path></svg>
+Analisar Processo de Importação</button>
+<button class="nav">
+<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M4 20h16"></path><path d="M7 16v-4M12 16V8M17 16v-6"></path></svg>
+Acompanhamento dos Processos de Importação</button>
+<button class="nav">
+<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" aria-hidden="true"><rect x="6" y="3" width="12" height="18" rx="1"></rect><path d="M9 8h6M9 12h6"></path></svg>
+Consultar Emissão de NF de Venda Dentro/Fora do Prazo</button>
+<button class="nav" style="justify-content: space-between; align-items: center;">
+<span style="display: inline-flex; align-items: center; gap: 10px;">
+<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="12" cy="12" r="3"></circle><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M4.9 19.1L7 17M17 7l2.1-2.1"></path></svg>
+Administração</span>
+<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 9l6 6 6-6"></path></svg>
+</button>
+<div style="margin: 18px 6px 0; padding-top: 16px; border-top: 1px solid #E1E6EC; text-align: center; color: #6B7682;">
+<div style="font-size: 9px; font-weight: 700; letter-spacing: .08em;">GOVERNO DO ESTADO</div>
+<div style="font-size: 15px; font-weight: 700; letter-spacing: .22em; margin-top: 2px;">AMAPÁ</div>
+</div>
+</nav>
+</sc-if>
+
+<main style="flex: 999 1 560px; min-width: 0; display: flex; flex-direction: column;">
+<div style="display: flex; align-items: center; flex-wrap: wrap; gap: 8px; padding: 14px 18px; border-bottom: 1px solid #E1E6EC; background: #FFFFFF; font-size: 13px; color: #3E4A57;">
+<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" role="img" aria-label="Início"><path d="M3 11l9-7 9 7v9a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"></path></svg>
+<span aria-hidden="true">›</span>
+<span>Analisar Processo de Importação</span>
+<span aria-hidden="true">›</span>
+<span>DUIMP {{duimp.numero}}</span>
+<span aria-hidden="true">›</span>
+<span>Bancada de cálculo do ICMS</span>
+</div>
+
+<div style="padding: 20px 14px 32px; display: flex; flex-direction: column; gap: 14px; max-width: 1240px; width: 100%;">
+
+<div style="display: flex; align-items: flex-end; justify-content: space-between; flex-wrap: wrap; gap: 12px;">
+<div style="display: flex; flex-direction: column; gap: 4px;">
+<h1 style="margin: 0; font-size: 19px; font-weight: 700; color: #0B5274;">Bancada de cálculo do ICMS</h1>
+<span class="muted" style="font-size: 13px;">DUIMP {{duimp.numero}} · {{duimp.importador}} · CNPJ {{duimp.cnpj}} · análise em {{duimp.analiseTxt}}</span>
+</div>
+<div style="display: flex; flex-wrap: wrap; gap: 8px;">
+<sc-for list="{{resumo}}" as="k" hint-placeholder-count="4">
+<div class="card" style="padding: 8px 12px; display: flex; flex-direction: column; gap: 2px; min-width: 132px;">
+<span class="label">{{k.rotulo}}</span>
+<span class="num" style="font-size: 16px; font-weight: 700; color: #0B5274;">{{k.valor}}</span>
+</div>
+</sc-for>
+</div>
+</div>
+
+<sc-if value="{{temToast}}" hint-placeholder-val="{{ false }}">
+<div role="status" style="display: flex; align-items: center; gap: 10px; padding: 10px 14px; border-radius: 8px; background: #E5F4EA; border: 1px solid #B7DFC3; color: #1E5E33; font-size: 13px;">
+<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M5 12l5 5 9-10"></path></svg>
+<span>{{toast}}</span>
+</div>
+</sc-if>
+
+<div style="display: flex; flex-wrap: wrap; gap: 14px; align-items: flex-start;">
+
+<aside aria-label="Itens da DUIMP" style="flex: 1 1 260px; max-width: 300px; min-width: 240px; display: flex; flex-direction: column; gap: 8px;">
+<div style="display: flex; align-items: center; justify-content: space-between;">
+<h2 class="h2">Itens ({{totalItens}})</h2>
+<span class="muted" style="font-size: 12px;">{{alertasTxt}}</span>
+</div>
+<sc-for list="{{itens}}" as="i" hint-placeholder-count="7">
+<button class="item-card" style="{{i.cardStyle}}" aria-pressed="{{i.selecionado}}" onClick="{{i.selecionar}}">
+<span style="display: flex; align-items: center; justify-content: space-between; gap: 8px; width: 100%;">
+<span style="font-weight: 600;">Item {{i.numero}} · <span class="num">{{i.ncmTxt}}</span></span>
+<span class="tag" style="background: #E3EEF5; color: #0B4F6C;">{{i.cal}}</span>
+</span>
+<span class="muted" style="font-size: 12px;">{{i.descricao}}</span>
+<span style="display: flex; align-items: center; justify-content: space-between; gap: 8px; width: 100%;">
+<span class="num" style="font-weight: 600;">R$ {{i.total}}</span>
+<sc-if value="{{i.temAlerta}}" hint-placeholder-val="{{ false }}"><span class="tag" style="background: #FDF0D8; color: #6B4105;">{{i.alertaTxt}}</span></sc-if>
+</span>
+</button>
+</sc-for>
+</aside>
+
+<section aria-labelledby="h-item" style="flex: 999 1 560px; min-width: 0; display: flex; flex-direction: column; gap: 14px;">
+
+<div class="card" style="padding: 14px 16px; display: flex; flex-direction: column; gap: 10px;">
+<div style="display: flex; align-items: flex-start; justify-content: space-between; flex-wrap: wrap; gap: 10px;">
+<div style="display: flex; flex-direction: column; gap: 3px;">
+<h2 id="h-item" class="h2" style="font-size: 17px;">Item {{det.numero}} · NCM {{det.ncmTxt}}</h2>
+<span class="muted" style="font-size: 13px;">{{det.descricao}}</span>
+</div>
+<div style="display: flex; flex-wrap: wrap; gap: 6px;">
+<sc-for list="{{det.chips}}" as="c" hint-placeholder-count="4">
+<span class="tag" style="{{c.style}}">{{c.texto}}</span>
+</sc-for>
+</div>
+</div>
+<sc-for list="{{det.alertas}}" as="a" hint-placeholder-count="1">
+<div role="alert" style="{{a.boxStyle}}">
+<span class="tag" style="{{a.style}}">{{a.tipo}}</span>
+<span>{{a.texto}}</span>
+</div>
+</sc-for>
+</div>
+
+<div class="card" style="padding: 14px 16px; display: flex; flex-direction: column; gap: 10px;">
+<div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px;">
+<h3 class="h2">Trilha de decisão do motor</h3>
+<span class="muted" style="font-size: 12px;">Selecione uma fase para ver o detalhe</span>
+</div>
+<div style="display: flex; flex-wrap: wrap; align-items: center; gap: 6px;">
+<sc-for list="{{det.trilha}}" as="t" hint-placeholder-count="9">
+<button class="step" style="{{t.style}}" aria-pressed="{{t.ativa}}" onClick="{{t.selecionar}}">
+<span style="font-weight: 700; font-size: 12px;">Fase {{t.n}}</span>
+<span style="font-weight: 600;">{{t.nome}}</span>
+<span style="font-size: 11px;">{{t.status}}</span>
+</button>
+<sc-if value="{{t.temSeta}}" hint-placeholder-val="{{ true }}">
+<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#8796A5" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M5 12h13M13 7l5 5-5 5"></path></svg>
+</sc-if>
+</sc-for>
+</div>
+<div style="border-radius: 8px; background: #F7F9FB; border: 1px solid #E1E6EC; padding: 12px 14px; display: flex; flex-direction: column; gap: 4px; font-size: 13px;">
+<span style="font-weight: 600; color: #0B5274;">Fase {{fase.n}} · {{fase.nome}} — {{fase.status}}</span>
+<span>{{fase.texto}}</span>
+<sc-if value="{{fase.temRef}}" hint-placeholder-val="{{ true }}"><span class="muted" style="font-size: 12px;">{{fase.ref}}</span></sc-if>
+</div>
+</div>
+
+<div style="display: flex; flex-wrap: wrap; gap: 14px; align-items: flex-start;">
+
+<div class="card" style="flex: 1 1 520px; min-width: 0; display: flex; flex-direction: column;">
+<div style="padding: 14px 16px 10px; display: flex; flex-direction: column; gap: 4px;">
+<h3 class="h2">Simulação de regime especial</h3>
+<span class="muted" style="font-size: 12px;">{{det.rti}}. Compare o efeito de cada candidato antes de aplicar.</span>
+</div>
+<div style="overflow-x: auto;">
+<div style="min-width: 700px;" role="radiogroup" aria-label="Regime para o item">
+<div class="opt opt-h"><span></span><span>Opção</span><span>Código</span><span class="r">ICMS</span><span class="r">Antecipação</span><span class="r">Total</span><span class="r">Diferença</span></div>
+<sc-for list="{{det.opcoes}}" as="o" hint-placeholder-count="3">
+<button class="opt" style="{{o.style}}" role="radio" aria-checked="{{o.marcada}}" onClick="{{o.marcar}}">
+<span style="{{o.dotStyle}}"></span>
+<span style="display: flex; flex-direction: column; gap: 2px;">
+<span style="font-weight: 600;">{{o.rotulo}}</span>
+<span class="muted" style="font-size: 12px;">{{o.sub}}</span>
+</span>
+<span><span class="tag" style="background: #E3EEF5; color: #0B4F6C;">{{o.cal}}</span></span>
+<span class="num r">{{o.icms}}</span>
+<span class="num r">{{o.antecipacao}}</span>
+<span class="num r" style="font-weight: 600;">{{o.total}}</span>
+<span class="num r" style="{{o.deltaStyle}}">{{o.delta}}</span>
+</button>
+</sc-for>
+</div>
+</div>
+<div style="padding: 12px 16px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px; border-top: 1px solid #EDF0F3;">
+<span class="muted" style="font-size: 12px;">{{det.aplicadoTxt}}</span>
+<button class="btn" disabled="{{det.naoPodeAplicar}}" onClick="{{aplicar}}">Aplicar regime ao item</button>
+</div>
+<div style="padding: 0 16px 12px;">
+<button class="link-btn" aria-expanded="{{verNaoCandidatos}}" onClick="{{toggleNaoCandidatos}}">{{naoCandTxt}}</button>
+<sc-if value="{{verNaoCandidatos}}" hint-placeholder-val="{{ false }}">
+<div style="display: flex; flex-direction: column; margin-top: 6px;">
+<sc-for list="{{det.naoCandidatos}}" as="g" hint-placeholder-count="3">
+<div style="display: flex; flex-wrap: wrap; gap: 4px 12px; padding: 6px 0; border-top: 1px solid #EDF0F3; font-size: 12px;">
+<span style="font-weight: 600; min-width: 140px;">{{g.ato}}</span>
+<span style="min-width: 150px;">{{g.tipo}}</span>
+<span class="muted">{{g.motivo}}</span>
+</div>
+</sc-for>
+</div>
+</sc-if>
+</div>
+</div>
+
+<div class="card" style="flex: 1 1 300px; min-width: 0; padding: 14px 16px; display: flex; flex-direction: column; gap: 4px;">
+<h3 class="h2" style="margin-bottom: 4px;">Composição do valor</h3>
+<span class="muted" style="font-size: 12px; margin-bottom: 4px;">Do regime aplicado ({{det.cal}})</span>
+<sc-for list="{{det.composicao}}" as="w" hint-placeholder-count="8">
+<div class="wf" style="{{w.style}}">
+<span class="num" style="font-weight: 700; color: #56616F; text-align: center;">{{w.op}}</span>
+<span>{{w.rotulo}}</span>
+<span class="num r">{{w.valor}}</span>
+</div>
+</sc-for>
+<span class="muted" style="font-size: 11px; margin-top: 6px;">Antecipação com fórmula provisória: base × (1 + MVA) × alíquota − ICMS bruto.</span>
+</div>
+</div>
+
+</section>
+</div>
+</div>
+</main>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1360,"height":1400}}'>
+var HOJE = '2026-10-23';
+var CAL = {
+  CAL001: 'Importação sem ALCMS/ZF, sem ST', CAL002: 'Importação sem ALCMS/ZF, com ICMS-ST',
+  CAL003: 'Importação com ALCMS/ZF, sem ST', CAL004: 'Importação com ALCMS/ZF e ICMS-ST',
+  CAL005: 'Uso e consumo', CAL006: 'Ativo imobilizado', CAL007: 'Instalação industrial',
+  CAL008: 'Corredor de Importação, ICMS diferido integralmente'
+};
+var FIN = { REVENDA: 'Revenda', INDUSTRIALIZACAO: 'Industrialização', USO_CONSUMO: 'Uso e consumo', ATIVO_IMOBILIZADO: 'Ativo imobilizado', INSTALACAO_INDUSTRIAL: 'Instalação industrial' };
+var USO = { USO_CONSUMO: 'CAL005', ATIVO_IMOBILIZADO: 'CAL006', INSTALACAO_INDUSTRIAL: 'CAL007' };
+var MOD = { CONTA_PROPRIA: 'Conta própria', CONTA_E_ORDEM: 'Conta e ordem', ENCOMENDA: 'Encomenda' };
+var TIPO = { CORREDOR_IMPORTACAO: 'Corredor de Importação', DIFERIMENTO: 'Diferimento', REDUCAO_BASE: 'Redução de base', CREDITO_PRESUMIDO: 'Crédito presumido', SUSPENSAO: 'Suspensão', DISPENSA_INTEGRAL: 'Dispensa integral', REDUCAO_IMPOSTO: 'Redução do imposto' };
+var TOM = {
+  ok: 'background: #E5F4EA; color: #1E5E33;', fim: 'background: #DCEBF5; color: #0B4F6C;',
+  off: 'background: #ECEFF2; color: #4A5563;', warn: 'background: #FDF0D8; color: #6B4105;',
+  info: 'background: #E3EEF5; color: #0B4F6C;'
+};
+var PASSO = {
+  'Executada': 'background: #F2FAF4; border-color: #9FD3AE;',
+  'Encerrou o item': 'background: #E3EEF5; border-color: #0B4F6C;',
+  'Bloqueada': 'background: #FFF7E8; border-color: #E9B962;',
+  'Não se aplica': 'background: #FFFFFF; border-color: #DCE2E8; color: #56616F;',
+  'Não executada': 'background: #F4F6F9; border-color: #DCE2E8; border-style: dashed; color: #6B7682;'
+};
+
+var DUIMP = { numero: '26BR00012263312-1', importador: 'MOFASHI COM. DE PRODUTOS DE BELEZA LTDA', cnpj: '13.117.356/0001-32', cnae: '4772500', registro: '2026-10-20', analise: HOJE };
+
+var REGIMES = [
+  { id: 're-mofashi-corredor-2024', ato: 'AD-COTRI-042/2024', tipo: 'CORREDOR_IMPORTACAO', situacao: 'ATIVO', inicio: '2024-01-01', fim: '2026-12-31', finalidades: ['REVENDA'], ncm: ['9603', '9615'], cnaes: [], modalidade: 'CONTA_E_ORDEM', percentual: 4, prazo: 0, legislacao: 'Lei 400/97, art. 142; Decreto 3.012/2018-AP' },
+  { id: 're-mofashi-cp-2025', ato: 'AD-COTRI-017/2025', tipo: 'CREDITO_PRESUMIDO', situacao: 'ATIVO', inicio: '2025-01-01', fim: '', finalidades: [], ncm: ['8708'], cnaes: [], modalidade: '', percentual: 8, prazo: 0, legislacao: 'Lei 400/97' },
+  { id: 're-mofashi-ri-2026', ato: 'AD-COTRI-005/2026', tipo: 'REDUCAO_IMPOSTO', situacao: 'ATIVO', inicio: '2026-01-01', fim: '', finalidades: ['REVENDA', 'INDUSTRIALIZACAO'], ncm: ['8708', '3304'], cnaes: [], modalidade: '', percentual: 40, prazo: 0, legislacao: 'Lei 400/97' },
+  { id: 're-mofashi-rb-2026', ato: 'AD-COTRI-009/2026', tipo: 'REDUCAO_BASE', situacao: 'ATIVO', inicio: '2026-02-01', fim: '', finalidades: ['REVENDA'], ncm: ['3304'], cnaes: [], modalidade: '', percentual: 20, prazo: 0, legislacao: 'Lei 400/97' },
+  { id: 're-mofashi-dif-2025', ato: 'AD-COTRI-031/2025', tipo: 'DIFERIMENTO', situacao: 'ATIVO', inicio: '2025-06-01', fim: '', finalidades: ['INDUSTRIALIZACAO'], ncm: [], cnaes: ['4772500'], modalidade: '', percentual: 0, prazo: 90, legislacao: 'Lei 400/97' },
+  { id: 're-mofashi-di-2023', ato: 'AD-COTRI-088/2023', tipo: 'DISPENSA_INTEGRAL', situacao: 'SUSPENSO', inicio: '2023-01-01', fim: '', finalidades: [], ncm: [], cnaes: [], modalidade: '', percentual: 0, prazo: 0, legislacao: 'Lei 400/97' }
+];
+var ST = [{ id: 'st-autopecas-87089990', ncms: ['87089990', '87089100'], mva: 71.78, ativo: true, inicio: '2024-01-01', fim: '', fundamento: 'Protocolo ICMS 41/2008 — Autopeças (AP/SP)' }];
+var ART139 = [
+  { codigo: 'ART139-A', prefixos: ['2204', '2205', '2206', '2207', '2208', '2401', '2402', '2403'], mva: 50, prioridade: 10, ativo: true, inicio: '2024-01-01', fim: '' },
+  { codigo: 'ART139-B', prefixos: ['2202', '2203'], mva: 140, prioridade: 5, ativo: true, inicio: '2024-01-01', fim: '' },
+  { codigo: 'ART139-C', prefixos: ['3301', '3302'], mva: 30, prioridade: 10, ativo: true, inicio: '2024-01-01', fim: '' },
+  { codigo: 'ART139-E', prefixos: [], mva: 15, prioridade: 999, ativo: true, inicio: '2024-01-01', fim: '' }
+];
+var FUND139 = 'Art. 139, §1º, RICMS/AP (Decreto 2.269/98)';
+var ITENS = [
+  { numero: 1, ncm: '87089990', descricao: 'Outras partes e acessórios para veículos', finalidade: 'REVENDA', modalidade: 'CONTA_PROPRIA', alcms: false, aliq: 18, fcp: 2, va: 10000, ii: 1400, ipi: 1000, pis: 210, cofins: 965, desp: 300, outros: 125, escolhido: '' },
+  { numero: 2, ncm: '33021000', descricao: 'Misturas de substâncias odoríferas', finalidade: 'REVENDA', modalidade: 'CONTA_PROPRIA', alcms: true, aliq: 18, fcp: 0, va: 8000, ii: 1600, ipi: 0, pis: 168, cofins: 772, desp: 200, outros: 60, escolhido: '' },
+  { numero: 3, ncm: '96032900', descricao: 'Escovas de cabelo', finalidade: 'REVENDA', modalidade: 'CONTA_PROPRIA', alcms: true, aliq: 18, fcp: 0, va: 6000, ii: 1080, ipi: 300, pis: 126, cofins: 579, desp: 150, outros: 65, escolhido: '' },
+  { numero: 4, ncm: '96151100', descricao: 'Pentes de borracha endurecida', finalidade: 'REVENDA', modalidade: 'CONTA_E_ORDEM', alcms: false, aliq: 18, fcp: 0, va: 9000, ii: 1440, ipi: 450, pis: 189, cofins: 868, desp: 400, outros: 153, escolhido: 're-mofashi-corredor-2024' },
+  { numero: 5, ncm: '33049910', descricao: 'Cremes de beleza', finalidade: 'REVENDA', modalidade: 'CONTA_PROPRIA', alcms: false, aliq: 18, fcp: 0, va: 5000, ii: 900, ipi: 250, pis: 105, cofins: 483, desp: 100, outros: 62, escolhido: 're-mofashi-ri-2026' },
+  { numero: 6, ncm: '84223029', descricao: 'Máquina de envase', finalidade: 'ATIVO_IMOBILIZADO', modalidade: 'CONTA_PROPRIA', alcms: false, aliq: 18, fcp: 0, va: 20000, ii: 2800, ipi: 1000, pis: 420, cofins: 1930, desp: 600, outros: 250, escolhido: '' },
+  { numero: 7, ncm: '39235000', descricao: 'Tampas plásticas para frascos', finalidade: 'INDUSTRIALIZACAO', modalidade: 'CONTA_PROPRIA', alcms: false, aliq: 18, fcp: 0, va: 3000, ii: 540, ipi: 150, pis: 63, cofins: 290, desp: 40, outros: 17, escolhido: '' }
+];
+
+function r2(x) { return Math.round(x * 100) / 100; }
+function brl(x) { return Number(x || 0).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 }); }
+function pct(x) { return Number(x).toLocaleString('pt-BR', { maximumFractionDigits: 4 }) + '%'; }
+function fmtData(iso) { if (!iso) return ''; var p = iso.split('-'); return p[2] + '/' + p[1] + '/' + p[0]; }
+function somaDias(iso, dias) { var d = new Date(iso + 'T12:00:00'); d.setDate(d.getDate() + dias); return d.toISOString().slice(0, 10); }
+function fmtNcm(n) { return n.slice(0, 4) + '.' + n.slice(4, 6) + '.' + n.slice(6, 8); }
+function vigente(ini, fim, data) { return (!ini || ini <= data) && (!fim || data <= fim); }
+
+function avaliarRegimes(item) {
+  return REGIMES.map(function (r) {
+    var motivo = '';
+    if (r.situacao !== 'ATIVO') motivo = 'Situação ' + r.situacao;
+    else if (!vigente(r.inicio, r.fim, DUIMP.analise)) motivo = 'Fora da vigência';
+    else if (r.finalidades.length && r.finalidades.indexOf(item.finalidade) < 0) motivo = 'Finalidade não abrangida';
+    else if (r.ncm.length && !r.ncm.some(function (p) { return item.ncm.indexOf(p) === 0; })) motivo = 'NCM fora dos prefixos';
+    else if (r.cnaes.length && DUIMP.cnae && r.cnaes.indexOf(DUIMP.cnae) < 0) motivo = 'CNAE não autorizado';
+    else if (r.modalidade && r.modalidade !== item.modalidade) motivo = 'Modalidade exige ' + MOD[r.modalidade];
+    return { regime: r, candidato: !motivo, motivo: motivo || 'Passou nos filtros' };
+  });
+}
+function buscarSt(ncm) {
+  return ST.filter(function (r) { return r.ativo && vigente(r.inicio, r.fim, DUIMP.analise) && r.ncms.some(function (n) { return ncm.indexOf(n) === 0; }); })[0];
+}
+function buscarArt139(ncm) {
+  return ART139.filter(function (r) { return r.ativo && vigente(r.inicio, r.fim, DUIMP.analise) && (r.prefixos.length === 0 || r.prefixos.some(function (p) { return ncm.indexOf(p) === 0; })); })
+    .sort(function (a, b) { return a.prioridade - b.prioridade; })[0];
+}
+function aliquotaArt142(ncm) {
+  if (ncm.indexOf('2202') === 0) return 17;
+  if (ncm.indexOf('3301') === 0 || ncm.indexOf('3302') === 0) return 17;
+  return 12;
+}
+
+function calcularItem(item, escolhidoId) {
+  var fases = [], alertas = [];
+  function fase(n, nome, status, texto, ref) { fases.push({ n: n, nome: nome, status: status, texto: texto, ref: ref || '' }); }
+  var res = { baseIcms: 0, icmsBruto: 0, credito: 0, icms: 0, diferido: 0, antecipacao: 0, fcp: 0, total: 0, status: '', origemMargem: '', margem: null, prazoDias: null, dataLimite: '', cal: '', regime: null, baseTrib: 0 };
+  var b0 = r2(item.va + item.ii + item.ipi + item.pis + item.cofins + item.desp + item.outros);
+  res.b0 = b0; res.baseTrib = b0;
+  var usoSemRevenda = item.finalidade !== 'REVENDA';
+  var codigoUso = USO[item.finalidade];
+  fase('1', 'Base e finalidade', 'Executada', 'b0 = R$ ' + brl(b0) + '. Finalidade ' + FIN[item.finalidade] + (usoSemRevenda ? ': sem antecipação' + (codigoUso ? '; código fixado em ' + codigoUso : '') + '.' : ': antecipação habilitada.'), 'MC-RN01, MC-RN02, MC-RN03');
+
+  var avaliados = avaliarRegimes(item), regime = null;
+  if (escolhidoId) {
+    var achado = avaliados.filter(function (a) { return a.regime.id === escolhidoId && a.candidato; })[0];
+    if (achado) regime = achado.regime;
+    else alertas.push({ tipo: 'Regime', tom: 'warn', texto: 'O regime escolhido não é mais candidato para o item; calculado sem regime (MC-RN05).' });
+  }
+  res.regime = regime;
+  fase('2', 'Regime especial', 'Executada', regime ? TIPO[regime.tipo] + ' pelo ' + regime.ato + ', escolhido pelo analista.' : 'Nenhum regime escolhido; tratamento padrão.', 'MC-RN05');
+  var nomes = { '3': 'ALCMS/ZF', '4': 'Redução de base', '5': 'ICMS bruto', '6': 'Efeito do regime', '7': 'ST / Art. 139', '8': 'FCP e total' };
+
+  if (regime && regime.tipo === 'CORREDOR_IMPORTACAO') {
+    var a = regime.percentual / 100;
+    res.baseIcms = r2(b0 / (1 - a)); res.diferido = r2(res.baseIcms * a);
+    res.prazoDias = regime.prazo > 0 ? regime.prazo : 60; res.dataLimite = somaDias(DUIMP.registro, res.prazoDias);
+    res.status = 'ICMS_DIFERIDO'; res.cal = 'CAL008';
+    fase('2.1', 'Corredor', 'Encerrou o item', 'Base = ' + brl(b0) + ' ÷ (1 − ' + pct(regime.percentual) + ') = R$ ' + brl(res.baseIcms) + '. ICMS diferido R$ ' + brl(res.diferido) + '; prazo ' + res.prazoDias + ' dias' + (regime.prazo > 0 ? ' (Ato).' : ' (padrão).'), 'MC-RN06, MC-RN07 · ' + regime.legislacao);
+    alertas.push({ tipo: 'Prazo', tom: 'warn', texto: 'ICMS diferido de R$ ' + brl(res.diferido) + ' até ' + fmtData(res.dataLimite) + ' (' + res.prazoDias + ' dias). Monitorado pela MAL-SIMEX-008.' });
+    ['3', '4', '5', '6', '7', '8'].forEach(function (n) { fase(n, nomes[n], 'Não executada', 'O item foi encerrado na fase 2.1.'); });
+    return { res: res, fases: fases, alertas: alertas, avaliados: avaliados };
+  }
+  fase('2.1', 'Corredor', 'Não se aplica', 'O regime aplicado não é Corredor de Importação.');
+
+  var regraSt = null, regraArt = null;
+  if (item.alcms) {
+    var aliqA = aliquotaArt142(item.ncm), credPct = aliqA === 12 ? 8 : 0;
+    res.baseIcms = r2(b0 / (1 - aliqA / 100)); res.icmsBruto = r2(res.baseIcms * aliqA / 100);
+    res.credito = r2(res.baseIcms * credPct / 100); res.icms = r2(res.icmsBruto - res.credito);
+    fase('3', 'ALCMS/ZF', 'Executada', 'Alíquota do art. 142: ' + pct(aliqA) + '. Base R$ ' + brl(res.baseIcms) + '; bruto R$ ' + brl(res.icmsBruto) + '; crédito ' + pct(credPct) + ' = R$ ' + brl(res.credito) + '; a recolher R$ ' + brl(res.icms) + '.', 'MC-RN08 a MC-RN11');
+    ['4', '5', '6'].forEach(function (n) { fase(n, nomes[n], 'Não executada', 'Ramo ALCMS/ZF: ICMS calculado na fase 3.'); });
+    if (regime) alertas.push({ tipo: 'Premissa', tom: 'info', texto: 'Item ALCMS com regime escolhido: o efeito do regime não é aplicado no ramo ALCMS (ponto em aberto, MC seção 9).' });
+  } else {
+    fase('3', 'ALCMS/ZF', 'Não se aplica', 'Item sem benefício ALCMS/ZF.');
+    var baseTrib = b0;
+    if (regime && regime.tipo === 'REDUCAO_BASE') {
+      baseTrib = r2(b0 * (1 - regime.percentual / 100));
+      fase('4', 'Redução de base', 'Executada', 'Base reduzida em ' + pct(regime.percentual) + ': R$ ' + brl(b0) + ' → R$ ' + brl(baseTrib) + '.', 'MC-RN12');
+    } else fase('4', 'Redução de base', 'Não se aplica', 'Regime aplicado não é de redução de base.');
+    res.baseTrib = baseTrib;
+    res.baseIcms = r2(baseTrib / (1 - item.aliq / 100)); res.icmsBruto = r2(res.baseIcms * item.aliq / 100); res.icms = res.icmsBruto;
+    fase('5', 'ICMS bruto', 'Executada', 'Base por dentro = ' + brl(baseTrib) + ' ÷ (1 − ' + pct(item.aliq) + ') = R$ ' + brl(res.baseIcms) + '; bruto R$ ' + brl(res.icmsBruto) + '.', 'MC-RN13');
+    var efeito = 'Sem regime: ICMS a recolher igual ao bruto.';
+    if (regime) {
+      var p = regime.percentual;
+      if (regime.tipo === 'DISPENSA_INTEGRAL') { res.icms = 0; efeito = 'Dispensa integral: ICMS zerado.'; }
+      else if (regime.tipo === 'REDUCAO_IMPOSTO') { res.credito = r2(res.icmsBruto * p / 100); res.icms = r2(res.icmsBruto - res.credito); efeito = 'Redução de ' + pct(p) + ' sobre o bruto: a recolher R$ ' + brl(res.icms) + '.'; }
+      else if (regime.tipo === 'CREDITO_PRESUMIDO') { res.credito = r2(res.baseIcms * p / 100); res.icms = r2(res.icmsBruto - res.credito); efeito = 'Crédito presumido de ' + pct(p) + ' da base (R$ ' + brl(res.credito) + '): a recolher R$ ' + brl(res.icms) + '.'; }
+      else if (regime.tipo === 'DIFERIMENTO') {
+        res.diferido = res.icmsBruto; res.icms = 0; res.status = 'ICMS_DIFERIDO';
+        res.prazoDias = regime.prazo > 0 ? regime.prazo : 60; res.dataLimite = somaDias(DUIMP.registro, res.prazoDias);
+        efeito = 'Diferimento: ICMS zerado e diferido (R$ ' + brl(res.diferido) + ').';
+        alertas.push({ tipo: 'Prazo', tom: 'warn', texto: 'ICMS diferido de R$ ' + brl(res.diferido) + ' até ' + fmtData(res.dataLimite) + ' (' + res.prazoDias + ' dias).' });
+      }
+      else if (regime.tipo === 'SUSPENSAO') { res.icms = 0; res.status = 'SUSPENSO_SOB_CONDICAO'; efeito = 'Suspensão: ICMS zerado sob condição.'; }
+      else if (regime.tipo === 'REDUCAO_BASE') { efeito = 'Redução de base já aplicada na fase 4.'; }
+    }
+    fase('6', 'Efeito do regime', regime ? 'Executada' : 'Não se aplica', efeito, 'MC-RN14');
+  }
+
+  if (usoSemRevenda) {
+    fase('7', 'ST / Art. 139', 'Bloqueada', 'Finalidade ' + FIN[item.finalidade] + ': ST e Art. 139 não são buscados.', 'MC-RN02, MC-RN15, MC-RN16');
+  } else {
+    regraSt = buscarSt(item.ncm);
+    var mva = null, texto7 = '', ref7 = '';
+    if (regraSt) {
+      mva = regraSt.mva; res.origemMargem = 'ICMS_ST';
+      texto7 = 'Regra ST ' + regraSt.id + ' (MVA ' + pct(mva) + '). ST prevalece; Art. 139 não consultado.';
+      ref7 = 'MC-RN15, MC-RN17 · ' + regraSt.fundamento;
+    } else {
+      regraArt = buscarArt139(item.ncm);
+      if (regraArt && !item.alcms) {
+        texto7 = 'Sem regra ST. ' + regraArt.codigo + ' se aplicaria, mas o item não tem ALCMS/ZF: sem antecipação (Situação A).';
+        ref7 = 'MC-RN19';
+        alertas.push({ tipo: 'Art. 139', tom: 'warn', texto: 'NCM enquadrado na ' + regraArt.codigo + ', mas o item não tem ALCMS/ZF. Recolhe somente o ICMS-Importação (Situação A).' });
+        regraArt = null;
+      } else if (regraArt) {
+        mva = regraArt.mva; res.origemMargem = 'ART_139';
+        texto7 = 'Sem regra ST. ' + regraArt.codigo + ' (prioridade ' + regraArt.prioridade + ', MVA ' + pct(mva) + ').';
+        ref7 = 'MC-RN16, MC-RN21 · ' + FUND139;
+      } else texto7 = 'Nenhuma regra ST ou Art. 139 para o NCM.';
+    }
+    if (mva !== null) {
+      res.margem = mva;
+      var baseAnt = r2(res.baseIcms * (1 + mva / 100));
+      res.antecipacao = Math.max(0, r2(baseAnt * item.aliq / 100 - res.icmsBruto));
+      texto7 += ' Base da antecipação R$ ' + brl(baseAnt) + '; antecipação R$ ' + brl(res.antecipacao) + ' (fórmula provisória).';
+    }
+    fase('7', 'ST / Art. 139', 'Executada', texto7, ref7);
+  }
+  res.fcp = r2(res.baseIcms * item.fcp / 100);
+  res.total = r2(res.icms + res.antecipacao + res.fcp);
+  res.cal = codigoUso || (item.alcms ? (regraSt ? 'CAL004' : 'CAL003') : (regraSt ? 'CAL002' : 'CAL001'));
+  fase('8', 'FCP e total', 'Executada', 'FCP ' + pct(item.fcp) + ' = R$ ' + brl(res.fcp) + '. Total = ICMS + antecipação + FCP = R$ ' + brl(res.total) + '. Código ' + res.cal + '.', 'MC-RN22, MC-RN23');
+  return { res: res, fases: fases, alertas: alertas, avaliados: avaliados };
+}
+
+function rotuloRegime(r) { return r ? TIPO[r.tipo] + (r.percentual ? ' ' + pct(r.percentual) : '') : 'Sem regime'; }
+
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    var esc = {};
+    ITENS.forEach(function (i) { esc[i.numero] = i.escolhido; });
+    this.state = { menuAberto: true, item: 0, fase: null, aplicados: esc, simulado: Object.assign({}, esc), verNaoCandidatos: false, toast: '' };
+  }
+
+  componentWillUnmount() { if (this.tmr) clearTimeout(this.tmr); }
+
+  aplicar(numero) {
+    var self = this, st = this.state;
+    var ap = Object.assign({}, st.aplicados); ap[numero] = st.simulado[numero];
+    var reg = REGIMES.filter(function (r) { return r.id === ap[numero]; })[0];
+    this.setState({ aplicados: ap, fase: null, toast: 'Item ' + numero + ' recalculado com ' + (reg ? rotuloRegime(reg) + ' (' + reg.ato + ')' : 'o tratamento padrão') + '.' });
+    if (this.tmr) clearTimeout(this.tmr);
+    this.tmr = setTimeout(function () { self.setState({ toast: '' }); }, 5000);
+  }
+
+  renderVals() {
+    var self = this, st = this.state;
+    var calcs = ITENS.map(function (i) { return calcularItem(i, st.aplicados[i.numero]); });
+    var tot = { total: 0, diferido: 0 }, nAlertas = 0;
+    calcs.forEach(function (c) { tot.total += c.res.total; tot.diferido += c.res.diferido; nAlertas += c.alertas.filter(function (a) { return a.tom !== 'info'; }).length; });
+
+    var idx = Math.min(st.item, ITENS.length - 1);
+    var itens = ITENS.map(function (i, k) {
+      var c = calcs[k], na = c.alertas.filter(function (a) { return a.tom !== 'info'; }).length;
+      var sel = k === idx;
+      return {
+        numero: i.numero, ncmTxt: fmtNcm(i.ncm), descricao: i.descricao, cal: c.res.cal, total: brl(c.res.total),
+        temAlerta: na > 0, alertaTxt: na === 1 ? '1 alerta' : na + ' alertas', selecionado: sel,
+        cardStyle: sel ? 'border-color: #0B4F6C; box-shadow: inset 3px 0 0 #0B4F6C; background: #F3F8FB;' : '',
+        selecionar: function () { self.setState({ item: k, fase: null }); }
+      };
+    });
+
+    var it = ITENS[idx], cd = calcs[idx], r = cd.res;
+    var faseSel = st.fase;
+    if (!faseSel || !cd.fases.some(function (f) { return f.n === faseSel; })) {
+      var enc = cd.fases.filter(function (f) { return f.status === 'Encerrou o item'; })[0];
+      faseSel = enc ? enc.n : '7';
+    }
+    var trilha = cd.fases.map(function (f, k) {
+      var ativa = f.n === faseSel;
+      return {
+        n: f.n, nome: f.nome, status: f.status, ativa: ativa, temSeta: k < cd.fases.length - 1,
+        style: (PASSO[f.status] || '') + (ativa ? ' box-shadow: 0 0 0 2px #0B4F6C;' : ''),
+        selecionar: function () { self.setState({ fase: f.n }); }
+      };
+    });
+    var fsel = cd.fases.filter(function (f) { return f.n === faseSel; })[0];
+
+    var candidatos = cd.avaliados.filter(function (a) { return a.candidato; });
+    var simId = st.simulado[it.numero] || '';
+    var apId = st.aplicados[it.numero] || '';
+    var opcoesBase = [{ id: '', regime: null }].concat(candidatos.map(function (a) { return { id: a.regime.id, regime: a.regime }; }));
+    var opcoes = opcoesBase.map(function (o) {
+      var c = calcularItem(it, o.id).res;
+      var delta = r2(c.total - r.total);
+      var marcada = o.id === simId, aplicada = o.id === apId;
+      return {
+        rotulo: rotuloRegime(o.regime) + (aplicada ? ' · aplicado' : ''),
+        sub: o.regime ? o.regime.ato + (c.diferido ? ' · diferido R$ ' + brl(c.diferido) : '') : 'Tratamento padrão do motor',
+        cal: c.cal, icms: brl(c.icms), antecipacao: brl(c.antecipacao), total: brl(c.total),
+        delta: delta === 0 ? '—' : (delta > 0 ? '+' : '−') + ' ' + brl(Math.abs(delta)),
+        deltaStyle: delta < 0 ? 'color: #1E5E33; font-weight: 600;' : delta > 0 ? 'color: #9B2318; font-weight: 600;' : 'color: #56616F;',
+        marcada: marcada,
+        style: marcada ? 'background: #F3F8FB;' : '',
+        dotStyle: 'width: 16px; height: 16px; border-radius: 8px; display: inline-block; border: 2px solid #0B4F6C;' + (marcada ? ' background: #0B4F6C; box-shadow: inset 0 0 0 3px #FFFFFF;' : ''),
+        marcar: function () { var s = Object.assign({}, st.simulado); s[it.numero] = o.id; self.setState({ simulado: s }); }
+      };
+    });
+    var naoCandidatos = cd.avaliados.filter(function (a) { return !a.candidato; }).map(function (a) { return { ato: a.regime.ato, tipo: TIPO[a.regime.tipo], motivo: a.motivo }; });
+
+    var comp = [{ op: '', rotulo: 'Base inicial (b0)', valor: 'R$ ' + brl(r.b0) }];
+    if (r.baseTrib && r.baseTrib !== r.b0) comp.push({ op: '→', rotulo: 'Base reduzida', valor: 'R$ ' + brl(r.baseTrib) });
+    comp.push({ op: '→', rotulo: 'Base do ICMS (por dentro)', valor: 'R$ ' + brl(r.baseIcms) });
+    if (r.cal === 'CAL008') {
+      comp.push({ op: '×', rotulo: 'ICMS diferido (Corredor)', valor: 'R$ ' + brl(r.diferido) });
+      comp.push({ op: '', rotulo: 'Prazo', valor: r.prazoDias + ' dias · ' + fmtData(r.dataLimite) });
+    } else {
+      comp.push({ op: '×', rotulo: 'ICMS bruto', valor: 'R$ ' + brl(r.icmsBruto) });
+      if (r.credito) comp.push({ op: '−', rotulo: 'Crédito ou redução do regime', valor: 'R$ ' + brl(r.credito) });
+      if (r.diferido) comp.push({ op: '−', rotulo: 'ICMS diferido', valor: 'R$ ' + brl(r.diferido) });
+      comp.push({ op: '=', rotulo: 'ICMS a recolher', valor: 'R$ ' + brl(r.icms), style: 'font-weight: 600;' });
+      comp.push({ op: '+', rotulo: 'Antecipação' + (r.margem !== null ? ' (MVA ' + pct(r.margem) + ', ' + r.origemMargem + ')' : ''), valor: 'R$ ' + brl(r.antecipacao) });
+      comp.push({ op: '+', rotulo: 'FCP', valor: 'R$ ' + brl(r.fcp) });
+    }
+    comp.push({ op: '=', rotulo: 'Total a recolher do item', valor: 'R$ ' + brl(r.total), style: 'font-weight: 700; border-bottom: 0; font-size: 14px;' });
+
+    var chips = [
+      { texto: FIN[it.finalidade], style: TOM.info },
+      { texto: MOD[it.modalidade], style: TOM.off },
+      { texto: it.alcms ? 'ALCMS/ZF' : 'Sem ALCMS', style: it.alcms ? TOM.ok : TOM.off },
+      { texto: r.cal + ' · ' + CAL[r.cal], style: TOM.fim }
+    ];
+    if (r.status) chips.push({ texto: r.status, style: TOM.warn });
+
+    var det = {
+      numero: it.numero, ncmTxt: fmtNcm(it.ncm), descricao: it.descricao + ' · b0 R$ ' + brl(r.b0) + ' · alíquota ' + pct(it.aliq) + (it.fcp ? ' · FCP ' + pct(it.fcp) : ''),
+      chips: chips, cal: r.cal, trilha: trilha, opcoes: opcoes, naoCandidatos: naoCandidatos, composicao: comp,
+      rti: candidatos.length ? 'RTI001 · ' + candidatos.length + (candidatos.length === 1 ? ' regime candidato' : ' regimes candidatos') : 'RTI002 · nenhum ato declaratório candidato',
+      naoPodeAplicar: simId === apId,
+      aplicadoTxt: simId === apId ? 'A opção marcada é a que está aplicada ao item.' : 'Opção simulada ainda não aplicada. O cálculo do item só muda ao aplicar.',
+      alertas: cd.alertas.map(function (a) {
+        var box = a.tom === 'info' ? 'background: #EAF2F8; border: 1px solid #C4DAEA; color: #1D4766;' : 'background: #FDF3E1; border: 1px solid #F1D29A; color: #6B4105;';
+        return { tipo: a.tipo, texto: a.texto, style: TOM[a.tom], boxStyle: 'display: flex; flex-wrap: wrap; align-items: center; gap: 8px 10px; padding: 9px 12px; border-radius: 8px; font-size: 13px; ' + box };
+      })
+    };
+
+    return {
+      menuAberto: st.menuAberto, toggleMenu: function () { self.setState({ menuAberto: !st.menuAberto }); },
+      duimp: { numero: DUIMP.numero, importador: DUIMP.importador, cnpj: DUIMP.cnpj, analiseTxt: fmtData(DUIMP.analise) },
+      resumo: [
+        { rotulo: 'Total a recolher', valor: 'R$ ' + brl(tot.total) },
+        { rotulo: 'ICMS diferido', valor: 'R$ ' + brl(tot.diferido) },
+        { rotulo: 'Itens', valor: String(ITENS.length) },
+        { rotulo: 'Alertas', valor: String(nAlertas) }
+      ],
+      toast: st.toast, temToast: !!st.toast,
+      totalItens: ITENS.length, alertasTxt: nAlertas === 1 ? '1 alerta' : nAlertas + ' alertas',
+      itens: itens, det: det,
+      fase: { n: fsel.n, nome: fsel.nome, status: fsel.status, texto: fsel.texto, ref: fsel.ref, temRef: !!fsel.ref },
+      aplicar: function () { self.aplicar(it.numero); },
+      verNaoCandidatos: st.verNaoCandidatos,
+      toggleNaoCandidatos: function () { self.setState({ verNaoCandidatos: !st.verNaoCandidatos }); },
+      naoCandTxt: (st.verNaoCandidatos ? 'Ocultar' : 'Mostrar') + ' regimes do CNPJ que não são candidatos (' + naoCandidatos.length + ')'
+    };
+  }
+}
+</script>
+</body>
+</html>

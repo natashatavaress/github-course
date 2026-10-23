@@ -20,6 +20,19 @@ O motor do protótipo executa as fases 1 a 8 da seção 1.3 do documento, com os
 (Base RN002), Corredor, ALCMS/ZF (art. 142 e crédito presumido), efeitos de regime, busca ST,
 busca Art. 139 por prioridade, Situação A, FCP e código CAL.
 
+## Alternativas
+
+O canvas tem duas propostas para a mesma funcionalidade, com os mesmos dados e o mesmo motor.
+
+| | Alternativa A (`Main.dc.html`) | Alternativa B (`Alternativa-B.dc.html`) |
+| --- | --- | --- |
+| Navegação | Duas telas: DUIMP e detalhe do item | Uma tela: lista de itens à esquerda e item à direita |
+| Memorial | Lista das fases 1 a 8 com texto | Trilha visual das fases; a fase escolhida mostra o detalhe |
+| Regime especial | Seleção + "Recalcular" (item fica pendente) | Tabela comparando cada candidato (código, ICMS, antecipação, total e diferença) e "Aplicar regime ao item" |
+| Resultado | Tabela de valores | Composição passo a passo, de b0 até o total |
+| Regimes não candidatos | Sempre visíveis, com motivo | Recolhidos, com motivo ao expandir |
+| Melhor para | Revisar a DUIMP inteira e conferir item a item | Decidir o regime de cada item comparando o efeito antes de aplicar |
+
 ## Itens de exemplo
 
 | Item | Caso demonstrado | Código |

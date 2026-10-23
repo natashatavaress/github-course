@@ -6,6 +6,7 @@
 | Fonte | [SIMEX1 — Manual das Tabelas](https://claude.ai/artifact/2ShnfAwh9r7ENjhDMJoTpU) (versão de 11/09/2026) |
 | Data deste documento | 22/10/2026 |
 | Convenção | Itens marcados com **(inferido)** não estão explícitos na fonte e precisam de validação |
+| Documento complementar | [SIMEX1 — Motor de Cálculo](SIMEX1-motor-de-calculo.md), que detalha o RF004 e o FL02 |
 
 ---
 
@@ -211,6 +212,8 @@ sequenceDiagram
 ```
 
 ### 6.2 FL02 — Cálculo de um item (Motor de Cálculo)
+
+> Detalhado em [SIMEX1 — Motor de Cálculo](SIMEX1-motor-de-calculo.md) (MC-FL01 a MC-FL05).
 
 1. Calcula a base inicial b0 (RN004).
 2. Define o código por finalidade (RN005).
